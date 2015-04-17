@@ -2,7 +2,7 @@ package projectnash;
 
 public class TestKlasse {
 
-public TestKlasse(){
+public TestKlasse(String attr){
 }
 
 }
