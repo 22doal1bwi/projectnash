@@ -1,5 +1,10 @@
 Dies ist ein Test.
 DObler bestätigt Test.
+<<<<<<< HEAD
 jetzt wird es kritisch...
 kein konflikt test
 neue zeile
+=======
+jetzt wird es kritisch...soso
+conflict test
+>>>>>>> origin/master
