@@ -12,3 +12,5 @@ package de.projectnash.application;
 //Test 22dasi1bwi	Silvio	
 
 //Test 22scjo1bwi	Jonathan
+
+//Test 22erar1bwi	Artur
