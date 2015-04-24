@@ -1,5 +1,10 @@
 package de.projectnash.entities;
 
+/**
+ * This class provides a realistic {@link User} with all its attributes.
+ * @author Silvio D'Alessandro
+ *
+ */
 public class User {
 	
 	private int personalId;
@@ -14,13 +19,13 @@ public class User {
 	
 	private String password;
 
-	/**
-	 * @param personalId
-	 * @param firstName
-	 * @param lastName
-	 * @param mailAddress
-	 * @param department
-	 * @param password
+	/** The constructor for a {@link User} with all necessary attributes.
+	 * @param personalId The {@link Integer} that represents the ID of the {@link User}.
+	 * @param firstName The {@link String} that represents the first name of the {@link User}.
+	 * @param lastName The {@link String} that represents the last name of the {@link User}.
+	 * @param mailAddress The {@link String} that represents the mail address of the {@link User}.
+	 * @param department The {@link String} that represents the department of the {@link User}.
+	 * @param password The {@link String} that represents the password of the {@link User}.
 	 */
 	public User(int personalId, String firstName, String lastName, String mailAddress, String department, String password) {
 		this.personalId = personalId;

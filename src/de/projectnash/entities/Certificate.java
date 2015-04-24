@@ -2,6 +2,11 @@ package de.projectnash.entities;
 
 import java.security.cert.X509Certificate;
 
+/**
+ * This class provides a realistic {@link Certificate} with all its attributes.
+ * @author Silvio D'Alessandro
+ *
+ */
 public class Certificate {
 
 	private X509Certificate sslCertificate;
@@ -20,13 +25,14 @@ public class Certificate {
 		
 
 	/**
-	 * @param sslCertificate
-	 * @param country
-	 * @param state
-	 * @param locality
-	 * @param organisationName
-	 * @param organisationUnit
-	 * @param commonName
+	 * The constructor for a {@link Certificate} with all necessary attributes.
+	 * @param sslCertificate The {@link X509Certificate} that represents the SSL Certificate of the {@link User}.
+	 * @param country The {@link String} that represents the country that belongs to the {@link Certificate}.
+	 * @param state The {@link String} that represents the state that belongs to the {@link Certificate}.
+	 * @param locality The {@link String} that represents the locality that belongs to the {@link Certificate}.
+	 * @param organisationName The {@link String} that represents the organization name that belongs to the {@link Certificate}.
+	 * @param organisationUnit The {@link String} that represents the organization unit that belongs to the {@link Certificate}.
+	 * @param commonName The {@link String} that represents the common name that belongs to the {@link Certificate}.
 	 */
 	public Certificate(X509Certificate sslCertificate, String country,String state, String locality, String organisationName,
 			String organisationUnit, String commonName) {
