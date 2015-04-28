@@ -53,12 +53,12 @@ public class CertificateUtility {
 	 * 
 	 * @return File instance referring to key file
 	 * @throws IOException
-	 * @author alexander
+	 * @author alexander, Silvio
 	 */
 	public static File generatePrivateKey() throws IOException{
 		
 		/** get output of key generation command */
-		InputStream in = getCommandOutput("openssl", "genrsa", "2048");
+		InputStream in = getCommandOutput(OpenSSLConstants.CMD_GENERATE_PRIVATE_KEY);
 		/** prepare collection of output into a file  */
 		File privkeyOut = new File("privkey_temp.pem");
 		OutputStream out = new FileOutputStream(privkeyOut);
@@ -74,12 +74,12 @@ public class CertificateUtility {
 	 * @param csr a certificate signing request
 	 * @return output of csr check
 	 * @throws IOException
-	 * @author alexander
+	 * @author alexander, Silvio
 	 */
 	public static String checkCSR(File csr) throws IOException{
 		
 		/** get output of key generation command */
-		InputStream in = getCommandOutput("openssl", "req", "-text", "-verify", "-in", csr.getPath());
+		InputStream in = getCommandOutput(OpenSSLConstants.getCsrCheckCommand(csr.getPath()));
 		/** prepare collection of output into an byte array */
 		OutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */		
@@ -99,24 +99,12 @@ public class CertificateUtility {
 	 * @param cn CommonName
 	 * @return File object referring to the created .csr file
 	 * @throws IOException
-	 * @author alexander
+	 * @author alexander, Silvio
 	 */
 	public static File generateCSR(String c, String st, String l, String o, String ou, String cn) throws IOException{
 		
-		/** Generate a list which contains parts of csr generation command */
-		List<String> genCsrCmd = new ArrayList<String>();
-		genCsrCmd.add("openssl");
-		genCsrCmd.add("req");
-		genCsrCmd.add("-subj");
-		genCsrCmd.add("/C="+c+"/ST="+st+"/L="+l+"/O="+o+"/OU="+ou+"/CN="+cn);
-		genCsrCmd.add("-newkey");
-		genCsrCmd.add("rsa:2048");
-		genCsrCmd.add("-nodes");
-		
-		/** convert list into an array (command has to be a string array) */
-		String[] cmdArray = genCsrCmd.toArray(new String[genCsrCmd.size()]);
 		/** get output of key generation command as input stream */
-		InputStream in = getCommandOutput(cmdArray);
+		InputStream in = getCommandOutput(OpenSSLConstants.getCsrGenerationCommand(c, st, l, o, ou, cn));
 		/** prepare collection of output into a file  */
 		File csrOut = new File("csr_temp.csr");
 		FileOutputStream out = new FileOutputStream(csrOut);
