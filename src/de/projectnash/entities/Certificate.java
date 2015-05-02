@@ -1,148 +1,133 @@
 package de.projectnash.entities;
 
-import java.security.cert.X509Certificate;
+import java.io.File;
 
 /**
  * This class provides a realistic {@link Certificate} with all its attributes.
- * @author Silvio D'Alessandro
+ * 
+ * @author Marius Boepple
  *
  */
 public class Certificate {
 
-	private X509Certificate sslCertificate;
-	
-	private String country;
-	
+	private int certificateId;
+	private File certificateFile;
+	private String countryName;
 	private String state;
-	
-	private String locality;
-	
-	private String organisationName;
-	
-	private String organisationUnit;
-	
+	private String localityName;
+	private String organizationName;
+	private String organizationalUnit;
 	private String commonName;
-		
+	private String emailAddress;
+	private String initializationDate;
+	private String expirationDate;
 
-	/**
-	 * The constructor for a {@link Certificate} with all necessary attributes.
-	 * @param sslCertificate The {@link X509Certificate} that represents the SSL Certificate of the {@link User}.
-	 * @param country The {@link String} that represents the country that belongs to the {@link Certificate}.
-	 * @param state The {@link String} that represents the state that belongs to the {@link Certificate}.
-	 * @param locality The {@link String} that represents the locality that belongs to the {@link Certificate}.
-	 * @param organisationName The {@link String} that represents the organization name that belongs to the {@link Certificate}.
-	 * @param organisationUnit The {@link String} that represents the organization unit that belongs to the {@link Certificate}.
-	 * @param commonName The {@link String} that represents the common name that belongs to the {@link Certificate}.
-	 */
-	public Certificate(X509Certificate sslCertificate, String country,String state, String locality, String organisationName,
-			String organisationUnit, String commonName) {
-		this.sslCertificate = sslCertificate;
-		this.country = country;
+	public Certificate(File certificateFile, String countryName, String state,
+			String localityName, String organizationName,
+			String organizationalUnit, String commonName, String emailAddress,
+			String initializationDate, String expirationDate) {
+		super();
+		this.certificateFile = certificateFile;
+		this.countryName = countryName;
 		this.state = state;
-		this.locality = locality;
-		this.organisationName = organisationName;
-		this.organisationUnit = organisationUnit;
+		this.localityName = localityName;
+		this.organizationName = organizationName;
+		this.organizationalUnit = organizationalUnit;
 		this.commonName = commonName;
+		this.emailAddress = emailAddress;
+		this.initializationDate = initializationDate;
+		this.expirationDate = expirationDate;
+
+		// get latest certificateId from DB
+		this.certificateId = 01;
 	}
 
-	/**
-	 * @return the sslCertificate
-	 */
-	public X509Certificate getSslCertificate() {
-		return sslCertificate;
+	public int getCertificateId() {
+		return certificateId;
 	}
 
-	/**
-	 * @param sslCertificate the sslCertificate to set
-	 */
-	public void setSslCertificate(X509Certificate sslCertificate) {
-		this.sslCertificate = sslCertificate;
+	public void setCertificateId(int certificateId) {
+		this.certificateId = certificateId;
 	}
 
-	/**
-	 * @return the country
-	 */
-	public String getCountry() {
-		return country;
+	public File getCertificateFile() {
+		return certificateFile;
 	}
 
-	/**
-	 * @param country the country to set
-	 */
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCertificateFile(File certificateFile) {
+		this.certificateFile = certificateFile;
 	}
 
-	/**
-	 * @return the state
-	 */
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
 	public String getState() {
 		return state;
 	}
 
-	/**
-	 * @param state the state to set
-	 */
 	public void setState(String state) {
 		this.state = state;
 	}
 
-	/**
-	 * @return the locality
-	 */
-	public String getLocality() {
-		return locality;
+	public String getLocalityName() {
+		return localityName;
 	}
 
-	/**
-	 * @param locality the locality to set
-	 */
-	public void setLocality(String locality) {
-		this.locality = locality;
+	public void setLocalityName(String localityName) {
+		this.localityName = localityName;
 	}
 
-	/**
-	 * @return the organisationName
-	 */
-	public String getOrganisationName() {
-		return organisationName;
+	public String getOrganizationName() {
+		return organizationName;
 	}
 
-	/**
-	 * @param organisationName the organisationName to set
-	 */
-	public void setOrganisationName(String organisationName) {
-		this.organisationName = organisationName;
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
 	}
 
-	/**
-	 * @return the organisationUnit
-	 */
-	public String getOrganisationUnit() {
-		return organisationUnit;
+	public String getOrganizationalUnit() {
+		return organizationalUnit;
 	}
 
-	/**
-	 * @param organisationUnit the organisationUnit to set
-	 */
-	public void setOrganisationUnit(String organisationUnit) {
-		this.organisationUnit = organisationUnit;
+	public void setOrganizationalUnit(String organizationalUnit) {
+		this.organizationalUnit = organizationalUnit;
 	}
 
-	/**
-	 * @return the commonName
-	 */
 	public String getCommonName() {
 		return commonName;
 	}
 
-	/**
-	 * @param commonName the commonName to set
-	 */
 	public void setCommonName(String commonName) {
 		this.commonName = commonName;
 	}
-	
-	
-	
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public String getInitializationDate() {
+		return initializationDate;
+	}
+
+	public void setInitializationDate(String initializationDate) {
+		this.initializationDate = initializationDate;
+	}
+
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
 }

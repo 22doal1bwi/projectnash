@@ -2,121 +2,133 @@ package de.projectnash.entities;
 
 /**
  * This class provides a realistic {@link User} with all its attributes.
- * @author Silvio D'Alessandro
+ * 
+ * @author Silvio D'Alessandro, Marius Boepple
  *
  */
 public class User {
-	
-	private int personalId;
-	
-	private String firstName;
-	
-	private String lastName;
-	
-	private String mailAddress;
-	
-	private String department;
-	
-	private String password;
 
-	/** The constructor for a {@link User} with all necessary attributes.
-	 * @param personalId The {@link Integer} that represents the ID of the {@link User}.
-	 * @param firstName The {@link String} that represents the first name of the {@link User}.
-	 * @param lastName The {@link String} that represents the last name of the {@link User}.
-	 * @param mailAddress The {@link String} that represents the mail address of the {@link User}.
-	 * @param department The {@link String} that represents the department of the {@link User}.
-	 * @param password The {@link String} that represents the password of the {@link User}.
+	private int personalId;
+	private String firstName;
+	private String lastName;
+	private String emailAddress;
+	private String countryName;
+	private String state;
+	private String localityName;
+	private String organizationName = "Nash Inc.";
+	private String organzationalUnit;
+	private String password;
+	private Certificate certificate;
+
+	/**
+	 * The constructor for a {@link User} with all necessary attributes.
 	 */
-	public User(int personalId, String firstName, String lastName, String mailAddress, String department, String password) {
+	public User(int personalId, String firstName, String lastName,
+			String emailAddress, String countryName, String state,
+			String localityName, String organzationalUnit, String password) {
+		super();
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.mailAddress = mailAddress;
-		this.department = department;
+		this.emailAddress = emailAddress;
+		this.countryName = countryName;
+		this.state = state;
+		this.localityName = localityName;
+		this.organzationalUnit = organzationalUnit;
 		this.password = password;
 	}
 
-	/**
-	 * @return the personalId
-	 */
+	public Certificate getCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(Certificate certificate) {
+		this.certificate = certificate;
+	}
+
+	// get common name
+	public String getCommonName() {
+		return (firstName + " " + lastName);
+	}
+
 	public int getPersonalId() {
 		return personalId;
 	}
 
-	/**
-	 * @param personalId the personalId to set
-	 */
 	public void setPersonalId(int personalId) {
 		this.personalId = personalId;
 	}
 
-	/**
-	 * @return the firstName
-	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
-	/**
-	 * @param firstName the firstName to set
-	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	/**
-	 * @return the lastName
-	 */
 	public String getLastName() {
 		return lastName;
 	}
 
-	/**
-	 * @param lastName the lastName to set
-	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	/**
-	 * @return the mailAddress
-	 */
-	public String getMailAddress() {
-		return mailAddress;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
 
-	/**
-	 * @param mailAddress the mailAddress to set
-	 */
-	public void setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
-	/**
-	 * @return the department
-	 */
-	public String getDepartment() {
-		return department;
+	public String getCountryName() {
+		return countryName;
 	}
 
-	/**
-	 * @param department the department to set
-	 */
-	public void setDepartment(String department) {
-		this.department = department;
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
 
-	/**
-	 * @return the password
-	 */
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getLocalityName() {
+		return localityName;
+	}
+
+	public void setLocalityName(String localityName) {
+		this.localityName = localityName;
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
+	public String getOrganzationalUnit() {
+		return organzationalUnit;
+	}
+
+	public void setOrganzationalUnit(String organzationalUnit) {
+		this.organzationalUnit = organzationalUnit;
+	}
+
 	public String getPassword() {
 		return password;
 	}
 
-	/**
-	 * @param password the password to set
-	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 }
