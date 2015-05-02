@@ -134,10 +134,11 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * @author alexander, Silvio
 	 */
-	public static byte[] generateCSR(String c, String st, String l, String o, String ou, String cn) throws IOException {
+	public static byte[] generateCSR(String c, String st, String l, String o, String ou, String cn, byte[] privateKeyFile) throws IOException {
 		
+		File keyTempFile = writeBytesToTempFile(privateKeyFile, FilePattern.KEY);
 		/** get output of key generation command as input stream */
-		InputStream in = getCommandOutput(OpenSSLConstants.getCsrGenerationCommand(c, st, l, o, ou, cn));
+		InputStream in = getCommandOutput(OpenSSLConstants.getCsrGenerationCommand(c, st, l, o, ou, cn, keyTempFile.getPath()));
 		/** prepare collection of output into a byte array  */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
@@ -151,7 +152,7 @@ public class CertificateUtility {
 		File csrTempFile = writeBytesToTempFile(csrFile, FilePattern.CSR);
 		File rootKeyFile = new File("root_key.pem");
 		/** get output of crt generation command as input stream */
-		InputStream in = getCommandOutput(OpenSSLConstants.getCrtGenerationCommand(csrTempFile.getPath(), rootKeyFile.getPath()));
+		InputStream in = getCommandOutput(OpenSSLConstants.getCrtGenerationCommand(csrTempFile.getPath(), rootKeyFile.getAbsolutePath()));
 		/** prepare collection of output into a byte array  */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
@@ -167,7 +168,8 @@ public class CertificateUtility {
 	public static void main(String[] args) {
 		
 		try {
-			byte[] csrData = generateCSR("DE","Baden Wuerttemberg","Stuttgart", "Nash Inc.", "Student", "Tobi Burger");
+			byte[] keyData = generatePrivateKey();
+			byte[] csrData = generateCSR("DE","Baden Wuerttemberg","Stuttgart", "Nash Inc.", "Student", "Tobi Burger", keyData);
 			byte[] crtData = generateCRT(csrData);
 			writeBytesToTempFile(crtData, FilePattern.CRT);
 			//String verifyCSR = checkCSR(writeBytesToTempFile(csrData, FilePattern.CSR));

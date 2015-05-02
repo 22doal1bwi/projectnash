@@ -44,16 +44,15 @@ public class OpenSSLConstants {
 	 * @param cn The {@link String} that represents the common name information.
 	 * @return An array that contains all information for the csr request.
 	 */
-	public static final String [] getCsrGenerationCommand(String c, String st, String l, String o, String ou, String cn){
+	public static final String [] getCsrGenerationCommand(String c, String st, String l, String o, String ou, String cn, String keyPath){
 		
 		String [] command = {
 				"openssl",
 				"req",
+				"-new",
 				"-subj",
 				"/C=" + c + "/ST=" + st + "/L=" + l + "/O=" + o + "/OU=" + ou + "/CN=" + cn,
-				"-newkey",
-				"rsa:2048",
-				"-nodes"
+				"-key", keyPath
 				};
 		
 		return command;
