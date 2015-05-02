@@ -6,181 +6,233 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.projectnash.entities.Certificate;
 
 /**
- * This class provides all methods that represents standardized mechanisms in {@link Certificate} context. 
- * @author Silvio D'Alessandro, alexander
+ * This class provides all methods that represents standardized mechanisms in
+ * {@link Certificate} context.
+ * 
+ * @author Silvio D'Alessandro, Alexander Dobler, Tobias Burger, Marius B�pple
  *
  */
 public class CertificateUtility {
-	
-	private static enum FilePattern{
-		
-		KEY("key_", ".pem"),
-		CSR("csr_", ".csr"),
-		CRT("crt_", ".crt"),
-		;
-			
+
+	/** The bit lenght of the rsa key. */
+	public static final String CMD_KEY_BIT_LENGTH = "2048";
+
+	/** Duration of days a certificate is valid */
+	public static final String CMD_DAYS_VALID = "730";
+
+	/**
+	 * 
+	 * @author Alexander Dobler
+	 *
+	 */
+	private static enum FilePattern {
+
+		KEY("key_", ".pem"), CSR("csr_", ".csr"), CRT("crt_", ".crt"), ;
+
 		final String prefix;
 		final String suffix;
+
 		private FilePattern(String prefix, String suffix) {
 			this.prefix = prefix;
 			this.suffix = suffix;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Runs a command and returns its output as a input stream
 	 * 
 	 * @param command
 	 * @return InputStream
 	 * @throws IOException
-	 * @author alexander
+	 * @author Alexander Dobler
 	 */
-	private static InputStream getCommandOutput(String... command) throws IOException{
+	private static InputStream getCommandOutput(String... command)
+			throws IOException {
 		Process proc = Runtime.getRuntime().exec(command);
-		return proc.getInputStream();		
+		return proc.getInputStream();
 	}
-	
+
 	/**
 	 * Writes an InputStream into an OutputStream and flushes/closes it
 	 * 
-	 * @param in InputStream
-	 * @param out OutputStream
+	 * @param in
+	 *            InputStream
+	 * @param out
+	 *            OutputStream
 	 * @throws IOException
-	 * @author alexander
+	 * @author Alexander Dobler
 	 */
-	private static void writeInputToOutput(InputStream in, OutputStream out)throws IOException{
+	private static void writeInputToOutput(InputStream in, OutputStream out)
+			throws IOException {
 		int b;
-		while( (b = in.read()) != -1) {
-		   out.write(b);
+		while ((b = in.read()) != -1) {
+			out.write(b);
 		}
 		out.flush();
 		out.close();
 	}
-	
+
 	/**
 	 * Writes the content of a binary byte array into a (temporary) file object
 	 * 
-	 * @param binaryFileObject file data as byte array
-	 * @param pattern pattern enum object which defines prefix/suffix of the output file
+	 * @param binaryFileObject
+	 *            file data as byte array
+	 * @param pattern
+	 *            pattern enum object which defines prefix/suffix of the output
+	 *            file
 	 * @return a file object
 	 * @throws IOException
-	 * @author alexander
+	 * @author Alexander Dobler
 	 */
-	private static File writeBytesToTempFile(byte[] binaryFileObject, FilePattern pattern) throws IOException{
-		/** create a empty file matching the pattern in the default temporary directory */
+	private static File writeBytesToTempFile(byte[] binaryFileObject,
+			FilePattern pattern) throws IOException {
+		/**
+		 * create a empty file matching the pattern in the default temporary
+		 * directory
+		 */
 		File tmp_file = File.createTempFile(pattern.prefix, pattern.suffix);
 		/** write into file using fos in try with resources */
-		try(FileOutputStream fos = new FileOutputStream(tmp_file)){
+		try (FileOutputStream fos = new FileOutputStream(tmp_file)) {
 			fos.write(binaryFileObject);
 		}
-		
+
 		return tmp_file;
 	}
-	
+
 	/**
 	 * Generates a new private key
 	 * 
 	 * @return File instance referring to key file
 	 * @throws IOException
-	 * @author alexander, Silvio
+	 * @author Alexander Dobler, Silvio D'Alessandro
 	 */
-	public static byte[] generatePrivateKey() throws IOException{
+	public static byte[] generatePrivateKey() throws IOException {
+		
+		// openssl genrsa 2048
+		String[] command = { "openssl", "genrsa", CMD_KEY_BIT_LENGTH};
 		
 		/** get output of key generation command */
-		InputStream in = getCommandOutput(OpenSSLConstants.CMD_GENERATE_PRIVATE_KEY);
-		/** prepare collection of output into a byte array  */
+		InputStream in = getCommandOutput(command);
+		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-			
+
 		return out.toByteArray();
 	}
-	
+
 	/**
 	 * Shows output of a csr file check
 	 * 
-	 * @param csr a certificate signing request
+	 * @param csr
+	 *            a certificate signing request
 	 * @return output of csr check
 	 * @throws IOException
-	 * @author alexander, Silvio
+	 * @author Alexander Dobler, Silvio D'Alessandro
 	 */
-	public static String checkCSR(File csr) throws IOException{
-		
+	public static String checkCSR(String csrFilePath) throws IOException {
+
+		// openssl req -text -verify -in
+		String[] command = { "openssl", "req", "-text", "-verify", "-in",
+				csrFilePath };
+
 		/** get output of key generation command */
-		InputStream in = getCommandOutput(OpenSSLConstants.getCsrCheckCommand(csr.getPath()));
+		InputStream in = getCommandOutput(command);
 		/** prepare collection of output into an byte array */
 		OutputStream out = new ByteArrayOutputStream();
-		/** write command output into byte stream */		
+		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-		
+
 		return out.toString();
 	}
-	
+
 	/**
-	 * Method which generates a certificate signing request (.csr file) 
+	 * Method which generates a certificate signing request (.csr file)
 	 * 
-	 * @param c Country
-	 * @param st State
-	 * @param l Location
-	 * @param o Organization
-	 * @param ou OrganizationUnit
-	 * @param cn CommonName
-	 * @return File object referring to the created .csr file
-	 * @throws IOException
-	 * @author alexander, Silvio
+	 * @author Alexander Dobler, Silvio D'Alessandro
 	 */
-	public static byte[] generateCSR(String c, String st, String l, String o, String ou, String cn, byte[] privateKeyFile) throws IOException {
-		
-		File keyTempFile = writeBytesToTempFile(privateKeyFile, FilePattern.KEY);
+	public static byte[] generateCSR(String country, String state,
+			String location, String organization, String organizationUnit,
+			String commonName, String privateKeyFilePath) throws IOException {
+
+		// openssl req -new -key privateKey.pem 
+		String[] command = {
+				"openssl",
+				"req",
+				"-new",
+				"-subj",
+				"/C=" + country + "/ST=" + state + "/L=" + location + "/O="
+						+ organization + "/OU=" + organizationUnit + "/CN="
+						+ commonName, "-key", privateKeyFilePath };
+
 		/** get output of key generation command as input stream */
-		InputStream in = getCommandOutput(OpenSSLConstants.getCsrGenerationCommand(c, st, l, o, ou, cn, keyTempFile.getPath()));
-		/** prepare collection of output into a byte array  */
+		InputStream in = getCommandOutput(command);
+		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-		
+
 		return out.toByteArray();
 	}
-	
-	public static byte[] generateCRT(byte[] csrFile) throws IOException{
-		
-		File csrTempFile = writeBytesToTempFile(csrFile, FilePattern.CSR);
+
+	/**
+	 * 
+	 * @param csrFile
+	 * @return
+	 * @throws IOException
+	 * @author Alexander Dobler, Tobias Burger
+	 */
+	public static byte[] generateCRT(String csrFilePath) throws IOException {
+
+		/** get simpleCert root files */
 		File rootKeyFile = new File("root_key.pem");
 		File rootCertFile = new File("root_cert.pem");
+
+		// openssl x509 -req -in userRequest.csr -CA rootCert.pem -CAkey rootKey.pem -CAcreateserial -days 730 -sha512
+		String[] command = { "openssl", "x509", "-req", "-in", csrFilePath,
+				"-CA", rootCertFile.getAbsolutePath(), "-CAkey",
+				rootKeyFile.getAbsolutePath(), "-CAcreateserial", "-days",
+				CMD_DAYS_VALID, "-sha512" };
+
 		/** get output of crt generation command as input stream */
-		InputStream in = getCommandOutput(OpenSSLConstants.getCrtGenerationCommand(csrTempFile.getPath(), rootKeyFile.getAbsolutePath(), rootCertFile.getAbsolutePath()));
-		/** prepare collection of output into a byte array  */
+		InputStream in = getCommandOutput(command);
+		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-		
+
 		return out.toByteArray();
 	}
-	
+
 	/**
-	 * Test main um Klasse direkt starten zu können für Tests
-	 * TODO: methode entfernen
+	 * Test main um Klasse direkt starten zu koennen fuer Tests
+	 * TODO: Methode entfernen
 	 */
 	public static void main(String[] args) {
-		
+
 		try {
-			byte[] keyData = generatePrivateKey();
-			byte[] csrData = generateCSR("DE","Baden Wuerttemberg","Stuttgart", "Nash Inc.", "Student", "Tobi Burger", keyData);
-			byte[] crtData = generateCRT(csrData);
-			writeBytesToTempFile(crtData, FilePattern.CRT);
-			//String verifyCSR = checkCSR(writeBytesToTempFile(csrData, FilePattern.CSR));
-			//System.out.println(verifyCSR);
+			byte[] keyData = generatePrivateKey();			
+			byte[] csrData = generateCSR("DE", "Baden Wuerttemberg",
+					"Stuttgart", "Nash Inc.", "CI", "Tobias Burger", writeBytesToTempFile(keyData, FilePattern.KEY).getAbsolutePath());
+			byte[] crtData = generateCRT(writeBytesToTempFile(csrData, FilePattern.CSR).getAbsolutePath());
 			
+			writeBytesToTempFile(crtData, FilePattern.CRT);
+			
+			// String verifyCSR = checkCSR(writeBytesToTempFile(csrData,
+			// FilePattern.CSR));
+			// System.out.println(verifyCSR);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
+
 }
