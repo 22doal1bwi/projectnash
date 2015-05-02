@@ -58,19 +58,21 @@ public class OpenSSLConstants {
 		return command;
 	}
 	
-	public static final String[] getCrtGenerationCommand(String filePath, String rootKeyPath){
+	public static final String[] getCrtGenerationCommand(String csrPath, String rootKeyPath, String root_cert){
 		
-		// openssl x509 -req -days 365 -in filePath -signkey rootKeyPath
-		
+		//openssl x509 -req -in zertifikat.csr -CA ca-root.pem -CAkey ca-key.pem -CAcreateserial -days 720 -sha512
 		String[] command = {
 				"openssl",
 				"x509",
 				"-req",
+				"-in", csrPath,
+				"-CA", root_cert,
+				"-CAkey", rootKeyPath,
+				"-CAcreateserial",
 				"-days", CMD_DAYS_VALID,
-				"-in", filePath,
-				"-signkey", rootKeyPath
-				};
-		
+				"-sha512"
+		};
+			
 		return command;
 	}
 	

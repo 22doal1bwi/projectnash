@@ -151,8 +151,9 @@ public class CertificateUtility {
 		
 		File csrTempFile = writeBytesToTempFile(csrFile, FilePattern.CSR);
 		File rootKeyFile = new File("root_key.pem");
+		File rootCertFile = new File("root_cert.pem");
 		/** get output of crt generation command as input stream */
-		InputStream in = getCommandOutput(OpenSSLConstants.getCrtGenerationCommand(csrTempFile.getPath(), rootKeyFile.getAbsolutePath()));
+		InputStream in = getCommandOutput(OpenSSLConstants.getCrtGenerationCommand(csrTempFile.getPath(), rootKeyFile.getAbsolutePath(), rootCertFile.getAbsolutePath()));
 		/** prepare collection of output into a byte array  */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
