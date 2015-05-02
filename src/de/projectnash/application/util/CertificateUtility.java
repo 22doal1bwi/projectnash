@@ -6,17 +6,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.projectnash.entities.Certificate;
 
 /**
  * This class provides all methods that represents standardized mechanisms in {@link Certificate} context. 
- * @author Silvio D'Alessandro
+ * @author Silvio D'Alessandro, alexander
  *
  */
 public class CertificateUtility {
+	
+	private static enum FilePattern{
+		
+		KEY("key_", ".pem"),
+		CSR("csr_", ".csr"),
+		CRT("crt_", ".crt"),
+		;
+			
+		final String prefix;
+		final String suffix;
+		private FilePattern(String prefix, String suffix) {
+			this.prefix = prefix;
+			this.suffix = suffix;
+		}
+		
+	}
 	
 	/**
 	 * Runs a command and returns its output as a input stream
@@ -49,23 +63,42 @@ public class CertificateUtility {
 	}
 	
 	/**
+	 * Writes the content of a binary byte array into a (temporary) file object
+	 * 
+	 * @param binaryFileObject file data as byte array
+	 * @param pattern pattern enum object which defines prefix/suffix of the output file
+	 * @return a file object
+	 * @throws IOException
+	 * @author alexander
+	 */
+	private static File writeBytesToTempFile(byte[] binaryFileObject, FilePattern pattern) throws IOException{
+		/** create a empty file matching the pattern in the default temporary directory */
+		File tmp_file = File.createTempFile(pattern.prefix, pattern.suffix);
+		/** write into file using fos in try with resources */
+		try(FileOutputStream fos = new FileOutputStream(tmp_file)){
+			fos.write(binaryFileObject);
+		}
+		
+		return tmp_file;
+	}
+	
+	/**
 	 * Generates a new private key
 	 * 
 	 * @return File instance referring to key file
 	 * @throws IOException
 	 * @author alexander, Silvio
 	 */
-	public static File generatePrivateKey() throws IOException{
+	public static byte[] generatePrivateKey() throws IOException{
 		
 		/** get output of key generation command */
 		InputStream in = getCommandOutput(OpenSSLConstants.CMD_GENERATE_PRIVATE_KEY);
-		/** prepare collection of output into a file  */
-		File privkeyOut = new File("privkey_temp.pem");
-		OutputStream out = new FileOutputStream(privkeyOut);
-		/** write command output into file stream */
+		/** prepare collection of output into a byte array  */
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-		
-		return privkeyOut;
+			
+		return out.toByteArray();
 	}
 	
 	/**
@@ -101,17 +134,30 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * @author alexander, Silvio
 	 */
-	public static File generateCSR(String c, String st, String l, String o, String ou, String cn) throws IOException{
+	public static byte[] generateCSR(String c, String st, String l, String o, String ou, String cn) throws IOException {
 		
 		/** get output of key generation command as input stream */
 		InputStream in = getCommandOutput(OpenSSLConstants.getCsrGenerationCommand(c, st, l, o, ou, cn));
-		/** prepare collection of output into a file  */
-		File csrOut = new File("csr_temp.csr");
-		FileOutputStream out = new FileOutputStream(csrOut);
-		/** write command output into file stream */
+		/** prepare collection of output into a byte array  */
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
-		return csrOut;
+		return out.toByteArray();
+	}
+	
+	public static byte[] generateCRT(byte[] csrFile) throws IOException{
+		
+		File csrTempFile = writeBytesToTempFile(csrFile, FilePattern.CSR);
+		File rootKeyFile = new File("root_key.pem");
+		/** get output of crt generation command as input stream */
+		InputStream in = getCommandOutput(OpenSSLConstants.getCrtGenerationCommand(csrTempFile.getPath(), rootKeyFile.getPath()));
+		/** prepare collection of output into a byte array  */
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		/** write command output into byte stream */
+		writeInputToOutput(in, out);
+		
+		return out.toByteArray();
 	}
 	
 	/**
@@ -121,10 +167,11 @@ public class CertificateUtility {
 	public static void main(String[] args) {
 		
 		try {
-			
-			File csrFile = generateCSR("DE","Baden Wuerttemberg","Stuttgart", "Nash Inc.", "CA" ,"simpleCert");
-			String verifyCSR = checkCSR(csrFile);
-			System.out.println(verifyCSR);
+			byte[] csrData = generateCSR("DE","Baden Wuerttemberg","Stuttgart", "Nash Inc.", "Student", "Tobi Burger");
+			byte[] crtData = generateCRT(csrData);
+			writeBytesToTempFile(crtData, FilePattern.CRT);
+			//String verifyCSR = checkCSR(writeBytesToTempFile(csrData, FilePattern.CSR));
+			//System.out.println(verifyCSR);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
