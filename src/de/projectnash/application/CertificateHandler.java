@@ -41,15 +41,8 @@ public class CertificateHandler {
 					user.getOrganizationName(),
 					user.getOrganzationalUnit(),
 					user.getCommonName(),
-					CertificateUtility.writeBytesToTempFile(keyData,
-							CertificateUtility.FilePattern.KEY)
-							.getAbsolutePath());
-			byte[] crtData = CertificateUtility.generateCRT(CertificateUtility
-					.writeBytesToTempFile(csrData, FilePattern.CSR)
-					.getAbsolutePath());
-			CertificateUtility.writeBytesToTempFile(crtData, FilePattern.CRT);
-			// check your /%USER&/AppData/Temp folder
-
+					keyData);
+			byte[] crtData = CertificateUtility.generateCRT(csrData);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

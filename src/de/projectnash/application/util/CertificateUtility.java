@@ -88,7 +88,7 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * @author Alexander Dobler
 	 */
-	public static File writeBytesToTempFile(byte[] binaryFileObject,
+	private static File writeBytesToTempFile(byte[] binaryFileObject,
 			FilePattern pattern) throws IOException {
 		/**
 		 * create a empty file matching the pattern in the default temporary
@@ -147,8 +147,10 @@ public class CertificateUtility {
 	public static byte[] generateCSR(String countryName, String state,
 			String localityName, String organizationName,
 			String organizationalUnit, String commonName,
-			String privateKeyFilePath) throws IOException {
+			byte[] privateKey) throws IOException {
 
+		/** get a temporary key file */
+		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);		
 		// openssl req -new -key privateKey.pem
 		String[] command = {
 				"openssl",
@@ -161,7 +163,7 @@ public class CertificateUtility {
 				"/O=" + organizationName +
 				"/OU="+ organizationalUnit +
 				"/CN=" + commonName,
-				"-key",	privateKeyFilePath
+				"-key",	tmpKeyFile.getAbsolutePath()
 				};
 
 		/** get output of key generation command as input stream */
@@ -211,19 +213,20 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * @author Alexander Dobler, Tobias Burger
 	 */
-	public static byte[] generateCRT(String csrFilePath) throws IOException {
+	public static byte[] generateCRT(byte[] csrData) throws IOException {
 
 		/** get simpleCert root files */
 		File rootKeyFile = new File("root_key.pem");
 		File rootCertFile = new File("root_cert.pem");
 
+		File tmpCsrFile = writeBytesToTempFile(csrData, FilePattern.CSR);
 		// openssl x509 -req -in userRequest.csr -CA rootCert.pem -CAkey
 		// rootKey.pem -CAcreateserial -days 730 -sha512
 		String[] command = {
 				"openssl",
 				"x509",
 				"-req",
-				"-in", csrFilePath,
+				"-in", tmpCsrFile.getAbsolutePath(),
 				"-CA", rootCertFile.getAbsolutePath(),
 				"-CAkey", rootKeyFile.getAbsolutePath(),
 				"-CAcreateserial",
@@ -240,4 +243,5 @@ public class CertificateUtility {
 
 		return out.toByteArray();
 	}
+	
 }
