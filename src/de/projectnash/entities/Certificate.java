@@ -32,25 +32,25 @@ public class Certificate {
 	
 	public Certificate(byte[] certificateFile) throws IOException, ParseException{
 		
+		String subjectData = CertificateUtility.getCRTdata(certificateFile, "-subject");
+		String datesData = CertificateUtility.getCRTdata(certificateFile, "-dates");
 		this.certificateFile = certificateFile;
-		this.countryName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[1].split("=")[1];
-		this.state = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[2].split("=")[1];
-		this.localityName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[3].split("=")[1];
-		this.organizationName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[4].split("=")[1];
-		this.organizationalUnit = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[5].split("=")[1];
-		this.commonName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[6].split("=")[1];
-		//this.emailAddress = CertificateUtility.getCRTdata(certificate, "-subject").split("/")[7].split("=")[1];
+		this.countryName = subjectData.split("/")[1].split("=")[1];
+		this.state = subjectData.split("/")[2].split("=")[1];
+		this.localityName = subjectData.split("/")[3].split("=")[1];
+		this.organizationName = subjectData.split("/")[4].split("=")[1];
+		this.organizationalUnit = subjectData.split("/")[5].split("=")[1];
+		this.commonName = subjectData.split("/")[6].split("=")[1];
+		//this.emailAddress = subjectData.split("/")[7].split("=")[1];
 		
 		//Format date String to Date() object
 		DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
 		
-		this.initializationDate = (Date)formatter.parse(CertificateUtility
-				.getCRTdata(certificateFile, "-dates")
+		this.initializationDate = (Date)formatter.parse(datesData
 				.split("notBefore=")[1]
 						.split("notAfter=")[0]);
 		
-		this.expirationDate = formatter.parse(CertificateUtility
-				.getCRTdata(certificateFile, "-dates")
+		this.expirationDate = formatter.parse(datesData
 				.split("notBefore=")[1]
 						.split("notAfter=")[1]);		
 		
