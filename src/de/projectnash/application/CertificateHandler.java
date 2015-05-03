@@ -1,8 +1,9 @@
 package de.projectnash.application;
 
 import java.io.IOException;
+import java.text.ParseException;
+
 import de.projectnash.application.util.CertificateUtility;
-import de.projectnash.application.util.CertificateUtility.FilePattern;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.User;
 
@@ -18,8 +19,9 @@ public class CertificateHandler {
 	 * Test Utility Class
 	 * 
 	 * @param args
+	 * @throws ParseException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		User tempUser = new User(0001, "Tobias", "Burger",
 				"tobias.burger@simpleCert.com", "DE", "Baden-Wuerttemberg",
 				"Stuttgart", "CI", "Eierkuchen4");
@@ -27,7 +29,7 @@ public class CertificateHandler {
 		createCertificate(tempUser);
 	}
 
-	public static void createCertificate(User user) {
+	public static void createCertificate(User user) throws ParseException {
 
 		// get data of user from back-end
 
@@ -43,6 +45,11 @@ public class CertificateHandler {
 					user.getCommonName(),
 					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
+			
+			user.setCertificate(new Certificate(crtData));
+			
+			System.out.println(user.getCertificate());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

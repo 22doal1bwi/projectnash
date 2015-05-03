@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.regex.Pattern;
 
 import de.projectnash.entities.Certificate;
 
@@ -13,16 +14,10 @@ import de.projectnash.entities.Certificate;
  * This class provides all methods that represents standardized mechanisms in
  * {@link Certificate} context.
  * 
- * @author Silvio D'Alessandro, Alexander Dobler, Tobias Burger, Marius Boepple
+ * @author Silvio D'Alessandro, Alexander Dobler
  *
  */
 public class CertificateUtility {
-
-	/** The bit length of the RSA key */
-	public static final String CMD_KEY_BIT_LENGTH = "2048";
-
-	/** Duration of days a certificate is valid */
-	public static final String CMD_DAYS_VALID = "730";
 
 	/**
 	 * Emun Class for .pem .csr .crt
@@ -115,7 +110,7 @@ public class CertificateUtility {
 		// openssl genrsa 2048
 		String[] command = {
 				"openssl",
-				"genrsa", CMD_KEY_BIT_LENGTH
+				"genrsa", Constants.KEY_BIT_LENGTH
 				};
 
 		/** get output of key generation command */
@@ -230,7 +225,7 @@ public class CertificateUtility {
 				"-CA", rootCertFile.getAbsolutePath(),
 				"-CAkey", rootKeyFile.getAbsolutePath(),
 				"-CAcreateserial",
-				"-days", CMD_DAYS_VALID,
+				"-days", Constants.DAYS_VALID,
 				"-sha512"
 				};
 
@@ -242,6 +237,37 @@ public class CertificateUtility {
 		writeInputToOutput(in, out);
 
 		return out.toByteArray();
+	}
+	
+	/**
+	 * 
+	 * Method which shows output of CRT file depending on the kind of data you want to get
+	 * 
+	 * @param crtData
+	 * @param kindOfData "-text" (for all data) or "-dates" (for initialization and expiration dates) or "-subject" (for user information)
+	 * @return
+	 * @throws IOException
+	 * @author Marius Boepple, Jonathan Schlotz
+	 */
+	public static String getCRTdata(byte[] crtData, String kindOfData) throws IOException{
+		
+		//openssl x509 -in cert.pem -noout -text
+		String[] command = {
+				"openssl",
+				"x509",
+				"-in", writeBytesToTempFile(crtData, FilePattern.CRT).getAbsolutePath(),
+				"-noout",
+				kindOfData			
+				};
+
+		/** get output of key generation command */
+		InputStream in = getCommandOutput(command);
+		/** prepare collection of output into an byte array */
+		OutputStream out = new ByteArrayOutputStream();
+		/** write command output into byte stream */
+		writeInputToOutput(in, out);
+
+		return out.toString();
 	}
 	
 }

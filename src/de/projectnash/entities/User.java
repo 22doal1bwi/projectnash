@@ -1,5 +1,7 @@
 package de.projectnash.entities;
 
+import de.projectnash.application.util.Constants;
+
 /**
  * This class provides a realistic {@link User} with all its attributes.
  * 
@@ -15,7 +17,7 @@ public class User {
 	private String countryName;
 	private String state;
 	private String localityName;
-	private String organizationName = "Nash Inc.";
+	private String organizationName = Constants.ORG_NAME;
 	private String organzationalUnit;
 	private String password;
 	private Certificate certificate;

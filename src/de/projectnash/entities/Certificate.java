@@ -1,17 +1,25 @@
 package de.projectnash.entities;
 
-import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import de.projectnash.application.util.CertificateUtility;
+
 
 /**
  * This class provides a realistic {@link Certificate} with all its attributes.
  * 
- * @author Marius Boepple
+ * @author Marius Boepple, Jonathan Schlotz
  *
  */
 public class Certificate {
 
 	private int certificateId;
-	private File certificateFile;
+	private byte[] certificateFile;
 	private String countryName;
 	private String state;
 	private String localityName;
@@ -19,27 +27,48 @@ public class Certificate {
 	private String organizationalUnit;
 	private String commonName;
 	private String emailAddress;
-	private String initializationDate;
-	private String expirationDate;
-
-	public Certificate(File certificateFile, String countryName, String state,
-			String localityName, String organizationName,
-			String organizationalUnit, String commonName, String emailAddress,
-			String initializationDate, String expirationDate) {
-		super();
+	private Date initializationDate;
+	private Date expirationDate;
+	
+	public Certificate(byte[] certificateFile) throws IOException, ParseException{
+		
 		this.certificateFile = certificateFile;
-		this.countryName = countryName;
-		this.state = state;
-		this.localityName = localityName;
-		this.organizationName = organizationName;
-		this.organizationalUnit = organizationalUnit;
-		this.commonName = commonName;
-		this.emailAddress = emailAddress;
-		this.initializationDate = initializationDate;
-		this.expirationDate = expirationDate;
-
+		this.countryName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[1].split("=")[1];
+		this.state = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[2].split("=")[1];
+		this.localityName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[3].split("=")[1];
+		this.organizationName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[4].split("=")[1];
+		this.organizationalUnit = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[5].split("=")[1];
+		this.commonName = CertificateUtility.getCRTdata(certificateFile, "-subject").split("/")[6].split("=")[1];
+		//this.emailAddress = CertificateUtility.getCRTdata(certificate, "-subject").split("/")[7].split("=")[1];
+		
+		//Format date String to Date() object
+		DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
+		
+		this.initializationDate = (Date)formatter.parse(CertificateUtility
+				.getCRTdata(certificateFile, "-dates")
+				.split("notBefore=")[1]
+						.split("notAfter=")[0]);
+		
+		this.expirationDate = formatter.parse(CertificateUtility
+				.getCRTdata(certificateFile, "-dates")
+				.split("notBefore=")[1]
+						.split("notAfter=")[1]);		
+		
 		// get latest certificateId from DB
 		this.certificateId = 01;
+		
+	}
+
+	@Override
+	public String toString() {
+		return "Certificate [certificateId=" + certificateId + ", certificateFile="
+				+ certificateFile + ", countryName=" + countryName
+				+ ", state=" + state + ", localityName=" + localityName
+				+ ", organizationName=" + organizationName
+				+ ", organizationalUnit=" + organizationalUnit
+				+ ", commonName=" + commonName + ", emailAddress="
+				+ emailAddress + ", initializationDate=" + initializationDate.toString()
+				+ ", expirationDate=" + expirationDate.toString() + "]";
 	}
 
 	public int getCertificateId() {
@@ -50,11 +79,11 @@ public class Certificate {
 		this.certificateId = certificateId;
 	}
 
-	public File getCertificateFile() {
+	public byte[] getCertificateFile() {
 		return certificateFile;
 	}
 
-	public void setCertificateFile(File certificateFile) {
+	public void setCertificateFile(byte[] certificateFile) {
 		this.certificateFile = certificateFile;
 	}
 
@@ -114,19 +143,27 @@ public class Certificate {
 		this.emailAddress = emailAddress;
 	}
 
-	public String getInitializationDate() {
+	public byte[] getCertificate() {
+		return certificateFile;
+	}
+
+	public void setCertificate(byte[] certificate) {
+		this.certificateFile = certificate;
+	}
+
+	public Date getInitializationDate() {
 		return initializationDate;
 	}
 
-	public void setInitializationDate(String initializationDate) {
+	public void setInitializationDate(Date initializationDate) {
 		this.initializationDate = initializationDate;
 	}
 
-	public String getExpirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(String expirationDate) {
+	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
