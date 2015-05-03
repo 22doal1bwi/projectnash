@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+
+    <title>simpleCert Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+		<style>
+
+		#login_container{
+		margin: 80px auto;
+		width: 420px;
+		height: auto;
+		background-color: #f0f0f0;
+		
+		}
+		
+.btn-red {
+  color: #fff;
+  background-color: #C03A2A;
+  border-color: #A83A2A;
+}
+
+.btn-primary {
+  color: #000;
+  background-color: #C8C8C8;
+  border-color: #C8C8C8;
+}
+
+#btn-small{width: 420px;}
+
+	</style>
+	
+  </head>
+
+  <body>
+
+    <div class="container">
+	<div id="login_container">
+      <form class="form-signin">
+        <!--<h2 class="form-signin-heading">Please sign in</h2>-->
+		<center><img src="img/logo_text.png" style="width: 140px;"/></center><br />
+        <label for="inputEmail" class="sr-only">E-Mail-Address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <br />
+		<label for="inputPassword" class="sr-only">Passwort</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <!--<label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>-->
+        </div>
+        <button class="btn btn-lg btn-red btn-block" type="submit">Einloggen</button>
+     	 </form>
+	 <br />
+	 <hr style="height: 1px; background: #c6c6c6;">
+	 <form class="form-signin">
+	 <button class="btn btn-lg btn-primary btn-block btn-small" href="register.html">Neu anmelden</button>
+</form>
+<br />
+	</div>
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
