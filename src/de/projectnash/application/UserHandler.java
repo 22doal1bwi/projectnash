@@ -19,28 +19,33 @@ public class UserHandler {
 		User tempUser = new User(personalId, firstName, lastName, emailAddress,
 				countryName, state, localityName, organzationalUnit, password);
 
-		// save to DB
+		// TODO: save User to Database
 
 		return false;
 	}
-
+	
+	// TODO: implement emailValid check-method
 	public static boolean emailIsValid(String emailAddress) {
 		return false;
 	}
 
+	// TODO: implement personalIdIsValid check-method
 	public static boolean personalIdIsValid(int personalId) {
 		return false;
 	}
 
+	// TODO: implement loginUser method
 	public static User loginUser(String name, String password) {
 
 		return null;
 	}
-
+	
+	// TODO: implement changePassword method
 	public static boolean changePassword() {
 		return false;
 	}
 
+	// TODO: implement resetPassword method
 	public static boolean resetPasswort() {
 		return false;
 	}

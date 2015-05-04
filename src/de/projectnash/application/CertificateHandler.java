@@ -20,6 +20,7 @@ public class CertificateHandler {
 	 * 
 	 * @param args
 	 * @throws ParseException 
+	 * TODO: delete method when ready with testing
 	 */
 	public static void main(String[] args) throws ParseException {
 		User tempUser = new User(0001, "Tobias", "Burger",
@@ -31,7 +32,7 @@ public class CertificateHandler {
 
 	public static void createCertificate(User user) throws ParseException {
 
-		// get data of user from back-end
+		// TODO: get data of User from Database
 
 		// create Certificate with utility class
 		try {
@@ -54,17 +55,20 @@ public class CertificateHandler {
 			e.printStackTrace();
 		}
 
-		// save Certificate to back-end
+		// TODO: save Certificate to Database
 	}
 
+	// TODO: implement revokeCertificate method
 	public static void revokeCertificate(User user) {
 
 	}
 
+	// TODO: implement extendCertificate method
 	public static void extendCertificate(User user) {
 
 	}
 
+	// TODO: implement getCertificate method
 	public static Certificate getCertificate(User user) {
 		return user.getCertificate();
 	}

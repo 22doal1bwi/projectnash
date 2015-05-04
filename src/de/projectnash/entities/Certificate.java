@@ -41,7 +41,7 @@ public class Certificate {
 		this.organizationName = subjectData.split("/")[4].split("=")[1];
 		this.organizationalUnit = subjectData.split("/")[5].split("=")[1];
 		this.commonName = subjectData.split("/")[6].split("=")[1];
-		//this.emailAddress = subjectData.split("/")[7].split("=")[1];
+		//TODO: add email address to certificate
 		
 		//Format date String to Date() object
 		DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
@@ -54,7 +54,7 @@ public class Certificate {
 				.split("notBefore=")[1]
 						.split("notAfter=")[1]);		
 		
-		// get latest certificateId from DB
+		//TODO: get latest certificateID from Database for new certificateID
 		this.certificateId = 01;
 		
 	}

@@ -14,6 +14,7 @@ import de.projectnash.entities.Certificate;
  * {@link Certificate} context.
  * 
  * @author Silvio D'Alessandro, Alexander Dobler
+ * TODO: implement revokeCRT method
  *
  */
 public class CertificateUtility {
@@ -136,7 +137,7 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * 
 	 * @author Alexander Dobler, Silvio D'Alessandro
-	 * 
+	 * TODO: add email address to csr
 	 */
 	public static byte[] generateCSR(String countryName, String state,
 			String localityName, String organizationName,
