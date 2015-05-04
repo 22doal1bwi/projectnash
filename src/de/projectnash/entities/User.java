@@ -20,7 +20,7 @@ public class User {
 	private String organizationName = Constants.ORG_NAME;
 	private String organzationalUnit;
 	private String password;
-	private Certificate certificate;
+	private Certificate[] certificate;
 
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.
@@ -40,12 +40,14 @@ public class User {
 		this.password = password;
 	}
 
+	/** TODO: get correct Certificate*/
 	public Certificate getCertificate() {
-		return certificate;
+		return certificate[0];
 	}
 
+	/** TODO: set Certificate correctly*/
 	public void setCertificate(Certificate certificate) {
-		this.certificate = certificate;
+		this.certificate[0] = certificate;
 	}
 
 	// get common name
