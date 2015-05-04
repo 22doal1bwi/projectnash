@@ -1,5 +1,7 @@
 package de.projectnash.entities;
 
+import java.util.ArrayList;
+
 import de.projectnash.application.util.Constants;
 
 /**
@@ -20,7 +22,7 @@ public class User {
 	private String organizationName = Constants.ORG_NAME;
 	private String organzationalUnit;
 	private String password;
-	private Certificate[] certificate;
+	private ArrayList<Certificate> certificates;
 
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.
@@ -38,21 +40,31 @@ public class User {
 		this.localityName = localityName;
 		this.organzationalUnit = organzationalUnit;
 		this.password = password;
-	}
+		this.certificates = new ArrayList<Certificate>();
+	}	
 
-	/** TODO: get correct Certificate*/
-	public Certificate getCertificate() {
-		return certificate[0];
-	}
-
-	/** TODO: set Certificate correctly*/
-	public void setCertificate(Certificate certificate) {
-		this.certificate[0] = certificate;
-	}
-
-	// get common name
+	/**
+	 * Method which returns the common name
+	 * @return first name + last name
+	 */
 	public String getCommonName() {
 		return (firstName + " " + lastName);
+	}
+	
+	/**
+	 * Method which adds a certificate to the user's list of certificates
+	 * @param certificate
+	 */
+	public void addCertificate(Certificate certificate){
+		this.certificates.add(certificate);
+	}
+	
+	public ArrayList<Certificate> getCertificates() {
+		return certificates;
+	}
+
+	public void setCertificates(ArrayList<Certificate> certificates) {
+		this.certificates = certificates;
 	}
 
 	public int getPersonalId() {
