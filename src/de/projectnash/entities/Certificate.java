@@ -34,6 +34,7 @@ public class Certificate {
 		
 		String subjectData = CertificateUtility.getCRTdata(certificateFile, "-subject");
 		String datesData = CertificateUtility.getCRTdata(certificateFile, "-dates");
+		
 		this.certificateFile = certificateFile;
 		this.countryName = subjectData.split("/")[1].split("=")[1];
 		this.state = subjectData.split("/")[2].split("=")[1];
@@ -41,7 +42,7 @@ public class Certificate {
 		this.organizationName = subjectData.split("/")[4].split("=")[1];
 		this.organizationalUnit = subjectData.split("/")[5].split("=")[1];
 		this.commonName = subjectData.split("/")[6].split("=")[1];
-		//TODO: add email address to certificate
+		this.emailAddress = subjectData.split("/")[7].split("=")[1];
 		
 		//Format date String to Date() object
 		DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	

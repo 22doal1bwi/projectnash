@@ -24,8 +24,8 @@ public class CertificateHandler {
 	 */
 	public static void main(String[] args) throws ParseException {
 		User tempUser = new User(0001, "Tobias", "Burger",
-				"tobias.burger@simpleCert.com", "DE", "Baden-Wuerttemberg",
-				"Stuttgart", "CI", "Eierkuchen4");
+				"DE", "Baden-Wuerttemberg",	"Stuttgart",
+				"CI", "tobias.burger@simpleCert.com", "Eierkuchen4");
 
 		createCertificate(tempUser);
 	}
@@ -44,6 +44,7 @@ public class CertificateHandler {
 					user.getOrganizationName(),
 					user.getOrganzationalUnit(),
 					user.getCommonName(),
+					user.getEmailAddress(),
 					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			

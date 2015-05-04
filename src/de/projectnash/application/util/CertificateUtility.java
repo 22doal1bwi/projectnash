@@ -133,6 +133,7 @@ public class CertificateUtility {
 	 * @param organizationalUnit
 	 * @param commonName
 	 * @param privateKeyFilePath
+	 * @param emailAddress
 	 * @return request as byte array
 	 * @throws IOException
 	 * 
@@ -141,7 +142,7 @@ public class CertificateUtility {
 	 */
 	public static byte[] generateCSR(String countryName, String state,
 			String localityName, String organizationName,
-			String organizationalUnit, String commonName,
+			String organizationalUnit, String commonName, String emailAddress,
 			byte[] privateKey) throws IOException {
 
 		/** get a temporary key file */
@@ -157,7 +158,8 @@ public class CertificateUtility {
 				"/L=" + localityName +
 				"/O=" + organizationName +
 				"/OU="+ organizationalUnit +
-				"/CN=" + commonName,
+				"/CN=" + commonName +
+				"/emailAddress=" + emailAddress,
 				"-key",	tmpKeyFile.getAbsolutePath()
 				};
 

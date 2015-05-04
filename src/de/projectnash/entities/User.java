@@ -28,8 +28,9 @@ public class User {
 	 * The constructor for a {@link User} with all necessary attributes.
 	 */
 	public User(int personalId, String firstName, String lastName,
-			String emailAddress, String countryName, String state,
-			String localityName, String organzationalUnit, String password) {
+			String countryName, String state,
+			String localityName, String organzationalUnit, 
+			String emailAddress, String password) {
 		super();
 		this.personalId = personalId;
 		this.firstName = firstName;
