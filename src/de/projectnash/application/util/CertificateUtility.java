@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import de.projectnash.entities.Certificate;
+import de.projectnash.entities.User;
 
 /**
  * This class provides all methods that represents standardized mechanisms in
@@ -140,10 +141,7 @@ public class CertificateUtility {
 	 * @author Alexander Dobler, Silvio D'Alessandro
 	 * TODO: add email address to csr
 	 */
-	public static byte[] generateCSR(String countryName, String state,
-			String localityName, String organizationName,
-			String organizationalUnit, String commonName, String emailAddress,
-			byte[] privateKey) throws IOException {
+	public static byte[] generateCSR(User user, byte[] privateKey) throws IOException {
 
 		/** get a temporary key file */
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);		
@@ -153,13 +151,13 @@ public class CertificateUtility {
 				"req",
 				"-new",
 				"-subj",
-				"/C=" + countryName +
-				"/ST=" + state +
-				"/L=" + localityName +
-				"/O=" + organizationName +
-				"/OU="+ organizationalUnit +
-				"/CN=" + commonName +
-				"/emailAddress=" + emailAddress,
+				"/C=" + user.getCountryName()+
+				"/ST=" + user.getState() +
+				"/L=" + user.getLocalityName() +
+				"/O=" + user.getOrganizationName() +
+				"/OU="+ user.getOrganzationalUnit() +
+				"/CN=" + user.getCommonName() +
+				"/emailAddress=" + user.getEmailAddress(),
 				"-key",	tmpKeyFile.getAbsolutePath()
 				};
 

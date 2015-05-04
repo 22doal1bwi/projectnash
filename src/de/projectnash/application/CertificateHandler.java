@@ -37,15 +37,7 @@ public class CertificateHandler {
 		// create Certificate with utility class
 		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
-			byte[] csrData = CertificateUtility.generateCSR(
-					user.getCountryName(),
-					user.getState(),
-					user.getLocalityName(),
-					user.getOrganizationName(),
-					user.getOrganzationalUnit(),
-					user.getCommonName(),
-					user.getEmailAddress(),
-					keyData);
+			byte[] csrData = CertificateUtility.generateCSR(user, keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			
 			user.addCertificate(new Certificate(crtData));
