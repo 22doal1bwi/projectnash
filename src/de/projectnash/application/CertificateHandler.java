@@ -24,7 +24,7 @@ public class CertificateHandler {
 	 */
 	public static void main(String[] args) throws ParseException {
 		User tempUser = new User(0001, "Tobias", "Burger",
-				"DE", "Baden-Wuerttemberg",	"Stuttgart",
+				"DE", "Bayern",	"Stuttgart",
 				"CI", "tobias.burger@simpleCert.com", "Eierkuchen4");
 
 		createCertificate(tempUser);
@@ -37,7 +37,15 @@ public class CertificateHandler {
 		// create Certificate with utility class
 		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
-			byte[] csrData = CertificateUtility.generateCSR(user, keyData);
+			byte[] csrData = CertificateUtility.generateCSR(
+					user.getCountryName(),
+					user.getState(),
+					user.getLocalityName(),
+					user.getOrganizationName(),
+					user.getOrganzationalUnit(),
+					user.getCommonName(),
+					user.getEmailAddress(),
+					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			
 			user.setCertificate(new Certificate(crtData));
