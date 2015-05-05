@@ -20,17 +20,17 @@ public interface ICertificateController {
 	/**
 	 * @return The {@link String} that contains the locality of the {@link Certificate}.
 	 */
-	String getLocality();
+	String getLocalityName();
 	
 	/**
 	 * @return The {@link String} that contains the organization name of the {@link Certificate}.
 	 */
-	String getOrganisationName();
+	String getOrganizationName();
 	
 	/**
 	 * @return The {@link String} that contains the organization unit of the {@link Certificate}.
 	 */
-	String getOrganisationUnit();
+	String getOrganizationUnit();
 	
 	/**
 	 * @return The {@link String} that contains the common name of the {@link Certificate}.
@@ -40,7 +40,7 @@ public interface ICertificateController {
 	/**
 	 * @return The {@link String} that contains the mail address of the {@link Certificate}.
 	 */
-	String getMail();
+	String getEmailAddress();
 	
 	/**
 	 * @return The {@link Boolean} that describes if the request was successful or not.
