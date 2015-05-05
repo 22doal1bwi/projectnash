@@ -40,9 +40,9 @@ public class CertificateHandler {
 			byte[] csrData = CertificateUtility.generateCSR(user, keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			
-			user.addCertificate(new Certificate(crtData));
+			user.setCertificate(new Certificate(crtData));
 			
-			System.out.println(user.getCertificates());
+			System.out.println(user.getCertificate());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -63,6 +63,6 @@ public class CertificateHandler {
 
 	// TODO: implement getCertificate method
 	public static Certificate getCertificate(User user) {
-		return user.getCertificates().get(0);
+		return user.getCertificate();
 	}
 }

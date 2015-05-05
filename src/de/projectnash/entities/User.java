@@ -22,7 +22,7 @@ public class User {
 	private String organizationName = Constants.ORG_NAME;
 	private String organzationalUnit;
 	private String password;
-	private ArrayList<Certificate> certificates;
+	private Certificate certificate;
 
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.
@@ -41,7 +41,6 @@ public class User {
 		this.localityName = localityName;
 		this.organzationalUnit = organzationalUnit;
 		this.password = password;
-		this.certificates = new ArrayList<Certificate>();
 	}	
 
 	/**
@@ -51,21 +50,13 @@ public class User {
 	public String getCommonName() {
 		return (firstName + " " + lastName);
 	}
-	
-	/**
-	 * Method which adds a certificate to the user's list of certificates
-	 * @param certificate
-	 */
-	public void addCertificate(Certificate certificate){
-		this.certificates.add(certificate);
-	}
-	
-	public ArrayList<Certificate> getCertificates() {
-		return certificates;
+
+	public Certificate getCertificate() {
+		return certificate;
 	}
 
-	public void setCertificates(ArrayList<Certificate> certificates) {
-		this.certificates = certificates;
+	public void setCertificate(Certificate certificate) {
+		this.certificate = certificate;
 	}
 
 	public int getPersonalId() {
