@@ -127,14 +127,21 @@ public class CertificateUtility {
 	/**
 	 * Method which generates a certificate signing request (.csr file)
 	 * 
-	 * @param user
+	 * @param countryName
+	 * @param state
+	 * @param localityName
+	 * @param organizationName
+	 * @param organizationalUnit
+	 * @param commonName
+	 * @param emailAddress
+	 * @param privateKey
 	 * @return request as byte array
 	 * @throws IOException
-	 * 
 	 * @author Alexander Dobler, Silvio D'Alessandro
-	 * TODO: add email address to csr
 	 */
-	public static byte[] generateCSR(User user, byte[] privateKey) throws IOException {
+	public static byte[] generateCSR(String countryName, String state,
+			String localityName, String organizationName, String organizationalUnit,
+			String commonName, String emailAddress, byte[] privateKey) throws IOException {
 
 		/** get a temporary key file */
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);		
@@ -144,13 +151,13 @@ public class CertificateUtility {
 				"req",
 				"-new",
 				"-subj",
-				"/C=" + user.getCountryName()+
-				"/ST=" + user.getState() +
-				"/L=" + user.getLocalityName() +
-				"/O=" + user.getOrganizationName() +
-				"/OU="+ user.getOrganzationalUnit() +
-				"/CN=" + user.getCommonName() +
-				"/emailAddress=" + user.getEmailAddress(),
+				"/C=" + countryName+
+				"/ST=" + state +
+				"/L=" + localityName +
+				"/O=" + organizationName +
+				"/OU="+ organizationalUnit +
+				"/CN=" + commonName +
+				"/emailAddress=" + emailAddress,
 				"-key",	tmpKeyFile.getAbsolutePath()
 				};
 
