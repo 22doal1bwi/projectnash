@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.8" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="de.projectnash.application.CertificateHandler" project="projectnash" 
-    file="/projectnash/src/de/projectnash/application/CertificateHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="de.projectnash.application.CertificateLogic" project="projectnash" 
+    file="/projectnash/src/de/projectnash/application/CertificateLogic.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="659" y="409"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="de.projectnash.application.UserHandler" project="projectnash" 
-    file="/projectnash/src/de/projectnash/application/UserHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="2" language="java" name="de.projectnash.application.UserLogic" project="projectnash" 
+    file="/projectnash/src/de/projectnash/application/UserLogic.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="341" y="417"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -69,14 +69,6 @@
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="4"/>  
   </nesting>  
-  <association id="9">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="10" name="certificate"/>      
-      <multiplicity id="11" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

@@ -9,7 +9,7 @@ import de.projectnash.entities.User;
  * @author Marius B�pple, Jonathan Schlotz
  *
  */
-public class UserHandler {
+public class UserLogic {
 
 	public static boolean createUser(int personalId, String firstName,
 			String lastName, String emailAddress, String organzationalUnit,

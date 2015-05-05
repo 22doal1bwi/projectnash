@@ -1,7 +1,5 @@
 package de.projectnash.entities;
 
-import de.projectnash.application.util.Constants;
-
 /**
  * This class provides a realistic {@link User} with all its attributes.
  * 
@@ -31,18 +29,6 @@ public class User {
 		this.organzationalUnit = organzationalUnit;
 		this.password = password;
 	}
-
-	/**
-	 * Method which returns the common name
-	 * @return first name + last name
-	 */
-	public String getCommonName() {
-		return (firstName + " " + lastName);
-	}
-	
-
-	
-	//GETTERS AND SETTERS
 	
 	public int getPersonalId() {
 		return personalId;

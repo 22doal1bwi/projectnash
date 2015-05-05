@@ -14,7 +14,7 @@ import de.projectnash.entities.User;
  * @author Marius Boepple
  *
  */
-public class CertificateHandler {
+public class CertificateLogic {
 
 	/**
 	 * Test Utility Class
@@ -45,7 +45,7 @@ public class CertificateHandler {
 					organization.getLocality(),
 					organization.getOrganization(),
 					user.getOrganzationalUnit(),
-					user.getCommonName(),
+					(user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")"),
 					user.getEmailAddress(),
 					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
