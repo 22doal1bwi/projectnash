@@ -5,6 +5,7 @@ import java.text.ParseException;
 
 import de.projectnash.application.util.CertificateUtility;
 import de.projectnash.entities.Certificate;
+import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
 
 /**
@@ -24,7 +25,6 @@ public class CertificateHandler {
 	 */
 	public static void main(String[] args) throws ParseException {
 		User tempUser = new User(0001, "Tobias", "Burger",
-				"DE", "Bayern",	"Stuttgart",
 				"CI", "tobias.burger@simpleCert.com", "Eierkuchen4");
 
 		createCertificate(tempUser);
@@ -33,15 +33,17 @@ public class CertificateHandler {
 	public static void createCertificate(User user) throws ParseException {
 
 		// TODO: get data of User from Database
-
+				
+		Organization organization = new Organization();
+		
 		// create Certificate with utility class
 		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
 			byte[] csrData = CertificateUtility.generateCSR(
-					user.getCountryName(),
-					user.getState(),
-					user.getLocalityName(),
-					user.getOrganizationName(),
+					organization.getCountry(),
+					organization.getState(),
+					organization.getLocality(),
+					organization.getOrganization(),
 					user.getOrganzationalUnit(),
 					user.getCommonName(),
 					user.getEmailAddress(),

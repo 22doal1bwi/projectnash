@@ -14,10 +14,6 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String emailAddress;
-	private String countryName;
-	private String state;
-	private String localityName;
-	private String organizationName = Constants.ORG_NAME;
 	private String organzationalUnit;
 	private String password;
 	private Certificate certificate;
@@ -25,18 +21,13 @@ public class User {
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.
 	 */
-	public User(int personalId, String firstName, String lastName,
-			String countryName, String state,
-			String localityName, String organzationalUnit, 
+	public User(int personalId, String firstName, String lastName, String organzationalUnit, 
 			String emailAddress, String password) {
 		super();
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
-		this.countryName = countryName;
-		this.state = state;
-		this.localityName = localityName;
 		this.organzationalUnit = organzationalUnit;
 		this.password = password;
 	}
@@ -83,38 +74,6 @@ public class User {
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
-	}
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getLocalityName() {
-		return localityName;
-	}
-
-	public void setLocalityName(String localityName) {
-		this.localityName = localityName;
-	}
-
-	public String getOrganizationName() {
-		return organizationName;
-	}
-
-	public void setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
 	}
 
 	public String getOrganzationalUnit() {

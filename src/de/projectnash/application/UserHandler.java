@@ -6,18 +6,22 @@ import de.projectnash.entities.User;
  * 
  * This class provides all methods to handle the {@link User}.
  * 
- * @author Marius Böpple, Jonathan Schlotz
+ * @author Marius Bï¿½pple, Jonathan Schlotz
  *
  */
 public class UserHandler {
 
 	public static boolean createUser(int personalId, String firstName,
-			String lastName, String emailAddress, String countryName,
-			String state, String localityName, String organzationalUnit,
+			String lastName, String emailAddress, String organzationalUnit,
 			String password) {
-
-		User tempUser = new User(personalId, firstName, lastName, emailAddress,
-				countryName, state, localityName, organzationalUnit, password);
+		
+		User tempUser = new User(
+				personalId,
+				firstName,
+				lastName,
+				emailAddress,
+				organzationalUnit,
+				password);
 
 		// TODO: save User to Database
 
