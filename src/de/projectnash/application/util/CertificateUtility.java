@@ -127,14 +127,7 @@ public class CertificateUtility {
 	/**
 	 * Method which generates a certificate signing request (.csr file)
 	 * 
-	 * @param countryName
-	 * @param state
-	 * @param localityName
-	 * @param organizationName
-	 * @param organizationalUnit
-	 * @param commonName
-	 * @param privateKeyFilePath
-	 * @param emailAddress
+	 * @param user
 	 * @return request as byte array
 	 * @throws IOException
 	 * 
