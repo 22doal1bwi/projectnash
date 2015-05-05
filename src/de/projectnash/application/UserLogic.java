@@ -6,7 +6,7 @@ import de.projectnash.entities.User;
  * 
  * This class provides all methods to handle the {@link User}.
  * 
- * @author Marius B�pple, Jonathan Schlotz
+ * @author Marius Boepple, Jonathan Schlotz
  *
  */
 public class UserLogic {

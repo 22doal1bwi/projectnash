@@ -1,7 +1,11 @@
 package de.projectnash.application;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import de.projectnash.application.util.CertificateUtility;
 import de.projectnash.entities.Certificate;
@@ -50,7 +54,29 @@ public class CertificateLogic {
 					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			
-			user.setCertificate(new Certificate(crtData));
+			String subjectData = CertificateUtility.getCRTdata(crtData, "-subject");
+			String datesData = CertificateUtility.getCRTdata(crtData, "-dates");
+			
+			//Format date String to Date() object
+			DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
+			
+			user.setCertificate(
+					new Certificate(
+							1, //TODO: get latest certificateID from Database for new certificateID
+							crtData,
+							subjectData.split("/")[1].split("=")[1],
+							subjectData.split("/")[2].split("=")[1],
+							subjectData.split("/")[3].split("=")[1],
+							subjectData.split("/")[4].split("=")[1],
+							subjectData.split("/")[5].split("=")[1],
+							subjectData.split("/")[6].split("=")[1],
+							subjectData.split("/")[7].split("=")[1],
+							formatter.parse(datesData
+									.split("notBefore=")[1]
+											.split("notAfter=")[0]),
+							formatter.parse(datesData
+									.split("notBefore=")[1]
+											.split("notAfter=")[1])));
 			
 			System.out.println(user.getCertificate());
 			

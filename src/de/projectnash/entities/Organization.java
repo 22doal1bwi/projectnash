@@ -4,7 +4,7 @@
 package de.projectnash.entities;
 
 /**
- * @author alexander
+ * @author Alexander Dobler
  *
  */
 public class Organization {

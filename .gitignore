@@ -3,3 +3,6 @@ build/
 .classpath
 .project
 .settings/
+root_cert.srl
+/.gitignore
+/Thumbs.db

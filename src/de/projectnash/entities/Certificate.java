@@ -1,14 +1,6 @@
 package de.projectnash.entities;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-
-import de.projectnash.application.util.CertificateUtility;
-
 
 /**
  * This class provides a realistic {@link Certificate} with all its attributes.
@@ -30,34 +22,23 @@ public class Certificate {
 	private Date initializationDate;
 	private Date expirationDate;
 	
-	public Certificate(byte[] certificateFile) throws IOException, ParseException{
-		
-		String subjectData = CertificateUtility.getCRTdata(certificateFile, "-subject");
-		String datesData = CertificateUtility.getCRTdata(certificateFile, "-dates");
-		
+	public Certificate(int certificateId, byte[] certificateFile,
+			String countryName, String state, String localityName,
+			String organizationName, String organizationalUnit,
+			String commonName, String emailAddress, Date initializationDate,
+			Date expirationDate) {
+		super();
+		this.certificateId = certificateId;
 		this.certificateFile = certificateFile;
-		this.countryName = subjectData.split("/")[1].split("=")[1];
-		this.state = subjectData.split("/")[2].split("=")[1];
-		this.localityName = subjectData.split("/")[3].split("=")[1];
-		this.organizationName = subjectData.split("/")[4].split("=")[1];
-		this.organizationalUnit = subjectData.split("/")[5].split("=")[1];
-		this.commonName = subjectData.split("/")[6].split("=")[1];
-		this.emailAddress = subjectData.split("/")[7].split("=")[1];
-		
-		//Format date String to Date() object
-		DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
-		
-		this.initializationDate = (Date)formatter.parse(datesData
-				.split("notBefore=")[1]
-						.split("notAfter=")[0]);
-		
-		this.expirationDate = formatter.parse(datesData
-				.split("notBefore=")[1]
-						.split("notAfter=")[1]);		
-		
-		//TODO: get latest certificateID from Database for new certificateID
-		this.certificateId = 01;
-		
+		this.countryName = countryName;
+		this.state = state;
+		this.localityName = localityName;
+		this.organizationName = organizationName;
+		this.organizationalUnit = organizationalUnit;
+		this.commonName = commonName;
+		this.emailAddress = emailAddress;
+		this.initializationDate = initializationDate;
+		this.expirationDate = expirationDate;
 	}
 
 	@Override

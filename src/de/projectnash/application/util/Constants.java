@@ -13,8 +13,5 @@ public class Constants {
 
 	/** Duration of days a certificate is valid */
 	public static final String DAYS_VALID = "730";
-	
-	/** Organization name*/
-	public static final String ORG_NAME = "Nash Inc.";
 
 }
