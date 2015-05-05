@@ -8,14 +8,19 @@ package de.projectnash.frontend.interfaces;
 public interface IUserController {
 	
 	/**
-	 * @return The {@link String} that represents the name of the {@link User}.
+	 * @return The {@link String} that represents the first name of the {@link User}.
 	 */
-	String getUsername();
+	String getFirstName();
+	
+	/**
+	 * @return The {@link String} that represents the last name of the {@link User}.
+	 */
+	String getLastName();
 	
 	/**
 	 * @return The {@link String} that represents the mail address of the {@link User}.
 	 */
-	String getMailAddress();
+	String getEmailAddress();
 	
 	/**
 	 * @return The {@link String} that represents the department of the {@link User}.
