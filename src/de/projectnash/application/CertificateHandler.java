@@ -50,6 +50,19 @@ public class CertificateHandler {
 
 		// TODO: save Certificate to Database
 	}
+	
+	// TODO: implement certificateValid method
+	public static boolean certificateValid(Certificate certificate){
+		if (certificate == null) {
+			return false;
+		}
+		return true;
+	}
+	
+	// TODO: implement daysLeftForCertificate method
+	public static int daysLeftForCertificate(Certificate certificate){
+		return 0;
+	}
 
 	// TODO: implement revokeCertificate method
 	public static void revokeCertificate(User user) {
@@ -61,7 +74,6 @@ public class CertificateHandler {
 
 	}
 
-	// TODO: implement getCertificate method
 	public static Certificate getCertificate(User user) {
 		return user.getCertificate();
 	}

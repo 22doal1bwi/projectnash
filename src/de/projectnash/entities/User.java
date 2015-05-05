@@ -1,7 +1,5 @@
 package de.projectnash.entities;
 
-import java.util.ArrayList;
-
 import de.projectnash.application.util.Constants;
 
 /**
@@ -41,7 +39,7 @@ public class User {
 		this.localityName = localityName;
 		this.organzationalUnit = organzationalUnit;
 		this.password = password;
-	}	
+	}
 
 	/**
 	 * Method which returns the common name
@@ -50,15 +48,11 @@ public class User {
 	public String getCommonName() {
 		return (firstName + " " + lastName);
 	}
+	
 
-	public Certificate getCertificate() {
-		return certificate;
-	}
-
-	public void setCertificate(Certificate certificate) {
-		this.certificate = certificate;
-	}
-
+	
+	//GETTERS AND SETTERS
+	
 	public int getPersonalId() {
 		return personalId;
 	}
@@ -139,4 +133,11 @@ public class User {
 		this.password = password;
 	}
 
+	public Certificate getCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(Certificate certificate) {
+		this.certificate = certificate;
+	}
 }
