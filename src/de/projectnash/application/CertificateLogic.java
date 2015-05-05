@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.util.CertificateUtility;
 import de.projectnash.entities.Certificate;
@@ -49,7 +50,7 @@ public class CertificateLogic {
 					organization.getLocality(),
 					organization.getOrganization(),
 					user.getOrganzationalUnit(),
-					(user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")"),
+					UserLogic.getCommonName(user),
 					user.getEmailAddress(),
 					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
@@ -72,13 +73,17 @@ public class CertificateLogic {
 							subjectData.split("/")[6].split("=")[1],
 							subjectData.split("/")[7].split("=")[1],
 							formatter.parse(datesData
-									.split("notBefore=")[1]
-											.split("notAfter=")[0]),
+									.split("notBefore=")[1].split("notAfter=")[0]),
 							formatter.parse(datesData
-									.split("notBefore=")[1]
-											.split("notAfter=")[1])));
+									.split("notBefore=")[1].split("notAfter=")[1])));
 			
 			System.out.println(user.getCertificate());
+			
+			System.out.println("valid?            " + certificateValid(user.getCertificate()));			
+			System.out.println("valid in days:    " + getTimeLeftForCertificate(user.getCertificate(), TimeUnit.DAYS));
+			System.out.println("valid in hours:   " + getTimeLeftForCertificate(user.getCertificate(), TimeUnit.HOURS));
+			System.out.println("valid in minutes: " + getTimeLeftForCertificate(user.getCertificate(), TimeUnit.MINUTES));
+			System.out.println(getAppropriateTimeLeftForCertificate(user.getCertificate()));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -87,17 +92,50 @@ public class CertificateLogic {
 		// TODO: save Certificate to Database
 	}
 	
-	// TODO: implement certificateValid method
+	/**
+	 * Method which returns true if {@link Certificate} is valid.
+	 * 
+	 * @param certificate
+	 * @return boolean
+	 * @author Marius Boepple
+	 */
 	public static boolean certificateValid(Certificate certificate){
-		if (certificate == null) {
-			return false;
+		if (certificate != null) {
+			if (certificate.getExpirationDate().compareTo(new Date()) >= 0 ){
+				return true;
+			}
 		}
-		return true;
+		return false;		
 	}
 	
-	// TODO: implement daysLeftForCertificate method
-	public static int daysLeftForCertificate(Certificate certificate){
-		return 0;
+	/**
+	 * Method which returns time left for {@link Certificate} in appropriate time unit.
+	 * 
+	 * @param certificate
+	 * @return String
+	 * @author Marius Boepple, Jonathan Schlotz
+	 */
+	public static String getAppropriateTimeLeftForCertificate(Certificate certificate){
+		if (getTimeLeftForCertificate(certificate, TimeUnit.DAYS) < 1) {
+			if (getTimeLeftForCertificate(certificate, TimeUnit.HOURS) < 1) {
+				return getTimeLeftForCertificate(certificate, TimeUnit.MINUTES) + " Minuten";
+			}
+			return getTimeLeftForCertificate(certificate, TimeUnit.HOURS) + " Stunden";
+		}
+		return getTimeLeftForCertificate(certificate, TimeUnit.DAYS) + " Tage";
+	}
+	
+	/**
+	 * Method which returns time left for {@link Certificate}.
+	 * 
+	 * @param certificate
+	 * @param timeUnit TimeUnit.DAYS, TimeUnit.HOURS or TimeUnit.MINUTES
+	 * @return number of days, hours or minutes
+	 * @author Marius Boepple, Jonathan Schlotz
+	 */
+	public static int getTimeLeftForCertificate(Certificate certificate, TimeUnit timeUnit){
+		long diffInMillies = certificate.getExpirationDate().getTime() - new Date().getTime();
+	    return (int) timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
 
 	// TODO: implement revokeCertificate method

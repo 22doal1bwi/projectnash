@@ -28,6 +28,10 @@ public class UserLogic {
 		return false;
 	}
 	
+	public static String getCommonName(User user){
+		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
+	}
+	
 	// TODO: implement emailValid check-method
 	public static boolean emailIsValid(String emailAddress) {
 		return false;
