@@ -5,7 +5,6 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/x
 <persistence-unit name="simpleCertPU" transaction-type="RESOURCE_LOCAL">
 	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 	<class>de.projectnash.entities.Certificate</class>
-	<class>de.projectnash.entities.Organization</class>
 	<class>de.projectnash.entities.User</class>
 	<class>de.projectnash.entities.Session</class>
 		
