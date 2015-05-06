@@ -18,7 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="sessions")
 @NamedQueries({
-	@NamedQuery(name="QUERY_FIND_SESSION_BY_ID", query = "SELECT s FROM Session s WHERE s.ssnId = :ssnId")
+	@NamedQuery(name="QUERY_FIND_SESSION_BY_ID", query = "SELECT s FROM Session s WHERE s.ssnId = :ssnId"),
+	@NamedQuery(name="QUERY_REMOVE_SESSION_BY_SESSION", query = "DELETE FROM Session s WHERE s = :Session")
 })
 public class Session {
 

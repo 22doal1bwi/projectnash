@@ -6,6 +6,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import de.projectnash.entities.Session;
+import de.projectnash.entities.User;
 
 /**
  * This class provides all methods to store, load, remove and update {@link Session}s.
@@ -37,5 +38,13 @@ public class SessionPersistenceService {
 		TypedQuery<Session> query = em.createNamedQuery("QUERY_FIND_SESSION_BY_ID", Session.class);
 		query.setParameter("ssnId", ssnId);
 		return query.getSingleResult();
+	}
+	
+	public static void removeSession(Session sessionToRemove){
+		em.getTransaction().begin();
+    	TypedQuery<Session> query = em.createNamedQuery("QUERY_REMOVE_SESSION_BY_SESSION", Session.class);
+    	query.setParameter("Session", sessionToRemove);
+    	query.executeUpdate();
+    	em.getTransaction().commit();
 	}
 }
