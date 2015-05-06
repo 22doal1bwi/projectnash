@@ -58,7 +58,7 @@ import de.projectnash.entities.User;
 	 	            Cookie userName = new Cookie(MAIL_ADDRESS, emailAddress);
 	 	            userName.setMaxAge(30*60);
 	 	            response.addCookie(userName);
-	 	            response.sendRedirect("LoginSuccess.jsp");
+	 	            response.sendRedirect("intern/index.html");
 	 	            
 	 	        } else{
 	 	            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
