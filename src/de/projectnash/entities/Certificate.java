@@ -3,28 +3,85 @@ package de.projectnash.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.sun.istack.internal.NotNull;
+
 /**
  * This class provides a realistic {@link Certificate} with all its attributes.
  * 
- * @author Marius Boepple, Jonathan Schlotz
+ * @author Marius Boepple, Jonathan Schlotz, Silvio D'Alessandro
  *
  */
+@Entity
+@Table(name = "certificates")
+@NamedQueries({
+	@NamedQuery(name = "QUERY_FIND_CERTIFICATE_BY_CERTIFICATE_ID", query = "SELECT c FROM Certificate c WHERE c.certificateId = :certificateId"),
+	@NamedQuery(name = "QUERY_REMOVE_CERTIFICATE_BY_CERTIFICATE", query = "DELETE FROM Certificate c WHERE c = :Certificate")
+})
 public class Certificate implements Serializable {
-
 
 	private static final long serialVersionUID = -292148093669894026L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "crt_id", nullable = false)
 	private int certificateId;
+	
+	@Column(name = "crt_file", nullable = false)
 	private byte[] certificateFile;
+	
+	@Column(name = "crt_country", nullable = false)
 	private String countryName;
+	
+	@Column(name = "crt_state", nullable = false)
 	private String state;
+	
+	@Column(name = "crt_locality", nullable = false)
 	private String localityName;
+	
+	@Column(name = "crt_organization", nullable = false)
 	private String organizationName;
+	
+	@Column(name = "crt_organization_unit", nullable = false)
 	private String organizationalUnit;
+	
+	@Column(name = "crt_common_name", nullable = false)
 	private String commonName;
+	
+	@Column(name = "crt_email_address", nullable = false)
 	private String emailAddress;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "crt_initialization_date", nullable = false)
 	private Date initializationDate;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "crt_expiration_date", nullable = false)
 	private Date expirationDate;
+	
+	@Column(name = "crt_revoked_yn", nullable = false)
+	private boolean revoked;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "crt_created_on", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable= true, updatable= false)
+	private Date creationDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "crt_modified_on", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", insertable= false, updatable= true)
+	private Date modificationDate;
 	
 	/**
 	 * This constructor is only needed for JPA.
@@ -33,13 +90,12 @@ public class Certificate implements Serializable {
 		
 	}
 	
-	public Certificate(int certificateId, byte[] certificateFile,
+	public Certificate(byte[] certificateFile,
 			String countryName, String state, String localityName,
 			String organizationName, String organizationalUnit,
 			String commonName, String emailAddress, Date initializationDate,
 			Date expirationDate) {
 		super();
-		this.certificateId = certificateId;
 		this.certificateFile = certificateFile;
 		this.countryName = countryName;
 		this.state = state;

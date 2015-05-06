@@ -14,9 +14,12 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import de.projectnash.application.util.CertificateUtility;
+import de.projectnash.databackend.CertificatePersistenceService;
+import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
+
 
 /**
  * This class provides all methods to handle the {@link Certificate} request, creation, extension and revocation for an specific {@link User}.
@@ -36,25 +39,24 @@ public class CertificateLogic {
 	public static void main(String[] args) throws ParseException {
 		User tempUser = new User(0001, "Tobias", "Burger",
 				"CI", "tobias.burger@simpleCert.com", "Eierkuchen4");
-
-		createCertificate(tempUser);
+		User tempUser2 = new User(0002, "Silvio", "D'Alessandro", "Coder", "silvio.dalessandro@simpleCert111.com", "Eierkuchen5");
+		
+		
+		createCertificate(tempUser2);
+		
 		
 		/**
 		 * Tests the connection to the database.
 		 */
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpleCertPU");
-		EntityManager em = emf.createEntityManager();
+		System.out.println(UserPersistenceService.loadAllUsers());
 		
-		@SuppressWarnings("unchecked")
-		TypedQuery<User> query =  (TypedQuery<User>) em.createNativeQuery("Select * from Users", User.class);
 		
-		query.getResultList().forEach(user -> System.out.println(user.toString()));
 	}
 
 	public static void createCertificate(User user) throws ParseException {
 
 		// TODO: get data of User from Database
-				
+		
 		Organization organization = new Organization();
 		
 		// create Certificate with utility class
@@ -65,7 +67,7 @@ public class CertificateLogic {
 					organization.getState(),
 					organization.getLocality(),
 					organization.getOrganization(),
-					user.getOrganzationalUnit(),
+					user.getDepartment(),
 					UserLogic.getCommonName(user),
 					user.getEmailAddress(),
 					keyData);
@@ -77,21 +79,22 @@ public class CertificateLogic {
 			//Format date String to Date() object
 			DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
 			
-			user.setCertificate(
-					new Certificate(
-							1, //TODO: get latest certificateID from Database for new certificateID
-							crtData,
-							subjectData.split("/")[1].split("=")[1],
-							subjectData.split("/")[2].split("=")[1],
-							subjectData.split("/")[3].split("=")[1],
-							subjectData.split("/")[4].split("=")[1],
-							subjectData.split("/")[5].split("=")[1],
-							subjectData.split("/")[6].split("=")[1],
-							subjectData.split("/")[7].split("=")[1],
-							formatter.parse(datesData
-									.split("notBefore=")[1].split("notAfter=")[0]),
-							formatter.parse(datesData
-									.split("notBefore=")[1].split("notAfter=")[1])));
+			 //TODO: get latest certificateID from Database for new certificateID
+			user.setCertificate(new Certificate(
+					crtData,
+					subjectData.split("/")[1].split("=")[1],
+					subjectData.split("/")[2].split("=")[1],
+					subjectData.split("/")[3].split("=")[1],
+					subjectData.split("/")[4].split("=")[1],
+					subjectData.split("/")[5].split("=")[1],
+					subjectData.split("/")[6].split("=")[1],
+					subjectData.split("/")[7].split("=")[1],
+					formatter.parse(datesData
+							.split("notBefore=")[1].split("notAfter=")[0]),
+					formatter.parse(datesData
+							.split("notBefore=")[1].split("notAfter=")[1])));
+			UserPersistenceService.updateUser(user);
+					
 			
 			System.out.println(user.getCertificate());
 			

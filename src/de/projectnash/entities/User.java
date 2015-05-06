@@ -1,17 +1,29 @@
 package de.projectnash.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.ejb.EJB;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.eclipse.persistence.jpa.config.Cascade;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
+
+import com.sun.istack.internal.NotNull;
 
 /**
  * This class provides a realistic {@link User} with all its attributes.
@@ -21,8 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "users")
-@XmlRootElement
 @NamedQueries({
+	@NamedQuery(name = "QUERY_FIND_USER_BY_PERSONAL_ID", query = "SELECT u FROM User u WHERE u.personalId = :personalId"),
+	@NamedQuery(name = "QUERY_FIND_ALL_USERS", query = "SELECT u FROM User u"),
+	@NamedQuery(name = "QUERY_REMOVE_USER_BY_USER", query = "DELETE FROM User u WHERE u = :User")
 })
 
 public class User implements Serializable {
@@ -30,26 +44,36 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -5634052735211088406L;
 
 	@Id
-	@Column(name="PERSONAL_ID")
+	@NotNull
+	@Column(name="usr_id")
 	private int personalId;
 	
-	@Column(name="FIRST_NAME")
+	@Column(name="usr_first_name")
 	private String firstName;
 	
-	@Column(name="LAST_NAME")
+	@Column(name="usr_last_name")
 	private String lastName;
 	
-	@Column(name="MAIL_ADDRESS")
+	@Column(name="usr_email_address")
 	private String emailAddress;
 	
-	@Column(name="ORGA_UNIT")
-	private String organzationalUnit;
+	@Column(name="usr_department")
+	private String department;
 	
-	@Column(name="PASSWORD")
+	@Column(name="usr_password")
 	private String password;
 	
-	@Column(name="CERTIFICATE")
+	@JoinColumn
+	@OneToOne(cascade = CascadeType.ALL)
 	private Certificate certificate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="usr_created_on", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable= true, updatable= false)
+	private Date creationDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="usr_modified_on", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", insertable= false, updatable= true)
+	private Date modificationDate;
 
 	/**
 	 * This constructor is only needed for JPA.
@@ -61,14 +85,14 @@ public class User implements Serializable {
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.
 	 */
-	public User(int personalId, String firstName, String lastName, String organzationalUnit, 
+	public User(int personalId, String firstName, String lastName, String department, 
 			String emailAddress, String password) {
 		super();
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
-		this.organzationalUnit = organzationalUnit;
+		this.department = department;
 		this.password = password;
 	}
 	
@@ -104,12 +128,12 @@ public class User implements Serializable {
 		this.emailAddress = emailAddress;
 	}
 
-	public String getOrganzationalUnit() {
-		return organzationalUnit;
+	public String getDepartment() {
+		return department;
 	}
 
-	public void setOrganzationalUnit(String organzationalUnit) {
-		this.organzationalUnit = organzationalUnit;
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 
 	public String getPassword() {
@@ -124,12 +148,12 @@ public class User implements Serializable {
 		return certificate;
 	}
 
-	public void setCertificate(Certificate certificate) {
-		this.certificate = certificate;
+	public void setCertificate(Certificate certificateId) {
+		this.certificate = certificateId;
 	}
 	
 	@Override
 	public String toString(){
-		return this.lastName + ", " + this.firstName + " (Personal-ID: " + this.personalId + ") from " + this.organzationalUnit + " (E-Mail: " + this.emailAddress + ")"; 
+		return this.lastName + ", " + this.firstName + " (Personal-ID: " + this.personalId + ") from " + this.department + " (E-Mail: " + this.emailAddress + ")"; 
 	}
 }
