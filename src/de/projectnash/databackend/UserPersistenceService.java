@@ -36,6 +36,17 @@ public final class UserPersistenceService {
     
     /**
      * Loads a {@link User} from the database.
+     * @param emailAddress The {@link User}'s email address on basis which the {@link User} will be loaded.
+     * @return The specific {@link User}.
+     */
+    public static User loadUser (String emailAddress) {
+    	TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_USER_BY_EMAIL_ADDRESS", User.class);
+    	query.setParameter("emailAddress", emailAddress);
+    	return query.getSingleResult();
+    }
+    
+    /**
+     * Loads a {@link User} from the database.
      * @param personalId The {@link User}'s personal id on basis which the {@link User} will be loaded.
      * @return The specific {@link User}.
      */

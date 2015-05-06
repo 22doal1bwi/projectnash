@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "users")
 @NamedQueries({
+	@NamedQuery(name = "QUERY_FIND_USER_BY_EMAIL_ADDRESS", query = "SELECT u FROM User u WHERE u.emailAddress = :emailAddress"),
 	@NamedQuery(name = "QUERY_FIND_USER_BY_PERSONAL_ID", query = "SELECT u FROM User u WHERE u.personalId = :personalId"),
 	@NamedQuery(name = "QUERY_FIND_ALL_USERS", query = "SELECT u FROM User u"),
 	@NamedQuery(name = "QUERY_REMOVE_USER_BY_USER", query = "DELETE FROM User u WHERE u = :User")
