@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 /**
  * This class provides a realistic {@link User} with all its attributes.
  * 
- * @author Silvio D'Alessandro, Marius Boepple
+ * @author Silvio D'Alessandro, Marius Boepple, Artur Ermisch
  *
  */
 @Entity
