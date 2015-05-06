@@ -1,5 +1,6 @@
 package de.projectnash.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,8 +9,11 @@ import java.util.Date;
  * @author Marius Boepple, Jonathan Schlotz
  *
  */
-public class Certificate {
+public class Certificate implements Serializable {
 
+
+	private static final long serialVersionUID = -292148093669894026L;
+	
 	private int certificateId;
 	private byte[] certificateFile;
 	private String countryName;
@@ -21,6 +25,13 @@ public class Certificate {
 	private String emailAddress;
 	private Date initializationDate;
 	private Date expirationDate;
+	
+	/**
+	 * This constructor is only needed for JPA.
+	 */
+	protected Certificate(){
+		
+	}
 	
 	public Certificate(int certificateId, byte[] certificateFile,
 			String countryName, String state, String localityName,

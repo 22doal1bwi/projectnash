@@ -7,6 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+
 import de.projectnash.application.util.CertificateUtility;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
@@ -32,6 +37,17 @@ public class CertificateLogic {
 				"CI", "tobias.burger@simpleCert.com", "Eierkuchen4");
 
 		createCertificate(tempUser);
+		
+		/**
+		 * Tests the connection to the database.
+		 */
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpleCertPU");
+		EntityManager em = emf.createEntityManager();
+		
+		@SuppressWarnings("unchecked")
+		TypedQuery<User> query =  (TypedQuery<User>) em.createNativeQuery("Select * from Users", User.class);
+		
+		query.getResultList().forEach(user -> System.out.println(user.toString()));
 	}
 
 	public static void createCertificate(User user) throws ParseException {

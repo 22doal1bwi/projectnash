@@ -1,21 +1,63 @@
 package de.projectnash.entities;
 
+import java.io.Serializable;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * This class provides a realistic {@link User} with all its attributes.
  * 
  * @author Silvio D'Alessandro, Marius Boepple
  *
  */
-public class User {
+@Entity
+@Table(name = "users")
+@XmlRootElement
+@NamedQueries({
+})
 
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = -5634052735211088406L;
+
+	@Id
+	@Column(name="PERSONAL_ID")
 	private int personalId;
+	
+	@Column(name="FIRST_NAME")
 	private String firstName;
+	
+	@Column(name="LAST_NAME")
 	private String lastName;
+	
+	@Column(name="MAIL_ADDRESS")
 	private String emailAddress;
+	
+	@Column(name="ORGA_UNIT")
 	private String organzationalUnit;
+	
+	@Column(name="PASSWORD")
 	private String password;
+	
+	@Column(name="CERTIFICATE")
 	private Certificate certificate;
 
+	/**
+	 * This constructor is only needed for JPA.
+	 */
+	protected User() {
+		
+	}
+	
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.
 	 */
@@ -84,5 +126,10 @@ public class User {
 
 	public void setCertificate(Certificate certificate) {
 		this.certificate = certificate;
+	}
+	
+	@Override
+	public String toString(){
+		return this.lastName + ", " + this.firstName + " (Personal-ID: " + this.personalId + ") from " + this.organzationalUnit + " (E-Mail: " + this.emailAddress + ")"; 
 	}
 }
