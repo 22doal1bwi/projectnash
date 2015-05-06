@@ -6,15 +6,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.util.CertificateUtility;
-import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
-import de.projectnash.entities.Session;
 import de.projectnash.entities.User;
 
 
