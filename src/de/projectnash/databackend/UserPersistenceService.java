@@ -16,13 +16,9 @@ import de.projectnash.entities.User;
  */
 public final class UserPersistenceService {
 	
-	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpleCertPU");;
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpleCertPU");
 	
 	private static EntityManager em = emf.createEntityManager();
-
-	public UserPersistenceService(){
-		
-	}
 	
 	/**
 	 * Stores a new {@link User} in the database.
