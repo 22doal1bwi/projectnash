@@ -36,8 +36,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -5634052735211088406L;
 
 	@Id
-	@NotNull
-	@Column(name="usr_id")
+	@Column(name="usr_id", nullable = false)
 	private int personalId;
 	
 	@Column(name="usr_first_name", nullable = false)
