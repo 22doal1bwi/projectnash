@@ -29,37 +29,49 @@ import de.projectnash.entities.User;
 	    	 
 
 		private static final long serialVersionUID = 4192643567772796818L;
+		
+		private static final String MAIL_ADDRESS = "emailAddress";
 
 		protected void doPost(HttpServletRequest request,
 	            HttpServletResponse response) throws ServletException, IOException {
 	 
-	        // get request parameters for userID and password
-	        String emailAddress = request.getParameter("emailAddress");
+	        /** get request parameters for userID and password */
+	        String emailAddress = request.getParameter(MAIL_ADDRESS);
 	        String password = request.getParameter("password");
 	        
 	        User loadedUser = UserPersistenceService.loadUser(emailAddress);
 	        
-	        if(loadedUser!=null){
-	            HttpSession httpSession = request.getSession();
-	            httpSession.setAttribute("emailAddress", loadedUser.getFirstName());
-	            //setting session to expiry in 30 mins
-	            httpSession.setMaxInactiveInterval(30*60);
-	            httpSession.getId();
-	            
-	            Session session = new Session(loadedUser, httpSession.getId());
-	            SessionPersistenceService.storeSession(session);
-	            
-	            Cookie userName = new Cookie("emailAddress", emailAddress);
-	            userName.setMaxAge(30*60);
-	            response.addCookie(userName);
-	            response.sendRedirect("LoginSuccess.jsp");
-	        }else{
-	            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
+	        if(loadedUser != null){
+	        	
+	        	 if(loadedUser.getPassword().equals(password)){
+	        		 
+	        		HttpSession httpSession = request.getSession();
+	 	            httpSession.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());
+	 	            
+	 	            /** setting session to expiry in 30 mins */
+	 	            httpSession.setMaxInactiveInterval(30*60);
+	 	            httpSession.getId();
+	 	            
+	 	            Session session = new Session(loadedUser, httpSession.getId());
+	 	            SessionPersistenceService.storeSession(session);
+	 	            
+	 	            Cookie userName = new Cookie(MAIL_ADDRESS, emailAddress);
+	 	            userName.setMaxAge(30*60);
+	 	            response.addCookie(userName);
+	 	            response.sendRedirect("LoginSuccess.jsp");
+	 	            
+	 	        } else{
+	 	            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
+	 	            PrintWriter out= response.getWriter();
+	 	            out.println("<font color=red>Your password is incorrect.</font>");
+	 	            rd.include(request, response);
+	 	        }
+	       } else {
+	    	    RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
 	            PrintWriter out= response.getWriter();
-	            out.println("<font color=red>Either user name or password is wrong.</font>");
+	            out.println("<font color=red>Your E-Mail-Address is incorrect.</font>");
 	            rd.include(request, response);
-	        }
-	 
+	       }
 	    }
 	 
 	}
