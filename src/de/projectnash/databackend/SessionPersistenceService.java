@@ -40,6 +40,10 @@ public class SessionPersistenceService {
 		return query.getSingleResult();
 	}
 	
+	/**
+     * Removes a {@link Session} from the database.
+     * @param sessionToRemove The {@link Session} that will be removed.
+     */
 	public static void removeSession(Session sessionToRemove){
 		em.getTransaction().begin();
     	TypedQuery<Session> query = em.createNamedQuery("QUERY_REMOVE_SESSION_BY_SESSION", Session.class);
