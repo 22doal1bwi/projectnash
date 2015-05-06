@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import de.projectnash.entities.Certificate;
-import de.projectnash.entities.User;
 
 /**
  * This class provides all methods that represents standardized mechanisms in
