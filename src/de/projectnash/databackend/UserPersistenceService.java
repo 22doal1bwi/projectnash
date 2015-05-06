@@ -40,8 +40,9 @@ public final class UserPersistenceService {
      * @return The specific {@link User}.
      */
     public static User loadUser (String emailAddress) {
+    	String lowerEmailAddress = emailAddress.toLowerCase();
     	TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_USER_BY_EMAIL_ADDRESS", User.class);
-    	query.setParameter("emailAddress", emailAddress);
+    	query.setParameter("emailAddress", lowerEmailAddress);
     	return query.getSingleResult();
     }
     

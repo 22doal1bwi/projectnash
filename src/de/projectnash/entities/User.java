@@ -79,7 +79,7 @@ public class User implements Serializable {
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.emailAddress = emailAddress;
+		this.emailAddress = emailAddress.toLowerCase();
 		this.department = department;
 		this.password = password;
 	}
@@ -113,7 +113,7 @@ public class User implements Serializable {
 	}
 
 	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+		this.emailAddress = emailAddress.toLowerCase();
 	}
 
 	public String getDepartment() {

@@ -34,19 +34,19 @@ public class CertificateLogic {
 	 * TODO: delete method when ready with testing
 	 */
 	public static void main(String[] args) throws ParseException {
-		User tempUser = new User(0002, "Tobias", "Burger",
-				"CI", "silvio.dalessandro@simpleCert111.com", "Eierkuchen4");
+		User tempUser = new User(0002, "Artur", "Ermisch",
+				"CI", "artur.ermisch@simpleCert.com", "Eierkuchen2");
 		User tempUser2 = new User(0001, "Silvio", "D'Alessandro", "Coder", "silvio.dalessandro@simpleCert111.com", "Eierkuchen5");
 		
-		UserPersistenceService.storeUser(tempUser2);
-		createCertificate(tempUser2);
+		UserPersistenceService.storeUser(tempUser);
+		createCertificate(tempUser);
 		
 		/**
 		 * Tests the connection to the database.
 		 */
 		System.out.println(UserPersistenceService.loadAllUsers());
-		Session s = new Session(tempUser2, UUID.randomUUID().toString());
-		SessionPersistenceService.storeSession(s);
+		//Session s = new Session(tempUser, UUID.randomUUID().toString());
+		//SessionPersistenceService.storeSession(s);
 		
 		
 	}

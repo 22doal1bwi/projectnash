@@ -55,21 +55,21 @@
 
     <div class="container">
 	<div id="login_container">
-      <form class="form-signin">
+      <form class="form-signin" action="LoginServlet" method="post">
         <!--<h2 class="form-signin-heading">Please sign in</h2>-->
 		<center><img src="img/logo_text.png" style="width: 140px;"/></center><br />
         <label for="inputEmail" class="sr-only">E-Mail-Address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <input type="email" id="inputEmail" name="emailAddress" class="form-control" placeholder="Email address" required autofocus>
         <br />
 		<label for="inputPassword" class="sr-only">Passwort</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
         <div class="checkbox">
           <!--<label>
             <input type="checkbox" value="remember-me"> Remember me
           </label>-->
         </div>
-        <!--<button class="btn btn-lg btn-red btn-block" type="submit">Einloggen</button>-->
-        <a class="btn btn-lg btn-red btn-block" href="intern/index.html" role="button">Einloggen</a>
+        <button class="btn btn-lg btn-red btn-block" type="submit">Einloggen</button>
+        <!-- input class="btn btn-lg btn-red btn-block" type="submit" role="button">Einloggen</input>-->
      	 </form>
 	 <br />
 	 <hr style="height: 1px; background: #c6c6c6;">

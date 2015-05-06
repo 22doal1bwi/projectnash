@@ -1,5 +1,6 @@
 package de.projectnash.application;
 
+import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.User;
 
 /**
@@ -19,11 +20,12 @@ public class UserLogic {
 				personalId,
 				firstName,
 				lastName,
-				emailAddress,
 				organzationalUnit,
+				emailAddress,
 				password);
 
-		// TODO: save User to Database
+		// save User to Database
+		UserPersistenceService.storeUser(tempUser);
 
 		return false;
 	}
