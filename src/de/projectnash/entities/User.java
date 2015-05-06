@@ -3,13 +3,9 @@ package de.projectnash.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.ejb.EJB;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -18,10 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.eclipse.persistence.jpa.config.Cascade;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 import com.sun.istack.internal.NotNull;
 
