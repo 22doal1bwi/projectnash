@@ -56,9 +56,16 @@ public final class UserPersistenceService {
      * @return The specific {@link User}.
      */
     public static User loadUser (int personalId) {
+    	try{
+    		
+    	
     	TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_USER_BY_PERSONAL_ID", User.class);
     	query.setParameter("personalId", personalId);
     	return query.getSingleResult();
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return null;
     }
     
     /**
