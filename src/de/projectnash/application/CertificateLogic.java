@@ -9,13 +9,7 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-
 import de.projectnash.application.util.CertificateUtility;
-import de.projectnash.databackend.CertificatePersistenceService;
 import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
@@ -45,7 +39,6 @@ public class CertificateLogic {
 		User tempUser2 = new User(0001, "Silvio", "D'Alessandro", "Coder", "silvio.dalessandro@simpleCert111.com", "Eierkuchen5");
 		
 		UserPersistenceService.storeUser(tempUser2);
-		
 		createCertificate(tempUser2);
 		
 		/**
