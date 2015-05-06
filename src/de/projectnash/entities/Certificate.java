@@ -86,9 +86,7 @@ public class Certificate implements Serializable {
 	/**
 	 * This constructor is only needed for JPA.
 	 */
-	protected Certificate(){
-		
-	}
+	protected Certificate(){}
 	
 	public Certificate(byte[] certificateFile,
 			String countryName, String state, String localityName,

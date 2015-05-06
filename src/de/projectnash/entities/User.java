@@ -48,19 +48,19 @@ public class User implements Serializable {
 	@Column(name="usr_id")
 	private int personalId;
 	
-	@Column(name="usr_first_name")
+	@Column(name="usr_first_name", nullable = false)
 	private String firstName;
 	
-	@Column(name="usr_last_name")
+	@Column(name="usr_last_name", nullable = false)
 	private String lastName;
 	
-	@Column(name="usr_email_address")
+	@Column(name="usr_email_address", nullable = false, unique = true)
 	private String emailAddress;
 	
-	@Column(name="usr_department")
+	@Column(name="usr_department", nullable = false)
 	private String department;
 	
-	@Column(name="usr_password")
+	@Column(name="usr_password", nullable = false)
 	private String password;
 	
 	@JoinColumn
@@ -78,9 +78,7 @@ public class User implements Serializable {
 	/**
 	 * This constructor is only needed for JPA.
 	 */
-	protected User() {
-		
-	}
+	protected User() {}
 	
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.

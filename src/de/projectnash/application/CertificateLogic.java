@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityManager;
@@ -15,9 +16,11 @@ import javax.persistence.TypedQuery;
 
 import de.projectnash.application.util.CertificateUtility;
 import de.projectnash.databackend.CertificatePersistenceService;
+import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
+import de.projectnash.entities.Session;
 import de.projectnash.entities.User;
 
 
@@ -37,18 +40,20 @@ public class CertificateLogic {
 	 * TODO: delete method when ready with testing
 	 */
 	public static void main(String[] args) throws ParseException {
-		User tempUser = new User(0001, "Tobias", "Burger",
-				"CI", "tobias.burger@simpleCert.com", "Eierkuchen4");
-		User tempUser2 = new User(0002, "Silvio", "D'Alessandro", "Coder", "silvio.dalessandro@simpleCert111.com", "Eierkuchen5");
+		User tempUser = new User(0002, "Tobias", "Burger",
+				"CI", "silvio.dalessandro@simpleCert111.com", "Eierkuchen4");
+		User tempUser2 = new User(0001, "Silvio", "D'Alessandro", "Coder", "silvio.dalessandro@simpleCert111.com", "Eierkuchen5");
 		
+		UserPersistenceService.storeUser(tempUser2);
 		
 		createCertificate(tempUser2);
-		
 		
 		/**
 		 * Tests the connection to the database.
 		 */
 		System.out.println(UserPersistenceService.loadAllUsers());
+		Session s = new Session(tempUser2, UUID.randomUUID().toString());
+		SessionPersistenceService.storeSession(s);
 		
 		
 	}

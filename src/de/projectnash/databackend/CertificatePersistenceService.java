@@ -14,19 +14,15 @@ import de.projectnash.entities.Certificate;
  */
 public class CertificatePersistenceService {
 
-private EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpleCertPU");;
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpleCertPU");
 	
-	private EntityManager em;
+	private static EntityManager em = emf.createEntityManager();
 
-	public CertificatePersistenceService() {
-		em = emf.createEntityManager();
-	}
-	
 	/**
 	 * Stores a new {@link Certificate} in the database.
 	 * @param certificate The {@link Certificate} that will be stored.
 	 */
-	public void storeCertificate (Certificate certificate) {
+	public static void storeCertificate (Certificate certificate) {
 		em.getTransaction().begin();
 		em.persist(certificate);
 		em.getTransaction().commit();
@@ -37,7 +33,7 @@ private EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpl
      * @param certificateId The {@link Certificate}'s id on basis which the {@link Certificate} will be loaded.
      * @return The specific {@link Certificate}.
      */
-    public Certificate loadCertificate (int certificateId) {
+    public static Certificate loadCertificate (int certificateId) {
     	TypedQuery<Certificate> query = em.createNamedQuery("QUERY_FIND_CERTIFICATE_BY_CERTIFICATE_ID", Certificate.class);
     	query.setParameter("certificateId", certificateId);
     	return query.getSingleResult();
@@ -47,7 +43,7 @@ private EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpl
      * Updates a {@link Certificate}.
      * @param certificateToUpdate The {@link Certificate} that will be updated.
      */
-    public void updateCertificate(Certificate certificateToUpdate){
+    public static void updateCertificate(Certificate certificateToUpdate){
     	em.getTransaction().begin();
     	em.merge(certificateToUpdate);
     	em.getTransaction().commit();
@@ -57,7 +53,7 @@ private EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpl
      * Removes a {@link Certificate} from the database.
      * @param certificateToRemove The {@link Certificate} that will be removed.
      */
-    public void removeCertificate (Certificate certificateToRemove){
+    public static void removeCertificate (Certificate certificateToRemove){
     	em.getTransaction().begin();
     	TypedQuery<Certificate> query = em.createNamedQuery("QUERY_REMOVE_CERTIFICATE_BY_CERTIFICATE", Certificate.class);
     	query.setParameter("Certificate", certificateToRemove);

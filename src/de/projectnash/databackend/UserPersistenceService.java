@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import de.projectnash.entities.Certificate;
 import de.projectnash.entities.User;
 
 /**
@@ -75,12 +74,6 @@ public final class UserPersistenceService {
     	query.setParameter("User", userToRemove);
     	query.executeUpdate();
     	em.getTransaction().commit();
-    }
-    
-    public static Certificate loadCertificateForUser(int certificateId){
-    	TypedQuery<Certificate> query = em.createNamedQuery("QUERY_FIND_CERTIFICATE_FOR_USER", Certificate.class);
-    	query.setParameter("certificateId", certificateId);
-    	return query.getSingleResult();
     }
     
     public EntityManagerFactory getEmf() {
