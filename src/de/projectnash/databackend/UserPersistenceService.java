@@ -11,7 +11,7 @@ import de.projectnash.entities.User;
 
 /**
  * This class provides all methods to store, load, remove and update {@link User}s.
- * @author Silvio D'Alessandro
+ * @author Silvio D'Alessandro, Artur Ermisch
  *
  */
 public final class UserPersistenceService {
