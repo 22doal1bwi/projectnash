@@ -63,6 +63,10 @@ public class UserLogic {
 		return UserPersistenceService.loadUser(personalId) != null;
 	}
 	
+	public static boolean hasValidCertificate(User user){
+		return CertificateLogic.certificateIsValid(user.getCertificate());
+	}
+	
 	// TODO: implement changePassword method
 	public static boolean changePassword() {
 		return false;
