@@ -48,7 +48,7 @@ public class CertificateLogic {
 		
 	}
 
-	public static void createCertificate(User user) throws ParseException {
+	public static boolean createCertificate(User user) throws ParseException {
 
 		// TODO: get data of User from Database
 		
@@ -88,6 +88,7 @@ public class CertificateLogic {
 							.split("notBefore=")[1].split("notAfter=")[0]),
 					formatter.parse(datesData
 							.split("notBefore=")[1].split("notAfter=")[1])));
+			
 			UserPersistenceService.updateUser(user);
 					
 			
@@ -102,6 +103,7 @@ public class CertificateLogic {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return false;
 
 		// TODO: save Certificate to Database
 	}

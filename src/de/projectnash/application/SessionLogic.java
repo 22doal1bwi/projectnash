@@ -1,0 +1,23 @@
+package de.projectnash.application;
+
+import de.projectnash.databackend.SessionPersistenceService;
+import de.projectnash.entities.Session;
+import de.projectnash.entities.User;
+
+/**
+ * This class provides all methods to handle the {@link Session}.
+ * 
+ * @author Marius Boepple
+ *
+ */
+public class SessionLogic {
+	
+	public static boolean createSession(User user, String ssnId) {
+		
+		Session session = new Session(user, ssnId);
+		SessionPersistenceService.storeSession(session);
+		
+		return false;
+	}
+
+}
