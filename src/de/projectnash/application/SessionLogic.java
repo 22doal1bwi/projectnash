@@ -20,4 +20,8 @@ public class SessionLogic {
 		return false;
 	}
 
+	public static void removeSession(String ssnId){
+		SessionPersistenceService.removeSession(SessionPersistenceService.loadSession(ssnId));
+	}
+
 }

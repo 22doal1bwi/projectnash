@@ -35,10 +35,6 @@ public class UserLogic {
 		return UserPersistenceService.loadUser(eMailAddress);	
 	}
 	
-	public static void removeSession(String ssnId){
-		SessionPersistenceService.removeSession(SessionPersistenceService.loadSession(ssnId));
-	}
-	
 	public static String getCommonName(User user){
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
 	}
