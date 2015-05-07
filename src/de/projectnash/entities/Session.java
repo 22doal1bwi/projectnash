@@ -45,5 +45,19 @@ public class Session {
 		this.user = user;
 		this.ssnId = ssnId;
 	}
+
+	/**
+	 * @return the id of a session
+	 */
+	public String getSsnId() {
+		return ssnId;
+	}
+
+	/**
+	 * @return the user linked to this session
+	 */
+	public User getUser() {
+		return user;
+	}
 	
 }

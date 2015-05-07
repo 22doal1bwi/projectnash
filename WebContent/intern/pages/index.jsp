@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<%@page import="de.projectnash.entities.User"%>
+<%@page import="de.projectnash.entities.Session"%>
+<%@page import="de.projectnash.databackend.SessionPersistenceService"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
 <head>
@@ -40,6 +45,28 @@
 
 <body>
 
+	<%
+		//allow access only if session exists if not, redirect to login
+		User user = null;
+		String sessionID = null;
+		if (session.getAttribute("emailAddress") == null) {
+			response.sendRedirect("login.html");
+		} else {
+			String userName = null;
+			
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("JSESSIONID")){
+						sessionID = cookie.getValue();
+					}
+				}
+				Session appSession = SessionPersistenceService.loadSession(sessionID);
+				user = appSession.getUser();
+			}
+		}
+	%>
+
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -61,7 +88,7 @@
                  
                 <!-- /.dropdown -->
 				 <li>
-                     <a href="index.html"><i class="fa fa-fw"></i> Max Mustermann</a>
+                     <a href="index.html"><i class="fa fa-fw"></i> <%=user.getFirstName()%> <%=user.getLastName()%></a>
                  </li>
 				 <li>
                     <img class="displayed" src="assets/img/find_user.png" style="width:20px;"/>
@@ -71,7 +98,9 @@
                         <a href="index.html"><i class="fa fa-gear fa-2x"></i></a>
                     </li>
 					<li>
-                        <a href="index.html"><i class="fa fa-sign-out fa-2x"></i></a>
+					<form action="../../LogoutServlet" method="post">
+                        <button class="fa fa-sign-out fa-2x" type="submit"></button>
+                    </form>
                     </li>
                 
                 
