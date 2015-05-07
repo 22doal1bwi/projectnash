@@ -1,5 +1,6 @@
 package de.projectnash.application;
 
+import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.User;
 
@@ -7,7 +8,7 @@ import de.projectnash.entities.User;
  * 
  * This class provides all methods to handle the {@link User}.
  * 
- * @author Marius Boepple, Jonathan Schlotz
+ * @author Marius Boepple, Jonathan Schlotz, Silvio D'Alessandro
  *
  */
 public class UserLogic {
@@ -28,6 +29,14 @@ public class UserLogic {
 		UserPersistenceService.storeUser(tempUser);
 
 		return false;
+	}
+	
+	public static User loadUser(String eMailAddress){
+		return UserPersistenceService.loadUser(eMailAddress);	
+	}
+	
+	public static void removeSession(String ssnId){
+		SessionPersistenceService.removeSession(SessionPersistenceService.loadSession(ssnId));
 	}
 	
 	public static String getCommonName(User user){

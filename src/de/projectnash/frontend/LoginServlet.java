@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 
 
 
+
 	import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import de.projectnash.application.UserLogic;
 import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Session;
@@ -40,10 +42,10 @@ import de.projectnash.entities.User;
 	        String password = request.getParameter("password");
 	        
 	        /** try to load user from database */
-	        User loadedUser = UserPersistenceService.loadUser(emailAddress);
+	        User loadedUser = UserLogic.loadUser(emailAddress);
 	        
 	        /** check if a user was recevied and password is correct */
-	        if(loadedUser != null&&loadedUser.getPassword().equals(password)){
+	        if(loadedUser != null && loadedUser.getPassword().equals(password)){
 
 	        	HttpSession httpSession = request.getSession();
 	        	httpSession.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());

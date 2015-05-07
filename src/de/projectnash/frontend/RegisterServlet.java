@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jdk.nashorn.internal.codegen.Emitter;
 import de.projectnash.application.UserLogic;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.User;
@@ -30,23 +31,28 @@ public class RegisterServlet extends HttpServlet {
 		String emailAddress = req.getParameter("emailAddress");
 		String password = req.getParameter("password");
 		
-		User checkUser = UserPersistenceService.loadUser(emailAddress);
+		User checkUser = UserLogic.loadUser(emailAddress);
 		int persId = Integer.parseInt(personalId);
 		
 		if(checkUser != null){
+			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.html");
             PrintWriter out= resp.getWriter();
             out.println("<font color=red>Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre E-Mail-Adresse.</font>");
             rd.include(req, resp);
+            
 		} else if (UserPersistenceService.loadUser(persId) != null) {
+			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.html");
             PrintWriter out= resp.getWriter();
             out.println("<font color=red>Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre Personalnummer.</font>");
             rd.include(req, resp);
 			
 		}else {
+			
 			UserLogic.createUser(persId, firstName, lastName, emailAddress, organizationalUnit, password);
 			resp.sendRedirect("login.html");
+			
 		}
 		
 		

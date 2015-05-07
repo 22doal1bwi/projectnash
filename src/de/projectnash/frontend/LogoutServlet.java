@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import de.projectnash.application.UserLogic;
  
 /**
  * Servlet implementation class LogoutServlet
@@ -19,11 +21,13 @@ public class LogoutServlet extends HttpServlet {
         
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
+        String actualCookie = "";
         Cookie[] cookies = request.getCookies();
         if(cookies != null){
         for(Cookie cookie : cookies){
             if(cookie.getName().equals("JSESSIONID")){
                 System.out.println("JSESSIONID="+cookie.getValue());
+                actualCookie = cookie.getValue();
                 break;
             }
         }
@@ -34,6 +38,7 @@ public class LogoutServlet extends HttpServlet {
         if(session != null){
             session.invalidate();
         }
+        UserLogic.removeSession(actualCookie);
         response.sendRedirect("login.html");
     }
  
