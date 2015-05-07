@@ -29,7 +29,7 @@
 				Session appSession = SessionPersistenceService.loadSession(sessionID);
 				user = appSession.getUser();
 			}
-		}
+		
 	%>
 	<h3>Hi <%=user.getFirstName() %>, Login successful. Your Session ID=<%=sessionID%></h3>
 	<br>
@@ -39,5 +39,6 @@
 	<form action="LogoutServlet" method="post">
 		<input type="submit" value="Logout">
 	</form>
+	<% } %>
 </body>
 </html>

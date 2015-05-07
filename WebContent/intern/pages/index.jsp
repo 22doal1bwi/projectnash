@@ -2,7 +2,7 @@
 <%@page import="de.projectnash.entities.Session"%>
 <%@page import="de.projectnash.databackend.SessionPersistenceService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -50,12 +50,14 @@
 		User user = null;
 		String sessionID = null;
 		if (session.getAttribute("emailAddress") == null) {
-			response.sendRedirect("login.html");
+			response.sendRedirect("../../login.html");
 		} else {
 			String userName = null;
 			
 			Cookie[] cookies = request.getCookies();
-			if (cookies != null) {
+			if (cookies == null) {
+				
+			} else {
 				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals("JSESSIONID")){
 						sessionID = cookie.getValue();
@@ -63,8 +65,9 @@
 				}
 				Session appSession = SessionPersistenceService.loadSession(sessionID);
 				user = appSession.getUser();
-			}
-		}
+			
+				
+				//close else blocks at end of body
 	%>
 
     <div id="wrapper">
@@ -199,7 +202,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
+	<% }} //close of else block for session check %> 
 </body>
 
 </html>
