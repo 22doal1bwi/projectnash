@@ -43,20 +43,18 @@ public class UserLogic {
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
 	}
 	
-	// TODO: implement emailValid check-method
-	public static boolean emailIsValid(String emailAddress) {
-		return false;
+	public static boolean emailAlreadyExists(String emailAddress) {
+		if (UserPersistenceService.loadUser(emailAddress) ==  null) {
+			return false;
+		}
+		return true;
 	}
 
-	// TODO: implement personalIdIsValid check-method
-	public static boolean personalIdIsValid(int personalId) {
-		return false;
-	}
-
-	// TODO: implement loginUser method
-	public static User loginUser(String name, String password) {
-
-		return null;
+	public static boolean personalIdAlreadyExists(int personalId) {
+		if (UserPersistenceService.loadUser(personalId) == null) {
+			return false;
+		}
+		return true;
 	}
 	
 	// TODO: implement changePassword method
