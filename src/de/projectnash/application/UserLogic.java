@@ -43,18 +43,24 @@ public class UserLogic {
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
 	}
 	
+	/**
+	 * Method which checks if a user with a specific email address already exists
+	 * 
+	 * @param emailAddress the email address of the user you want to check for existence
+	 * @return true if the user exists
+	 */
 	public static boolean emailAlreadyExists(String emailAddress) {
-		if (UserPersistenceService.loadUser(emailAddress) ==  null) {
-			return false;
-		}
-		return true;
+		return UserPersistenceService.loadUser(emailAddress) !=  null;
 	}
 
+	/**
+	 * Method which checks if a user with a specific personal id already exists
+	 * 
+	 * @param personalId the personal id of the user you want to check for existence
+	 * @return true if the user exists
+	 */
 	public static boolean personalIdAlreadyExists(int personalId) {
-		if (UserPersistenceService.loadUser(personalId) == null) {
-			return false;
-		}
-		return true;
+		return UserPersistenceService.loadUser(personalId) != null;
 	}
 	
 	// TODO: implement changePassword method
