@@ -39,37 +39,32 @@ import de.projectnash.entities.User;
 	        String emailAddress = request.getParameter(MAIL_ADDRESS);
 	        String password = request.getParameter("password");
 	        
+	        /** try to load user from database */
 	        User loadedUser = UserPersistenceService.loadUser(emailAddress);
 	        
-	        if(loadedUser != null){
+	        /** check if a user was recevied and password is correct */
+	        if(loadedUser != null&&loadedUser.getPassword().equals(password)){
+
+	        	HttpSession httpSession = request.getSession();
+	        	httpSession.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());
 	        	
-	        	 if(loadedUser.getPassword().equals(password)){
-	        		 
-	        		HttpSession httpSession = request.getSession();
-	 	            httpSession.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());
-	 	            
-	 	            /** setting session to expiry in 30 mins */
-	 	            httpSession.setMaxInactiveInterval(30*60);
-	 	            httpSession.getId();
-	 	            
-	 	            Session session = new Session(loadedUser, httpSession.getId());
-	 	            SessionPersistenceService.storeSession(session);
-	 	            
-	 	            Cookie userName = new Cookie(MAIL_ADDRESS, emailAddress);
-	 	            userName.setMaxAge(30*60);
-	 	            response.addCookie(userName);
-	 	            response.sendRedirect("intern/index.html");
-	 	            
-	 	        } else{
-	 	            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
-	 	            PrintWriter out= response.getWriter();
-	 	            out.println("<font color=red>Your password is incorrect.</font>");
-	 	            rd.include(request, response);
-	 	        }
+	        	/** setting session to expiry in 30 mins */
+	        	httpSession.setMaxInactiveInterval(30*60);
+	        	httpSession.getId();
+	        	
+	        	Session session = new Session(loadedUser, httpSession.getId());
+	        	SessionPersistenceService.storeSession(session);
+	        	
+	        	Cookie userName = new Cookie(MAIL_ADDRESS, emailAddress);
+	        	userName.setMaxAge(30*60);
+ 	            response.addCookie(userName);
+ 	            response.sendRedirect("intern/index.html");
+	 	    
 	       } else {
+	    	   /** user not present or password wrong */
 	    	    RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
 	            PrintWriter out= response.getWriter();
-	            out.println("<font color=red>Your E-Mail-Address is incorrect.</font>");
+	            out.println("<font color=red>Your E-Mail-Address or password is incorrect.</font>");
 	            rd.include(request, response);
 	       }
 	    }
