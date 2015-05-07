@@ -49,8 +49,6 @@ public class CertificateLogic {
 	}
 
 	public static boolean createCertificate(User user) throws ParseException {
-
-		// TODO: get data of User from Database
 		
 		Organization organization = new Organization();
 		
@@ -74,7 +72,6 @@ public class CertificateLogic {
 			//Format date String to Date() object
 			DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
 			
-			 //TODO: get latest certificateID from Database for new certificateID
 			user.setCertificate(new Certificate(
 					crtData,
 					subjectData.split("/")[1].split("=")[1],
@@ -89,23 +86,15 @@ public class CertificateLogic {
 					formatter.parse(datesData
 							.split("notBefore=")[1].split("notAfter=")[1])));
 			
+			//save certificate to database
 			UserPersistenceService.updateUser(user);
-					
-			
-			System.out.println(user.getCertificate());
-			
-			System.out.println("valid?            " + certificateValid(user.getCertificate()));			
-			System.out.println("valid in days:    " + getTimeLeftForCertificate(user.getCertificate(), TimeUnit.DAYS));
-			System.out.println("valid in hours:   " + getTimeLeftForCertificate(user.getCertificate(), TimeUnit.HOURS));
-			System.out.println("valid in minutes: " + getTimeLeftForCertificate(user.getCertificate(), TimeUnit.MINUTES));
-			System.out.println(getAppropriateTimeLeftForCertificate(user.getCertificate()));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
-
-		// TODO: save Certificate to Database
+		
+		return true;
 	}
 	
 	/**
@@ -115,7 +104,7 @@ public class CertificateLogic {
 	 * @return boolean
 	 * @author Marius Boepple
 	 */
-	public static boolean certificateValid(Certificate certificate){
+	public static boolean certificateIsValid(Certificate certificate){
 		if (certificate != null) {
 			if (certificate.getExpirationDate().compareTo(new Date()) >= 0 ){
 				return true;
@@ -164,7 +153,7 @@ public class CertificateLogic {
 
 	}
 
-	public static Certificate getCertificate(User user) {
+	public static Certificate loadCertificate(User user) {
 		return user.getCertificate();
 	}
 }
