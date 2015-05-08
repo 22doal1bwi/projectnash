@@ -4,7 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+
 import de.projectnash.entities.Session;
+import de.projectnash.entities.User;
 
 /**
  * This class provides all methods to store, load, remove and update {@link Session}s.
@@ -37,6 +39,22 @@ public class SessionPersistenceService {
 		query.setParameter("ssnId", ssnId);
 		return query.getSingleResult();
 	}
+	
+	 /**
+     * Checks if the {@link Session} exists in the database.
+     * @param personalId The {@link Integer} on basis which the {@link User} will be checked.
+     * @return A flag that describes if the {@link User} exists.
+     */
+    public static boolean sessionExists(String ssnId){
+    	try{
+    		TypedQuery<Long> query = em.createNamedQuery("CHECK_SESSION_EXISTS_BY_ID", Long.class);
+        	query.setParameter("ssnId", ssnId);
+        	return query.getSingleResult() != 0;	
+    	}catch (Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
 	
 	/**
      * Removes a {@link Session} from the database.

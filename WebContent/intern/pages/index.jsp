@@ -1,3 +1,7 @@
+<%@page import="de.projectnash.frontend.controllers.UserController"%>
+<%@page import="de.projectnash.frontend.interfaces.IUserController"%>
+<%@page import="de.projectnash.frontend.SessionController"%>
+<%@page import="de.projectnash.application.SessionLogic"%>
 <%@page import="de.projectnash.entities.User"%>
 <%@page import="de.projectnash.entities.Session"%>
 <%@page import="de.projectnash.databackend.SessionPersistenceService"%>
@@ -47,27 +51,16 @@
 
 	<%
 		//allow access only if session exists if not, redirect to login
-		User user = null;
-		String sessionID = null;
-		if (session.getAttribute("emailAddress") == null) {
-			response.sendRedirect("../../login.html");
-		} else {
-			String userName = null;
-			
-			Cookie[] cookies = request.getCookies();
-			if (cookies == null) {
-				
-			} else {
-				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals("JSESSIONID")){
-						sessionID = cookie.getValue();
-					}
-				}
-				Session appSession = SessionPersistenceService.loadSession(sessionID);
-				user = appSession.getUser();
-			
-				
-				//close else blocks at end of body
+		String sessionId = SessionController.checkForSessionId(request, response);
+	
+		switch (sessionId){
+		
+		case "-1":
+		case "0":
+			response.sendRedirect("../../login.jsp");
+			break;
+		default:
+		IUserController uc = UserController.loadUserController(sessionId);
 	%>
 
     <div id="wrapper">
@@ -91,7 +84,7 @@
                  
                 <!-- /.dropdown -->
 				 <li>
-                     <a href="index.html"><i class="fa fa-fw"></i> <%=user.getFirstName()%> <%=user.getLastName()%></a>
+                     <a href="index.html"><i class="fa fa-fw"></i> <%=uc.getFirstName()%> <%=uc.getLastName()%></a>
                  </li>
 				 <li>
                     <img class="displayed" src="assets/img/find_user.png" style="width:20px;"/>
@@ -202,7 +195,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-	<% }} //close of else block for session check %> 
+	<% } //close of else block for session check %> 
 </body>
 
 </html>

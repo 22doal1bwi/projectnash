@@ -20,7 +20,8 @@ import javax.persistence.Table;
 @Table(name = "sessions")
 @NamedQueries({
 		@NamedQuery(name = "QUERY_FIND_SESSION_BY_ID", query = "SELECT s FROM Session s WHERE s.ssnId = :ssnId"),
-		@NamedQuery(name = "QUERY_REMOVE_SESSION_BY_SESSION", query = "DELETE FROM Session s WHERE s = :Session") })
+		@NamedQuery(name = "QUERY_REMOVE_SESSION_BY_SESSION", query = "DELETE FROM Session s WHERE s = :Session"),
+		@NamedQuery(name = "CHECK_SESSION_EXISTS_BY_ID", query = "SELECT COUNT(s.ssnId) FROM Session s WHERE s.ssnId= :" + "ssnId")})
 public class Session {
 
 	@Id

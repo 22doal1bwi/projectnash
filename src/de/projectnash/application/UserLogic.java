@@ -67,7 +67,7 @@ public class UserLogic {
 	}
 	
 	// TODO: implement changePassword method
-	public static boolean changePassword() {
+	public static boolean changePassword(User user, String oldPassword, String newPassword) {
 		return false;
 	}
 

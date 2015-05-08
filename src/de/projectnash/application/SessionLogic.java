@@ -37,6 +37,10 @@ public class SessionLogic {
 		return SessionPersistenceService.loadSession(ssnId);
 	}
 	
+	public static boolean checkSession(String ssnId){
+		return SessionPersistenceService.sessionExists(ssnId);
+	}
+	
 	public static boolean checkSession(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		User user = null;
 		String ssnId = null;
