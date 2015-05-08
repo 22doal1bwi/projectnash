@@ -37,15 +37,7 @@ public class CertificateLogic {
 		
 		UserPersistenceService.storeUser(tempUser);
 		createCertificate(tempUser);
-		
-		/**
-		 * Tests the connection to the database.
-		 */
-		System.out.println(UserPersistenceService.loadAllUsers());
-		//Session s = new Session(tempUser, UUID.randomUUID().toString());
-		//SessionPersistenceService.storeSession(s);
-		
-		
+
 	}
 
 	public static boolean createCertificate(User user) throws ParseException {
@@ -93,7 +85,7 @@ public class CertificateLogic {
 			e.printStackTrace();
 			return false;
 		}
-		
+		LogLogic.createLog("Zertifikat wurde erfolgreich in der Datenbank gespeichert", user.getEmailAddress());
 		return true;
 	}
 	
