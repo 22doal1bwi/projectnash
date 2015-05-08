@@ -129,45 +129,31 @@
 								Genehmigung - herunterladen können.</p>
 						</div>
 						<div class="panel-footer">
-
-
-							<input value="Beantragen" onclick="requestCertificate()"
-								role="button" class="btn btn-danger"
-								id="requestCertificateButton" />
-
+							<button onclick="requestCertificate()" type="button"
+								class="btn btn-danger" id="requestCertificateButton" >
+							Beantragen
+							</button>
 
 							<script type="text/javascript">
-								function requestCertificate(){
-											                          			$.ajax({
-											                						url : '../../CertificateServlet',
-											                						type : 'POST',
-											                						dataType : 'json',
-											 //              						data : "requestCertificate",
-											                						success : function() {
-											                							if(validSession && createdCertificate){
-											                								alert('Session valid und Zertifikat erfolgreich erstellt!')
-											                							} else if (validSession && createdCertificate === false){
-											                								alert('Session valid und Zertifikat nicht erfolgreicht erstellt!')
-											                							} else {
-											                								alert('Müsste redirected werden!')
-											                							}
-											                						}
-											                					})
+								function requestCertificate() {
+									$
+											.ajax({
+												url : '../../CertificateServlet',
+												type : 'POST',
+												dataType : 'json',
+												success : function(data) {
+													if (data.validSession
+															&& data.createdCertificate) {
+														alert('Session valid und Zertifikat erfolgreich erstellt!')
+													} else if (data.validSession
+															&& data.createdCertificate === false) {
+														alert('Session valid und Zertifikat nicht erfolgreich erstellt!')
+													} else {
+														alert('Müsste redirected werden!')
+													}
+												}												
+											})
 								}
-// 											$("#requestCertificateButton")
-// 													.post("CertificateServlet",
-// 											function() {
-// 												if (validSession
-// 														&& createdCertificate) {
-// 													alert('Session valid und Zertifikat erfolgreich erstellt!')
-// 												} else if (validSession
-// 														&& createdCertificate === false) {
-// 													alert('Session valid und Zertifikat nicht erfolgreicht erstellt!')
-// 												} else {
-// 													alert('Müsste redirected werden!')
-// 												}
-// 											}, "json")
-// 								}
 							</script>
 
 						</div>
