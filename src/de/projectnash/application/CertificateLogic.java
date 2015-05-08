@@ -13,6 +13,7 @@ import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
+import de.projectnash.exceptions.OpenSSLException;
 
 
 /**
@@ -81,7 +82,7 @@ public class CertificateLogic {
 			//save certificate to database
 			UserPersistenceService.updateUser(user);
 			
-		} catch (IOException e) {
+		} catch (IOException | OpenSSLException e) {
 			e.printStackTrace();
 			return false;
 		}

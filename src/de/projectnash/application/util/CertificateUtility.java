@@ -2,12 +2,14 @@ package de.projectnash.application.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import de.projectnash.entities.Certificate;
+import de.projectnash.exceptions.OpenSSLException;
 
 /**
  * This class provides all methods that represents standardized mechanisms in
@@ -104,8 +106,9 @@ public class CertificateUtility {
 	 * @return private key as byte array
 	 * @throws IOException
 	 * @author Alexander Dobler, Silvio D'Alessandro
+	 * @throws OpenSSLException 
 	 */
-	public static byte[] generatePrivateKey() throws IOException {
+	public static byte[] generatePrivateKey() throws IOException, OpenSSLException {
 
 		// openssl genrsa 2048
 		String[] command = {
@@ -119,6 +122,8 @@ public class CertificateUtility {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
+		
+		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in private key generation method!");
 
 		return out.toByteArray();
 	}
@@ -137,10 +142,11 @@ public class CertificateUtility {
 	 * @return request as byte array
 	 * @throws IOException
 	 * @author Alexander Dobler, Silvio D'Alessandro
+	 * @throws OpenSSLException 
 	 */
 	public static byte[] generateCSR(String countryName, String state,
 			String localityName, String organizationName, String organizationalUnit,
-			String commonName, String emailAddress, byte[] privateKey) throws IOException {
+			String commonName, String emailAddress, byte[] privateKey) throws IOException, OpenSSLException {
 
 		/** get a temporary key file */
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);		
@@ -166,6 +172,8 @@ public class CertificateUtility {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
+		
+		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in CSR generation method!");
 
 		return out.toByteArray();
 	}
@@ -206,8 +214,9 @@ public class CertificateUtility {
 	 * @return certificate as byte array
 	 * @throws IOException
 	 * @author Alexander Dobler, Tobias Burger
+	 * @throws OpenSSLException 
 	 */
-	public static byte[] generateCRT(byte[] csrData) throws IOException {
+	public static byte[] generateCRT(byte[] csrData) throws IOException, OpenSSLException {
 
 		/** get simpleCert root files */
 		File rootKeyFile = new File("root_key.pem");
@@ -234,7 +243,9 @@ public class CertificateUtility {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-
+		
+		if (out.toString().isEmpty()) throw new OpenSSLException("Root files not found.");
+		
 		return out.toByteArray();
 	}
 	
