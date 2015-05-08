@@ -26,7 +26,7 @@ public class UserLogic {
 
 		// save User to Database
 		UserPersistenceService.storeUser(tempUser);
-
+		LogLogic.createLog("Benutzer wurde in der Datenbank gespeichert", emailAddress);
 		return false;
 	}
 	
