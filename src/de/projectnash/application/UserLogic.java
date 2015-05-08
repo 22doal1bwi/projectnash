@@ -58,8 +58,13 @@ public class UserLogic {
 	 * @param personalId the personal id of the user you want to check for existence
 	 * @return true if the user exists
 	 */
-	public static boolean personalIdAlreadyExists(int personalId) {
-		return UserPersistenceService.userExists(personalId);
+	public static boolean personalIdAlreadyExists(String personalId) {
+		if (personalId != null){
+			if (!personalId.isEmpty()){
+				return UserPersistenceService.userExists(Integer.parseInt(personalId));	
+			}
+		}			
+	return false;
 	}
 	
 	public static boolean hasValidCertificate(User user){
