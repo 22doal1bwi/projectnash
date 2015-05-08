@@ -1,5 +1,7 @@
 package de.projectnash.frontend.interfaces;
 
+import de.projectnash.entities.User;
+
 /**
  * This interface provides all methods in {@link Certificate} context.
  * @author Silvio D'Alessandro
@@ -45,7 +47,7 @@ public interface ICertificateController {
 	/**
 	 * @return The {@link Boolean} that describes if the request was successful or not.
 	 */
-	boolean requestCertificate();
+	boolean requestCertificate(User user);
 	
 	/**
 	 * @return The {@link Boolean} that describes if the revocation was successful or not.
