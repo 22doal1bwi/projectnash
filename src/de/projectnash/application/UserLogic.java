@@ -1,5 +1,6 @@
 package de.projectnash.application;
 
+import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.User;
 
@@ -34,6 +35,10 @@ public class UserLogic {
 			e.printStackTrace();
 			return false;
 		}		
+	}
+	
+	public static User loadUserBySession(String ssnId){
+		return SessionPersistenceService.loadSession(ssnId).getUser();
 	}
 	
 	public static User loadUser(String eMailAddress){

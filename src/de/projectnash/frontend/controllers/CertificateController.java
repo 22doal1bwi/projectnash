@@ -1,8 +1,5 @@
 package de.projectnash.frontend.controllers;
 
-import java.text.ParseException;
-
-import de.projectnash.application.CertificateLogic;
 import de.projectnash.entities.User;
 import de.projectnash.frontend.interfaces.ICertificateController;
 
@@ -28,13 +25,6 @@ public class CertificateController implements ICertificateController{
 
 	@Override
 	public boolean requestCertificate(User user) {
-		try {
-			if(CertificateLogic.createCertificate(user)){
-				return true;
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 		return false;
 	}
 

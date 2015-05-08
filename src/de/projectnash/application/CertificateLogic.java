@@ -36,11 +36,11 @@ public class CertificateLogic {
 				"CI", "artur.ermisch@simpleCert.com", "Eierkuchen2");
 		
 		UserPersistenceService.storeUser(tempUser);
-		createCertificate(tempUser);
+	//	createCertificate(tempUser);
 
 	}
 
-	public static boolean createCertificate(User user) throws ParseException {
+	public static boolean createCertificate(User user) throws ParseException, OpenSSLException {
 		
 		Organization organization = new Organization();
 		
@@ -81,7 +81,7 @@ public class CertificateLogic {
 			//save certificate to database
 			UserPersistenceService.updateUser(user);
 			
-		} catch (IOException | OpenSSLException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}

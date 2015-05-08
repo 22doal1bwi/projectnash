@@ -84,14 +84,14 @@
                  
                 <!-- /.dropdown -->
 				 <li>
-                     <a href="index.html"><i class="fa fa-fw"></i> <%=uc.getFirstName()%> <%=uc.getLastName()%></a>
+                     <a href="index.jsp"><i class="fa fa-fw"></i> <%=uc.getFirstName()%> <%=uc.getLastName()%></a>
                  </li>
 				 <li>
                     <img class="displayed" src="assets/img/find_user.png" style="width:20px;"/>
 					
 					</li>
                     <li>
-                        <a href="index.html"><i class="fa fa-gear fa-2x"></i></a>
+                        <a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a>
                     </li>
 					<li>
 					<form action="../../LogoutServlet" method="post">
@@ -111,17 +111,17 @@
 					
 					</li>
                         <li>
-                            <a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a>
+                            <a href="index.jsp"><i class="fa fa-home fa-fw"></i> Home</a>
                         </li>
               			 <li>
-                            <a href="beantragen_1.html"><i class="fa fa-file-text-o fa-fw"></i> Zertifikat beantragen</a>
+                            <a href="beantragen.jsp"><i class="fa fa-file-text-o fa-fw"></i> Zertifikat beantragen</a>
                            
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-history fa-fw"></i> Zertifikat verlängern</a>
+                            <a href="index.jsp"><i class="fa fa-history fa-fw"></i> Zertifikat verlängern</a>
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-ban fa-fw"></i> Zertifikat widerrufen</a>
+                            <a href="index.jsp"><i class="fa fa-ban fa-fw"></i> Zertifikat widerrufen</a>
                         </li>
                         <li>
                            
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="beantragen_1.html">
+                        <a href="beantragen.jsp">
                             <div class="panel-footer">
                                 <span class="pull-left">Details ansehen</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
