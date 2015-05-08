@@ -78,7 +78,7 @@
 .messagebar {
 	position: relative;
 	height: 55px;
-	bottom: 55px;	
+	bottom: 55px;
 	border-radius: 0px;
 	padding: 0;
 	margin: 0;
@@ -112,80 +112,110 @@
 		<img src="img/logo_text.png" style="width: 140px; margin-top: 20px;" /><br />
 		<h3 style="color: #595959">Eröffnen Sie Ihren simpleCert-Account.</h3>
 		<br />
-		<form name="form_register" action="RegisterServlet" method="post">
+		<form id="form_register" name="form_1" action="RegisterServlet"
+			method="post">
 			<div class="form-group col-lg-6">
 				<input type="text" name="firstName" class="form-control"
-					id="firstName" onchange="checkInputField('firstName')"
+					id="firstName" onchange="validateInput('firstName')"
 					placeholder="Vorname" required>
 			</div>
 			<div class="form-group col-lg-6">
 				<input type="text" name="lastName" class="form-control"
-					id="lastName" onchange="checkInputField('lastName')"
+					id="lastName" onchange="validateInput('lastName')"
 					placeholder="Nachname" required>
 			</div>
 			<div class="form-group col-lg-6">
-
 				<!--<div class="form-group"> -->
 				<select class="form-control" id="organizationalUnit"
-					name="organizationalUnit" onchange="checkInputField('organizationalUnit')" required>
+					name="organizationalUnit"
+					onchange="checkInputField('organizationalUnit')" required>
 					<option value="" selected disabled>Abteilung</option>
 					<option>IT</option>
 					<option>Verwaltung</option>
 					<option>Vertrieb</option>
 				</select>
-
 			</div>
 			<div class="form-group col-lg-6">
 				<input type="number" name="personalId" id="personalId"
-					class="form-control" onchange="checkInputField('personalId')"
+					class="form-control" onchange="validateInput('personalId')"
 					placeholder="Personalnummer" required>
 			</div>
-
 			<div class="clearfix"></div>
 			<div class="form-group col-lg-6">
 				<input type="email" name="emailAddress" class="form-control"
 					id="emailAddress" onchange="checkInputField('emailAddress')"
 					placeholder="E-Mail-Adresse" required>
 			</div>
-
 			<div class="form-group col-lg-6">
-				<input type="email" class="form-control" onpaste="return false;"
+				<input type="email" class="form-control" 
 					id="emailAddress_confirm" placeholder="E-Mail-Adresse wiederholen"
 					onchange="compareInputField('emailAddress')" required>
+<!-- 					onpaste="return false;" -->
 			</div>
 
 			<div class="form-group col-lg-6">
-				<input type="password" name="password" class="form-control" 
-					id="password" onchange="checkInputField('password')"
+				<input type="password" name="password" class="form-control"
+					id="password" onchange="validateInput('password')"
 					placeholder="Passwort" required>
 			</div>
 			<div class="form-group col-lg-6">
-				<input type="password" class="form-control" onpaste="return false;"
+				<input type="password" class="form-control"
 					id="password_confirm" placeholder="Passwort wiederholen"
 					onchange="compareInputField('password')" required>
+<!-- 					onpaste="return false;" -->
 			</div>
 
 			<script type="text/javascript">
-			var messageRegistry = [];
 			
+				// Method checks input value for 'organizationalUnit' and 'emailAddress' (html5-validation)
 				function checkInputField(type) {
 					var inputField = document.getElementById(type)
 					if (inputField.value !== "" && !inputField.checkValidity()) {
 						inputField.classList.remove("has-warning")
 						inputField.classList.add("has-error")
-						showMessageBar(type, "check")
+						showMessageBar(type, "ui_check")
 					} else if (inputField.value !== ""
 							&& inputField.checkValidity()) {
 						hideMessageBar()
 						inputField.classList.remove("has-warning")
-						inputField.classList.remove("has-error")						
-						
-						// TODO: DB query if emailAddress/personalId already exists
-						
+						inputField.classList.remove("has-error")
+
 					} else if (inputField.value === "") {
 						hideMessageBar()
 						inputField.classList.remove("has-error")
 					}
+				}
+				// Method checks input value for all other fields (js-regex)
+				function validateInput(type) {
+// 					var inputField = document.getElementById(type), regEx
+// 					switch (type) {
+// 					case "firstName":
+// 						regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+\n/
+// 						break
+// 					case "lastName":
+// 						regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+\n/
+// 						break
+// 					case "personalId":
+// 						regEx = /^\d{6}$/
+// 						break
+// 					case "password":
+// 						regEx = /.{6}/
+// 						break
+// 					}
+// 					if (inputField.value !== ""
+// 							&& !regEx.test(inputField.value)) {
+// 						showMessageBar(type, "ui_check")
+// 						inputField.classList.remove("has-warning")
+// 						inputField.classList.add("has-error")
+// 					} else if (inputField.value !== ""
+// 							&& regEx.test(inputField.value)) {
+// 						hideMessageBar()
+// 						inputField.classList.remove("has-warning")
+// 						inputField.classList.remove("has-error")
+// 					} else if (inputField.value === "") {
+// 						hideMessageBar()
+// 						inputField.classList.remove("has-error")
+// 					}
 				}
 
 				// Method which checks email and password confirmation and gives feedback to the user
@@ -198,11 +228,11 @@
 							+ '_confirm')
 
 					// Compare field values and add style classes according to the result
-					if (inputValueConfirm !== "") {
+					if (inputValue !== "" && inputValueConfirm !== "") {
 						if (inputValue !== inputValueConfirm) {
 							inputConfirmField.classList.remove("has-warning")
 							inputConfirmField.classList.add("has-error")
-							showMessageBar(type, "compare")
+							showMessageBar(type, "ui_compare")
 							return false;
 						} else {
 							inputConfirmField.classList.remove("has-warning")
@@ -252,30 +282,58 @@
 						showMessageBar("emptyField")
 					}
 				}
-
+				
+				// Method which builds and shows the appropriate messagebar
 				function showMessageBar(type, kindOfCheck) {
 					var message, messagebar = document
 							.getElementById('messagebar'), messagebarContent = '<div class="btn btn-default btn-circle messageicon" style="cursor: context-menu; border-color:'
 					if (type !== "emptyField") {
-						if (type === "firstName" || type === "lastName") {
-							message = "Der "
-									+ document.getElementById(type).placeholder
-									+ " darf nur Buchstaben enthalten"
-						} else if (type === "personalId") {
-							message = "Die "
-									+ document.getElementById(type).placeholder
-									+ " darf nur Ziffern enthalten"
 
-						} else if (type === "emailAddress") {
-							if (kindOfCheck === "check") {
-								message = "Die "
+						switch (type) {
+						case "firstName":
+							message = "Der eingegebene "
+									+ document.getElementById(type).placeholder
+									+ " enthält ungültige Zeichen."
+							break
+						case "lastName":
+							message = "Der eingegebene "
+									+ document.getElementById(type).placeholder
+									+ " enthält ungültige Zeichen."
+							break
+						case "personalId":
+							if (kindOfCheck === "ui_check") {
+								message = "Die eingegebene "
 										+ document.getElementById(type).placeholder
-										+ " muss ein '@' enthalten (Beispiel: max.mustermann@simplecert.de)"
-							} else if (kindOfCheck === "compare") {
-								message = "Die wiederholte E-Mail-Adresse stimmt nicht mit der E-Mail-Adresse überein!"
+										+ " enthält ungültige Zeichen oder besitzt die falsche Länge"
+							} else if (kindOfCheck === "db_check") {
+								message = "Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre Personalnummer."
 							}
-						} else if (type === "password") {
-							message = "Das wiederholte Passwort stimmt nicht mit dem Passwort überein!"
+							break
+
+						case "emailAddress":
+							switch (kindOfCheck) {
+							case "ui_check":
+								message = "Die eingegebene "
+										+ document.getElementById(type).placeholder
+										+ " ist ungültig. (Beispiel: max.mustermann@simplecert.de)"
+								break
+							case "ui_compare":
+								message = "Die eingegebenen E-Mail-Adressen sind nicht identisch."
+								break
+							case "db_check":
+								message = "Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre E-Mail-Adresse."
+								break
+							}
+							break
+
+						case "password":
+							if (kindOfCheck === "ui_check") {
+								message = "Ihr Passwort muss mindestens eine Länge von 8 Zeichen haben."
+							} else if (kindOfCheck === "ui_compare") {
+								message = "Die eingegebenen Passwörter sind nicht identisch."
+							}
+
+							break
 						}
 						messagebarContent = messagebarContent
 								+ '#843534;"> <i id="messagebar_icon" style="color: #d9534f;" class="fa fa-times"></i> </div>'
@@ -286,7 +344,7 @@
 							messagebar.classList.add("alert-danger")
 						}
 					} else {
-						message = "Bitte füllen Sie alle Felder aus!"
+						message = "Bitte füllen Sie alle Felder aus."
 						messagebarContent = messagebarContent
 								+ ' #66512c;"> <i id="messagebar_icon" style="color: #f0ad4e;" class="fa fa-exclamation"></i> </div>'
 								+ message
@@ -300,13 +358,13 @@
 					messagebar.style.bottom = 0
 
 				}
-				function hideMessageBar() {	
+				// Method which destroys and hides the messagebar
+				function hideMessageBar() {
 					// SlideUp
 					messagebar.style.bottom = "55px"
 					messagebar.innerHTML = "";
 				}
 			</script>
-
 			<button type="button" class="btn btn-lg btn-red btn-block"
 				onclick="checkFormBeforeSubmit()">Absenden</button>
 		</form>
