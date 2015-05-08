@@ -2,7 +2,6 @@ package de.projectnash.frontend;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
 		boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(personalId);
 
 		if (emailAlreadyExists) {
-
+			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(
 					"/register.html");
 			PrintWriter out = resp.getWriter();

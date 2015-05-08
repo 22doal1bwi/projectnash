@@ -1,6 +1,5 @@
 package de.projectnash.application;
 
-import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.User;
 
@@ -35,6 +34,10 @@ public class UserLogic {
 		return UserPersistenceService.loadUser(eMailAddress);	
 	}
 	
+	public static boolean userExists(String emailAddress){
+		return UserPersistenceService.userExists(emailAddress);
+	}
+	
 	public static String getCommonName(User user){
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
 	}
@@ -46,7 +49,7 @@ public class UserLogic {
 	 * @return true if the user exists
 	 */
 	public static boolean emailAlreadyExists(String emailAddress) {
-		return UserPersistenceService.loadUser(emailAddress) !=  null;
+		return UserPersistenceService.userExists(emailAddress);
 	}
 
 	/**
@@ -56,7 +59,7 @@ public class UserLogic {
 	 * @return true if the user exists
 	 */
 	public static boolean personalIdAlreadyExists(int personalId) {
-		return UserPersistenceService.loadUser(personalId) != null;
+		return UserPersistenceService.userExists(personalId);
 	}
 	
 	public static boolean hasValidCertificate(User user){

@@ -2,10 +2,8 @@ package de.projectnash.databackend;
 
 import java.util.List;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
@@ -38,14 +36,12 @@ public final class UserPersistenceService {
      * @return The specific {@link User}.
      */
     public static User loadUser (String emailAddress) {
-    	String lowerEmailAddress = emailAddress.toLowerCase();
-    	try{
-    	TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_USER_BY_EMAIL_ADDRESS", User.class);
-    	query.setParameter("emailAddress", lowerEmailAddress);
-    	return query.getSingleResult();
     	
-    	}catch(NoResultException e){
-    		e.printStackTrace();
+    	if(userExists(emailAddress)){
+    		emailAddress = emailAddress.toLowerCase();
+        	TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_USER_BY_EMAIL_ADDRESS", User.class);
+        	query.setParameter("emailAddress", emailAddress);
+        	return query.getSingleResult();
     	}
     	return null;
     }
@@ -56,14 +52,10 @@ public final class UserPersistenceService {
      * @return The specific {@link User}.
      */
     public static User loadUser (int personalId) {
-    	try{
-    		
-    	
-    	TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_USER_BY_PERSONAL_ID", User.class);
-    	query.setParameter("personalId", personalId);
-    	return query.getSingleResult();
-    	}catch(Exception e){
-    		e.printStackTrace();
+    	if(userExists(personalId)){
+    		TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_USER_BY_PERSONAL_ID", User.class);
+        	query.setParameter("personalId", personalId);
+        	return query.getSingleResult();
     	}
     	return null;
     }
@@ -75,6 +67,46 @@ public final class UserPersistenceService {
     public static List<User> loadAllUsers(){
     	TypedQuery<User> query = em.createNamedQuery("QUERY_FIND_ALL_USERS", User.class);
     	return query.getResultList();
+    }
+    
+    /**
+     * Checks if the {@link User} exists in the database.
+     * @param personalId The {@link Integer} on basis which the {@link User} will be checked.
+     * @return A flag that describes if the {@link User} exists.
+     */
+    public static boolean userExists(int personalId){
+    	try{
+    		TypedQuery<Long> query = em.createNamedQuery("CHECK_USER_EXISTS_BY_PERSONAL_ID", Long.class);
+        	query.setParameter("personalId", personalId);
+        	if(query.getSingleResult() == 0){
+        		return false;
+        	} else{
+        		return true;
+        	}	
+    	}catch (Exception e){
+    		e.printStackTrace();
+    	}
+    	return true;
+    }
+    
+    /**
+     * Checks if the {@link User} exists in the database.
+     * @param eMailAddress The {@link String} on basis which the {@link User} will be checked.
+     * @return A flag that describes if the {@link User} exists.
+     */
+    public static boolean userExists(String eMailAddress){
+    	try{
+    		TypedQuery<Long> query = em.createNamedQuery("CHECK_USER_EXISTS_BY_MAIL_ADDRESS", Long.class);
+        	query.setParameter("emailAddress", eMailAddress);
+        	if(query.getSingleResult() == 0){
+        		return false;
+        	} else{
+        		return true;
+        	}	
+    	}catch (Exception e){
+    		e.printStackTrace();
+    	}
+    	return true;	
     }
     
     /**

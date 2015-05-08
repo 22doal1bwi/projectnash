@@ -27,6 +27,8 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name = "QUERY_FIND_USER_BY_EMAIL_ADDRESS", query = "SELECT u FROM User u WHERE u.emailAddress = :emailAddress"),
 	@NamedQuery(name = "QUERY_FIND_USER_BY_PERSONAL_ID", query = "SELECT u FROM User u WHERE u.personalId = :personalId"),
 	@NamedQuery(name = "QUERY_FIND_ALL_USERS", query = "SELECT u FROM User u"),
+	@NamedQuery(name = "CHECK_USER_EXISTS_BY_PERSONAL_ID", query = "SELECT COUNT(u.personalId) FROM User u WHERE u.personalId= :" + "personalId"),
+	@NamedQuery(name = "CHECK_USER_EXISTS_BY_MAIL_ADDRESS", query = "SELECT COUNT(u.emailAddress) FROM User u WHERE u.emailAddress= :" + "emailAddress"),
 	@NamedQuery(name = "QUERY_REMOVE_USER_BY_USER", query = "DELETE FROM User u WHERE u = :User")
 })
 

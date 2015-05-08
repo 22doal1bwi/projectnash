@@ -2,14 +2,7 @@ package de.projectnash.frontend;
 
 	import java.io.IOException;
 import java.io.PrintWriter;
-	 
-
-
-
-
-
-
-	import javax.servlet.RequestDispatcher;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -20,9 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
-import de.projectnash.databackend.SessionPersistenceService;
-import de.projectnash.databackend.UserPersistenceService;
-import de.projectnash.entities.Session;
 import de.projectnash.entities.User;
 	 
 	/**
@@ -47,7 +37,7 @@ import de.projectnash.entities.User;
 	        User loadedUser = UserLogic.loadUser(emailAddress);
 	        
 	        /** check if a user was recevied and password is correct */
-	        if(loadedUser != null && loadedUser.getPassword().equals(password)){
+	        if(loadedUser.getPassword().equals(password)){
 
 	        	HttpSession httpSession = request.getSession();
 	        	httpSession.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());
