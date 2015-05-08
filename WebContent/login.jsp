@@ -1,3 +1,6 @@
+<%@page import="de.projectnash.frontend.SessionController"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,6 +75,18 @@
 
 <body>
 
+<%
+
+String sessionIdStatus = SessionController.checkForSessionId(request, response);
+
+switch (sessionIdStatus){
+default:
+	response.sendRedirect("inter/index.html");
+	break;
+case "0":
+case "-1":
+%>
+
 	<div class="container">
 		<div id="login_container">
 			<form class="form-signin" action="LoginServlet" method="post">
@@ -108,5 +123,6 @@
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	<% } %>
 </body>
 </html>
