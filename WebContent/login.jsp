@@ -1,19 +1,14 @@
-<%@page import="de.projectnash.frontend.SessionController"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="de">
 <head>
-<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <link rel="icon" href="img/favicon.ico">
-
-<title>simpleCert Login</title>
-
+</head>
+<title>simpleCert - Login</title>
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -75,18 +70,6 @@
 
 <body>
 
-<%
-
-String sessionIdStatus = SessionController.checkForSessionId(request, response);
-
-switch (sessionIdStatus){
-default:
-	response.sendRedirect("inter/index.html");
-	break;
-case "0":
-case "-1":
-%>
-
 	<div class="container">
 		<div id="login_container">
 			<form class="form-signin" action="LoginServlet" method="post">
@@ -113,7 +96,7 @@ case "-1":
 			<form class="form-signin">
 				<!--<button class="btn btn-lg btn-primary btn-block btn-small" href="register.html">Neu anmelden</button>-->
 				<a class="btn btn-lg btn-primary btn-block btn-small"
-					href="register.html" role="button">Jetzt registieren</a>
+					href="register.jsp" role="button">Jetzt registieren</a>
 			</form>
 			<br />
 		</div>
@@ -123,6 +106,5 @@ case "-1":
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-	<% } %>
 </body>
 </html>

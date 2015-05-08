@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="de">
 <head>
-<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <link rel="icon" href="img/favicon.ico">
-
-<title>simpleCert Registrierung</title>
+</head>
+<title>simpleCert - Registrierung</title>
 
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -98,11 +97,7 @@
 	bottom: 0;
 }
 </style>
-<head>
-
-
-</head>
-
+<body>
 <body id="body" style="background-color: white">
 	<div class="messagebar_placeholder">
 		<div id="messagebar" style="cursor: context-menu;"
@@ -110,10 +105,10 @@
 	</div>
 	<div class="container">
 		<img src="img/logo_text.png" style="width: 140px; margin-top: 20px;" /><br />
-		<h3 style="color: #595959">Eröffnen Sie Ihren simpleCert-Account.</h3>
+		<h3 style="color: #595959">Eröffnen Sie Ihren
+			simpleCert-Account.</h3>
 		<br />
-		<form id="form_register" name="form_1" action="RegisterServlet"
-			method="post">
+		<form id="form_register" name="form_register" method="POST">
 			<div class="form-group col-lg-6">
 				<input type="text" name="firstName" class="form-control"
 					id="firstName" onchange="validateInput('firstName')"
@@ -137,20 +132,20 @@
 			</div>
 			<div class="form-group col-lg-6">
 				<input type="number" name="personalId" id="personalId"
-					class="form-control" onchange="validateInput('personalId')"
+					class="form-control" onchange="validateInput('personalId'); inputDbCheck('personalId') "
 					placeholder="Personalnummer" required>
 			</div>
 			<div class="clearfix"></div>
 			<div class="form-group col-lg-6">
 				<input type="email" name="emailAddress" class="form-control"
-					id="emailAddress" onchange="checkInputField('emailAddress')"
+					id="emailAddress" onchange="checkInputField('emailAddress'); inputDbCheck('emailAddress') "
 					placeholder="E-Mail-Adresse" required>
 			</div>
 			<div class="form-group col-lg-6">
-				<input type="email" class="form-control" 
-					id="emailAddress_confirm" placeholder="E-Mail-Adresse wiederholen"
+				<input type="email" class="form-control" id="emailAddress_confirm"
+					placeholder="E-Mail-Adresse wiederholen"
 					onchange="compareInputField('emailAddress')" required>
-<!-- 					onpaste="return false;" -->
+				<!-- 					onpaste="return false;" -->
 			</div>
 
 			<div class="form-group col-lg-6">
@@ -159,14 +154,29 @@
 					placeholder="Passwort" required>
 			</div>
 			<div class="form-group col-lg-6">
-				<input type="password" class="form-control"
-					id="password_confirm" placeholder="Passwort wiederholen"
+				<input type="password" class="form-control" id="password_confirm"
+					placeholder="Passwort wiederholen"
 					onchange="compareInputField('password')" required>
-<!-- 					onpaste="return false;" -->
+				<!-- 					onpaste="return false;" -->
 			</div>
 
 			<script type="text/javascript">
-			
+			function inputDbCheck(type) {
+				$.ajax({
+					url: 'CheckRegisterServlet',
+					type: 'POST',
+					dataType: 'json',
+						data: $('#' + type).serialize(),
+					success: function (data) {
+						if (data.alreadyExists === false) {
+							hideMessageBar()
+					} else if (data.alreadyExists){
+						showMessageBar(type, "db_check")						
+					}			
+					}
+				})
+			}
+
 				// Method checks input value for 'organizationalUnit' and 'emailAddress' (html5-validation)
 				function checkInputField(type) {
 					var inputField = document.getElementById(type)
@@ -190,12 +200,13 @@
 // 					var inputField = document.getElementById(type), regEx
 // 					switch (type) {
 // 					case "firstName":
-// 						regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+\n/
+// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
 // 						break
 // 					case "lastName":
-// 						regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+\n/
+// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
 // 						break
 // 					case "personalId":
+	//höchstens 6-stellig und danach ans backend
 // 						regEx = /^\d{6}$/
 // 						break
 // 					case "password":
@@ -275,7 +286,7 @@
 						hideMessageBar()
 						if (compareInputField("emailAddress")
 								&& compareInputField("password")) {
-							form_register.submit()
+							document.form_register.submit()
 						}
 
 					} else {
@@ -293,12 +304,12 @@
 						case "firstName":
 							message = "Der eingegebene "
 									+ document.getElementById(type).placeholder
-									+ " enthält ungültige Zeichen."
+									+ " enthÃ¤lt ungültige Zeichen."
 							break
 						case "lastName":
 							message = "Der eingegebene "
 									+ document.getElementById(type).placeholder
-									+ " enthält ungültige Zeichen."
+									+ " enthÃ¤lt ungültige Zeichen."
 							break
 						case "personalId":
 							if (kindOfCheck === "ui_check") {
@@ -344,7 +355,7 @@
 							messagebar.classList.add("alert-danger")
 						}
 					} else {
-						message = "Bitte füllen Sie alle Felder aus."
+						message = "Bitte fÃ¼llen Sie alle Felder aus."
 						messagebarContent = messagebarContent
 								+ ' #66512c;"> <i id="messagebar_icon" style="color: #f0ad4e;" class="fa fa-exclamation"></i> </div>'
 								+ message
