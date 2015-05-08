@@ -34,7 +34,6 @@ public class CertificateLogic {
 	public static void main(String[] args) throws ParseException {
 		User tempUser = new User(0002, "Artur", "Ermisch",
 				"CI", "artur.ermisch@simpleCert.com", "Eierkuchen2");
-		User tempUser2 = new User(0001, "Silvio", "D'Alessandro", "Coder", "silvio.dalessandro@simpleCert111.com", "Eierkuchen5");
 		
 		UserPersistenceService.storeUser(tempUser);
 		createCertificate(tempUser);

@@ -1,12 +1,14 @@
 package de.projectnash.frontend.interfaces;
 
+import de.projectnash.entities.User;
+
 /**
  * This interfaces provides all methods in {@link User} context.
  * @author Silvio D'Alessandro
  *
  */
 public interface IUserController {
-	
+		
 	/**
 	 * @return The {@link String} that represents the first name of the {@link User}.
 	 */
