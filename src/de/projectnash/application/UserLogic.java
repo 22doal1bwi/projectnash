@@ -12,22 +12,28 @@ import de.projectnash.entities.User;
  */
 public class UserLogic {
 
-	public static boolean createUser(int personalId, String firstName,
+	public static boolean createUser(String personalId, String firstName,
 			String lastName, String emailAddress, String organzationalUnit,
 			String password) {
 		
-		User tempUser = new User(
-				personalId,
+		try {
+			User tempUser = new User(
+				Integer.parseInt(personalId),
 				firstName,
 				lastName,
 				organzationalUnit,
 				emailAddress,
 				password);
 
-		// save User to Database
+		// save User to database
 		UserPersistenceService.storeUser(tempUser);
 		LogLogic.createLog("Benutzer wurde erfolgreich in der Datenbank gespeichert", emailAddress);
-		return false;
+		return true;
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}		
 	}
 	
 	public static User loadUser(String eMailAddress){
