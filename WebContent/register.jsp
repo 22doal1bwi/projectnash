@@ -1,11 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="de">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+	type="text/javascript"></script>
 <link rel="icon" href="img/favicon.ico">
 </head>
 <title>simpleCert - Registrierung</title>
@@ -105,10 +108,9 @@
 	</div>
 	<div class="container">
 		<img src="img/logo_text.png" style="width: 140px; margin-top: 20px;" /><br />
-		<h3 style="color: #595959">Eröffnen Sie Ihren
-			simpleCert-Account.</h3>
+		<h3 style="color: #595959">Eröffnen Sie Ihren simpleCert-Account.</h3>
 		<br />
-		<form id="form_register" name="form_register" method="POST">
+		<form id="form_register" name="form_register">
 			<div class="form-group col-lg-6">
 				<input type="text" name="firstName" class="form-control"
 					id="firstName" onchange="validateInput('firstName')"
@@ -132,13 +134,15 @@
 			</div>
 			<div class="form-group col-lg-6">
 				<input type="number" name="personalId" id="personalId"
-					class="form-control" onchange="validateInput('personalId'); inputDbCheck('personalId') "
+					class="form-control"
+					onchange="validateInput('personalId'); inputDbCheck('personalId') "
 					placeholder="Personalnummer" required>
 			</div>
 			<div class="clearfix"></div>
 			<div class="form-group col-lg-6">
 				<input type="email" name="emailAddress" class="form-control"
-					id="emailAddress" onchange="checkInputField('emailAddress'); inputDbCheck('emailAddress') "
+					id="emailAddress"
+					onchange="checkInputField('emailAddress'); inputDbCheck('emailAddress') "
 					placeholder="E-Mail-Adresse" required>
 			</div>
 			<div class="form-group col-lg-6">
@@ -161,21 +165,51 @@
 			</div>
 
 			<script type="text/javascript">
-			function inputDbCheck(type) {
-				$.ajax({
-					url: 'CheckRegisterServlet',
-					type: 'POST',
-					dataType: 'json',
-						data: $('#' + type).serialize(),
-					success: function (data) {
-						if (data.alreadyExists === false) {
-							hideMessageBar()
-					} else if (data.alreadyExists){
-						showMessageBar(type, "db_check")						
-					}			
-					}
-				})
-			}
+				function inputDbCheck(type) {
+					$.ajax({
+						url : 'CheckRegisterServlet',
+						type : 'POST',
+						dataType : 'json',
+						data : $('#' + type).serialize(),
+						success : function(data) {
+							if (data.alreadyExists === false) {
+								hideMessageBar()
+							} else {
+								showMessageBar(type, "db_check", "error")
+							}
+						}
+					})
+				}
+
+				function submitRegisterForm() {
+					$
+							.ajax({
+								url : 'RegisterServlet',
+								type : 'POST',
+								dataType : 'json',
+								data : $(
+										'#firstName, #lastName, #organizationalUnit, #personalId, #emailAddress, #password')
+										.serialize(),
+								success : function(data) {
+									if (data.created) {
+										showMessageBar("createdUserSuccessful",
+												"", "success")
+												window.setTimeout("redirect()", 3000);
+										
+									} else {
+										showMessageBar("createdUserFailed", "",
+												"error")
+									}
+								}
+							})
+				}
+				
+				function redirect() 
+				{ 
+				  location.href='login.jsp'; 
+				} 
+
+				
 
 				// Method checks input value for 'organizationalUnit' and 'emailAddress' (html5-validation)
 				function checkInputField(type) {
@@ -183,7 +217,7 @@
 					if (inputField.value !== "" && !inputField.checkValidity()) {
 						inputField.classList.remove("has-warning")
 						inputField.classList.add("has-error")
-						showMessageBar(type, "ui_check")
+						showMessageBar(type, "ui_check", "error")
 					} else if (inputField.value !== ""
 							&& inputField.checkValidity()) {
 						hideMessageBar()
@@ -197,36 +231,36 @@
 				}
 				// Method checks input value for all other fields (js-regex)
 				function validateInput(type) {
-// 					var inputField = document.getElementById(type), regEx
-// 					switch (type) {
-// 					case "firstName":
-// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
-// 						break
-// 					case "lastName":
-// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
-// 						break
-// 					case "personalId":
-	//höchstens 6-stellig und danach ans backend
-// 						regEx = /^\d{6}$/
-// 						break
-// 					case "password":
-// 						regEx = /.{6}/
-// 						break
-// 					}
-// 					if (inputField.value !== ""
-// 							&& !regEx.test(inputField.value)) {
-// 						showMessageBar(type, "ui_check")
-// 						inputField.classList.remove("has-warning")
-// 						inputField.classList.add("has-error")
-// 					} else if (inputField.value !== ""
-// 							&& regEx.test(inputField.value)) {
-// 						hideMessageBar()
-// 						inputField.classList.remove("has-warning")
-// 						inputField.classList.remove("has-error")
-// 					} else if (inputField.value === "") {
-// 						hideMessageBar()
-// 						inputField.classList.remove("has-error")
-// 					}
+					// 					var inputField = document.getElementById(type), regEx
+					// 					switch (type) {
+					// 					case "firstName":
+					// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
+					// 						break
+					// 					case "lastName":
+					// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
+					// 						break
+					// 					case "personalId":
+					//höchstens 6-stellig und danach ans backend
+					// 						regEx = /^\d{6}$/
+					// 						break
+					// 					case "password":
+					// 						regEx = /.{6}/
+					// 						break
+					// 					}
+					// 					if (inputField.value !== ""
+					// 							&& !regEx.test(inputField.value)) {
+					// 						showMessageBar(type, "ui_check")
+					// 						inputField.classList.remove("has-warning")
+					// 						inputField.classList.add("has-error")
+					// 					} else if (inputField.value !== ""
+					// 							&& regEx.test(inputField.value)) {
+					// 						hideMessageBar()
+					// 						inputField.classList.remove("has-warning")
+					// 						inputField.classList.remove("has-error")
+					// 					} else if (inputField.value === "") {
+					// 						hideMessageBar()
+					// 						inputField.classList.remove("has-error")
+					// 					}
 				}
 
 				// Method which checks email and password confirmation and gives feedback to the user
@@ -243,7 +277,7 @@
 						if (inputValue !== inputValueConfirm) {
 							inputConfirmField.classList.remove("has-warning")
 							inputConfirmField.classList.add("has-error")
-							showMessageBar(type, "ui_compare")
+							showMessageBar(type, "ui_compare", "error")
 							return false;
 						} else {
 							inputConfirmField.classList.remove("has-warning")
@@ -286,30 +320,34 @@
 						hideMessageBar()
 						if (compareInputField("emailAddress")
 								&& compareInputField("password")) {
-							document.form_register.submit()
+							//					document.form_register.submit()
+							submitRegisterForm()
 						}
 
 					} else {
-						showMessageBar("emptyField")
+						showMessageBar("emptyField", "", "warning")
 					}
 				}
-				
+
 				// Method which builds and shows the appropriate messagebar
-				function showMessageBar(type, kindOfCheck) {
+				function showMessageBar(type, kindOfCheck, kindOfMessage) {
 					var message, messagebar = document
 							.getElementById('messagebar'), messagebarContent = '<div class="btn btn-default btn-circle messageicon" style="cursor: context-menu; border-color:'
-					if (type !== "emptyField") {
+
+					switch (kindOfMessage) {
+
+					case "error":
 
 						switch (type) {
 						case "firstName":
 							message = "Der eingegebene "
 									+ document.getElementById(type).placeholder
-									+ " enthÃ¤lt ungültige Zeichen."
+									+ " enthält ungültige Zeichen."
 							break
 						case "lastName":
 							message = "Der eingegebene "
 									+ document.getElementById(type).placeholder
-									+ " enthÃ¤lt ungültige Zeichen."
+									+ " enthält ungültige Zeichen."
 							break
 						case "personalId":
 							if (kindOfCheck === "ui_check") {
@@ -345,6 +383,9 @@
 							}
 
 							break
+						case "createdUserFailed":
+							message = "Die Registrierung konnte nicht erfolgreich abgeschlossen werden."
+							break
 						}
 						messagebarContent = messagebarContent
 								+ '#843534;"> <i id="messagebar_icon" style="color: #d9534f;" class="fa fa-times"></i> </div>'
@@ -354,8 +395,11 @@
 							messagebar.classList.remove("alert-warning")
 							messagebar.classList.add("alert-danger")
 						}
-					} else {
-						message = "Bitte fÃ¼llen Sie alle Felder aus."
+						break
+
+					case "warning":
+
+						message = "Bitte füllen Sie alle Felder aus."
 						messagebarContent = messagebarContent
 								+ ' #66512c;"> <i id="messagebar_icon" style="color: #f0ad4e;" class="fa fa-exclamation"></i> </div>'
 								+ message
@@ -364,6 +408,21 @@
 							messagebar.classList.remove("alert-danger")
 							messagebar.classList.add("alert-warning")
 						}
+						break
+
+					case "success":
+						message = "Sie haben sich erfolgreich registriert. Sie werden in Kürze weitergeleitet..."
+						messagebarContent = messagebarContent
+								+ ' #3c763d;"> <i id="messagebar_icon" style="color: #f0ad4e;" class="fa fa-check"></i> </div>'
+								+ message
+						if (messagebar.style.bottom !== 0) {
+							messagebar.innerHTML = messagebarContent;
+							messagebar.classList.remove("alert-danger")
+							messagebar.classList.add("alert-success")
+						}
+
+						
+						break
 					}
 					// SlideDown
 					messagebar.style.bottom = 0

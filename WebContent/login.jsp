@@ -1,14 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="de">
+<%@page import="de.projectnash.frontend.SessionController"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<meta name="description" content="">
+<meta name="author" content="">
 <link rel="icon" href="img/favicon.ico">
-</head>
-<title>simpleCert - Login</title>
+
+<title>simpleCert Login</title>
+
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,9 +22,9 @@
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+     <![endif]-->
 
 <style>
 #login_container {
@@ -63,21 +68,31 @@
 #btn-small {
 	width: 420px;
 }
-
 </style>
 
 </head>
 
 <body>
 
+	<%
+		String sessionIdStatus = SessionController.checkForSessionId(
+				request, response);
+
+		switch (sessionIdStatus) {
+		default:
+			response.sendRedirect("intern/index.html");
+			break;
+		case "0":
+		case "-1":
+	%>
+
 	<div class="container">
 		<div id="login_container">
 			<form class="form-signin" action="LoginServlet" method="post">
 				<!--<h2 class="form-signin-heading">Please sign in</h2>-->
-					<img src="img/logo_text.png"
-						style="width: 140px;" />
-				<br /> <label for="inputEmail" class="sr-only">E-Mail-Address</label>
-				<input type="email" id="inputEmail" name="emailAddress"
+				<img src="img/logo_text.png" style="width: 140px;" /> <br /> <label
+					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
+					type="email" id="inputEmail" name="emailAddress"
 					class="form-control" placeholder="E-Mail-Adresse" required
 					autofocus> <br /> <label for="inputPassword"
 					class="sr-only">Passwort</label> <input type="password"
@@ -85,8 +100,8 @@
 					placeholder="Passwort" required>
 				<div class="checkbox">
 					<!--<label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>-->
+             <input type="checkbox" value="remember-me"> Remember me
+           </label>-->
 				</div>
 				<button class="btn btn-lg btn-red btn-block" type="submit">Einloggen</button>
 				<!-- input class="btn btn-lg btn-red btn-block" type="submit" role="button">Einloggen</input>-->
@@ -106,5 +121,8 @@
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	<%
+		}
+	%>
 </body>
 </html>
