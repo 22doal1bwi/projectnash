@@ -34,6 +34,8 @@ public class CertificateServlet extends HttpServlet {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String sessionIdStatus = SessionController.checkForSessionId(request,
 				response);
+		
+		System.out.println(UserLogic.loadUserBySession(sessionIdStatus).toString());
 		switch (sessionIdStatus) {
 		default:
 			try {

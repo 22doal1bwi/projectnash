@@ -113,19 +113,18 @@
 		<form id="form_register" name="form_register">
 			<div class="form-group col-lg-6">
 				<input type="text" name="firstName" class="form-control"
-					id="firstName" onchange="validateInput('firstName')"
+					id="firstName" onchange="validateInput('firstName', 'ui_only')"
 					placeholder="Vorname" required>
 			</div>
 			<div class="form-group col-lg-6">
 				<input type="text" name="lastName" class="form-control"
-					id="lastName" onchange="validateInput('lastName')"
+					id="lastName" onchange="validateInput('lastName', 'ui_only')"
 					placeholder="Nachname" required>
 			</div>
 			<div class="form-group col-lg-6">
 				<!--<div class="form-group"> -->
 				<select class="form-control" id="organizationalUnit"
-					name="organizationalUnit"
-					onchange="checkInputField('organizationalUnit')" required>
+					name="organizationalUnit" onchange="validateInput('organizationalUnit', 'ui_only')" required>
 					<option value="" selected disabled>Abteilung</option>
 					<option>IT</option>
 					<option>Verwaltung</option>
@@ -133,16 +132,16 @@
 				</select>
 			</div>
 			<div class="form-group col-lg-6">
-				<input type="number" name="personalId" id="personalId"
+				<input name="personalId" id="personalId"
 					class="form-control"
-					onchange="validateInput('personalId'); inputDbCheck('personalId') "
+					onchange="validateInput('personalId', 'ui_and_db')"
 					placeholder="Personalnummer" required>
 			</div>
 			<div class="clearfix"></div>
 			<div class="form-group col-lg-6">
 				<input type="email" name="emailAddress" class="form-control"
 					id="emailAddress"
-					onchange="checkInputField('emailAddress'); inputDbCheck('emailAddress') "
+					onchange="validateInput('emailAddress', 'ui_and_db')"
 					placeholder="E-Mail-Adresse" required>
 			</div>
 			<div class="form-group col-lg-6">
@@ -154,7 +153,7 @@
 
 			<div class="form-group col-lg-6">
 				<input type="password" name="password" class="form-control"
-					id="password" onchange="validateInput('password')"
+					id="password" onchange=""
 					placeholder="Passwort" required>
 			</div>
 			<div class="form-group col-lg-6">
@@ -165,22 +164,82 @@
 			</div>
 
 			<script type="text/javascript">
+				//====================================================================================//
+				//================================= MESSAGE REGISTRY =================================//
+				//====================================================================================//			
+				messageRegistry = [];
+
+				function addMessageToRegistry(type, kindOfCheck, kindOfMessage) {
+					var messageObject = {}
+					messageObject.type = type
+					messageObject.kindOfCheck = kindOfCheck
+					messageObject.kindOfMessage = kindOfMessage
+					messageRegistry.push(messageObject)
+					showMessageBar(messageObject.type,
+							messageObject.kindOfCheck,
+							messageObject.kindOfMessage)
+				}
+
+				function removeMessageTypeFromRegistry(type, kindOfCheck,
+						kindOfMessage) {
+					var length = messageRegistry.length, i = 0
+					while (i < length) {
+						if (messageRegistry[i].type === type
+								&& messageRegistry[i].kindOfCheck === kindOfCheck
+								&& messageRegistry[i].kindOfMessage === kindOfMessage) {
+							messageRegistry.splice(i, 1)
+							length--
+						} else {
+							i++
+						}
+					}
+				}
+
+				function getMessagesFromRegistry() {
+					if (messageRegistry.length > 0) {
+						var messageObject = messageRegistry[messageRegistry.length - 1]
+						showMessageBar(messageObject.type,
+								messageObject.kindOfCheck,
+								messageObject.kindOfMessage)
+					} else {
+						hideMessageBar()
+					}
+				}
+				//====================================================================================//
+
+				//====================================================================================//
+				//================================== AJAX FUNCTIONS ==================================//
+				//====================================================================================//
+
+				// Method which checks whether the entered value for 'personalId' or 'emailAddress' already exists
 				function inputDbCheck(type) {
-					$.ajax({
+					var inputField = document.getElementById(type), notExists
+
+					return $.ajax({
 						url : 'CheckRegisterServlet',
 						type : 'POST',
 						dataType : 'json',
 						data : $('#' + type).serialize(),
 						success : function(data) {
 							if (data.alreadyExists === false) {
-								hideMessageBar()
+								cleanInputField(type)
+								removeMessageTypeFromRegistry(type, "db_check",
+										"error")
+								getMessagesFromRegistry()
+								notExists = true
+								return notExists
 							} else {
-								showMessageBar(type, "db_check", "error")
+								cleanInputField(type)
+								inputField.classList.add("has-error")
+								addMessageToRegistry(type, "db_check", "error")
+								notExists = false
+								return notExists
 							}
 						}
 					})
 				}
 
+				// Method which submits all data from the input fields
 				function submitRegisterForm() {
 					$
 							.ajax({
@@ -192,75 +251,113 @@
 										.serialize(),
 								success : function(data) {
 									if (data.created) {
-										showMessageBar("createdUserSuccessful",
-												"", "success")
-												window.setTimeout("redirect()", 3000);
-										
+										addMessageToRegistry(
+												"createdUserSuccessful", "",
+												"success")
+										window.setTimeout("redirect()", 3000);
+
 									} else {
-										showMessageBar("createdUserFailed", "",
+										addMessageToRegistry(
+												"createdUserFailed", "",
 												"error")
 									}
 								}
 							})
 				}
-				
-				function redirect() 
-				{ 
-				  location.href='login.jsp'; 
-				} 
+				//====================================================================================//
 
-				
+				//====================================================================================//
+				//================================== MAIN FUNCTIONS ==================================//
+				//====================================================================================//
 
-				// Method checks input value for 'organizationalUnit' and 'emailAddress' (html5-validation)
-				function checkInputField(type) {
-					var inputField = document.getElementById(type)
-					if (inputField.value !== "" && !inputField.checkValidity()) {
-						inputField.classList.remove("has-warning")
-						inputField.classList.add("has-error")
-						showMessageBar(type, "ui_check", "error")
-					} else if (inputField.value !== ""
-							&& inputField.checkValidity()) {
-						hideMessageBar()
-						inputField.classList.remove("has-warning")
-						inputField.classList.remove("has-error")
+				// Method which checks input value for all other fields (js-regex)
+				function validateInput(type, kindOfCheck) {
+					var inputField = document.getElementById(type), regEx
 
-					} else if (inputField.value === "") {
-						hideMessageBar()
-						inputField.classList.remove("has-error")
+					switch (kindOfCheck) {
+
+					case "ui_and_db":
+
+						switch (type) {
+
+						case "personalId":
+							regEx = /^\d{1,6}$/;
+							break
+
+						case "emailAddress":
+							regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+							break
+						}
+						if (inputField.value !== ""
+								&& !regEx.test(inputField.value)) {
+							cleanInputField(type)
+							addMessageToRegistry(type, "ui_check", "error")
+							inputField.classList.add("has-error")
+						} else if (inputField.value !== ""
+								&& regEx.test(inputField.value)) {
+							cleanInputField(type)
+							removeMessageTypeFromRegistry(type, "ui_check",
+									"error")
+							getMessagesFromRegistry()
+							if (inputDbCheck(type).success(function(notExists) {
+								return notExists
+							})) {
+								cleanInputField(type)
+								removeMessageTypeFromRegistry(type, "db_check",
+										"error")
+								getMessagesFromRegistry()
+							} else {
+								addMessageToRegistry(type, "db_check", "error")
+							}
+
+						} else if (inputField.value === "") {
+							removeMessageTypeFromRegistry(type, "ui_check",
+									"error")
+							removeMessageTypeFromRegistry(type, "db_check",
+									"error")
+							getMessagesFromRegistry()
+							cleanInputField(type)
+						}
+						break
+
+					case "ui_only":
+
+						switch (type) {
+						
+						case "organizationalUnit":
+							if (inputField.value !== ""){
+								cleanInputField(type)
+							}
+							break
+
+						case "firstName":
+							regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+$/;
+							break
+
+						case "lastName":
+							regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+$/;
+							break
+
+						case "password":
+							regEx = /.{6}/;
+							break
+						}
 					}
-				}
-				// Method checks input value for all other fields (js-regex)
-				function validateInput(type) {
-					// 					var inputField = document.getElementById(type), regEx
-					// 					switch (type) {
-					// 					case "firstName":
-					// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
-					// 						break
-					// 					case "lastName":
-					// 						regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+\n/
-					// 						break
-					// 					case "personalId":
-					//höchstens 6-stellig und danach ans backend
-					// 						regEx = /^\d{6}$/
-					// 						break
-					// 					case "password":
-					// 						regEx = /.{6}/
-					// 						break
-					// 					}
-					// 					if (inputField.value !== ""
-					// 							&& !regEx.test(inputField.value)) {
-					// 						showMessageBar(type, "ui_check")
-					// 						inputField.classList.remove("has-warning")
-					// 						inputField.classList.add("has-error")
-					// 					} else if (inputField.value !== ""
-					// 							&& regEx.test(inputField.value)) {
-					// 						hideMessageBar()
-					// 						inputField.classList.remove("has-warning")
-					// 						inputField.classList.remove("has-error")
-					// 					} else if (inputField.value === "") {
-					// 						hideMessageBar()
-					// 						inputField.classList.remove("has-error")
-					// 					}
+
+					if (type !== "organizationalUnit") {
+						if (inputField.value !== ""
+								&& !regEx.test(inputField.value)) {
+							addMessageToRegistry(type, "ui_check", "error")
+							cleanInputField(type)
+							inputField.classList.add("has-error")
+						} else {
+							removeMessageTypeFromRegistry(type, "ui_check",
+									"error")
+							getMessagesFromRegistry()
+							cleanInputField(type)
+						}
+					}
+
 				}
 
 				// Method which checks email and password confirmation and gives feedback to the user
@@ -277,24 +374,28 @@
 						if (inputValue !== inputValueConfirm) {
 							inputConfirmField.classList.remove("has-warning")
 							inputConfirmField.classList.add("has-error")
-							showMessageBar(type, "ui_compare", "error")
+							addMessageToRegistry(type, "ui_compare", "error")
 							return false;
 						} else {
 							inputConfirmField.classList.remove("has-warning")
 							inputConfirmField.classList.remove("has-error")
-							hideMessageBar()
+							removeMessageTypeFromRegistry(type, "ui_compare",
+									"error")
+							getMessagesFromRegistry()
 							return true;
 						}
 					} else {
 						inputConfirmField.classList.remove("has-warning")
 						inputConfirmField.classList.remove("has-error")
-						hideMessageBar()
+						removeMessageTypeFromRegistry(type, "ui_compare",
+								"error")
+						getMessagesFromRegistry()
 					}
 				}
 
 				// Method which checks all field values before submitting them to the backend and gives feedback to the user				
 				function checkFormBeforeSubmit() {
-					var inputFields = [], messagebar, invalidField = false, emptyField = false;
+					var inputFields = [], messagebar, invalidField = false, emptyField = false
 					// Get all field values
 					inputFields[0] = document.getElementById('firstName')
 					inputFields[1] = document.getElementById('lastName')
@@ -317,123 +418,177 @@
 						}
 					}
 					if (!emptyField) {
-						hideMessageBar()
+						removeMessageTypeFromRegistry("emptyField", "",
+								"warning")
+						getMessagesFromRegistry()
 						if (compareInputField("emailAddress")
-								&& compareInputField("password")) {
-							//					document.form_register.submit()
+								&& compareInputField("password")
+								&& inputDbCheck("personalId").success(
+										function(notExists) {
+											return notExists
+										})
+								&& inputDbCheck("emailAddress").success(
+										function(notExists) {
+											return notExists
+										})) {
 							submitRegisterForm()
 						}
 
 					} else {
-						showMessageBar("emptyField", "", "warning")
+						addMessageToRegistry("emptyField", "", "warning")
 					}
 				}
 
-				// Method which builds and shows the appropriate messagebar
+				/** 
+				 * Method which builds and shows the appropriate messagebar
+				 * type: "firstName", "lastName", "personalId" etc.
+				 * kindOfCheck: "ui_check" (for syntax-check), "ui_compare" (for compared emailAddresses and passwords), "db_check" (for check if 'user' already exists)
+				 * kindOfMessage: "error", "warning", "success"
+				 */
 				function showMessageBar(type, kindOfCheck, kindOfMessage) {
 					var message, messagebar = document
-							.getElementById('messagebar'), messagebarContent = '<div class="btn btn-default btn-circle messageicon" style="cursor: context-menu; border-color:'
+							.getElementById('messagebar'), messagebarContent, styleMessagebar, iconBorderColor, iconColor, messageObject = {}
 
 					switch (kindOfMessage) {
 
 					case "error":
+						iconBorderColor = "#843534"
+						iconColor = "#d9534f"
+						iconType = "fa-times"
+						styleMessagebar = "alert-danger"
 
 						switch (type) {
+
 						case "firstName":
-							message = "Der eingegebene "
-									+ document.getElementById(type).placeholder
-									+ " enthält ungültige Zeichen."
+							message = "Der eingegebene Vorname enthält ungültige Zeichen."
 							break
 						case "lastName":
-							message = "Der eingegebene "
-									+ document.getElementById(type).placeholder
-									+ " enthält ungültige Zeichen."
+							message = "Der eingegebene Nachname enthält ungültige Zeichen."
 							break
+
 						case "personalId":
 							if (kindOfCheck === "ui_check") {
-								message = "Die eingegebene "
-										+ document.getElementById(type).placeholder
-										+ " enthält ungültige Zeichen oder besitzt die falsche Länge"
+								message = "Die eingegebene Personalnummer enthält ungültige Zeichen oder besitzt die falsche Länge."
 							} else if (kindOfCheck === "db_check") {
-								message = "Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre Personalnummer."
+								message = "Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre eingegebene Personalnummer."
 							}
 							break
 
 						case "emailAddress":
+
 							switch (kindOfCheck) {
 							case "ui_check":
-								message = "Die eingegebene "
-										+ document.getElementById(type).placeholder
-										+ " ist ungültig. (Beispiel: max.mustermann@simplecert.de)"
+								message = "Die eingegebene E-Mail-Adresse ist ungültig. (Beispiel: max.mustermann@simplecert.de)"
 								break
 							case "ui_compare":
 								message = "Die eingegebenen E-Mail-Adressen sind nicht identisch."
 								break
 							case "db_check":
-								message = "Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre E-Mail-Adresse."
+								message = "Dieser Benutzer existiert bereits. Bitte überprüfen Sie Ihre eingegebene E-Mail-Adresse."
 								break
 							}
 							break
 
 						case "password":
 							if (kindOfCheck === "ui_check") {
-								message = "Ihr Passwort muss mindestens eine Länge von 8 Zeichen haben."
+								message = "Ihr Passwort sollte eine Länge von mindestens 6 Zeichen haben."
 							} else if (kindOfCheck === "ui_compare") {
 								message = "Die eingegebenen Passwörter sind nicht identisch."
 							}
 
 							break
+
 						case "createdUserFailed":
-							message = "Die Registrierung konnte nicht erfolgreich abgeschlossen werden."
+							message = "Es ist ein Fehler aufgetreten. Die Registrierung konnte nicht erfolgreich abgeschlossen werden."
 							break
+
 						}
-						messagebarContent = messagebarContent
-								+ '#843534;"> <i id="messagebar_icon" style="color: #d9534f;" class="fa fa-times"></i> </div>'
-								+ message
-						if (messagebar.style.bottom !== 0) {
-							messagebar.innerHTML = messagebarContent;
-							messagebar.classList.remove("alert-warning")
-							messagebar.classList.add("alert-danger")
-						}
+
+						styleMessagebar = "alert-danger"
 						break
 
 					case "warning":
+						iconBorderColor = "#66512c"
+						iconColor = "#f0ad4e"
+						iconType = "fa-exclamation"
+						styleMessagebar = "alert-warning"
 
-						message = "Bitte füllen Sie alle Felder aus."
-						messagebarContent = messagebarContent
-								+ ' #66512c;"> <i id="messagebar_icon" style="color: #f0ad4e;" class="fa fa-exclamation"></i> </div>'
-								+ message
-						if (messagebar.style.bottom !== 0) {
-							messagebar.innerHTML = messagebarContent;
-							messagebar.classList.remove("alert-danger")
-							messagebar.classList.add("alert-warning")
+						switch (type) {
+
+						case "emptyField":
+							message = "Bitte füllen Sie alle Felder aus."
+							break
 						}
 						break
 
 					case "success":
-						message = "Sie haben sich erfolgreich registriert. Sie werden in Kürze weitergeleitet..."
-						messagebarContent = messagebarContent
-								+ ' #3c763d;"> <i id="messagebar_icon" style="color: #f0ad4e;" class="fa fa-check"></i> </div>'
-								+ message
-						if (messagebar.style.bottom !== 0) {
-							messagebar.innerHTML = messagebarContent;
-							messagebar.classList.remove("alert-danger")
-							messagebar.classList.add("alert-success")
+						iconBorderColor = "#3c763d"
+						iconColor = "#5cb85c"
+						iconType = "fa-check"
+						styleMessagebar = "alert-success"
+
+						switch (type) {
+
+						case "createdUserSuccessful":
+							message = "Sie haben sich erfolgreich registriert. Sie werden in Kürze weitergeleitet..."
+							break
 						}
 
-						
-						break
+					}
+					messagebarContent = '<div class="btn btn-default btn-circle messageicon" style="cursor: context-menu; border-color:' + iconBorderColor + ';"> <i id="messagebar_icon" style="color:' + iconColor + '; line-height: 17px;" class="fa ' + iconType + '"></i> </div>'
+							+ message
+					if (messagebar.style.bottom !== 0) {
+						messagebar.innerHTML = messagebarContent;
+						cleanMessageBar()
+						messagebar.classList.add(styleMessagebar)
 					}
 					// SlideDown
 					messagebar.style.bottom = 0
-
 				}
+				//====================================================================================//
+
+				//====================================================================================//
+				//============================= LITTLE HELPER FUNCTIONS ==============================//
+				//====================================================================================//
+
+				// Method which is called for redirection after successful registration
+				function redirect() {
+					location.href = 'login.jsp';
+				}
+
+				// Method which removes any style classes from an inputfield
+				function cleanInputField(type) {
+					var inputField = document.getElementById(type)
+					if ($("#" + type).hasClass("has-warning")) {
+						inputField.classList.remove("has-warning")
+					}
+					if ($("#" + type).hasClass("has-error")) {
+						inputField.classList.remove("has-error")
+					}
+				}
+
+				// Method which removes any style classes from the massagebar
+				function cleanMessageBar() {
+					messagebar = document.getElementById('messagebar')
+					if ($("#messagebar").hasClass("alert-warning")) {
+						messagebar.classList.remove("alert-warning")
+					}
+					if ($("#messagebar").hasClass("alert-danger")) {
+						messagebar.classList.remove("alert-danger")
+					}
+					if ($("#messagebar").hasClass("alert-success")) {
+						messagebar.classList.add("alert-success")
+					}
+				}
+
 				// Method which destroys and hides the messagebar
 				function hideMessageBar() {
+					messagebar = document.getElementById('messagebar')
 					// SlideUp
 					messagebar.style.bottom = "55px"
 					messagebar.innerHTML = "";
 				}
+				//====================================================================================//
 			</script>
 			<button type="button" class="btn btn-lg btn-red btn-block"
 				onclick="checkFormBeforeSubmit()">Absenden</button>
