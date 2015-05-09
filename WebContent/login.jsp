@@ -89,7 +89,6 @@
 	position: relative;
 	height: 55px;
 	bottom: 55px;
-	border-radius: 0px;
 	padding: 0;
 	margin: 0;
 	border: 0;
@@ -104,9 +103,6 @@
 	margin-right: 10px;
 }
 
-.messagebar_down {
-	bottom: -40px;
-}
 </style>
 
 </head>

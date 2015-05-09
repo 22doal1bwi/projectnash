@@ -39,6 +39,10 @@
 <!-- Custom Fonts -->
 <link href="../bower_components/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+	
+	<!-- Intern Pages CSS -->
+<link href="../intern.css"
+	rel="stylesheet" type="text/css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -149,11 +153,18 @@
 															&& data.createdCertificate === false) {
 														alert('Session valid und Zertifikat nicht erfolgreich erstellt!')
 													} else {
-														alert('Müsste redirected werden!')
+														alert('Session ist abgelaufen!')
+														window.setTimeout("redirect()", 1000);														
 													}
 												}												
 											})
 								}
+								
+								// Method which is called for redirection after successful registration
+								function redirect() {
+									location.href = 'intern/index.html';
+								}
+								
 							</script>
 
 						</div>
