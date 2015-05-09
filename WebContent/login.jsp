@@ -11,14 +11,24 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" href="img/favicon.ico">
-
-<title>simpleCert Login</title>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+	type="text/javascript"></script>
+<title>simpleCert - Login</title>
 
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="css/signin.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="intern/dist/css/sb-admin-2.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link
+	href="intern/bower_components/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -68,57 +78,207 @@
 #btn-small {
 	width: 420px;
 }
+
+.messagebar_placeholder {
+	position: relative;
+	top: -40px;
+	height: 55px;
+}
+
+.messagebar {
+	position: relative;
+	height: 55px;
+	bottom: 55px;
+	border-radius: 0px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	transition: bottom .4s ease;
+	line-height: 55px;
+	border-radius: 0px;
+}
+
+.messageicon {
+	outline: none;
+	margin-left: 15px;
+	margin-right: 10px;
+}
+
+.messagebar_down {
+	bottom: -40px;
+}
 </style>
 
 </head>
 
-<body>
+<body style="background-color: white">
 
 	<%
 		String sessionIdStatus = SessionController.checkForSessionId(
 				request, response);
 
 		switch (sessionIdStatus) {
-		default:
-			response.sendRedirect("intern/index.html");
-			break;
-		case "0":
-		case "-1":
+			default :
+				response.sendRedirect("intern/index.html");
+				break;
+			case "0" :
+			case "-1" :
 	%>
 
+	<div class="messagebar_placeholder">
+		<div id="messagebar" style="cursor: context-menu;"
+			class="alert messagebar"></div>
+	</div>
 	<div class="container">
 		<div id="login_container">
-			<form class="form-signin" action="LoginServlet" method="post">
+			<form class="form-signin">
 				<!--<h2 class="form-signin-heading">Please sign in</h2>-->
 				<img src="img/logo_text.png" style="width: 140px;" /> <br /> <label
 					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
-					type="email" id="inputEmail" name="emailAddress"
-					class="form-control" placeholder="E-Mail-Adresse" required
-					autofocus> <br /> <label for="inputPassword"
-					class="sr-only">Passwort</label> <input type="password"
-					id="inputPassword" name="password" class="form-control"
-					placeholder="Passwort" required>
-				<div class="checkbox">
-					<!--<label>
-             <input type="checkbox" value="remember-me"> Remember me
-           </label>-->
-				</div>
-				<button class="btn btn-lg btn-red btn-block" type="submit">Einloggen</button>
-				<!-- input class="btn btn-lg btn-red btn-block" type="submit" role="button">Einloggen</input>-->
+					type="email" id="emailAddress" name="emailAddress"
+					class="form-control" placeholder="E-Mail-Adresse"
+					onchange="cleanInputField('emailAddress')" required autofocus>
+				<br /> <label for="inputPassword" class="sr-only">Passwort</label>
+				<input type="password" id="password" name="password"
+					class="form-control" placeholder="Passwort"
+					onchange="cleanInputField('password')" required>
+				<button class="btn btn-lg btn-red btn-block" type="button"
+					onclick="checkFormBeforeSubmit()">Einloggen</button>
+				<script type="text/javascript">
+					//====================================================================================//
+					//================================== AJAX FUNCTION ===================================//
+					//====================================================================================//
+					// Method which submits the 'emailAddress' and 'password' from the input fields
+					function submitLoginForm() {
+						return $.ajax({
+							url : 'LoginServlet',
+							type : 'POST',
+							dataType : 'json',
+							data : $('#emailAddress, #password').serialize(),
+							success : function(data) {
+								if (data.loginFailed) {
+									showMessageBar("error")									
+								} else {									
+									window.setTimeout("redirect()", 1000);
+								}
+							}
+						})
+					}
+					//====================================================================================//
+
+					//====================================================================================//
+					//================================== MAIN FUNCTIONS ==================================//
+					//====================================================================================//
+					// Method which checks all field values before submitting them to the backend			
+					function checkFormBeforeSubmit() {
+						var emailAddress = document
+								.getElementById('emailAddress'), password = document
+								.getElementById('password'), messagebar = document
+								.getElementById('messagebar')
+
+						if (emailAddress.value === "") {
+							emailAddress.classList.add("has-warning")
+						}
+						if (password.value === "") {
+							password.classList.add("has-warning")
+						}
+
+						if (emailAddress.value !== "" && password.value !== "") {
+							hideMessageBar()
+							submitLoginForm()
+						} else {
+							showMessageBar("warning")
+						}
+					}
+
+					// Method which builds and shows the messagebar	for wrong 'emailAddress' or 'password'				
+					function showMessageBar(kindOfMessage) {
+						var message, messagebar = document
+								.getElementById('messagebar'), messagebarContent, styleMessagebar, iconBorderColor, iconColor, iconType, styleMessagebar
+
+						switch (kindOfMessage) {
+
+						case "error":
+							iconBorderColor = "#843534"
+							iconColor = "#d9534f"
+							iconType = "fa-times"
+							styleMessagebar = "alert-danger"
+							message = "Ihre E-Mail-Adresse oder Ihr Passwort ist nicht korrekt."
+							break
+
+						case "warning":
+							iconBorderColor = "#66512c"
+							iconColor = "#f0ad4e"
+							iconType = "fa-exclamation"
+							styleMessagebar = "alert-warning"
+							message = "Bitte füllen Sie beide Felder aus."
+							break
+						}
+						messagebarContent = '<div class="btn btn-default btn-circle messageicon" style="cursor: context-menu; border-color:' + iconBorderColor + ';"> <i id="messagebar_icon" style="color:' + iconColor + '; line-height: 17px;" class="fa ' + iconType + '"></i> </div>'
+								+ message
+						if (messagebar.style.bottom !== 0) {
+							messagebar.innerHTML = messagebarContent;
+							cleanMessageBar()
+							messagebar.classList.add(styleMessagebar)
+						}
+						// SlideDown
+						messagebar.style.bottom = "-40px"
+					}
+					//====================================================================================//
+
+					//====================================================================================//
+					//============================= LITTLE HELPER FUNCTIONS ==============================//
+					//====================================================================================//
+					// Method which is called for redirection after successful registration
+					function redirect() {
+						location.href = 'intern/index.html';
+					}
+
+					// Method which removes any style classes from an inputfield
+					function cleanInputField(type) {
+						var inputField = document.getElementById(type)
+						if ($("#" + type).hasClass("has-warning")) {
+							inputField.classList.remove("has-warning")
+							if ($("#emailAddress").hasClass("has-warning") === false
+									&& ($("#password").hasClass("has-warning") === false)) {
+								hideMessageBar()
+							}
+						}
+						if ($("#" + type).hasClass("has-error")) {
+							inputField.classList.remove("has-error")
+						}
+					}
+
+					// Method which removes any style classes from the massagebar
+					function cleanMessageBar() {
+						messagebar = document.getElementById('messagebar')
+						if ($("#messagebar").hasClass("alert-warning")) {
+							messagebar.classList.remove("alert-warning")
+						}
+						if ($("#messagebar").hasClass("alert-danger")) {
+							messagebar.classList.remove("alert-danger")
+						}
+					}
+					// Method which destroys and hides the messagebar
+					function hideMessageBar() {
+						messagebar = document.getElementById('messagebar')
+						// SlideUp
+						messagebar.style.bottom = "55px"
+						messagebar.innerHTML = "";
+					}
+					//====================================================================================//
+				</script>
 			</form>
 			<br />
 			<hr style="height: 1px; background: #C6C6C6; width: 70%;">
 			<form class="form-signin">
-				<!--<button class="btn btn-lg btn-primary btn-block btn-small" href="register.html">Neu anmelden</button>-->
 				<a class="btn btn-lg btn-primary btn-block btn-small"
-					href="register.jsp" role="button">Jetzt registieren</a>
+					href="register.jsp" role="button">Neu anmelden</a>
 			</form>
 			<br />
 		</div>
 	</div>
-	<!-- /container -->
-
-
+	<!-- End container -->
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 	<%

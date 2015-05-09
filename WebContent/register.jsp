@@ -270,7 +270,7 @@
 				//================================== MAIN FUNCTIONS ==================================//
 				//====================================================================================//
 
-				// Method which checks input value for all other fields (js-regex)
+				// Method which checks input value for all fields
 				function validateInput(type, kindOfCheck) {
 					var inputField = document.getElementById(type), regEx
 
@@ -293,6 +293,7 @@
 							cleanInputField(type)
 							addMessageToRegistry(type, "ui_check", "error")
 							inputField.classList.add("has-error")
+							return false
 						} else if (inputField.value !== ""
 								&& regEx.test(inputField.value)) {
 							cleanInputField(type)
@@ -302,6 +303,7 @@
 							if (inputDbCheck(type).success(function(notExists) {
 								return notExists
 							})) {
+								return true;
 								cleanInputField(type)
 								removeMessageTypeFromRegistry(type, "db_check",
 										"error")
@@ -360,7 +362,7 @@
 
 				}
 
-				// Method which checks email and password confirmation and gives feedback to the user
+				// Method which compares double email and password input
 				function compareInputField(type) {
 					var inputValue, inputValueConfirm, inputConfirmField
 					inputValue = document.getElementById(type).value
@@ -393,7 +395,7 @@
 					}
 				}
 
-				// Method which checks all field values before submitting them to the backend and gives feedback to the user				
+				// Method which checks all field values before submitting them to the backend			
 				function checkFormBeforeSubmit() {
 					var inputFields = [], messagebar, invalidField = false, emptyField = false
 					// Get all field values
@@ -423,14 +425,8 @@
 						getMessagesFromRegistry()
 						if (compareInputField("emailAddress")
 								&& compareInputField("password")
-								&& inputDbCheck("personalId").success(
-										function(notExists) {
-											return notExists
-										})
-								&& inputDbCheck("emailAddress").success(
-										function(notExists) {
-											return notExists
-										})) {
+								&& validateInput("personalId", "ui_and_db")
+								&& validateInput("emailAddress", "ui_and_db")) {
 							submitRegisterForm()
 						}
 
@@ -447,7 +443,7 @@
 				 */
 				function showMessageBar(type, kindOfCheck, kindOfMessage) {
 					var message, messagebar = document
-							.getElementById('messagebar'), messagebarContent, styleMessagebar, iconBorderColor, iconColor, messageObject = {}
+							.getElementById('messagebar'), messagebarContent, styleMessagebar, iconBorderColor, iconColor, iconType
 
 					switch (kindOfMessage) {
 
