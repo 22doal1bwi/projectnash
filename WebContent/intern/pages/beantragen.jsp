@@ -169,9 +169,11 @@
 				<div class="col-lg-6 col-md-6">
 					<div class="panel panel-default">
 						<div class="panel-heading" style="opacity: 0.5;">
-							<button type="button" class="btn btn-default btn-circle btn-lg">
+							<form action="../../CrtDownload" method="get">
+							<button type="submit" class="btn btn-default btn-circle btn-lg">
 								<i class="fa fa-check"></i>
 							</button>
+							</form>
 							Schritt 2: Zertifikat herunterladen
 						</div>
 
