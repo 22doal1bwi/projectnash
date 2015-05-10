@@ -1,3 +1,4 @@
+<%@page import="de.projectnash.application.UserLogic"%>
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.frontend.interfaces.IUserController"%>
 <%@page import="de.projectnash.frontend.SessionController"%>
@@ -5,20 +6,23 @@
 <%@page import="de.projectnash.entities.User"%>
 <%@page import="de.projectnash.entities.Session"%>
 <%@page import="de.projectnash.databackend.SessionPersistenceService"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
+<link rel="icon" type="image/png" sizes="32x32" href="../../img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../img/favicon-16x16.png">
+<link rel="icon" href="../../img/favicon.ico">
+
 <head>
 
-<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>simpleCert - Home</title>
+<title>SimpleCert</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
@@ -41,9 +45,6 @@
 <link href="../bower_components/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 
-<!-- Intern Pages CSS -->
-<link href="../../css/intern.css" rel="stylesheet" type="text/css">
-
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -62,13 +63,11 @@
 
 		switch (sessionId) {
 
-			case "-1" :
-			case "0" :
-				response.sendRedirect("../../login.jsp");
-				break;
-			default :
-				IUserController uc = UserController
-						.loadUserController(sessionId);
+		case "-1":
+		case "0":
+			response.sendRedirect("../../login.jsp");
+			break;
+		default: System.out.println(UserLogic.loadUserBySession(sessionId).getLastName());
 	%>
 
 	<div id="wrapper">
@@ -83,30 +82,25 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
+			<!--  <a class="navbar-brand" href="index.html">SimpleCert</a>-->
+
+
 		</div>
 		<!-- /.navbar-header -->
 
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><i class="fa fa-fw"></i> <%=uc.getFirstName()%>
-					<%=uc.getLastName()%></a></li>
-			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
-			<!-- 				style="width: 20px;" /></li> -->
+			<li><a href="index.jsp"><i class="fa fa-fw"></i> <%=UserLogic.loadUserBySession(sessionId).getFirstName()%>
+					<%=UserLogic.loadUserBySession(sessionId).getLastName()%></a></li>
+			<li><img class="displayed" src="assets/img/find_user.png"
+				style="width: 20px;" /></li>
 			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
-				<form name="logout_form" action="../../LogoutServlet" method="post">
-				<a role="button" onclick="logout()" class="fa fa-sign-out fa-2x"></a>
-					<!-- 					<button class="fa fa-sign-out fa-2x" type="submit"></button> -->
+				<form action="../../LogoutServlet" method="post">
+					<button class="fa fa-sign-out fa-2x" type="submit"></button>
 				</form>
 			</li>
-
-			</li>
-			<script type="text/javascript">
-				function logout() {
-					document.logout_form.submit()
-				}
-			</script>
 
 
 		</ul>
@@ -119,15 +113,14 @@
 						src="assets/img/cleanCert_logo_key_red.png" style="width: 160px;" />
 
 					</li>
-					<li><a href="index.jsp"><i
-							class="fa fa-home fa-fw navbaricon"></i> Home</a></li>
+					<li><a href="index.jsp"><i class="fa fa-home fa-fw"></i>
+							Home</a></li>
 					<li><a href="beantragen.jsp"><i
-							class="fa fa-file-text-o fa-fw navbaricon"></i> Zertifikat
-							beantragen</a></li>
-					<li><a href="index.jsp"><i
-							class="fa fa-history fa-fw navbaricon"></i> Zertifikat verlängern</a></li>
-					<li><a href="index.jsp"><i
-							class="fa fa-ban fa-fw navbaricon"></i> Zertifikat widerrufen</a></li>
+							class="fa fa-file-text-o fa-fw"></i> Zertifikat beantragen</a></li>
+					<li><a href="index.jsp"><i class="fa fa-history fa-fw"></i>
+							Zertifikat verlängern</a></li>
+					<li><a href="index.jsp"><i class="fa fa-ban fa-fw"></i>
+							Zertifikat widerrufen</a></li>
 					<li>
 			</div>
 			<!-- /.sidebar-collapse -->
@@ -135,11 +128,11 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div class="alert alert-danger messagebar">
-				<button type="button" class="btn btn-default btn-circle messageicon">
+			<div class="alert alert-danger">
+				<button type="button" class="btn btn-default btn-circle btn-lg">
 					<i class="fa fa-times"></i>
 				</button>
-				Sie besitzen kein gültiges Zertifikat.
+				Sie besitzen kein gültiges Zertifikat!
 			</div>
 			<div class="row">
 				<div class="col-lg-12"></div>
@@ -149,52 +142,57 @@
 			<div class="row">
 
 				<div class="col-lg-4 col-md-6">
-					<a href="beantragen.jsp">
-						<div class="panel panel-green functiontile">
-							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-3">
-										<i class="fa fa-file-text-o fa-5x"></i>
-									</div>
-									<div class="col-xs-9 text-right">
+					<div class="panel panel-green">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-file-text-o fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
 
-										<div class="text-top te" style="font-size: 24px">Zertifikat
-											beantragen</div>
-									</div>
+									<div class="text-top te" style="font-size: 24px">Zertifikat
+										beantragen</div>
 								</div>
 							</div>
-					</a>
+						</div>
+						<a href="beantragen.jsp">
+							<div class="panel-footer">
+								<span class="pull-left">Details ansehen</span> <span
+									class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+								<div class="clearfix"></div>
+							</div>
+						</a>
+					</div>
 				</div>
-			</div>
 
-			<!-- /.row -->
+				<!-- /.row -->
+
+			</div>
+			<!-- /#page-wrapper -->
 
 		</div>
-		<!-- /#page-wrapper -->
+		<!-- /#wrapper -->
 
-	</div>
-	<!-- /#wrapper -->
+		<!-- jQuery -->
+		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
-	<!-- jQuery -->
-	<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<!-- Bootstrap Core JavaScript -->
-	<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Metis Menu Plugin JavaScript -->
+		<script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
-	<!-- Metis Menu Plugin JavaScript -->
-	<script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+		<!-- Morris Charts JavaScript -->
+		<script src="../bower_components/raphael/raphael-min.js"></script>
+		<script src="../bower_components/morrisjs/morris.min.js"></script>
+		<script src="../js/morris-data.js"></script>
 
-	<!-- Morris Charts JavaScript -->
-	<script src="../bower_components/raphael/raphael-min.js"></script>
-	<script src="../bower_components/morrisjs/morris.min.js"></script>
-	<script src="../js/morris-data.js"></script>
-
-	<!-- Custom Theme JavaScript -->
-	<script src="../dist/js/sb-admin-2.js"></script>
-	<%
-		} //close of else block for session check
-	%>
-
+		<!-- Custom Theme JavaScript -->
+		<script src="../dist/js/sb-admin-2.js"></script>
+		<%
+			} //close of else block for session check
+		%>
+	
 </body>
 
 </html>

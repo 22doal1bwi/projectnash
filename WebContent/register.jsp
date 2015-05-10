@@ -9,7 +9,12 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
 	type="text/javascript"></script>
+	
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
 <link rel="icon" href="img/favicon.ico">
+
 </head>
 <title>simpleCert - Registrierung</title>
 
@@ -87,6 +92,7 @@
 	transition: bottom .4s ease;
 	line-height: 55px;
 	border-radius: 0px;
+	cursor: context-menu;
 }
 
 .messageicon {
@@ -99,8 +105,7 @@
 <body>
 <body id="body" style="background-color: white">
 	<div class="messagebar_placeholder">
-		<div id="messagebar" style="cursor: context-menu;"
-			class="alert messagebar"></div>
+		<div id="messagebar" class="alert messagebar"></div>
 	</div>
 	<div class="container">
 		<img src="img/logo_text.png" style="width: 140px; margin-top: 20px;" /><br />
