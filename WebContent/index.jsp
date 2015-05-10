@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<link rel="icon" href="img/favicon.ico">
+<link rel="icon" href="img/favicon-nash.ico">
 </head>
 <title>Nash Inc. - Intranet</title>
   <!-- Bootstrap -->
@@ -37,7 +37,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <span class="navbar-brand"><img src="img/logo_small.png" /></span>
+              <span class="navbar-brand"><img src="img/favicon-32x32-nash.png" /></span>
               <!--<img class="navbar-brand" src="img/logo_small.png" />-->
               <a class="navbar-brand" href="index.html">simpleCert</a>
             </div>
