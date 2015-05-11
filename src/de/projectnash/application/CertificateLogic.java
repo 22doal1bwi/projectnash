@@ -1,5 +1,6 @@
 package de.projectnash.application;
 
+import java.awt.AWTException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,13 +31,14 @@ public class CertificateLogic {
 	 * @param args
 	 * @throws ParseException 
 	 * TODO: delete method when ready with testing
+	 * @throws OpenSSLException 
 	 */
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, OpenSSLException {
 		User tempUser = new User(0002, "Artur", "Ermisch",
 				"CI", "artur.ermisch@simpleCert.com", "Eierkuchen2");
 		
-		UserPersistenceService.storeUser(tempUser);
-	//	createCertificate(tempUser);
+		//UserPersistenceService.storeUser(tempUser);
+		createCertificate(tempUser);
 
 	}
 
@@ -57,6 +59,7 @@ public class CertificateLogic {
 					user.getEmailAddress(),
 					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
+			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData);
 			
 			String subjectData = CertificateUtility.getCRTdata(crtData, "-subject");
 			String datesData = CertificateUtility.getCRTdata(crtData, "-dates");
@@ -65,7 +68,7 @@ public class CertificateLogic {
 			DateFormat formatter = new SimpleDateFormat("MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);	
 			
 			user.setCertificate(new Certificate(
-					crtData,
+					p12Data,
 					subjectData.split("/")[1].split("=")[1],
 					subjectData.split("/")[2].split("=")[1],
 					subjectData.split("/")[3].split("=")[1],

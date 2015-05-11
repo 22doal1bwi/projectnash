@@ -1,11 +1,16 @@
 package de.projectnash.application.util;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import de.projectnash.entities.Certificate;
 import de.projectnash.exceptions.OpenSSLException;
@@ -19,6 +24,8 @@ import de.projectnash.exceptions.OpenSSLException;
  *
  */
 public class CertificateUtility {
+	
+	static int enterKey = KeyEvent.VK_ENTER;
 
 	/**
 	 * Emun Class for .pem .csr .crt
@@ -246,6 +253,41 @@ public class CertificateUtility {
 		if (out.toString().isEmpty()) throw new OpenSSLException("Root files not found.");
 		
 		return out.toByteArray();
+	}
+	
+	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey) throws IOException{
+		File rootCertFile = new File("root_cert.pem");
+		
+		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
+		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
+		
+		String[] command = {
+				"openssl",
+				"pkcs12",
+				"-export",
+				"-inkey", tmpKeyFile.getAbsolutePath(),
+				"-in", tmpCrtFile.getAbsolutePath(),
+				"-certfile", rootCertFile.getAbsolutePath()
+				};
+		
+		Process proc = Runtime.getRuntime().exec(command);
+		
+		OutputStream commandIn = proc.getOutputStream();
+
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(commandIn));
+			
+		writer.newLine();
+		writer.newLine();
+		writer.close();
+		
+		InputStream inputStream = proc.getInputStream();
+		
+		/** prepare collection of output into a byte array */
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writeInputToOutput(inputStream, out);
+		
+		return out.toByteArray();
+		
 	}
 	
 	/**

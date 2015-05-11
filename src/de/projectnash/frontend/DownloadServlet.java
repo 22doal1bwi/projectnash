@@ -36,12 +36,14 @@ public class DownloadServlet extends HttpServlet{
 				
 				switch (sessionIdStatus) {
 				default:
+					User user = SessionLogic.loadSession(sessionIdStatus).getUser();
+					String filename = user.getFirstName()+"_"+user.getLastName()+"_"+user.getPersonalId()+".p12";
 					response.setContentType("text/plain");
 					response.setHeader("Content-Disposition",
-				                     "attachment;filename=yourcertificate.crt");
+				                     "attachment;filename="+filename);
 					ServletContext ctx = getServletContext();
 				 
-					User user = SessionLogic.loadSession(sessionIdStatus).getUser();
+					
 					Certificate cert = user.getCertificate();
 					byte[] crtBytes = cert.getCertificateFile();
 
