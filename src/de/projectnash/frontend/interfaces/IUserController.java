@@ -35,6 +35,11 @@ public interface IUserController {
 	int getPersonalId();
 	
 	/**
+	 * @return true if user has a valid certificate
+	 */
+	boolean hasValidCertificate();
+	
+	/**
 	 * Sets the new password for the {@link User}.
 	 * @param oldPassword The {@link String} that represents the old password of the {@link User}.
 	 * @param newPassword The {@link String} that represents the new password of the {@link User}.

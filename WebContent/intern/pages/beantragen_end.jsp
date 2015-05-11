@@ -1,3 +1,7 @@
+<%@page import="de.projectnash.frontend.controllers.UserController"%>
+<%@page import="de.projectnash.frontend.SessionController"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,6 +44,23 @@
 
 <body>
 
+	<%
+		//allow access only if session exists if not, redirect to login
+		String sessionId = SessionController.checkForSessionId(request,
+				response);
+
+		switch (sessionId) {
+
+		case "-1":
+		case "0":
+			response.sendRedirect("../../login.jsp");
+			break;
+		default:
+		UserController uc = UserController.loadUserController(sessionId);
+		
+
+	%>
+
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -61,17 +82,24 @@
                  
                 <!-- /.dropdown -->
 				 <li>
-                     <a href="index.html"><i class="fa fa-fw"></i> Max Mustermann</a>
+                     <a href="index.jsp"><i class="fa fa-fw"></i><%= uc.getFirstName() %> <%=uc.getLastName() %> (<%=uc.getPersonalId() %>)</a>
                  </li>
 				 <li>
                     <img class="displayed" src="assets/img/find_user.png" style="width:20px;"/>
 					
 					</li>
                     <li>
-                        <a href="index.html"><i class="fa fa-gear fa-2x"></i></a>
+                        <a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a>
                     </li>
 					<li>
-                        <a href="index.html"><i class="fa fa-sign-out fa-2x"></i></a>
+                     <form name="form_logout" action="../../LogoutServlet" method="post">
+					<a role="button" class="fa fa-sign-out fa-2x" style="text-decoration: none;" onclick="logout()"></a>
+						<script type="text/javascript">
+							function logout () {
+							document.form_logout.submit()
+							}
+						</script>
+				</form>
                     </li>
                 
                 
@@ -95,7 +123,7 @@
                            
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-history fa-fw"></i> Zertifikat verlängern</a>
+                            <a href="index.html"><i class="fa fa-history fa-fw"></i> Zertifikat verlÃ¤ngern</a>
                         </li>
                         <li>
                             <a href="index.html"><i class="fa fa-ban fa-fw"></i> Zertifikat widerrufen</a>
@@ -219,7 +247,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
+<% } %>
 </body>
 
 </html>

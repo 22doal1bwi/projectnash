@@ -76,8 +76,12 @@
 			response.sendRedirect("../../login.jsp");
 			break;
 		default:
-			System.out.println(UserLogic.loadUserBySession(sessionId)
-					.getLastName());
+		UserController uc = UserController.loadUserController(sessionId);
+		
+		if(uc.hasValidCertificate()){
+			response.sendRedirect("beantragen_end.jsp");			
+		} else {
+
 	%>
 
 	<div id="wrapper">
@@ -101,8 +105,7 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><%=UserLogic.loadUserBySession(sessionId).getFirstName()%>
-					<%=UserLogic.loadUserBySession(sessionId).getLastName()%></a></li>
+			<li><a href="index.jsp"><%=uc.getFirstName() %> <%=uc.getLastName() %> (<%=uc.getPersonalId()%>)</a></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
 			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
@@ -198,7 +201,7 @@
 		<!-- Custom Theme JavaScript -->
 		<script src="../dist/js/sb-admin-2.js"></script>
 		<%
-			} //close of else block for session check
+		}} //close of else block for session check
 		%>
 	
 </body>

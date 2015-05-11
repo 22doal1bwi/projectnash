@@ -52,6 +52,11 @@ public class UserController implements IUserController {
 		return UserLogic.changePassword(user, oldPassword, newPassword);
 	}
 
+	@Override
+	public boolean hasValidCertificate() {
+		return UserLogic.hasValidCertificate(user);
+	}
+
 
 
 }

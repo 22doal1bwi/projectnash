@@ -1,3 +1,4 @@
+<%@page import="de.projectnash.frontend.SessionController"%>
 <%@page import="de.projectnash.application.SessionLogic"%>
 <%@page
 	import="de.projectnash.frontend.controllers.CertificateController"%>
@@ -70,6 +71,24 @@
 <body>
 	<div id="wrapper">
 
+	<%
+		//allow access only if session exists if not, redirect to login
+		String sessionId = SessionController.checkForSessionId(request,
+				response);
+
+		switch (sessionId) {
+
+		case "-1":
+		case "0":
+			response.sendRedirect("../../login.jsp");
+			break;
+		default:
+		UserController uc = UserController.loadUserController(sessionId);
+			
+		
+
+	%>
+
 		<!-- Navigation -->
 		<nav class="navbar navbar-default navbar-static-top" role="navigation"
 			style="margin-bottom: 0">
@@ -87,11 +106,19 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp">Max Mustermann</a></li>
+			<li><a href="index.jsp"><%=uc.getFirstName() %> <%=uc.getLastName() %> (<%=uc.getPersonalId() %>)</a></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
-			<li><a href="index.html"><i class="fa fa-gear fa-2x"></i></a></li>
-			<li><a href="index.html"><i class="fa fa-sign-out fa-2x"></i></a>
+			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li>
+				<form name="form_logout" action="../../LogoutServlet" method="post">
+					<a role="button" class="fa fa-sign-out fa-2x" style="text-decoration: none;" onclick="logout()"></a>
+					<script type="text/javascript">
+					function logout () {
+						document.form_logout.submit()
+					}
+					</script>
+				</form>
 			</li>
 
 
@@ -330,5 +357,6 @@
 
 		<!-- Custom Theme JavaScript -->
 		<script src="../dist/js/sb-admin-2.js"></script>
+		<% } %>
 </body>
 </html>
