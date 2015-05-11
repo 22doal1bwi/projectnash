@@ -56,7 +56,7 @@
 			response.sendRedirect("../../login.jsp");
 			break;
 		default:
-		UserController uc = UserController.loadUserController(sessionId);
+		UserController uc = new UserController(sessionId);
 		
 
 	%>

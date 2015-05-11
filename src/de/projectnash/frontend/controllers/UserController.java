@@ -7,20 +7,12 @@ import de.projectnash.frontend.interfaces.IUserController;
 
 public class UserController implements IUserController {
 	
-	private static UserController userController;
-	
+		
 	private User user;
 	
-	private UserController(String sessionId) {
+	public UserController(String sessionId) {
 		user = SessionLogic.loadSession(sessionId).getUser();
 	}
-	
-	public static UserController loadUserController(String sessionId) {
-		if(userController==null){
-			userController = new UserController(sessionId);
-		} 
-		return userController;
-		}
 
 	@Override
 	public String getFirstName() {
