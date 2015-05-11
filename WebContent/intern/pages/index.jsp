@@ -6,13 +6,17 @@
 <%@page import="de.projectnash.entities.User"%>
 <%@page import="de.projectnash.entities.Session"%>
 <%@page import="de.projectnash.databackend.SessionPersistenceService"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
-<link rel="icon" type="image/png" sizes="32x32" href="../../img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="../../img/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../img/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32"
+	href="../../img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="../../img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16"
+	href="../../img/favicon-16x16.png">
 <link rel="icon" href="../../img/favicon.ico">
 
 <head>
@@ -22,7 +26,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SimpleCert</title>
+<title>simpleCert - Home</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
@@ -44,6 +48,10 @@
 <!-- Custom Fonts -->
 <link href="../bower_components/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+
+<!-- Intern Pages CSS -->
+<link href="../../css/intern.css" rel="stylesheet"
+	type="text/css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,7 +75,9 @@
 		case "0":
 			response.sendRedirect("../../login.jsp");
 			break;
-		default: System.out.println(UserLogic.loadUserBySession(sessionId).getLastName());
+		default:
+			System.out.println(UserLogic.loadUserBySession(sessionId)
+					.getLastName());
 	%>
 
 	<div id="wrapper">
@@ -91,14 +101,19 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><i class="fa fa-fw"></i> <%=UserLogic.loadUserBySession(sessionId).getFirstName()%>
+			<li><a href="index.jsp"><%=UserLogic.loadUserBySession(sessionId).getFirstName()%>
 					<%=UserLogic.loadUserBySession(sessionId).getLastName()%></a></li>
-			<li><img class="displayed" src="assets/img/find_user.png"
-				style="width: 20px;" /></li>
+			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
+			<!-- 				style="width: 20px;" /></li> -->
 			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
-				<form action="../../LogoutServlet" method="post">
-					<button class="fa fa-sign-out fa-2x" type="submit"></button>
+				<form name="form_logout" action="../../LogoutServlet" method="post">
+					<a role="button" class="fa fa-sign-out fa-2x" style="text-decoration: none;" onclick="logout()"></a>
+					<script type="text/javascript">
+					function logout () {
+						document.form_logout.submit()
+					}
+					</script>
 				</form>
 			</li>
 
@@ -113,14 +128,11 @@
 						src="assets/img/cleanCert_logo_key_red.png" style="width: 160px;" />
 
 					</li>
-					<li><a href="index.jsp"><i class="fa fa-home fa-fw"></i>
-							Home</a></li>
+					<li><a href="index.jsp"><i class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<li><a href="beantragen.jsp"><i
-							class="fa fa-file-text-o fa-fw"></i> Zertifikat beantragen</a></li>
-					<li><a href="index.jsp"><i class="fa fa-history fa-fw"></i>
-							Zertifikat verlängern</a></li>
-					<li><a href="index.jsp"><i class="fa fa-ban fa-fw"></i>
-							Zertifikat widerrufen</a></li>
+							class="fa fa-file-text-o fa-fw navbaricon"></i>Zertifikat beantragen</a></li>
+					<li><a href="index.jsp"><i class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
+					<li><a href="index.jsp"><i class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
 			</div>
 			<!-- /.sidebar-collapse -->
@@ -128,9 +140,9 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div class="alert alert-danger">
-				<button type="button" class="btn btn-default btn-circle btn-lg">
-					<i class="fa fa-times"></i>
+			<div class="alert alert-danger messagebar">
+				<button type="button" class="btn btn-default btn-circle messageicon messageicon_border_error">
+					<i class="fa fa-times messageicon_error"></i>
 				</button>
 				Sie besitzen kein gültiges Zertifikat!
 			</div>
@@ -142,28 +154,24 @@
 			<div class="row">
 
 				<div class="col-lg-4 col-md-6">
-					<div class="panel panel-green">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="fa fa-file-text-o fa-5x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
+					<a href="beantragen.jsp">
+						<div class="panel panel-green functiontile">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="fa fa-file-text-o fa-5x"></i>
+									</div>
+									<div class="col-xs-9 text-right">
 
-									<div class="text-top te" style="font-size: 24px">Zertifikat
-										beantragen</div>
+										<div class="text-top te" style="font-size: 24px">Zertifikat
+											beantragen</div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<a href="beantragen.jsp">
-							<div class="panel-footer">
-								<span class="pull-left">Details ansehen</span> <span
-									class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</div>
-						</a>
-					</div>
+					</a>
 				</div>
+
 
 				<!-- /.row -->
 
