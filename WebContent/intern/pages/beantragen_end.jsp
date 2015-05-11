@@ -123,7 +123,7 @@
                            
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-history fa-fw"></i> Zertifikat verlÃ¤ngern</a>
+                            <a href="index.html"><i class="fa fa-history fa-fw"></i> Zertifikat verlängern</a>
                         </li>
                         <li>
                             <a href="index.html"><i class="fa fa-ban fa-fw"></i> Zertifikat widerrufen</a>
@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     
-                                    <div class="text-top te" style="font-size:24px">Zertifikat verlängern</div>
+                                    <div class="text-top te" style="font-size:24px">Zertifikat widerrufen</div>
 									<div class="text-top te" style="font-size:12px">Missbrauch melden</div>
                                 </div>
                             </div>
