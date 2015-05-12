@@ -53,6 +53,10 @@ public class UserLogic {
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
 	}
 	
+	public static String getFullName(User user){
+		return (user.getFirstName() + " " + user.getLastName());
+	}
+	
 	/**
 	 * Method which checks if a user with a specific email address already exists
 	 * 
