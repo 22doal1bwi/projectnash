@@ -48,19 +48,7 @@ public class CertificateUtility {
 
 	}
 
-	/**
-	 * Runs a command and returns its output as a input stream
-	 * 
-	 * @param command
-	 * @return InputStream
-	 * @throws IOException
-	 * @author Alexander Dobler
-	 */
-	private static InputStream getCommandOutput(String... command)
-			throws IOException {
-		Process proc = Runtime.getRuntime().exec(command);
-		return proc.getInputStream();
-	}
+
 
 	/**
 	 * Writes an InputStream into an OutputStream and flushes/closes it
@@ -120,15 +108,18 @@ public class CertificateUtility {
 				"genrsa", Constants.KEY_BIT_LENGTH
 				};
 
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
 		/** get output of key generation command */
-		InputStream in = getCommandOutput(command);
+		InputStream in = proc.getInputStream();
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in private key generation method!");
-
+		/** destroy openssl instance */
+		proc.destroy();
 		return out.toByteArray();
 	}
 
@@ -170,15 +161,18 @@ public class CertificateUtility {
 				"-key",	tmpKeyFile.getAbsolutePath()
 				};
 
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
 		/** get output of key generation command as input stream */
-		InputStream in = getCommandOutput(command);
+		InputStream in = proc.getInputStream();
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in CSR generation method!");
-
+		/** destroy openssl instance */
+		proc.destroy();
 		return out.toByteArray();
 	}
 
@@ -201,13 +195,16 @@ public class CertificateUtility {
 				"-in", csrFilePath
 				};
 
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
 		/** get output of key generation command */
-		InputStream in = getCommandOutput(command);
+		InputStream in = proc.getInputStream();
 		/** prepare collection of output into an byte array */
 		OutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-
+		/** destroy openssl instance */
+		proc.destroy();
 		return out.toString();
 	}
 
@@ -241,15 +238,18 @@ public class CertificateUtility {
 				"-sha512"
 				};
 
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
 		/** get output of crt generation command as input stream */
-		InputStream in = getCommandOutput(command);
+		InputStream in = proc.getInputStream();
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Root files not found.");
-		
+		/** destroy openssl instance */
+		proc.destroy();
 		return out.toByteArray();
 	}
 	
@@ -283,7 +283,8 @@ public class CertificateUtility {
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writeInputToOutput(inputStream, out);
-		
+		/** destroy openssl instance */
+		proc.destroy();
 		return out.toByteArray();
 		
 	}
@@ -309,13 +310,16 @@ public class CertificateUtility {
 				kindOfData			
 				};
 
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
 		/** get output of key generation command */
-		InputStream in = getCommandOutput(command);
+		InputStream in = proc.getInputStream();
 		/** prepare collection of output into an byte array */
 		OutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-
+		/** destroy openssl instance */
+		proc.destroy();
 		return out.toString();
 	}
 	
