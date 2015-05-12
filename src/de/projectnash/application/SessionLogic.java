@@ -11,25 +11,30 @@ import de.projectnash.entities.User;
  *
  */
 public class SessionLogic {
-	
+
 	public static boolean createSession(User user, String ssnId) {
-		
-		Session session = new Session(user, ssnId);
-		SessionPersistenceService.storeSession(session);
-		
-		return false;
+		try {
+			Session session = new Session(user, ssnId);
+			SessionPersistenceService.storeSession(session);
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public static void removeSession(String ssnId){
-		SessionPersistenceService.removeSession(SessionPersistenceService.loadSession(ssnId));
+	public static void removeSession(String ssnId) {
+		SessionPersistenceService.removeSession(SessionPersistenceService
+				.loadSession(ssnId));
 	}
-	
-	public static Session loadSession(String ssnId){
+
+	public static Session loadSession(String ssnId) {
 		return SessionPersistenceService.loadSession(ssnId);
 	}
-	
-	public static boolean checkSession(String ssnId){
+
+	public static boolean checkSession(String ssnId) {
 		return SessionPersistenceService.sessionExists(ssnId);
 	}
-	
+
 }

@@ -8,6 +8,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/x
 	<class>de.projectnash.entities.User</class>
 	<class>de.projectnash.entities.Session</class>
 	<class>de.projectnash.entities.Log</class>
+	<class>de.projectnash.entities.Request</class>
 		
 	<properties>
 		<property name="javax.persistence.jdbc.password" value="simplecert"/>

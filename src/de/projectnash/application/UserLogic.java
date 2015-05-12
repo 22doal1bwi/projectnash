@@ -82,6 +82,10 @@ public class UserLogic {
 		return CertificateLogic.certificateIsValid(user.getCertificate());
 	}
 	
+	public static boolean hasRequest(User user){
+		return RequestLogic.checkRequest(user);
+	}
+	
 	// TODO: implement changePassword method
 	public static boolean changePassword(User user, String oldPassword, String newPassword) {
 		return false;
