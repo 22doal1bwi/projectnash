@@ -5,8 +5,8 @@
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.entities.User"%>
 <%@page import="de.projectnash.application.UserLogic"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -21,7 +21,6 @@
 <link rel="icon" href="../../img/favicon.ico">
 
 <head>
-<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
@@ -135,7 +134,7 @@
 							class="fa fa-file-text-o fa-fw navbaricon"></i>Zertifikat
 							beantragen</a></li>
 					<li><a href="index.jsp"><i
-							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
+							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlÃ¤ngern</a></li>
 					<li><a href="index.jsp"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
@@ -162,9 +161,9 @@
 							</div>
 							<div id="step1_content">
 								<div class="panel-body">
-									<p>Beantragen Sie ihr persönliches Sicherheits-Zertifikat,
-										damit Sie es im nächsten Schritt - nach erfolgreicher
-										Genehmigung - herunterladen können.</p>
+									<p>Beantragen Sie ihr persÃ¶nliches Sicherheits-Zertifikat,
+										damit Sie es im nÃ¤chsten Schritt - nach erfolgreicher
+										Genehmigung - herunterladen kÃ¶nnen.</p>
 								</div>
 								<div class="panel-footer">
 									<button onclick="requestCertificate()" type="button"
@@ -345,7 +344,7 @@
 							<div id="step2_content">
 								<div class="panel-body">
 									<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
-										es, um es anschließend in ihren Browser importieren zu können.</p>
+										es, um es anschlieÃŸend in ihren Browser importieren zu kÃ¶nnen.</p>
 								</div>
 								<div class="panel-footer">
 									<form action="../../CrtDownload" method="get">

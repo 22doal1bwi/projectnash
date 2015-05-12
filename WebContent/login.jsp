@@ -143,7 +143,7 @@
 				<input type="password" id="password" name="password"
 					class="form-control" placeholder="Passwort"
 					onchange="cleanInputField('password')" required>
-				<button class="btn btn-lg btn-red btn-block" type="button"
+				<button id="loginButton" class="btn btn-lg btn-red btn-block" type="button"
 					onclick="checkFormBeforeSubmit()">Einloggen</button>
 				<script type="text/javascript">
 					//====================================================================================//
@@ -245,6 +245,16 @@
 					//====================================================================================//
 					//============================= LITTLE HELPER FUNCTIONS ==============================//
 					//====================================================================================//
+
+					//Method that triggers the login button when the 'enter'-key is pressed
+						$(document).ready(function() {
+							$('#password, #emailAddress').keypress(function(e) {
+								if (e.keyCode == 13)
+									$('#loginButton').click();
+							});
+						});
+					
+					
 
 					// Method which removes any style classes from an inputfield
 					function cleanInputField(type) {

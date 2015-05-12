@@ -4,10 +4,8 @@
 package de.projectnash.frontend;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,9 +38,7 @@ public class DownloadServlet extends HttpServlet{
 					String filename = user.getFirstName()+"_"+user.getLastName()+"_"+user.getPersonalId()+".p12";
 					response.setContentType("text/plain");
 					response.setHeader("Content-Disposition",
-				                     "attachment;filename="+filename);
-					ServletContext ctx = getServletContext();
-				 
+				                     "attachment;filename="+filename);		 
 					
 					Certificate cert = user.getCertificate();
 					byte[] crtBytes = cert.getCertificateFile();

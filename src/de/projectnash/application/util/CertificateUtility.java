@@ -1,7 +1,5 @@
 package de.projectnash.application.util;
 
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;

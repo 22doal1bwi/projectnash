@@ -1,6 +1,5 @@
 package de.projectnash.application;
 
-import java.awt.AWTException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;

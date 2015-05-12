@@ -10,16 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import sun.font.CreatedFontTracker;
 import de.projectnash.application.CertificateLogic;
-import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.exceptions.OpenSSLException;
-import de.projectnash.frontend.controllers.CertificateController;
 
 /**
  * Servlet implementation class Certificate Servlet
