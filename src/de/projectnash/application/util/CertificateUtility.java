@@ -4,11 +4,14 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import de.projectnash.entities.Certificate;
 import de.projectnash.exceptions.OpenSSLException;
@@ -36,6 +39,7 @@ public class CertificateUtility {
 		KEY("key_", ".pem"),
 		CSR("csr_", ".csr"),
 		CRT("crt_", ".crt"),
+		P12("pkcs12_", ".p12")
 		;
 
 		final String prefix;
@@ -258,6 +262,7 @@ public class CertificateUtility {
 		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
+		Path tmpP12File = Files.createTempFile(FilePattern.P12.prefix, FilePattern.P12.suffix);
 		
 		String[] command = {
 				"openssl",
@@ -265,24 +270,28 @@ public class CertificateUtility {
 				"-export",
 				"-inkey", tmpKeyFile.getAbsolutePath(),
 				"-in", tmpCrtFile.getAbsolutePath(),
-				"-certfile", rootCertFile.getAbsolutePath()
+				"-certfile", rootCertFile.getAbsolutePath(),
+				"-out", tmpP12File.toString(),
+				"-password", "pass:"
 				};
 		
 		Process proc = Runtime.getRuntime().exec(command);
 		
-		OutputStream commandIn = proc.getOutputStream();
-
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(commandIn));
-			
-		writer.newLine();
-		writer.newLine();
-		writer.close();
+//		OutputStream commandIn = proc.getOutputStream();
+//
+//		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(commandIn));
+//			
+//		writer.newLine();
+//		writer.newLine();
+//		writer.close();
+//		
+//		InputStream inputStream = proc.getInputStream();
 		
-		InputStream inputStream = proc.getInputStream();
-		
+		FileInputStream fileInputStream = new FileInputStream (tmpP12File.toFile());
+	
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writeInputToOutput(inputStream, out);
+		writeInputToOutput(fileInputStream, out);
 		/** destroy openssl instance */
 		proc.destroy();
 		return out.toByteArray();

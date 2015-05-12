@@ -47,6 +47,7 @@ public class DownloadServlet extends HttpServlet{
 					os.write(crtBytes);
 					os.flush();
 					os.close();	
+					break;
 				case "0":
 				case "-1":
 					response.sendError(501);

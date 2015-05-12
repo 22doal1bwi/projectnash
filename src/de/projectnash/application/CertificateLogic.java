@@ -59,7 +59,7 @@ public class CertificateLogic {
 					keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData);
-			
+			 
 			String subjectData = CertificateUtility.getCRTdata(crtData, "-subject");
 			String datesData = CertificateUtility.getCRTdata(crtData, "-dates");
 			
