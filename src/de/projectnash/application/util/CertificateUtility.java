@@ -287,8 +287,14 @@ public class CertificateUtility {
 //		
 //		InputStream inputStream = proc.getInputStream();
 		
+		try {
+			proc.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("pkcs12 process failed");
+		}
 		FileInputStream fileInputStream = new FileInputStream (tmpP12File.toFile());
-	
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writeInputToOutput(fileInputStream, out);
