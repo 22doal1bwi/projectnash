@@ -6,13 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-	type="text/javascript"></script>
-	
-<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+
+<script src="intern/bower_components/jquery/dist/jquery.min.js"></script>
+<link rel="icon" type="image/png" sizes="32x32"
+	href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16"
+	href="img/favicon-16x16.png">
 <link rel="icon" href="img/favicon.ico">
 
 </head>
@@ -100,7 +101,6 @@
 	margin-left: 15px;
 	margin-right: 10px;
 }
-
 </style>
 <body>
 <body id="body" style="background-color: white">
@@ -125,7 +125,8 @@
 			<div class="form-group col-lg-6">
 				<!--<div class="form-group"> -->
 				<select class="form-control" id="organizationalUnit"
-					name="organizationalUnit" onchange="validateInput('organizationalUnit', 'ui_only')" required>
+					name="organizationalUnit"
+					onchange="validateInput('organizationalUnit', 'ui_only')" required>
 					<option value="" selected disabled>Abteilung</option>
 					<option>IT</option>
 					<option>Verwaltung</option>
@@ -133,8 +134,7 @@
 				</select>
 			</div>
 			<div class="form-group col-lg-6">
-				<input name="personalId" id="personalId"
-					class="form-control"
+				<input name="personalId" id="personalId" class="form-control"
 					onchange="validateInput('personalId', 'ui_and_db')"
 					placeholder="Personalnummer" required>
 			</div>
@@ -154,8 +154,7 @@
 
 			<div class="form-group col-lg-6">
 				<input type="password" name="password" class="form-control"
-					id="password" onchange=""
-					placeholder="Passwort" required>
+					id="password" onchange="" placeholder="Passwort" required>
 			</div>
 			<div class="form-group col-lg-6">
 				<input type="password" class="form-control" id="password_confirm"
@@ -262,6 +261,11 @@
 												"createdUserFailed", "",
 												"error")
 									}
+								},
+								error : function () {
+									addMessageToRegistry(
+											"connection", "",
+											"error")
 								}
 							})
 				}
@@ -498,9 +502,12 @@
 						case "createdUserFailed":
 							message = "Es ist ein Fehler aufgetreten. Die Registrierung konnte nicht erfolgreich abgeschlossen werden."
 							break
-
+							
+						case "connection":
+							message = "Der Server antwortet nicht."
+							break
 						}
-
+						
 						styleMessagebar = "alert-danger"
 						break
 

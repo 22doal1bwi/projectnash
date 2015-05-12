@@ -10,7 +10,8 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
-
+<!-- jQuery -->
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../../img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
@@ -183,9 +184,6 @@
 
 		</div>
 		<!-- /#wrapper -->
-
-		<!-- jQuery -->
-		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
 		<!-- Bootstrap Core JavaScript -->
 		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

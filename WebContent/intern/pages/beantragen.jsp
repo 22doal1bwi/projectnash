@@ -10,6 +10,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
+<!-- jQuery -->
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../../img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
@@ -19,9 +21,6 @@
 <link rel="icon" href="../../img/favicon.ico">
 
 <head>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-	type="text/javascript"></script>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -71,23 +70,20 @@
 <body>
 	<div id="wrapper">
 
-	<%
-		//allow access only if session exists if not, redirect to login
-		String sessionId = SessionController.checkForSessionId(request,
-				response);
+		<%
+			//allow access only if session exists if not, redirect to login
+			String sessionId = SessionController.checkForSessionId(request,
+					response);
 
-		switch (sessionId) {
+			switch (sessionId) {
 
-		case "-1":
-		case "0":
-			response.sendRedirect("../../login.jsp");
-			break;
-		default:
-			UserController uc = new UserController(sessionId);
-			
-		
-
-	%>
+				case "-1" :
+				case "0" :
+					response.sendRedirect("../../login.jsp");
+					break;
+				default :
+					UserController uc = new UserController(sessionId);
+		%>
 
 		<!-- Navigation -->
 		<nav class="navbar navbar-default navbar-static-top" role="navigation"
@@ -106,17 +102,19 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><%=uc.getFirstName() %> <%=uc.getLastName() %> (<%=uc.getPersonalId() %>)</a></li>
+			<li><a href="index.jsp"><%=uc.getFirstName()%> <%=uc.getLastName()%>
+					(<%=uc.getPersonalId()%>)</a></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
 			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../../LogoutServlet" method="post">
-					<a role="button" class="fa fa-sign-out fa-2x" style="text-decoration: none;" onclick="logout()"></a>
+					<a role="button" class="fa fa-sign-out fa-2x"
+						style="text-decoration: none;" onclick="logout()"></a>
 					<script type="text/javascript">
-					function logout () {
-						document.form_logout.submit()
-					}
+						function logout() {
+							document.form_logout.submit()
+						}
 					</script>
 				</form>
 			</li>
@@ -147,8 +145,7 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div id="messagebar"
-				class="alert messagebar messagebar_hidden">				
+			<div id="messagebar" class="alert messagebar messagebar_hidden">
 			</div>
 			<div class="row"></div>
 			<!-- /.row -->
@@ -180,6 +177,7 @@
 														url : '../../CertificateServlet',
 														type : 'POST',
 														dataType : 'json',
+														timeout : 8000,
 														success : function(data) {
 															if (data.validSession
 																	&& data.createdCertificate) {
@@ -193,12 +191,17 @@
 																				"redirect()",
 																				1000);
 															}
+														},
+														error : function() {
+															showMessageBar(
+																	"connection",
+																	"error")
 														}
 													})
 										}
 
 										function requestSuccessful() {
-											showMessageBar("successful")
+											showMessageBar("", "success")
 											$("#messagebar").removeClass(
 													"messagebar_hidden")
 											$("#page_content").addClass(
@@ -239,7 +242,7 @@
 										}
 
 										function requestNotSuccessful() {
-											showMessageBar("failed")
+											showMessageBar("request", "error")
 											$("#messagebar").removeClass(
 													"messagebar_hidden")
 											$("#page_content").addClass(
@@ -258,43 +261,64 @@
 															}, 3000);
 										}
 
-										function showMessageBar(type) {
+										function showMessageBar(type,
+												kindOfMessage) {
 											var message, messagebar = document
 													.getElementById('messagebar'), messagebarContent, styleMessagebar, iconBorderColor, iconColor, iconType
 
-											if (type === "successful") {
+											switch (kindOfMessage) {
+
+											case "success":
 												iconBorderColor = "#3c763d"
 												iconColor = "#5cb85c"
 												iconType = "fa-check"
 												styleMessagebar = "alert-success"
 												message = "Sie haben Ihr Zertifikat erfolgreich beantragt."
-											} else {
+												break
+
+											case "error":
 												iconBorderColor = "#843534"
 												iconColor = "#d9534f"
 												iconType = "fa-times"
 												styleMessagebar = "alert-danger"
-												message = "Bei der Beantragung Ihres Zertifikats traten Probleme auf. Bitte wenden Sie sich an Alexander Dobler ;-)"
+
+												switch (type) {
+
+												case "request":
+													message = "Ihr Zertifikat konnte nicht beantragt werden."
+													break
+
+												case "connection":
+													message = "Der Server antwortet nicht."
+													break
+												}
+												break
 											}
 
 											messagebarContent = '<div class="btn btn-default btn-circle messageicon" style="cursor: context-menu; border-color:' + iconBorderColor + ';"> <i id="messagebar_icon" style="color:' + iconColor + '; line-height: 17px;" class="fa ' + iconType + '"></i> </div>'
-													+ message											
-												messagebar.innerHTML = messagebarContent;
-												cleanMessageBar()
-												messagebar.classList
-														.add(styleMessagebar)
+													+ message
+											messagebar.innerHTML = messagebarContent;
+											cleanMessageBar()
+											messagebar.classList
+													.add(styleMessagebar)
 										}
-										
+
 										// Method which removes any style classes from the massagebar
 										function cleanMessageBar() {
-											messagebar = document.getElementById('messagebar')
-											if ($("#messagebar").hasClass("alert-danger")) {
-												messagebar.classList.remove("alert-danger")
+											messagebar = document
+													.getElementById('messagebar')
+											if ($("#messagebar").hasClass(
+													"alert-danger")) {
+												messagebar.classList
+														.remove("alert-danger")
 											}
-											if ($("#messagebar").hasClass("alert-success")) {
-												messagebar.classList.add("alert-success")
+											if ($("#messagebar").hasClass(
+													"alert-success")) {
+												messagebar.classList
+														.add("alert-success")
 											}
 										}
-										
+
 										// Method which is called for redirection after logout
 										function redirect() {
 											location.href = 'index.jsp';
@@ -341,8 +365,7 @@
 		</div>
 		<!-- /#wrapper -->
 
-		<!-- jQuery -->
-		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+
 
 		<!-- Bootstrap Core JavaScript -->
 		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -357,6 +380,9 @@
 
 		<!-- Custom Theme JavaScript -->
 		<script src="../dist/js/sb-admin-2.js"></script>
-		<% } %>
+		<%
+			}
+		%>
+	
 </body>
 </html>

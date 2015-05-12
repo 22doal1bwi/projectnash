@@ -11,14 +11,15 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32"
+	href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16"
+	href="img/favicon-16x16.png">
 <link rel="icon" href="img/favicon.ico">
 
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-	type="text/javascript"></script>
+<script src="intern/bower_components/jquery/dist/jquery.min.js"></script>
 <title>simpleCert - Login</title>
 
 <!-- Bootstrap core CSS -->
@@ -107,7 +108,6 @@
 	margin-left: 15px;
 	margin-right: 10px;
 }
-
 </style>
 
 </head>
@@ -158,10 +158,15 @@
 							data : $('#emailAddress, #password').serialize(),
 							success : function(data) {
 								if (data.loginFailed) {
-									showMessageBar("error")									
-								} else {									
-									window.setTimeout("redirect()", 1000);
+									showMessageBar("credentials", "error")
+								} else {
+									window.setTimeout(function() {
+										location.href = 'intern/index.html';
+									}, 1000);
 								}
+							},
+							error : function() {
+								showMessageBar("connection", "error")
 							}
 						})
 					}
@@ -188,12 +193,12 @@
 							hideMessageBar()
 							submitLoginForm()
 						} else {
-							showMessageBar("warning")
+							showMessageBar("", "warning")
 						}
 					}
 
 					// Method which builds and shows the messagebar	for wrong 'emailAddress' or 'password'				
-					function showMessageBar(kindOfMessage) {
+					function showMessageBar(type, kindOfMessage) {
 						var message, messagebar = document
 								.getElementById('messagebar'), messagebarContent, styleMessagebar, iconBorderColor, iconColor, iconType, styleMessagebar
 
@@ -204,7 +209,17 @@
 							iconColor = "#d9534f"
 							iconType = "fa-times"
 							styleMessagebar = "alert-danger"
-							message = "Ihre E-Mail-Adresse oder Ihr Passwort ist nicht korrekt."
+
+							switch (type) {
+							case "credentials":
+								message = "Ihre E-Mail-Adresse oder Ihr Passwort ist nicht korrekt."
+								break
+
+							case "connection":
+								message = "Der Server antwortet nicht."
+								break
+							}
+
 							break
 
 						case "warning":
@@ -230,10 +245,6 @@
 					//====================================================================================//
 					//============================= LITTLE HELPER FUNCTIONS ==============================//
 					//====================================================================================//
-					// Method which is called for redirection after successful registration
-					function redirect() {
-						location.href = 'intern/index.html';
-					}
 
 					// Method which removes any style classes from an inputfield
 					function cleanInputField(type) {
