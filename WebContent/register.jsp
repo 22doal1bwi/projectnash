@@ -338,11 +338,11 @@
 							break
 
 						case "firstName":
-							regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+$/;
+							regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+$/;
 							break
 
 						case "lastName":
-							regEx = /^[A-Za-zßÄÖÜ\'\-\ ]+$/;
+							regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+$/;
 							break
 
 						case "password":
