@@ -375,7 +375,7 @@
 						</div>
 						<div id="loading_gif" class="loading_gif">
 							<img
-								src="http://navajotimes.com/wordpress/wp-content/themes/novomag-theme/images/loading.gif">
+								src="../../img/loading.gif">
 						</div>
 					</div>					
 				</div>
