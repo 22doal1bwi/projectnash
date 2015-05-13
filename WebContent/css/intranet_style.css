@@ -11,14 +11,25 @@ author: bootply.com
 body {
   padding-top: 70px;
 }
+/* Farbe für normale Links*/
+a {color: #58733D;}
 
 .navbar, navbar-default, navbar-fixed-top{
+  /*background: -webkit-linear-gradient(#B2BFCA, #fff); /* For Safari 5.1 to 6.0 */
+  /*background: -o-linear-gradient(#B2BFCA, #fff); /* For Opera 11.1 to 12.0 */
+  /*background: -moz-linear-gradient(#B2BFCA, #fff); /* For Firefox 3.6 to 15 */
+  /*background: linear-gradient(#B2BFCA, #fff); /* Standard syntax */
 
-  background: -webkit-linear-gradient(#B2BFCA, #fff); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#B2BFCA, #fff); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#B2BFCA, #fff); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#B2BFCA, #fff); /* Standard syntax */
+  background-color: #85A663;
+  border-bottom: 1px solid #2E401C;
 
-  border-bottom: 1px solid #428BCA;
+}
 
+/*Farbe für Navbar Links*/
+.navbar a, navbar-default, navbar-fixed-top a{
+	color: #58733D!important;}
+
+/*Farbe für "Nash inc." in Navbar*/
+.navbar-header a {
+	color: #333!important;
 }
