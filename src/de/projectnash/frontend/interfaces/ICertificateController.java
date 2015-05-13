@@ -12,7 +12,7 @@ public interface ICertificateController {
 	/**
 	 * @return The {@link String} that contains the country of the {@link Certificate}.
 	 */
-	String getCountry();
+	String getCountryName();
 	
 	/**
 	 * @return The {@link String} that contains the state of the {@link Certificate}.
@@ -32,7 +32,7 @@ public interface ICertificateController {
 	/**
 	 * @return The {@link String} that contains the organization unit of the {@link Certificate}.
 	 */
-	String getOrganizationUnit();
+	String getOrganizationalUnit();
 	
 	/**
 	 * @return The {@link String} that contains the common name of the {@link Certificate}.

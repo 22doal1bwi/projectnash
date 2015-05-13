@@ -19,6 +19,16 @@ public interface IUserController {
 	 */
 	String getLastName();
 	
+	/** 
+	 * @return The {@link String} that represents the full name of the {@link User}.
+	 */
+	String getFullName();
+	
+	/**
+	 * @return The {@link String} that represents the common name of the {@link User}.
+	 */
+	String getCommonName();
+	
 	/**
 	 * @return The {@link String} that represents the mail address of the {@link User}.
 	 */

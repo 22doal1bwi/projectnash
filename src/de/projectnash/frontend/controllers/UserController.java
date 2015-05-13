@@ -25,6 +25,15 @@ public class UserController implements IUserController {
 	}
 
 	@Override
+	public String getFullName() {
+		return UserLogic.getFullName(user);
+	}
+
+	@Override
+	public String getCommonName() {
+		return UserLogic.getCommonName(user);
+	}
+	@Override
 	public String getEmailAddress() {
 		return user.getEmailAddress();
 	}
@@ -48,7 +57,4 @@ public class UserController implements IUserController {
 	public boolean hasValidCertificate() {
 		return UserLogic.hasValidCertificate(user);
 	}
-
-
-
 }

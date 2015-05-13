@@ -45,10 +45,6 @@ public class UserLogic {
 		return UserPersistenceService.loadUser(eMailAddress);	
 	}
 	
-	public static boolean userExists(String emailAddress){
-		return UserPersistenceService.userExists(emailAddress);
-	}
-	
 	public static String getCommonName(User user){
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
 	}
