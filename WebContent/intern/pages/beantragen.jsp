@@ -209,7 +209,10 @@
 										}
 										
 										function unsetLoading () {	
-											$("#loading_gif").fadeOut()											
+											$("#panel_body_step1").removeClass("panel_next_step_or_loading")
+											$("#loading_gif").fadeOut()	
+											$("#request_button").removeClass("disabled")
+											$("#request_button").attr("onclick", "requestCertificate()")
 										}
 
 										function requestSuccessful() {
