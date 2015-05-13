@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 
 import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.UserLogic;
-import de.projectnash.exceptions.OpenSSLException;
+import de.projectnash.application.util.OpenSSLException;
 
 /**
  * Servlet implementation class Certificate Servlet

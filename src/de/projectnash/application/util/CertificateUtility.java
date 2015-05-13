@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import de.projectnash.entities.Certificate;
-import de.projectnash.exceptions.OpenSSLException;
+import de.projectnash.application.util.OpenSSLException;
 
 /**
  * This class provides all methods that represents standardized mechanisms in

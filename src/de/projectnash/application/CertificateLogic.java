@@ -13,7 +13,7 @@ import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
-import de.projectnash.exceptions.OpenSSLException;
+import de.projectnash.application.util.OpenSSLException;
 
 
 /**

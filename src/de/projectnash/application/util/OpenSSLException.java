@@ -1,4 +1,4 @@
-package de.projectnash.exceptions;
+package de.projectnash.application.util;
 
 public class OpenSSLException extends Exception {
 
