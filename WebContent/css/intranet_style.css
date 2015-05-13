@@ -27,9 +27,14 @@ a {color: #58733D;}
 
 /*Farbe für Navbar Links*/
 .navbar a, navbar-default, navbar-fixed-top a{
-	color: #58733D!important;}
+	color: #fff!important;}
 
 /*Farbe für "Nash inc." in Navbar*/
 .navbar-header a {
 	color: #333!important;
+}
+
+/*Farbe für Navbar Dropdown Links*/
+.dropdown-menu a {
+	color: #58733D!important;
 }
