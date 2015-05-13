@@ -33,15 +33,9 @@ public class CertificateLogic {
 	 * @throws OpenSSLException 
 	 */
 	public static void main(String[] args) throws ParseException, OpenSSLException {
-		User tempUser = new User(0002, "Artur", "Ermisch",
-				"CI", "artur.ermisch@simpleCert.com", "Eierkuchen2");
-		
-		//UserPersistenceService.storeUser(tempUser);
-		createCertificate(tempUser);
-
 	}
 
-	public static boolean createCertificate(User user) throws ParseException, OpenSSLException {
+	public static boolean createCertificate(User user) throws ParseException, OpenSSLException, InterruptedException {
 		
 		Organization organization = new Organization();
 		

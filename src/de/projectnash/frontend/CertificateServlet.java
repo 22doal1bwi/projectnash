@@ -44,7 +44,7 @@ public class CertificateServlet extends HttpServlet {
 					map.put("createdCertificate", false);
 				}
 
-			} catch (ParseException | OpenSSLException e) {
+			} catch (ParseException | OpenSSLException | InterruptedException e) {
 				e.printStackTrace();
 				map.put("createdCertificate", false);
 			}

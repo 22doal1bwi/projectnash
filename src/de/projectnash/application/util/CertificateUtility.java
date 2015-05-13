@@ -1,7 +1,6 @@
 package de.projectnash.application.util;
 
 import java.awt.event.KeyEvent;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -52,8 +50,6 @@ public class CertificateUtility {
 
 	}
 
-
-
 	/**
 	 * Writes an InputStream into an OutputStream and flushes/closes it
 	 * 
@@ -81,8 +77,7 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * @author Alexander Dobler
 	 */
-	private static File writeBytesToTempFile(byte[] binaryFileObject,
-			FilePattern pattern) throws IOException {
+	private static File writeBytesToTempFile(byte[] binaryFileObject, FilePattern pattern) throws IOException {
 		/**
 		 * create a empty file matching the pattern in the default temporary
 		 * directory
@@ -106,7 +101,6 @@ public class CertificateUtility {
 	 */
 	public static byte[] generatePrivateKey() throws IOException, OpenSSLException {
 
-		// openssl genrsa 2048
 		String[] command = {
 				"openssl",
 				"genrsa", Constants.KEY_BIT_LENGTH
@@ -114,16 +108,21 @@ public class CertificateUtility {
 
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
+		
 		/** get output of key generation command */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in private key generation method!");
+		
 		/** destroy openssl instance */
 		proc.destroy();
+		
 		return out.toByteArray();
 	}
 
@@ -149,7 +148,7 @@ public class CertificateUtility {
 
 		/** get a temporary key file */
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);		
-		// openssl req -new -key privateKey.pem
+
 		String[] command = {
 				"openssl",
 				"req",
@@ -175,8 +174,10 @@ public class CertificateUtility {
 		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in CSR generation method!");
+		
 		/** destroy openssl instance */
 		proc.destroy();
+		
 		return out.toByteArray();
 	}
 
@@ -190,7 +191,6 @@ public class CertificateUtility {
 	 */
 	public static String checkCSR(String csrFilePath) throws IOException {
 
-		// openssl req -text -verify -in
 		String[] command = {
 				"openssl",
 				"req",
@@ -201,12 +201,16 @@ public class CertificateUtility {
 
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
+		
 		/** get output of key generation command */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into an byte array */
 		OutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
+		
 		/** destroy openssl instance */
 		proc.destroy();
 		return out.toString();
@@ -252,12 +256,25 @@ public class CertificateUtility {
 		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Root files not found.");
+		
 		/** destroy openssl instance */
 		proc.destroy();
+		
 		return out.toByteArray();
 	}
 	
-	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey) throws IOException{
+	/**
+	 * Method which generates a certificate (.p12 file)
+	 * @param crtData
+	 * @param privateKey
+	 * @return A byte array that contains the .p12 data
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author Alexander Dobler, Jonathan Schlotz, Silvio D'Alessandro
+	 * @throws OpenSSLException 
+	 */
+	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey) throws IOException, InterruptedException, OpenSSLException{
+		
 		File rootCertFile = new File("root_cert.pem");
 		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
@@ -276,32 +293,22 @@ public class CertificateUtility {
 				};
 		
 		Process proc = Runtime.getRuntime().exec(command);
+		proc.waitFor();
 		
-//		OutputStream commandIn = proc.getOutputStream();
-//
-//		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(commandIn));
-//			
-//		writer.newLine();
-//		writer.newLine();
-//		writer.close();
-//		
-//		InputStream inputStream = proc.getInputStream();
-		
-		try {
-			proc.waitFor();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("pkcs12 process failed");
-		}
 		FileInputStream fileInputStream = new FileInputStream (tmpP12File.toFile());
+		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		writeInputToOutput(fileInputStream, out);
 		/** destroy openssl instance */
-		proc.destroy();
-		return out.toByteArray();
 		
+		if (out.toString().isEmpty()) throw new OpenSSLException("Could not read input stream.");
+		
+		/** destroy openssl instance */
+		proc.destroy();
+		
+		return out.toByteArray();
 	}
 	
 	/**
@@ -316,7 +323,6 @@ public class CertificateUtility {
 	 */
 	public static String getCRTdata(byte[] crtData, String kindOfData) throws IOException{
 		
-		//openssl x509 -in cert.pem -noout -text
 		String[] command = {
 				"openssl",
 				"x509",
@@ -327,14 +333,19 @@ public class CertificateUtility {
 
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
+		
 		/** get output of key generation command */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into an byte array */
 		OutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
+		
 		/** destroy openssl instance */
 		proc.destroy();
+		
 		return out.toString();
 	}
 	
