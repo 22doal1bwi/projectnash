@@ -76,7 +76,7 @@
 	line-height: 45px;
 }
 
-.panelheader_next_step {
+.panel_next_step_or_loading {
 	opacity: 0.5;
 	transition: opacity .4s !important;
 }
@@ -110,4 +110,10 @@
 	font-size: 20px;
 	margin-right: 8px;
 	line-height: 30px;
+}
+
+.loading_gif {
+	text-align: center;
+	position: relative;
+	bottom: 225px;
 }

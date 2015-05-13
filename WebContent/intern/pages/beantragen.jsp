@@ -63,6 +63,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#step2_content").hide()
+		$("#loading_gif").hide()
 	});
 </script>
 
@@ -150,7 +151,7 @@
 			<!-- /.row -->
 			<div id="page_content" class="page_content">
 				<div class="row">
-					<div class="col-lg-6 col-md-6">
+					<div id="step1_whole_panel" class="col-lg-6 col-md-6">
 						<div class="panel panel-default functiontile">
 							<div id="step1_header" class="panel-heading panelheader">
 								<button id="step1_icon" type="button"
@@ -160,17 +161,18 @@
 								Schritt 1: Zertifikat beantragen
 							</div>
 							<div id="step1_content">
-								<div class="panel-body">
+								<div id="panel_body_step1" class="panel-body">
 									<p>Beantragen Sie ihr persönliches Sicherheits-Zertifikat,
 										damit Sie es im nächsten Schritt - nach erfolgreicher
 										Genehmigung - herunterladen können.</p>
 								</div>
 								<div class="panel-footer">
-									<button onclick="requestCertificate()" type="button"
+									<button id="request_button" onclick="requestCertificate()" type="button"
 										class="btn btn-danger" id="requestCertificateButton">Beantragen</button>
 
 									<script type="text/javascript">
-										function requestCertificate() {
+										function requestCertificate() {	
+											setLoading()
 											$
 													.ajax({
 														url : '../../CertificateServlet',
@@ -198,8 +200,20 @@
 														}
 													})
 										}
+										
+										function setLoading () {
+											$("#panel_body_step1").addClass("panel_next_step_or_loading")
+											$("#loading_gif").fadeIn()
+											$("#request_button").addClass("disabled")
+											$("#request_button").removeAttr("onclick")
+										}
+										
+										function unsetLoading () {	
+											$("#loading_gif").fadeOut()											
+										}
 
 										function requestSuccessful() {
+											unsetLoading()
 											showMessageBar("", "success")
 											$("#messagebar").removeClass(
 													"messagebar_hidden")
@@ -241,6 +255,7 @@
 										}
 
 										function requestNotSuccessful() {
+											unsetLoading()
 											showMessageBar("request", "error")
 											$("#messagebar").removeClass(
 													"messagebar_hidden")
@@ -325,8 +340,9 @@
 									</script>
 								</div>
 							</div>
-						</div>
+						</div>						
 					</div>
+
 					<!-- /.row -->
 
 				</div>
@@ -334,7 +350,7 @@
 					<div class="col-lg-6 col-md-6">
 						<div class="panel panel-default">
 							<div id="step2_header"
-								class="panel-heading panelheader panelheader_next_step">
+								class="panel-heading panelheader panel_next_step_or_loading">
 								<button type="submit"
 									class="btn btn-default btn-circle panelicon">
 									<i class="fa fa-check"></i>
@@ -354,7 +370,11 @@
 							</div>
 
 						</div>
-					</div>
+						<div id="loading_gif" class="loading_gif">
+							<img
+								src="http://navajotimes.com/wordpress/wp-content/themes/novomag-theme/images/loading.gif">
+						</div>
+					</div>					
 				</div>
 				<!-- /.row -->
 
