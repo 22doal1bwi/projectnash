@@ -12,6 +12,10 @@
 <html lang="en">
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery.i18n.properties-1.0.9.js"></script>
+<script type="text/javascript" src="../../js/_messagebar.js"></script>
+
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../../img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
@@ -51,8 +55,10 @@
 	rel="stylesheet" type="text/css">
 
 <!-- Intern Pages CSS -->
-<link href="../../css/intern.css" rel="stylesheet"
-	type="text/css">
+<link href="../../css/intern.css" rel="stylesheet" type="text/css">
+
+<!-- Custom styles for the messagebar -->
+<link href="../../css/_messagebar.css" rel="stylesheet" type="text/css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -72,17 +78,16 @@
 
 		switch (sessionId) {
 
-		case "-1":
-		case "0":
-			response.sendRedirect("../../login.jsp");
-			break;
-		default:
-		UserController uc = new UserController(sessionId);
-		
-		if(uc.hasValidCertificate()){
-			response.sendRedirect("beantragen_end.jsp");			
-		} else {
+			case "-1" :
+			case "0" :
+				response.sendRedirect("../../login.jsp");
+				break;
+			default :
+				UserController uc = new UserController(sessionId);
 
+				if (uc.hasValidCertificate()) {
+					response.sendRedirect("beantragen_end.jsp");
+				} else {
 	%>
 
 	<div id="wrapper">
@@ -106,17 +111,19 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><%=uc.getFirstName() %> <%=uc.getLastName() %> (<%=uc.getPersonalId()%>)</a></li>
+			<li><a href="index.jsp"><%=uc.getFirstName()%> <%=uc.getLastName()%>
+					(<%=uc.getPersonalId()%>)</a></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
 			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../../LogoutServlet" method="post">
-					<a role="button" class="fa fa-sign-out fa-2x" style="text-decoration: none;" onclick="logout()"></a>
+					<a role="button" class="fa fa-sign-out fa-2x"
+						style="text-decoration: none;" onclick="logout()"></a>
 					<script type="text/javascript">
-					function logout () {
-						document.form_logout.submit()
-					}
+						function logout() {
+							document.form_logout.submit()
+						}
 					</script>
 				</form>
 			</li>
@@ -132,11 +139,15 @@
 						src="assets/img/cleanCert_logo_key_red.png" style="width: 160px;" />
 
 					</li>
-					<li><a href="index.jsp"><i class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
+					<li><a href="index.jsp"><i
+							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<li><a href="beantragen.jsp"><i
-							class="fa fa-file-text-o fa-fw navbaricon"></i>Zertifikat beantragen</a></li>
-					<li><a href="index.jsp"><i class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
-					<li><a href="index.jsp"><i class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
+							class="fa fa-file-text-o fa-fw navbaricon"></i>Zertifikat
+							beantragen</a></li>
+					<li><a href="index.jsp"><i
+							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
+					<li><a href="index.jsp"><i
+							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
 			</div>
 			<!-- /.sidebar-collapse -->
@@ -144,12 +155,7 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div class="alert alert-danger messagebar">
-				<button type="button" class="btn btn-default btn-circle messageicon messageicon_border_error">
-					<i class="fa fa-times messageicon_error"></i>
-				</button>
-				Sie besitzen kein gültiges Zertifikat!
-			</div>
+			<div class="alert messagebar_intern"></div>
 			<div class="row">
 				<div class="col-lg-12"></div>
 				<!-- /.col-lg-12 -->
@@ -199,7 +205,8 @@
 		<!-- Custom Theme JavaScript -->
 		<script src="../dist/js/sb-admin-2.js"></script>
 		<%
-		}} //close of else block for session check
+			}
+			} //close of else block for session check
 		%>
 	
 </body>

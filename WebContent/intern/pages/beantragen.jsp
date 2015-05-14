@@ -12,6 +12,11 @@
 
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery.i18n.properties-1.0.9.js"></script>
+<script type="text/javascript" src="../js/beantragen.js"></script>
+<script type="text/javascript" src="../../js/_messagebar.js"></script>
+
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../../img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
@@ -52,6 +57,9 @@
 <!-- Intern Pages CSS -->
 <link href="../../css/intern.css" rel="stylesheet" type="text/css">
 
+<!-- Custom styles for the messagebar -->
+<link href="../../css/_messagebar.css" rel="stylesheet" type="text/css">
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -60,12 +68,6 @@
     <![endif]-->
 
 </head>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#step2_content").hide()
-		$("#loading_gif").hide()
-	});
-</script>
 
 <body>
 	<div id="wrapper">
@@ -77,12 +79,12 @@
 
 			switch (sessionId) {
 
-				case "-1" :
-				case "0" :
-					response.sendRedirect("../../login.jsp");
-					break;
-				default :
-					UserController uc = new UserController(sessionId);
+			case "-1":
+			case "0":
+				response.sendRedirect("../../login.jsp");
+				break;
+			default:
+				UserController uc = new UserController(sessionId);
 		%>
 
 		<!-- Navigation -->
@@ -111,11 +113,6 @@
 				<form name="form_logout" action="../../LogoutServlet" method="post">
 					<a role="button" class="fa fa-sign-out fa-2x"
 						style="text-decoration: none;" onclick="logout()"></a>
-					<script type="text/javascript">
-						function logout() {
-							document.form_logout.submit()
-						}
-					</script>
 				</form>
 			</li>
 
@@ -145,205 +142,32 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div id="messagebar" class="alert messagebar messagebar_hidden">
-			</div>
+			<div id="messagebar_request"
+				class="alert messagebar_intern messagebar_hidden"></div>
 			<div class="row"></div>
 			<!-- /.row -->
-			<div id="page_content" class="page_content">
+			<div id="page_content_request" class="page_content">
 				<div class="row">
-					<div id="step1_whole_panel" class="col-lg-6 col-md-6">
+					<div class="col-lg-6 col-md-6">
 						<div class="panel panel-default functiontile">
-							<div id="step1_header" class="panel-heading panelheader">
-								<button id="step1_icon" type="button"
+							<div id="step1_header_request" class="panel-heading panelheader">
+								<button id="step1_icon_request" type="button"
 									class="btn btn-default btn-circle panelicon">
-									<i id="step1_iconfont" class="fa fa-check"></i>
-								</button>
-								Schritt 1: Zertifikat beantragen
+									<i id="step1_iconfont_request" class="fa fa-check"></i>
+								</button>Schritt 1: Zertifikat beantragen
 							</div>
-							<div id="step1_content">
-								<div id="panel_body_step1" class="panel-body">
+							<div id="step1_content_request">
+								<div id="step1_panel_body_request" class="panel-body">
 									<p>Beantragen Sie ihr persönliches Sicherheits-Zertifikat,
 										damit Sie es im nächsten Schritt - nach erfolgreicher
 										Genehmigung - herunterladen können.</p>
 								</div>
 								<div class="panel-footer">
-									<button id="request_button" onclick="requestCertificate()" type="button"
-										class="btn btn-danger" id="requestCertificateButton">Beantragen</button>
-
-									<script type="text/javascript">
-										function requestCertificate() {	
-											setLoading()
-											$
-													.ajax({
-														url : '../../CertificateServlet',
-														type : 'POST',
-														dataType : 'json',
-														timeout : 8000,
-														success : function(data) {
-															if (data.validSession
-																	&& data.createdCertificate) {
-																requestSuccessful()
-															} else if (data.validSession
-																	&& data.createdCertificate === false) {
-																requestNotSuccessful()
-															} else {
-																window
-																		.setTimeout(
-																				"redirect()",
-																				1000);
-															}
-														},
-														error : function() {
-															showMessageBar(
-																	"connection",
-																	"error")
-														}
-													})
-										}
-										
-										function setLoading () {
-											$("#panel_body_step1").addClass("panel_next_step_or_loading")
-											$("#loading_gif").fadeIn()
-											$("#request_button").addClass("disabled")
-											$("#request_button").removeAttr("onclick")
-										}
-										
-										function unsetLoading () {	
-											$("#panel_body_step1").removeClass("panel_next_step_or_loading")
-											$("#loading_gif").fadeOut()	
-											$("#request_button").removeClass("disabled")
-											$("#request_button").attr("onclick", "requestCertificate()")
-										}
-
-										function requestSuccessful() {
-											unsetLoading()
-											showMessageBar("", "success")
-											$("#messagebar").removeClass(
-													"messagebar_hidden")
-											$("#page_content").addClass(
-													"page_content_move_down")
-											window
-													.setTimeout(
-															function() {
-																$("#messagebar")
-																		.addClass(
-																				"messagebar_hidden")
-																$(
-																		"#page_content")
-																		.removeClass(
-																				"page_content_move_down")
-																$(
-																		"#step1_content")
-																		.slideUp()
-																$("#step1_icon")
-																		.addClass(
-																				"messageicon_border_success")
-																$(
-																		"#step1_iconfont")
-																		.addClass(
-																				"messageicon_success")
-																$(
-																		"#step1_header")
-																		.addClass(
-																				"panelheader_completed")
-																$(
-																		"#step2_content")
-																		.slideDown()
-																$(
-																		"#step2_header")
-																		.addClass(
-																				"panelheader_set_current_step")
-															}, 3000);
-
-										}
-
-										function requestNotSuccessful() {
-											unsetLoading()
-											showMessageBar("request", "error")
-											$("#messagebar").removeClass(
-													"messagebar_hidden")
-											$("#page_content").addClass(
-													"page_content_move_down")
-
-											window
-													.setTimeout(
-															function() {
-																$("#messagebar")
-																		.addClass(
-																				"messagebar_hidden")
-																$(
-																		"#page_content")
-																		.removeClass(
-																				"page_content_move_down")
-															}, 3000);
-										}
-
-										function showMessageBar(type,
-												kindOfMessage) {
-											var message, messagebar = document
-													.getElementById('messagebar'), messagebarContent, styleMessagebar, iconBorderColor, iconColor, iconType
-
-											switch (kindOfMessage) {
-
-											case "success":
-												iconBorderColor = "#3c763d"
-												iconColor = "#5cb85c"
-												iconType = "fa-check"
-												styleMessagebar = "alert-success"
-												message = "Sie haben Ihr Zertifikat erfolgreich beantragt."
-												break
-
-											case "error":
-												iconBorderColor = "#843534"
-												iconColor = "#d9534f"
-												iconType = "fa-times"
-												styleMessagebar = "alert-danger"
-
-												switch (type) {
-
-												case "request":
-													message = "Ihr Zertifikat konnte nicht beantragt werden."
-													break
-
-												case "connection":
-													message = "Der Server antwortet nicht."
-													break
-												}
-												break
-											}
-
-											messagebarContent = '<div class="btn btn-default btn-circle messageicon" style="cursor: context-menu; border-color:' + iconBorderColor + ';"> <i id="messagebar_icon" style="color:' + iconColor + '; line-height: 17px;" class="fa ' + iconType + '"></i> </div>'
-													+ message
-											messagebar.innerHTML = messagebarContent;
-											cleanMessageBar()
-											messagebar.classList
-													.add(styleMessagebar)
-										}
-
-										// Method which removes any style classes from the massagebar
-										function cleanMessageBar() {
-											messagebar = document
-													.getElementById('messagebar')
-											if ($("#messagebar").hasClass(
-													"alert-danger")) {
-												messagebar.classList
-														.remove("alert-danger")
-											}
-											if ($("#messagebar").hasClass(
-													"alert-success")) {
-												messagebar.classList
-														.add("alert-success")
-											}
-										}
-
-										// Method which is called for redirection after logout
-										function redirect() {
-											location.href = 'index.jsp';
-										}
-									</script>
+									<button id="button_request" onclick="requestCertificate()"
+										type="button" class="btn btn-danger">Beantragen</button>
 								</div>
 							</div>
-						</div>						
+						</div>
 					</div>
 
 					<!-- /.row -->
@@ -352,15 +176,14 @@
 				<div class="row">
 					<div class="col-lg-6 col-md-6">
 						<div class="panel panel-default">
-							<div id="step2_header"
+							<div id="step2_header_request"
 								class="panel-heading panelheader panel_next_step_or_loading">
 								<button type="submit"
 									class="btn btn-default btn-circle panelicon">
 									<i class="fa fa-check"></i>
-								</button>
-								Schritt 2: Zertifikat herunterladen
+								</button>Schritt 2: Zertifikat herunterladen
 							</div>
-							<div id="step2_content">
+							<div id="step2_content_request">
 								<div class="panel-body">
 									<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
 										es, um es anschließend in ihren Browser importieren zu können.</p>
@@ -373,11 +196,10 @@
 							</div>
 
 						</div>
-						<div id="loading_gif" class="loading_gif">
-							<img
-								src="../../img/loading.gif">
+						<div id="loading_gif_request" class="loading_gif">
+							<img src="../../img/loading.gif">
 						</div>
-					</div>					
+					</div>
 				</div>
 				<!-- /.row -->
 
