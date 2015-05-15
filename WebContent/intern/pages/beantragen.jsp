@@ -18,12 +18,12 @@
 <script type="text/javascript" src="../../js/_messagebar.js"></script>
 
 <link rel="icon" type="image/png" sizes="32x32"
-	href="../../img/favicon-32x32.png">
+	href="../../img/simplecert/simplecert_favicon_32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
-	href="../../img/favicon-96x96.png">
+	href="../../img/simplecert/simplecert_favicon_96x96.png">
 <link rel="icon" type="image/png" sizes="16x16"
-	href="../../img/favicon-16x16.png">
-<link rel="icon" href="../../img/favicon.ico">
+	href="../../img/simplecert/simplecert_favicon_16x16.png">
+<link rel="icon" href="../../img/simplecert/simplecert_favicon.ico">
 
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -124,7 +124,7 @@
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
 					<li><img class="displayed"
-						src="assets/img/cleanCert_logo_key_red.png" style="width: 160px;" />
+						src="assets/img/simplecert_logo_text_128x128.png" style=" margin-top: 10px; margin-bottom: 15px" />
 					</li>
 					<li><a href="index.jsp"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
@@ -197,7 +197,7 @@
 
 						</div>
 						<div id="loading_gif_request" class="loading_gif">
-							<img src="../../img/loading.gif">
+							<img src="assets/img/loading.gif">
 						</div>
 					</div>
 				</div>

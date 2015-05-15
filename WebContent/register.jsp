@@ -13,12 +13,12 @@
 <script type="text/javascript" src="js/register.js"></script>
 <script type="text/javascript" src="js/_messagebar.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
-	href="img/favicon-32x32.png">
+	href="img/simplecert/simplecert_favicon_32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
-	href="img/favicon-96x96.png">
+	href="img/simplecert/simplecert_favicon_96x96.png">
 <link rel="icon" type="image/png" sizes="16x16"
-	href="img/favicon-16x16.png">
-<link rel="icon" href="img/favicon.ico">
+	href="img/simplecert/simplecert_favicon_16x16.png">
+<link rel="icon" href="img/simplecert/simplecert_favicon.ico">
 
 </head>
 <title>simpleCert - Registrierung</title>
@@ -45,7 +45,7 @@
 		<div id="messagebar_register" class="alert messagebar messagebar_hidden"></div>
 	</div>
 	<div class="container">
-		<img src="img/logo_text.png" style="width: 140px; margin-top: 20px;" /><br />
+		<img src="img/simplecert/simplecert_logo_text_128x128.png" style="margin-top: 20px;" /><br />
 		<h3 style="color: #595959">Eröffnen Sie Ihren simpleCert-Account.</h3>
 		<br />
 		<form id="form_register" name="form_register">

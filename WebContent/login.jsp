@@ -12,12 +12,12 @@
 <meta name="author" content="">
 
 <link rel="icon" type="image/png" sizes="32x32"
-	href="img/favicon-32x32.png">
+	href="img/simplecert/simplecert_favicon_32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
-	href="img/favicon-96x96.png">
+	href="img/simplecert/simplecert_favicon_96x96.png">
 <link rel="icon" type="image/png" sizes="16x16"
-	href="img/favicon-16x16.png">
-<link rel="icon" href="img/favicon.ico">
+	href="img/simplecert/simplecert_favicon_16x16.png">
+<link rel="icon" href="img/simplecert/simplecert_favicon.ico">
 
 <script src="intern/bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
@@ -67,7 +67,7 @@
 		<div id="login_container">
 			<form class="form-signin">
 				<!--<h2 class="form-signin-heading">Please sign in</h2>-->
-				<img src="img/logo_text.png" class="logo_simplecert" /> <br /> <label
+				<img src="img/simplecert/simplecert_logo_text_128x128.png" style="margin-bottom: 20px; margin-top: 5px"/> <br /> <label
 					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
 					type="email" id="emailAddress" name="emailAddress"
 					class="form-control" placeholder="E-Mail-Adresse"

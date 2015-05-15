@@ -120,6 +120,8 @@ public class CertificateUtility {
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in private key generation method!");
 		
+		System.out.println("KEY: \n" + out.toString());
+		
 		/** destroy openssl instance */
 		proc.destroy();
 		
@@ -147,7 +149,8 @@ public class CertificateUtility {
 			String commonName, String emailAddress, byte[] privateKey) throws IOException, OpenSSLException {
 
 		/** get a temporary key file */
-		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);		
+		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
+		System.out.println(tmpKeyFile.getAbsoluteFile());
 
 		String[] command = {
 				"openssl",
@@ -172,6 +175,8 @@ public class CertificateUtility {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
+		
+		System.out.println("CSR: \n" + out.toString());
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in CSR generation method!");
 		
