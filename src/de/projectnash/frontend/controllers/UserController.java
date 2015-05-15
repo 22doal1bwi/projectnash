@@ -1,5 +1,8 @@
 package de.projectnash.frontend.controllers;
 
+import java.io.FileNotFoundException;
+
+import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
@@ -54,7 +57,27 @@ public class UserController implements IUserController {
 	}
 
 	@Override
+	public boolean hasRequest() {
+		return false;
+	}
+
+	@Override
+	public boolean allowedToDownloadCertificate() {
+		return true;
+	}
+	@Override
 	public boolean hasValidCertificate() {
 		return UserLogic.hasValidCertificate(user);
 	}
+
+	@Override
+	public boolean hasCertificate() {
+		return UserLogic.hasCertificate(user);
+	}
+
+	@Override
+	public String getRemainingTimeOfCertificate() throws FileNotFoundException {
+		return CertificateLogic.getAppropriateTimeLeftForCertificate(user.getCertificate());
+	}
+
 }
