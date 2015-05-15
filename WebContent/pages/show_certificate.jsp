@@ -14,7 +14,7 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
-<script type="text/javascript" src="../js_custom/beantragen.js"></script>
+<script type="text/javascript" src="../js_custom/show_certificate.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -30,10 +30,8 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
 
-<title>simpleCert - Zertifikat beantragen</title>
+<title>simpleCert - Zertifikat anzeigen</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
@@ -91,11 +89,10 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><%=uc.getFirstName()%> <%=uc.getLastName()%>
-					(<%=uc.getPersonalId()%>)</a></li>
+			<li><a href="home.jsp"><%=uc.getFullName()%></a></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
-			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li><a href="home.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">
 					<a role="button" class="fa fa-sign-out fa-2x"
@@ -113,14 +110,14 @@
 					<li><img class="displayed"
 						src="../img/simplecert/simplecert_logo_text_128x128.png"
 						style="margin-top: 10px; margin-bottom: 15px" /></li>
-					<li><a href="index.jsp"><i
+					<li><a href="home.jsp"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
-					<li><a href="beantragen.jsp" class="active"><i
+					<li><a class="active navitem_disabled"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
-							beantragen</a></li>
-					<li class="disabled"><a class="navitem_disabled"><i
+							anzeigen</a></li>
+					<li><a href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
-					<li class="disabled"><a class="navitem_disabled"><i
+					<li><a href="revoke_certificate.jsp"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
 			</div>
@@ -133,63 +130,7 @@
 				class="alert messagebar_intern messagebar_hidden"></div>
 			<div class="row"></div>
 			<!-- /.row -->
-			<div id="page_content_request" class="page_content">
-				<div class="row">
-					<div class="col-lg-6 col-md-6">
-						<div class="panel panel-default functiontile">
-							<div id="step1_header_request" class="panel-heading panelheader">
-								<button id="step1_icon_request" type="button"
-									class="btn btn-default btn-circle panelicon">
-									<i id="step1_iconfont_request" class="fa fa-check"></i>
-								</button>
-								Schritt 1: Zertifikat beantragen
-							</div>
-							<div id="step1_content_request">
-								<div id="step1_panel_body_request" class="panel-body">
-									<p>Beantragen Sie ihr persönliches Sicherheits-Zertifikat,
-										damit Sie es im nächsten Schritt - nach erfolgreicher
-										Genehmigung - herunterladen können.</p>
-								</div>
-								<div class="panel-footer">
-									<button id="button_request" onclick="requestCertificate()"
-										type="button" class="btn btn-danger">Beantragen</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- /.row -->
-
-				</div>
-				<div class="row">
-					<div class="col-lg-6 col-md-6">
-						<div class="panel panel-default">
-							<div id="step2_header_request"
-								class="panel-heading panelheader panel_next_step_or_loading">
-								<button type="submit"
-									class="btn btn-default btn-circle panelicon">
-									<i class="fa fa-check"></i>
-								</button>
-								Schritt 2: Zertifikat herunterladen
-							</div>
-							<div id="step2_content_request">
-								<div class="panel-body">
-									<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
-										es, um es anschließend in ihren Browser importieren zu können.</p>
-								</div>
-								<div class="panel-footer">
-									<form action="../CrtDownload" method="get">
-										<button type="submit" class="btn btn-danger">Herunterladen</button>
-									</form>
-								</div>
-							</div>
-
-						</div>
-						<div id="loading_gif_request" class="loading_gif">
-							<img src="../img/general/loading.gif">
-						</div>
-					</div>
-				</div>
+			
 				<!-- /.row -->
 
 			</div>

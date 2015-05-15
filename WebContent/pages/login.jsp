@@ -54,7 +54,7 @@
 
 		switch (sessionIdStatus) {
 		default:
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("home.jsp");
 			break;
 		case "0":
 		case "-1":

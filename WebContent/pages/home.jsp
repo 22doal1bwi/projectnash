@@ -85,7 +85,8 @@
 				try {
 					remainingTimeOfCert = uc
 							.getRemainingTimeOfCertificate();
-					remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+					remainingDays = uc
+							.getRemainingTimeOfCertificate(TimeUnit.DAYS);
 				} catch (Exception e) {
 					remainingTimeOfCert = "[unbekannte Zeit]";
 					e.printStackTrace();
@@ -113,10 +114,10 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><%=uc.getFullName()%></a></li>
+			<li><a href="home.jsp"><%=uc.getFullName()%></a></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
-			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li><a href="home.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">
 					<a role="button" class="fa fa-sign-out fa-2x"
@@ -139,33 +140,43 @@
 					<li><img class="displayed"
 						src="../img/simplecert/simplecert_logo_text_128x128.png"
 						style="margin-top: 10px; margin-bottom: 15px" /></li>
-					<li><a href="index.jsp" class="active"><i
+					<li><a class="active navitem_disabled"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
-					<li><a href="beantragen.jsp"><i
-							class="fa fa-file-text fa-fw navbaricon"></i> <%
- 	if (!hasCertificate) {
- 			out.print("Zertifikat beantragen");
- 		} else {
- 			out.print("Zertifikat anzeigen");
- 		}
- %></a></li>
 					<%
-				if (hasCertificate) {					
-			%>
-					<li><a href="index.jsp"><i
+						if (!hasCertificate) {
+					%>
+					<li><a href="request_certificate.jsp"><i
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
+							beantragen</a></li>
+					<%
+						} else {
+					%>
+					<li><a href="show_certificate.jsp"><i
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
+					<%
+						}
+					%>
+					<%
+						if (hasCertificate) {
+					%>
+					<li><a href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
-					<li><a href="index.jsp"><i
+					<li><a href="revoke_certificate.jsp"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
 						<%
-				} else {					
-			%>				
-					<li class="disabled"><a class="navitem_disabled"><i class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>						
-					<li class="disabled"><a class="navitem_disabled"><i class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
+							} else {
+						%>
+					
+					<li class="disabled"><a class="navitem_disabled"><i
+							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
+					<li class="disabled"><a class="navitem_disabled"><i
+							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
 						<%
-				}					
-			%>	
+							}
+						%>
+					
 			</div>
 			<!-- /.sidebar-collapse -->
 		</div>
@@ -175,7 +186,7 @@
 			<div id="messagebar_home" class="alert messagebar_intern"></div>
 			<%
 				if (hasCertificate && hasValidCertificate) {
-					if (remainingDays > 90) {
+							if (remainingDays > 90) {
 			%>
 			<script type="text/javascript">
 				$(document).ready(function() {
@@ -183,7 +194,7 @@
 				});
 			</script>
 			<%
-					} else {
+				} else {
 			%>
 			<script type="text/javascript">
 				$(document).ready(
@@ -193,8 +204,8 @@
 						});
 			</script>
 			<%
-			} // close of if (hasCertificate && hasValidCertificate)
-			} else if (hasCertificate && !hasValidCertificate) {
+				} // close of if (hasCertificate && hasValidCertificate)
+						} else if (hasCertificate && !hasValidCertificate) {
 			%>
 			<script type="text/javascript">
 				$(document).ready(
@@ -209,12 +220,12 @@
 			<script type="text/javascript">
 				$(document).ready(
 						function() {
-							buildAndShowMessageBar("ERR_CERT_NOT_EXISTING",
-									"messagebar_home")
+							window.buildAndShowMessageBar(
+									"ERR_CERT_NOT_EXISTING", "messagebar_home")
 						});
 			</script>
 			<%
-				} // close of last 'else'		
+				} // close of last 'else'
 			%>
 			<div class="row">
 				<div class="col-lg-12"></div>
@@ -224,24 +235,55 @@
 			<div class="row">
 
 				<div class="col-lg-4 col-md-6">
-					<a href="beantragen.jsp">
-						<div class="panel panel-green functiontile">
+					<%
+						if (!hasCertificate) {
+					%>
+					<a href="request_certificate.jsp"> <%
+ 	} else {
+ %> <a href="show_certificate.jsp"> <%
+ 	}
+ %>
+							<div class="panel panel-green functiontile">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-xs-3">
+											<i class="fa fa-file-text-o fa-5x"></i>
+										</div>
+										<div class="col-xs-9 text-right">
+
+											<div class="text-top te" style="font-size: 24px">
+												<%
+													if (!hasCertificate) {
+															out.print("Zertifikat beantragen");
+														} else {
+															out.print("Zertifikat anzeigen");
+														}
+												%>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</a>
+				</div>
+				<%
+					if (hasCertificate) {
+				%>
+				<div class="col-lg-4 col-md-6">
+					<a href="extend_certificate.jsp">
+						<div class="panel panel-yellow functiontile">
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="fa fa-file-text-o fa-5x"></i>
+										<i class="fa fa-history fa-5x"></i>
 									</div>
 									<div class="col-xs-9 text-right">
 
-										<div class="text-top te" style="font-size: 24px">
-											<%
-												if (!hasCertificate) {
-														out.print("Zertifikat beantragen");
-													} else {
-														out.print("Zertifikat anzeigen");
-													}
-											%>
-
+										<div class="text-top te" style="font-size: 24px">Zertifikat
+											verlängern</div>
+										<div class="text-top te" style="font-size: 16px"><%=remainingTimeOfCert%>
+											verbleibend
 										</div>
 									</div>
 								</div>
@@ -249,44 +291,24 @@
 						</div>
 					</a>
 				</div>
-				<%
-					if (hasCertificate) {
-				%>
 				<div class="col-lg-4 col-md-6">
-					<div class="panel panel-yellow functiontile">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="fa fa-history fa-5x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
+					<div class="panel panel-red functiontile">
+						<a href="revoke_certificate.jsp">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="fa fa-ban fa-5x"></i>
+									</div>
+									<div class="col-xs-9 text-right">
 
-									<div class="text-top te" style="font-size: 24px">Zertifikat
-										verlängern</div>
-									<div class="text-top te" style="font-size: 16px"><%=remainingTimeOfCert%>
-										verbleibend
+										<div class="text-top te" style="font-size: 24px">Zertifikat
+											widerrufen</div>
+										<div class="text-top te" style="font-size: 16px">Missbrauch
+											melden</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="panel panel-red functiontile">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="fa fa-ban fa-5x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
-
-									<div class="text-top te" style="font-size: 24px">Zertifikat
-										widerrufen</div>
-									<div class="text-top te" style="font-size: 16px">Missbrauch
-										melden</div>
-								</div>
-							</div>
-						</div>
+						</a>
 					</div>
 				</div>
 				<!-- /.row -->

@@ -32,7 +32,7 @@ function submitLoginForm() {
 				buildAndShowMessageBar("ERR_CREDENTIALS", "messagebar_login")
 			} else {
 				window.setTimeout(function() {
-					location.href = 'index.jsp';
+					location.href = 'home.jsp';
 				}, 1000);
 			}
 		},
