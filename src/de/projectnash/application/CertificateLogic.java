@@ -1,5 +1,6 @@
 package de.projectnash.application;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -122,19 +123,24 @@ public class CertificateLogic {
 	 * @param certificate
 	 * @return String
 	 * @author Marius Boepple, Jonathan Schlotz
+	 * @throws FileNotFoundException 
 	 */
 	public static String getAppropriateTimeLeftForCertificate(
-			Certificate certificate) {
-		if (getTimeLeftForCertificate(certificate, TimeUnit.DAYS) < 1) {
-			if (getTimeLeftForCertificate(certificate, TimeUnit.HOURS) < 1) {
-				return getTimeLeftForCertificate(certificate, TimeUnit.MINUTES)
-						+ " Minuten";
+			Certificate certificate) throws FileNotFoundException {
+		if (certificate != null) {
+			if (getTimeLeftForCertificate(certificate, TimeUnit.DAYS) < 1) {
+				if (getTimeLeftForCertificate(certificate, TimeUnit.HOURS) < 1) {
+					return getTimeLeftForCertificate(certificate,
+							TimeUnit.MINUTES) + " Minuten";
+				}
+				return getTimeLeftForCertificate(certificate, TimeUnit.HOURS)
+						+ " Stunden";
 			}
-			return getTimeLeftForCertificate(certificate, TimeUnit.HOURS)
-					+ " Stunden";
+			return getTimeLeftForCertificate(certificate, TimeUnit.DAYS)
+					+ " Tage";
 		}
-		return getTimeLeftForCertificate(certificate, TimeUnit.DAYS) + " Tage";
-	}
+		throw new FileNotFoundException();
+	};
 
 	/**
 	 * Method which returns time left for {@link Certificate}.
@@ -144,12 +150,16 @@ public class CertificateLogic {
 	 *            TimeUnit.DAYS, TimeUnit.HOURS or TimeUnit.MINUTES
 	 * @return number of days, hours or minutes
 	 * @author Marius Boepple, Jonathan Schlotz
+	 * @throws FileNotFoundException 
 	 */
 	public static int getTimeLeftForCertificate(Certificate certificate,
-			TimeUnit timeUnit) {
-		long diffInMillies = certificate.getExpirationDate().getTime()
-				- new Date().getTime();
-		return (int) timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+			TimeUnit timeUnit) throws FileNotFoundException {
+		if (certificate != null) {
+			long diffInMillies = certificate.getExpirationDate().getTime()
+					- new Date().getTime();
+			return (int) timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		}
+		throw new FileNotFoundException();
 	}
 
 	// TODO: implement revokeCertificate method

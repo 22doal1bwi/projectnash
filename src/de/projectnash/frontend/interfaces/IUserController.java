@@ -1,5 +1,7 @@
 package de.projectnash.frontend.interfaces;
 
+import java.io.FileNotFoundException;
+
 import de.projectnash.entities.User;
 
 /**
@@ -45,9 +47,20 @@ public interface IUserController {
 	int getPersonalId();
 	
 	/**
-	 * @return true if user has a valid certificate
+	 * @return true if {@link User} has a {@link Certificate} - no check of validity.
+	 */
+	boolean hasCertificate();
+	
+	/**
+	 * @return true if {@link User} has a valid {@link Certificate}.
 	 */
 	boolean hasValidCertificate();
+	
+	/**
+	 * @return The remaining time of the {@link Certificate} in an appropriate unit.
+	 * @throws FileNotFoundException 
+	 */
+	String getRemainingTimeOfCertificate() throws FileNotFoundException;
 	
 	/**
 	 * Sets the new password for the {@link User}.
