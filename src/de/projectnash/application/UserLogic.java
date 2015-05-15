@@ -78,6 +78,10 @@ public class UserLogic {
 	return false;
 	}
 	
+	public static boolean hasCertificate(User user){
+		return user.getCertificate() != null;
+	}
+	
 	public static boolean hasValidCertificate(User user){
 		return CertificateLogic.certificateIsValid(user.getCertificate());
 	}
