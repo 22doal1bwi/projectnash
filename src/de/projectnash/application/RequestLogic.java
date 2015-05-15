@@ -32,7 +32,7 @@ public class RequestLogic {
 		return RequestPersistenceService.loadRequest(reqId);
 	}
 
-	public static boolean checkRequest(User user) {
+	public static boolean hasRequest(User user) {
 		return RequestPersistenceService.requestExists(user);
 	}
 

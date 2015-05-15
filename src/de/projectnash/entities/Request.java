@@ -1,5 +1,7 @@
 package de.projectnash.entities;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +11,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
- * This class provides a realistic {@link Request} for a certificate with all
+ * This class provides a realistic {@link Request} for a {@link Certificate} with all
  * its attributes.
  * 
  * @author Marius Boepple
@@ -29,11 +33,14 @@ public class Request {
 	@Id
 	@Column(name = "req_id")
 	private String reqId;
-
+	
 	@JoinColumn
 	@OneToOne(cascade = CascadeType.MERGE)
 	private User user;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "req_created_on", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable= true, updatable= false)
+	private Date creationDate;
 	/**
 	 * This constructor is only needed for JPA.
 	 */
@@ -55,14 +62,14 @@ public class Request {
 	}
 
 	/**
-	 * @return the id of a request
+	 * @return The id of the {@link Request}.
 	 */
 	public String getReqId() {
 		return reqId;
 	}
 
 	/**
-	 * @return the user linked to this request
+	 * @return The {@link User} linked to this {@link Request}.
 	 */
 	public User getUser() {
 		return user;

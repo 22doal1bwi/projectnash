@@ -1,7 +1,9 @@
 package de.projectnash.frontend.interfaces;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
+import de.projectnash.entities.Certificate;
 import de.projectnash.entities.User;
 
 /**
@@ -79,5 +81,12 @@ public interface IUserController {
 	 * @throws FileNotFoundException 
 	 */
 	String getRemainingTimeOfCertificate() throws FileNotFoundException;
+	
+	/**
+	 * @param certificate
+	 * @param timeUnit
+	 * @return The remaining time of the {@link Certificate}.
+	 */
+	int getRemainingTimeOfCertificate(TimeUnit timeUnit) throws FileNotFoundException;
 	
 }

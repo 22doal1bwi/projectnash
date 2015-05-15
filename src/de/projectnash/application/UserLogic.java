@@ -87,7 +87,7 @@ public class UserLogic {
 	}
 	
 	public static boolean hasRequest(User user){
-		return RequestLogic.checkRequest(user);
+		return RequestLogic.hasRequest(user);
 	}
 	
 	// TODO: implement changePassword method

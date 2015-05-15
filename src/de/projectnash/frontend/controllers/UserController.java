@@ -1,6 +1,7 @@
 package de.projectnash.frontend.controllers;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.SessionLogic;
@@ -78,6 +79,12 @@ public class UserController implements IUserController {
 	@Override
 	public String getRemainingTimeOfCertificate() throws FileNotFoundException {
 		return CertificateLogic.getAppropriateTimeLeftForCertificate(user.getCertificate());
+	}
+
+	@Override
+	public int getRemainingTimeOfCertificate(TimeUnit timeUnit)
+			throws FileNotFoundException {
+		return CertificateLogic.getTimeLeftForCertificate(user.getCertificate(), timeUnit);
 	}
 
 }
