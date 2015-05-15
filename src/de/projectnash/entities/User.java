@@ -55,10 +55,10 @@ public class User implements Serializable {
 	@Column(name="usr_password", nullable = false)
 	private String password;
 	
-	@Column(name="usr_download_allow", nullable = false)
+	@Column(name="usr_download_allow", columnDefinition="BOOLEAN default 0", nullable = false)
 	private boolean isAllowedToDownload;
 	
-	@Column(name="usr_is_admin", nullable = false)
+	@Column(name="usr_is_admin", columnDefinition="BOOLEAN default 0", nullable = false)
 	private boolean isAdmin;
 	
 	@JoinColumn
