@@ -2,7 +2,6 @@ package de.projectnash.frontend.controllers;
 
 import de.projectnash.application.SessionLogic;
 import de.projectnash.entities.Certificate;
-import de.projectnash.entities.User;
 import de.projectnash.frontend.interfaces.ICertificateController;
 
 public class CertificateController implements ICertificateController{
@@ -26,11 +25,6 @@ public class CertificateController implements ICertificateController{
 	@Override
 	public String getCommonName() {
 		return certificate.getCommonName();
-	}
-
-	@Override
-	public boolean requestCertificate(User user) {
-		return false;
 	}
 
 	@Override

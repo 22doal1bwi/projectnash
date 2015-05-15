@@ -88,5 +88,10 @@ public interface IUserController {
 	 * @return The remaining time of the {@link Certificate}.
 	 */
 	int getRemainingTimeOfCertificate(TimeUnit timeUnit) throws FileNotFoundException;
+
+	/**
+	 * @return The {@link Boolean} that describes if the request was successful or not.
+	 */
+	boolean requestCertificate();
 	
 }
