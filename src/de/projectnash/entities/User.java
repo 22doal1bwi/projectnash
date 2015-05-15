@@ -55,6 +55,12 @@ public class User implements Serializable {
 	@Column(name="usr_password", nullable = false)
 	private String password;
 	
+	@Column(name="usr_download_allow", nullable = false)
+	private boolean isAllowedToDownload;
+	
+	@Column(name="usr_is_admin", nullable = false)
+	private boolean isAdmin;
+	
 	@JoinColumn
 	@OneToOne(cascade = CascadeType.ALL)
 	private Certificate certificate;
@@ -84,6 +90,8 @@ public class User implements Serializable {
 		this.emailAddress = emailAddress.toLowerCase();
 		this.department = department;
 		this.password = password;
+		this.isAllowedToDownload = false;
+		this.isAdmin = false;
 	}
 	
 	public int getPersonalId() {
@@ -142,6 +150,22 @@ public class User implements Serializable {
 		this.certificate = certificateId;
 	}
 	
+	public boolean isAllowedToDownload() {
+		return isAllowedToDownload;
+	}
+
+	public void setAllowedToDownload(boolean isAllowedToDownload) {
+		this.isAllowedToDownload = isAllowedToDownload;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 	@Override
 	public String toString(){
 		return this.lastName + ", " + this.firstName + " (Personal-ID: " + this.personalId + ") from " + this.department + " (E-Mail: " + this.emailAddress + ")"; 

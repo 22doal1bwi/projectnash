@@ -6,9 +6,9 @@ import de.projectnash.entities.User;
 
 public class RequestLogic {
 
-	public static boolean createRequest(User user, String reqId) {
+	public static boolean createRequest(User user) {
 		try {
-			Request request = new Request(user, reqId);
+			Request request = new Request(user);
 			RequestPersistenceService.storeRequest(request);
 			return true;
 
@@ -18,30 +18,31 @@ public class RequestLogic {
 		}
 	}
 
-	public static boolean removeRequest(String reqId) {
+	public static boolean removeRequest(User user) {
 		try {
 			RequestPersistenceService.removeRequest(RequestPersistenceService
-					.loadRequest(reqId));
+					.loadRequest(user));
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
-	public static Request loadRequest(String reqId) {
-		return RequestPersistenceService.loadRequest(reqId);
+	public static Request loadRequest(User user) {
+		return RequestPersistenceService.loadRequest(user);
 	}
 
 	public static boolean hasRequest(User user) {
 		return RequestPersistenceService.requestExists(user);
 	}
 
-	public static boolean confirmRequest(String reqId) {
-		return removeRequest(reqId);
+	public static boolean confirmRequest(User user) {
+		user.setAllowedToDownload(true);
+		return removeRequest(user);
 	}
 
-	public static boolean denyRequest(String reqId) {
-		return removeRequest(reqId);
+	public static boolean denyRequest(User user) {
+		return removeRequest(user);
 	}
 
 }

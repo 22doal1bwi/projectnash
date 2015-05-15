@@ -90,6 +90,10 @@ public class UserLogic {
 		return RequestLogic.hasRequest(user);
 	}
 	
+	public static boolean isAllowedToDownload(User user){
+		return user.isAllowedToDownload();
+	}
+	
 	// TODO: implement changePassword method
 	public static boolean changePassword(User user, String oldPassword, String newPassword) {
 		return false;

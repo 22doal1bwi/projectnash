@@ -25,15 +25,12 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "requests")
 @NamedQueries({
-		@NamedQuery(name = "QUERY_FIND_REQUESTS_BY_ID", query = "SELECT r FROM Request r WHERE r.reqId = :reqId"),
+		@NamedQuery(name = "QUERY_FIND_REQUEST_BY_USER", query = "SELECT r FROM Request r WHERE r.user = :User" ),
 		@NamedQuery(name = "QUERY_REMOVE_REQUEST_BY_REQUEST", query = "DELETE FROM Request r WHERE r = :Request"),
 		@NamedQuery(name = "CHECK_REQUEST_EXISTS_BY_USER", query = "SELECT COUNT(r.user) FROM Request r WHERE r.user = :User") })
 public class Request {
 
 	@Id
-	@Column(name = "req_id")
-	private String reqId;
-	
 	@JoinColumn
 	@OneToOne(cascade = CascadeType.MERGE)
 	private User user;
@@ -56,16 +53,8 @@ public class Request {
 	 * @param ssnId
 	 *            The {@link String} reqId of the {@link Request}.
 	 */
-	public Request(User user, String reqId) {
+	public Request(User user) {
 		this.user = user;
-		this.reqId = reqId;
-	}
-
-	/**
-	 * @return The id of the {@link Request}.
-	 */
-	public String getReqId() {
-		return reqId;
 	}
 
 	/**
