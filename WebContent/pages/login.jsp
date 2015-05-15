@@ -8,8 +8,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
 
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
@@ -76,13 +74,13 @@
 				<input type="password" id="password" name="password"
 					class="form-control" placeholder="Passwort"
 					onchange="cleanInputField('password')" required>
-				<button id="loginButton" class="btn btn-lg btn-red btn-block"
+				<button id="loginButton" class="btn btn-lg simplecert_btn btn-block"
 					type="button" onclick="checkFormBeforeSubmit()">Einloggen</button>
 			</form>
 			<br />
 			<hr class="horizontal_divider">
 			<form class="form-signin">
-				<a class="btn btn-lg btn-primary btn-block btn-small"
+				<a class="btn btn-lg simplecert_inv_btn btn-block btn-small"
 					href="register.jsp" role="button">Neu anmelden</a>
 			</form>
 			<br />

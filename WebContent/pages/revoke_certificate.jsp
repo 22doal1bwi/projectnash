@@ -113,8 +113,7 @@
 					<li><a href="home.jsp"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<li><a href="show_certificate.jsp"><i
-							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
-							anzeigen</a></li>
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
 					<li><a href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
 					<li><a class="active navitem_disabled"><i
@@ -126,11 +125,37 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div id="messagebar_request"
+			<div id="messagebar_revoke"
 				class="alert messagebar_intern messagebar_hidden"></div>
-			<div class="row"></div>
 			<!-- /.row -->
-			
+			<div id="page_content_revoke" class="page_content">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="panel panel-red functiontile">
+							<div id="header_revoke" class="panel-heading">								
+								Zertifikat widerrufen
+							</div>
+							<div id="content_revoke">
+								<div id="panel_body_revoke" class="panel-body">
+									<p>Bitte geben Sie den Grund ihres Widerrufs an. Nach dem
+										Klick auf 'Widerrufen' müssen Sie den Widerruf noch
+										bestätigen.</p>
+									<div class="form-group">
+										<label>Grund des Widerrufs</label>
+										<textarea id="textfield_revoke" class="form-control" rows="4"></textarea>
+									</div>
+								</div>
+								<div id="footer_revoke" class="panel-footer">
+									<button id="button_revoke" onclick="revokeCertificate()"
+										type="button" class="btn simplecert_btn">Widerrufen</button>
+								</div>
+							</div>
+						</div>
+						<div id="loading_gif_revoke" class="loading_gif">
+							<img src="../img/general/loading.gif">
+						</div>
+					</div>
+				</div>
 				<!-- /.row -->
 
 			</div>

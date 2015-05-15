@@ -100,7 +100,7 @@
 				<!-- 					onpaste="return false;" -->
 			</div>
 			<button id="registerButton" type="button"
-				class="btn btn-lg btn-red btn-block"
+				class="btn btn-lg btn_submit simplecert_btn btn-block"
 				onclick="checkFormBeforeSubmit()">Absenden</button>
 		</form>
 		<br />

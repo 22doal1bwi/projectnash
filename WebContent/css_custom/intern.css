@@ -63,3 +63,29 @@
 .navitem_disabled {
 	cursor: context-menu !important;
 }
+
+.simplecert_inv_btn {
+	border: 1px solid #C03A2A;
+	background-color: #fff;
+	color: #C03A2A;
+	margin-right: 5px;
+	font-weight: bold;
+	transition: background-color .4s ease;
+}
+
+.simplecert_inv_btn:hover, .simplecert_inv_btn:focus {
+	color: #fff;
+	background-color: #C03A2A;
+	transition: background-color .4s ease;
+}
+
+.simplecert_btn {
+	color: #fff !important;
+	background-color: #C03A2A;	
+	font-weight: bold;
+	transition: background-color .4s ease;
+}
+.simplecert_btn:hover, .simplecert_btn:focus {
+	background-color: #DC483C;	
+	transition: background-color .4s ease;
+}

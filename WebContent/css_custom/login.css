@@ -47,14 +47,12 @@
 .btn-red {
 	color: #fff;
 	background-color: #C03A2A;
-	border-color: #C03A2A;
 	outline: none;
 }
 
 .btn-red:hover, .btn-red:focus {
 	color: #fff;
-	background-color: #A83A2A;
-	border-color: #A83A2A;
+	background-color: #DC483C;	
 	outline: none;
 	transition: background-color .4s ease;
 }
@@ -65,18 +63,43 @@
 	width: 70%
 }
 
-.btn-primary {
-	color: #2C2E2F;
-	background-color: #C8C8C8;
-	border-color: #C8C8C8;
-	outline: none;
+/* .btn-primary { */
+/* 	color: #2C2E2F; */
+/* 	background-color: #C8C8C8; */
+/* 	border-color: #C8C8C8; */
+/* 	outline: none; */
+/* } */
+
+/* .btn-primary:hover, .btn-primary:focus { */
+/* 	color: #2C2E2F; */
+/* 	background-color: #B8B8B8; */
+/* 	border-color: #B8B8B8; */
+/* 	outline: none; */
+/* 	transition: background-color .4s ease; */
+/* } */
+
+.simplecert_inv_btn {
+	border: 1px solid #C03A2A;
+	background-color: #fff;
+	color: #C03A2A;
+	margin-right: 5px;
+	font-weight: bold;
+	transition: background-color .4s ease;
 }
 
-.btn-primary:hover, .btn-primary:focus {
-	color: #2C2E2F;
-	background-color: #B8B8B8;
-	border-color: #B8B8B8;
-	outline: none;
+.simplecert_inv_btn:hover, .simplecert_inv_btn:focus {
+	color: #fff;
+	background-color: #C03A2A;
+	transition: background-color .4s ease;
+}
+.simplecert_btn {
+	color: #fff !important;
+	background-color: #C03A2A;	
+	font-weight: bold;
+	transition: background-color .4s ease;
+}
+.simplecert_btn:hover, .simplecert_btn:focus {
+	background-color: #DC483C;	
 	transition: background-color .4s ease;
 }
 

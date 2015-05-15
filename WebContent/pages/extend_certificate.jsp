@@ -1,10 +1,12 @@
+<%@page import="java.util.concurrent.TimeUnit"%>
+<%@page import="de.projectnash.application.UserLogic"%>
+<%@page import="de.projectnash.frontend.controllers.UserController"%>
+<%@page import="de.projectnash.frontend.interfaces.IUserController"%>
 <%@page import="de.projectnash.frontend.SessionController"%>
 <%@page import="de.projectnash.application.SessionLogic"%>
-<%@page
-	import="de.projectnash.frontend.controllers.CertificateController"%>
-<%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.entities.User"%>
-<%@page import="de.projectnash.application.UserLogic"%>
+<%@page import="de.projectnash.entities.Session"%>
+<%@page import="de.projectnash.databackend.SessionPersistenceService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -64,12 +66,21 @@
 
 			switch (sessionId) {
 
-			case "-1":
-			case "0":
-				response.sendRedirect("../login.jsp");
-				break;
-			default:
-				UserController uc = new UserController(sessionId);
+				case "-1" :
+				case "0" :
+					response.sendRedirect("../login.jsp");
+					break;
+				default :
+					UserController uc = new UserController(sessionId);
+
+					int remainingDays = 0;
+
+					try {
+						remainingDays = uc
+								.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 		%>
 
 		<!-- Navigation -->
@@ -113,8 +124,7 @@
 					<li><a href="home.jsp"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<li><a href="show_certificate.jsp"><i
-							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
-							anzeigen</a></li>
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
 					<li><a class="active navitem_disabled"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
 					<li><a href="revoke_certificate.jsp"><i
@@ -126,14 +136,125 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div id="messagebar_request"
+			<div id="messagebar_extend"
 				class="alert messagebar_intern messagebar_hidden"></div>
-			<div class="row"></div>
+			<%
+				if (remainingDays > 90) {
+			%>
+			<script type="text/javascript">
+				$(document).ready(
+						function() {
+							buildAndShowMessageBar(
+									"WRN_CERT_EXTENSION_IMPOSSIBLE",
+									"messagebar_extend")
+						});
+			</script>
+			<%
+				}
+			%>
 			<!-- /.row -->
-			
+
+			<%
+				if (remainingDays <= 90) {
+			%>
+			<div id="page_content_extend" class="page_content">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="panel panel-default functiontile">
+							<div id="step1_header_extend" class="panel-heading panelheader">
+								<button id="step1_icon_extend" type="button"
+									class="btn btn-default btn-circle panelicon">
+									<i id="step1_iconfont_extend" class="fa fa-check"></i>
+								</button>
+								Schritt 1: Zertifikatsverlängerung beantragen
+							</div>
+							<div id="step1_content_extend">
+								<div id="step1_panel_body_extend" class="panel-body">
+									<p>Beantragen Sie eine Verlängerung für Ihr Zertifikat. Im
+										nächsten Schritt können Sie anschließend - nach erfolgreicher
+										Genehmigung Ihres Antrags - das länger gültige Zertifikat
+										herunterladen.</p>
+								</div>
+								<div class="panel-footer">
+									<button id="button_extend" onclick="extendCertificate()"
+										type="button" class="btn simplecert_btn">Beantragen</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- /.row -->
 
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="panel panel-default">
+							<div id="step2_header_extend"
+								class="panel-heading panelheader panel_next_step_or_loading">
+								<button type="submit"
+									class="btn btn-default btn-circle panelicon">
+									<i class="fa fa-check"></i>
+								</button>
+								Schritt 2: Zertifikat herunterladen
+							</div>
+							<div id="step2_content_extend">
+								<div class="panel-body">
+									<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
+										es, um es anschließend in ihren Browser importieren zu können.</p>
+								</div>
+								<div class="panel-footer">
+									<form action="../CrtDownload" method="get">
+										<button type="submit" class="btn simplecert_btn">Herunterladen</button>
+									</form>
+								</div>
+							</div>
+
+						</div>
+						<div id="loading_gif_extend" class="loading_gif">
+							<img src="../img/general/loading.gif">
+						</div>
+					</div>
+				</div>
 			</div>
+			<!-- /.row -->
+			<%
+				} else {
+			%>
+			<div id="page_content_extend">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="panel panel-default functiontile">
+							<div id="step1_header_extend"
+								class="panel-heading panelheader panel_next_step_or_loading">
+								<button id="step1_icon_extend" type="button"
+									class="btn btn-default btn-circle panelicon">
+									<i id="step1_iconfont_extend" class="fa fa-check"></i>
+								</button>
+								Schritt 1: Zertifikatsverlängerung beantragen
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.row -->
+
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="panel panel-default">
+							<div id="step2_header_extend"
+								class="panel-heading panelheader panel_next_step_or_loading">
+								<button type="submit"
+									class="btn btn-default btn-circle panelicon">
+									<i class="fa fa-check"></i>
+								</button>
+								Schritt 2: Zertifikat herunterladen
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+			<%
+				}
+			%>
 			<!-- /#page-wrapper -->
 
 		</div>

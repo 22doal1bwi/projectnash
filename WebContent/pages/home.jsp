@@ -16,7 +16,7 @@
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
-<script type="text/javascript" src="../js_custom/index.js"></script>
+<script type="text/javascript" src="../js_custom/home.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
@@ -30,8 +30,6 @@
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
 
 <title>simpleCert - Home</title>
 
@@ -183,14 +181,14 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div id="messagebar_home" class="alert messagebar_intern"></div>
+			<div id="messagebar_home" class="alert messagebar_intern messagebar_hidden"></div>
 			<%
 				if (hasCertificate && hasValidCertificate) {
 							if (remainingDays > 90) {
 			%>
 			<script type="text/javascript">
-				$(document).ready(function() {
-					buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")
+				$(document).ready(function() {									
+					buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")	
 				});
 			</script>
 			<%

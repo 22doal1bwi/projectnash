@@ -14,7 +14,7 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
-<script type="text/javascript" src="../js_custom/request_certificate.jsp"></script>
+<script type="text/javascript" src="../js_custom/request_certificate.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -30,8 +30,6 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
 
 <title>simpleCert - Zertifikat beantragen</title>
 
@@ -131,7 +129,6 @@
 		<div id="page-wrapper">
 			<div id="messagebar_request"
 				class="alert messagebar_intern messagebar_hidden"></div>
-			<div class="row"></div>
 			<!-- /.row -->
 			<div id="page_content_request" class="page_content">
 				<div class="row">
@@ -152,15 +149,14 @@
 								</div>
 								<div class="panel-footer">
 									<button id="button_request" onclick="requestCertificate()"
-										type="button" class="btn btn-danger">Beantragen</button>
+										type="button" class="btn simplecert_btn">Beantragen</button>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<!-- /.row -->
-
 				</div>
+				<!-- /.row -->
+
 				<div class="row">
 					<div class="col-lg-6 col-md-6">
 						<div class="panel panel-default">
@@ -179,7 +175,7 @@
 								</div>
 								<div class="panel-footer">
 									<form action="../CrtDownload" method="get">
-										<button type="submit" class="btn btn-danger">Herunterladen</button>
+										<button type="submit" class="btn simplecert_btn">Herunterladen</button>
 									</form>
 								</div>
 							</div>
