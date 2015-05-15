@@ -57,6 +57,15 @@ public class UserController implements IUserController {
 	}
 
 	@Override
+	public boolean hasRequest() {
+		return false;
+	}
+
+	@Override
+	public boolean allowedToDownloadCertificate() {
+		return true;
+	}
+	@Override
 	public boolean hasValidCertificate() {
 		return UserLogic.hasValidCertificate(user);
 	}
@@ -70,4 +79,5 @@ public class UserController implements IUserController {
 	public String getRemainingTimeOfCertificate() throws FileNotFoundException {
 		return CertificateLogic.getAppropriateTimeLeftForCertificate(user.getCertificate());
 	}
+
 }
