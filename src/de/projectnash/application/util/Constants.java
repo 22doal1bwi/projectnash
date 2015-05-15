@@ -12,6 +12,6 @@ public class Constants {
 	public static final String KEY_BIT_LENGTH = "2048";
 
 	/** Duration of days a certificate is valid */
-	public static final String DAYS_VALID = "3";
+	public static final String DAYS_VALID = "730";
 
 }

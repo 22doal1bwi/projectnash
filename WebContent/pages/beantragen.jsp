@@ -115,12 +115,12 @@
 						style="margin-top: 10px; margin-bottom: 15px" /></li>
 					<li><a href="index.jsp"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
-					<li><a href="beantragen.jsp"><i
-							class="fa fa-file-text-o fa-fw navbaricon"></i>Zertifikat
+					<li><a href="beantragen.jsp" class="active"><i
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
 							beantragen</a></li>
-					<li><a href="index.jsp"><i
+					<li class="disabled"><a class="navitem_disabled"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
-					<li><a href="index.jsp"><i
+					<li class="disabled"><a class="navitem_disabled"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
 			</div>

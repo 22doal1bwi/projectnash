@@ -59,3 +59,7 @@
 	bottom: 152px;
 	left: 122px;
 }
+
+.navitem_disabled {
+	cursor: context-menu !important;
+}

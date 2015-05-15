@@ -1,3 +1,4 @@
+<%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="de.projectnash.application.UserLogic"%>
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.frontend.interfaces.IUserController"%>
@@ -15,6 +16,7 @@
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
+<script type="text/javascript" src="../js_custom/index.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
@@ -69,10 +71,25 @@
 				break;
 			default :
 				UserController uc = new UserController(sessionId);
+				boolean hasCertificate = false;
+				boolean hasValidCertificate = false;
+				boolean hasRequest = false;
+				boolean allowedToDownloadCert = false;
+				String remainingTimeOfCert = null;
+				int remainingDays = 0;
 
-				if (uc.hasValidCertificate()) {
-					response.sendRedirect("beantragen_end.jsp");
-				} else {
+				hasRequest = uc.hasRequest();
+				allowedToDownloadCert = uc.allowedToDownloadCertificate();
+				hasCertificate = uc.hasCertificate();
+				hasValidCertificate = uc.hasValidCertificate();
+				try {
+					remainingTimeOfCert = uc
+							.getRemainingTimeOfCertificate();
+					remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+				} catch (Exception e) {
+					remainingTimeOfCert = "[unbekannte Zeit]";
+					e.printStackTrace();
+				}
 	%>
 
 	<div id="wrapper">
@@ -96,8 +113,7 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="index.jsp"><%=uc.getFirstName()%> <%=uc.getLastName()%>
-					(<%=uc.getPersonalId()%>)</a></li>
+			<li><a href="index.jsp"><%=uc.getFullName()%></a></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
 			<li><a href="index.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
@@ -123,23 +139,83 @@
 					<li><img class="displayed"
 						src="../img/simplecert/simplecert_logo_text_128x128.png"
 						style="margin-top: 10px; margin-bottom: 15px" /></li>
-					<li><a href="index.jsp"><i
+					<li><a href="index.jsp" class="active"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<li><a href="beantragen.jsp"><i
-							class="fa fa-file-text-o fa-fw navbaricon"></i>Zertifikat
-							beantragen</a></li>
+							class="fa fa-file-text fa-fw navbaricon"></i> <%
+ 	if (!hasCertificate) {
+ 			out.print("Zertifikat beantragen");
+ 		} else {
+ 			out.print("Zertifikat anzeigen");
+ 		}
+ %></a></li>
+					<%
+				if (hasCertificate) {					
+			%>
 					<li><a href="index.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
 					<li><a href="index.jsp"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
+						<%
+				} else {					
+			%>				
+					<li class="disabled"><a class="navitem_disabled"><i class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>						
+					<li class="disabled"><a class="navitem_disabled"><i class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
+					<li>
+						<%
+				}					
+			%>	
 			</div>
 			<!-- /.sidebar-collapse -->
 		</div>
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div class="alert messagebar_intern"></div>
+			<div id="messagebar_home" class="alert messagebar_intern"></div>
+			<%
+				if (hasCertificate && hasValidCertificate) {
+					if (remainingDays > 90) {
+			%>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")
+				});
+			</script>
+			<%
+					} else {
+			%>
+			<script type="text/javascript">
+				$(document).ready(
+						function() {
+							buildAndShowMessageBar("WRN_CERT_EXPIRING",
+									"messagebar_home")
+						});
+			</script>
+			<%
+			} // close of if (hasCertificate && hasValidCertificate)
+			} else if (hasCertificate && !hasValidCertificate) {
+			%>
+			<script type="text/javascript">
+				$(document).ready(
+						function() {
+							buildAndShowMessageBar("ERR_CERT_NOT_VALID",
+									"messagebar_home")
+						});
+			</script>
+			<%
+				} else if (!hasCertificate) {
+			%>
+			<script type="text/javascript">
+				$(document).ready(
+						function() {
+							buildAndShowMessageBar("ERR_CERT_NOT_EXISTING",
+									"messagebar_home")
+						});
+			</script>
+			<%
+				} // close of last 'else'		
+			%>
 			<div class="row">
 				<div class="col-lg-12"></div>
 				<!-- /.col-lg-12 -->
@@ -157,26 +233,73 @@
 									</div>
 									<div class="col-xs-9 text-right">
 
-										<div class="text-top te" style="font-size: 24px">Zertifikat
-											beantragen</div>
+										<div class="text-top te" style="font-size: 24px">
+											<%
+												if (!hasCertificate) {
+														out.print("Zertifikat beantragen");
+													} else {
+														out.print("Zertifikat anzeigen");
+													}
+											%>
+
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</a>
 				</div>
+				<%
+					if (hasCertificate) {
+				%>
+				<div class="col-lg-4 col-md-6">
+					<div class="panel panel-yellow functiontile">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-history fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
 
+									<div class="text-top te" style="font-size: 24px">Zertifikat
+										verlängern</div>
+									<div class="text-top te" style="font-size: 16px"><%=remainingTimeOfCert%>
+										verbleibend
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="panel panel-red functiontile">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-ban fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
 
+									<div class="text-top te" style="font-size: 24px">Zertifikat
+										widerrufen</div>
+									<div class="text-top te" style="font-size: 16px">Missbrauch
+										melden</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- /.row -->
-
+				<%
+					} // close of if(hasCertificate)
+				%>
 			</div>
 			<!-- /#page-wrapper -->
 
 		</div>
 		<!-- /#wrapper -->
 		<%
-			}
-			} //close of else block for session check
+			} // switch (sessionId)
 		%>
 	
 </body>

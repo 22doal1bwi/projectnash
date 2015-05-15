@@ -6,7 +6,7 @@ $(document).ready(function() {
 		name : 'messages',
 		path : '../i18n/',
 		language : 'de',
-		mode : 'both',
+		mode : 'map',
 		encoding : 'UTF-8'
 	});
 });
