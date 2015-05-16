@@ -354,4 +354,47 @@ public class CertificateUtility {
 		return out.toString();
 	}
 	
+	/**
+	 * 
+	 * Method which revokes a certificate
+	 * 
+	 * @param crtData
+	 * @param privKey
+	 * @return
+	 * @throws IOException
+	 * @author Tobias Burger
+	 */
+	public static byte[] revokeCRT(byte[] crtData, byte[] privateKey) throws IOException, InterruptedException, OpenSSLException{
+		
+		File rootCertFile = new File("root_cert.pem");
+		
+		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
+		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
+		
+		String[] command = {
+				"openssl",
+				"ca",
+				"-keyfile", tmpKeyFile.getAbsolutePath(),
+				"-cert", rootCertFile.getAbsolutePath(),
+				"-revoke", tmpCrtFile.getAbsolutePath()
+				};
+		
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
+		/** get output of crt generation command as input stream */
+		InputStream in = proc.getInputStream();
+		/** prepare collection of output into a byte array */
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		/** write command output into byte stream */
+		writeInputToOutput(in, out);
+		
+		if (out.toString().isEmpty()) throw new OpenSSLException("Root files not found.");
+		
+		/** destroy openssl instance */
+		proc.destroy();
+		
+		return out.toByteArray();
+	}
+	
+
 }
