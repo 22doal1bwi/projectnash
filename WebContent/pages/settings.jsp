@@ -14,7 +14,7 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
-<script type="text/javascript" src="../js_custom/show_certificate.js"></script>
+<script type="text/javascript" src="../js_custom/settings.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -31,7 +31,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>simpleCert - Zertifikat anzeigen</title>
+<title>simpleCert - Account</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
@@ -73,6 +73,11 @@
 				break;
 			default:
 				UserController uc = new UserController(sessionId);
+
+				String firstName = uc.getFirstName();
+				String lastName = uc.getLastName();
+				String department = uc.getDepartment();
+				String emailAddress = uc.getEmailAddress();
 		%>
 
 		<!-- Navigation -->
@@ -95,7 +100,7 @@
 			<li><div class="name"><%=uc.getFullName()%></div></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
-			<li><a href="settings.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li><a><i class="fa fa-gear fa-2x navitem_disabled"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">
 					<a role="button" class="fa fa-sign-out fa-2x logout"
@@ -115,7 +120,7 @@
 						style="margin-top: 10px; margin-bottom: 15px" /></li>
 					<li><a href="home.jsp"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
-					<li><a class="active navitem_disabled"><i
+					<li><a href="show_certificate.jsp"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
 					<li><a href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
@@ -128,21 +133,61 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div id="messagebar_show"
+			<div id="messagebar_settings"
 				class="alert messagebar_intern messagebar_hidden"></div>
 			<div class="row"></div>
 			<!-- /.row -->
+			<div id="page_content_settings" class="page_content">
+				<div class="row">
+					<div class="col-lg-4 col-md-8">
+						<h1 class="page-header">Account</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-md-8">
+						<div class="form-group">
+							<label>Vorname</label>
+							<p class="form-control-static"><%=firstName%></p>
+							<label>Nachname</label>
+							<p class="form-control-static"><%=lastName%></p>
+							<label>Abteilung</label>
+							<p class="form-control-static"><%=department%></p>
+							<label>E-Mail-Addresse</label>
+							<p class="form-control-static"><%=emailAddress%></p>
+							<label>Passwort</label><br> <input type="password"
+								class="form-control password_field_hidden"
+								id="password_current" name="password_current" placeholder="Aktuelles Passwort"
+								onpaste="return false;"> <input type="password"
+								class="form-control password_field_hidden"
+								id="password_new" name="password_new" placeholder="Neues Passwort"
+								onpaste="return false;"> <input type="password"
+								class="form-control password_field_hidden"
+								id="password_new_confirm"
+								placeholder="Neues Passwort wiederholen" onpaste="return false;"><br>
+							<button id="button_cancel_password" onclick="cleanPage('password')"
+								type="button" class="btn simplecert_inv_btn"
+								style="display: none; margin-right: 2px;">Abbrechen</button>
+							<button id="button_confirm_password" onclick="confirmPasswordChange()"
+								type="button" class="btn simplecert_btn" style="display: none;">OK</button>
+							<button id="button_change_password" onclick="changePassword()"
+								type="button" class="btn simplecert_btn password_change_btn">Passwort
+								ändern</button>
+						</div>
+						<div id="loading_gif_settings" class="loading_gif_settings" style="display: none;">
+							<img src="../img/general/loading.gif">
+						</div>
+					</div>
+				</div>
+				<!-- /.row -->
 
-			<!-- /.row -->
+			</div>
+			<!-- /#page-wrapper -->
 
 		</div>
-		<!-- /#page-wrapper -->
-
-	</div>
-	<!-- /#wrapper -->
-	<%
-		}
-	%>
-
+		<!-- /#wrapper -->
+		<%
+			}
+		%>
+	
 </body>
 </html>

@@ -52,6 +52,9 @@
 <link href="../css_custom/_messagebar.css" rel="stylesheet"
 	type="text/css">
 
+<!-- Roboto font -->
+<link href="../css_custom/_roboto.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body>
@@ -89,14 +92,13 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="home.jsp"><%=uc.getFirstName()%> <%=uc.getLastName()%>
-					(<%=uc.getPersonalId()%>)</a></li>
+			<li><div class="name"><%=uc.getFullName()%></div></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
-			<li><a href="home.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li><a href="settings.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">
-					<a role="button" class="fa fa-sign-out fa-2x"
+					<a role="button" class="fa fa-sign-out fa-2x logout"
 						style="text-decoration: none;" onclick="logout()"></a>
 				</form>
 			</li>
@@ -181,7 +183,7 @@
 							</div>
 
 						</div>
-						<div id="loading_gif_request" class="loading_gif">
+						<div id="loading_gif_request" class="loading_gif_request">
 							<img src="../img/general/loading.gif">
 						</div>
 					</div>

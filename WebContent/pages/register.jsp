@@ -39,6 +39,9 @@
 <!-- Custom styles for the messagebar -->
 <link href="../css_custom/_messagebar.css" rel="stylesheet" type="text/css">
 
+<!-- Roboto font -->
+<link href="../css_custom/_roboto.css" rel="stylesheet" type="text/css">
+
 <body>
 <body id="body">
 	<div class="messagebar_placeholder">

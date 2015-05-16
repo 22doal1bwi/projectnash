@@ -42,9 +42,12 @@
 <!-- Custom styles for the messagebar -->
 <link href="../css_custom/_messagebar.css" rel="stylesheet" type="text/css">
 
+<!-- Roboto font -->
+<link href="../css_custom/_roboto.css" rel="stylesheet" type="text/css">
+
 </head>
 
-<body style="background-color: white">
+<body class="body_login">
 
 	<%
 		String sessionIdStatus = SessionController.checkForSessionId(
@@ -78,7 +81,8 @@
 					type="button" onclick="checkFormBeforeSubmit()">Einloggen</button>
 			</form>
 			<br />
-			<hr class="horizontal_divider">
+			<a class="link" href="#">Passwort vergessen?</a>
+			<hr class="horizontal_divider">			
 			<form class="form-signin">
 				<a class="btn btn-lg simplecert_inv_btn btn-block btn-small"
 					href="register.jsp" role="button">Neu anmelden</a>

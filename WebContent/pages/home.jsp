@@ -52,6 +52,9 @@
 <link href="../css_custom/_messagebar.css" rel="stylesheet"
 	type="text/css">
 
+<!-- Roboto font -->
+<link href="../css_custom/_roboto.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body>
@@ -112,13 +115,13 @@
 		<ul class="nav navbar-top-links navbar-right">
 
 			<!-- /.dropdown -->
-			<li><a href="home.jsp"><%=uc.getFullName()%></a></li>
+			<li><div class="name"><%=uc.getFullName()%></div></li>
 			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
 			<!-- 				style="width: 20px;" /></li> -->
-			<li><a href="home.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li><a href="settings.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">
-					<a role="button" class="fa fa-sign-out fa-2x"
+					<a role="button" class="fa fa-sign-out fa-2x logout"
 						style="text-decoration: none;" onclick="logout()"></a>
 					<script type="text/javascript">
 						function logout() {
@@ -181,14 +184,15 @@
 		<!-- /.navbar-static-side --> </nav>
 
 		<div id="page-wrapper">
-			<div id="messagebar_home" class="alert messagebar_intern messagebar_hidden"></div>
+			<div id="messagebar_home"
+				class="alert messagebar_intern messagebar_hidden"></div>
 			<%
 				if (hasCertificate && hasValidCertificate) {
 							if (remainingDays > 90) {
 			%>
 			<script type="text/javascript">
-				$(document).ready(function() {									
-					buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")	
+				$(document).ready(function() {
+					buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")
 				});
 			</script>
 			<%

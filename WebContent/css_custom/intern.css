@@ -1,3 +1,7 @@
+body {
+	font-family: Roboto-Regular;
+}
+
 .panelicon {
 	background-color: #fff !important;
 	border-color: #333;
@@ -54,10 +58,16 @@
 	line-height: 30px;
 }
 
-.loading_gif {
+.loading_gif_request {
 	position: relative;
 	bottom: 152px;
 	left: 122px;
+}
+
+.loading_gif_settings {
+	position: relative;
+	bottom: 49px;
+	left: 146px;
 }
 
 .navitem_disabled {
@@ -69,7 +79,6 @@
 	background-color: #fff;
 	color: #C03A2A;
 	margin-right: 5px;
-	font-weight: bold;
 	transition: background-color .4s ease;
 }
 
@@ -81,11 +90,42 @@
 
 .simplecert_btn {
 	color: #fff !important;
-	background-color: #C03A2A;	
-	font-weight: bold;
+	background-color: #C03A2A;
 	transition: background-color .4s ease;
 }
+
 .simplecert_btn:hover, .simplecert_btn:focus {
-	background-color: #DC483C;	
+	background-color: #DC483C;
 	transition: background-color .4s ease;
+}
+
+.name {
+	position: relative;
+	top: -5px;
+	margin-right: 20px;
+	margin-left: 20px;
+	cursor: context-menu;
+}
+
+.logout {
+	width: 54px;
+}
+
+.logout:hover {
+	background-color: #eee;
+}
+
+.form-control-static {
+	padding-top: 0;
+}
+
+.password_field_hidden {
+	width: 50%;
+	margin-bottom: 5px;
+	display: none;
+}
+
+.password_change_btn {
+	position: relative;
+	top: -20px;
 }
