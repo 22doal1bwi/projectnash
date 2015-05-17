@@ -69,10 +69,14 @@
 
 			case "-1":
 			case "0":
-				response.sendRedirect("../login.jsp");
+				response.sendRedirect("login.jsp");
 				break;
 			default:
 				UserController uc = new UserController(sessionId);
+
+				boolean hasCertificate = uc.hasCertificate();
+
+				if (!hasCertificate) {
 		%>
 
 		<!-- Navigation -->
@@ -134,7 +138,7 @@
 			<!-- /.row -->
 			<div id="page_content_request" class="page_content">
 				<div class="row">
-					<div class="col-lg-6 col-md-6">
+					<div class="col-lg-5 col-md-8">
 						<div class="panel panel-default functiontile">
 							<div id="step1_header_request" class="panel-heading panelheader">
 								<button id="step1_icon_request" type="button"
@@ -160,7 +164,7 @@
 				<!-- /.row -->
 
 				<div class="row">
-					<div class="col-lg-6 col-md-6">
+					<div class="col-lg-5 col-md-8">
 						<div class="panel panel-default">
 							<div id="step2_header_request"
 								class="panel-heading panelheader panel_next_step_or_loading">
@@ -196,6 +200,9 @@
 		</div>
 		<!-- /#wrapper -->
 		<%
+			} else {
+					response.sendRedirect("home.jsp");
+				}
 			}
 		%>
 	

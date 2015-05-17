@@ -68,10 +68,13 @@
 
 			case "-1":
 			case "0":
-				response.sendRedirect("../login.jsp");
+				response.sendRedirect("login.jsp");
 				break;
 			default:
 				UserController uc = new UserController(sessionId);
+				boolean hasValidCertificate = uc.hasValidCertificate();
+
+				if (hasValidCertificate) {
 		%>
 
 		<!-- Navigation -->
@@ -132,19 +135,17 @@
 			<!-- /.row -->
 			<div id="page_content_revoke" class="page_content">
 				<div class="row">
-					<div class="col-lg-6 col-md-6">
+					<div class="col-lg-5 col-md-8">
 						<div class="panel panel-red functiontile">
-							<div id="header_revoke" class="panel-heading">								
-								Zertifikat widerrufen
-							</div>
+							<div id="header_revoke" class="panel-heading">Zertifikat
+								widerrufen</div>
 							<div id="content_revoke">
-								<div id="panel_body_revoke" class="panel-body">
-									<p>Bitte geben Sie den Grund ihres Widerrufs an. Nach dem
-										Klick auf 'Widerrufen' müssen Sie den Widerruf noch
-										bestätigen.</p>
+								<div id="panel_body_revoke" class="panel-body panel_revoke">
 									<div class="form-group">
 										<label>Grund des Widerrufs</label>
-										<textarea id="textfield_revoke" class="form-control" rows="4"></textarea>
+										<textarea id="textfield_revoke" class="form-control"
+											placeholder="Bitte geben Sie hier den Grund Ihres Widerrufs an. Nach dem Klick auf 'Widerrufen' müssen Sie den Widerruf noch bestätigen."
+											rows="4"></textarea>
 									</div>
 								</div>
 								<div id="footer_revoke" class="panel-footer">
@@ -166,6 +167,9 @@
 		</div>
 		<!-- /#wrapper -->
 		<%
+			} else {
+					response.sendRedirect("home.jsp");
+				}
 			}
 		%>
 	

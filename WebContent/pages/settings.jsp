@@ -69,15 +69,17 @@
 
 			case "-1":
 			case "0":
-				response.sendRedirect("../login.jsp");
+				response.sendRedirect("login.jsp");
 				break;
 			default:
 				UserController uc = new UserController(sessionId);
+				boolean hasValidCertificate = false;
 
 				String firstName = uc.getFirstName();
 				String lastName = uc.getLastName();
 				String department = uc.getDepartment();
 				String emailAddress = uc.getEmailAddress();
+				hasValidCertificate = uc.hasValidCertificate();				
 		%>
 
 		<!-- Navigation -->
@@ -112,7 +114,7 @@
 		</ul>
 		<!-- /.navbar-top-links -->
 
-		<div class="navbar-default sidebar" role="navigation">
+	<div class="navbar-default sidebar" role="navigation">
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
 					<li><img class="displayed"
@@ -120,13 +122,41 @@
 						style="margin-top: 10px; margin-bottom: 15px" /></li>
 					<li><a href="home.jsp"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
+					<%
+						if (!hasValidCertificate) {
+					%>
+					<li><a href="request_certificate.jsp"><i
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
+							beantragen</a></li>
+					<%
+						} else {
+					%>
 					<li><a href="show_certificate.jsp"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
+					<%
+						}
+					%>
+					<%
+						if (hasValidCertificate) {
+					%>
 					<li><a href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
 					<li><a href="revoke_certificate.jsp"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 					<li>
+						<%
+							} else {
+						%>
+					
+					<li class="disabled"><a class="navitem_disabled"><i
+							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
+					<li class="disabled"><a class="navitem_disabled"><i
+							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
+					<li>
+						<%
+							}
+						%>
+					
 			</div>
 			<!-- /.sidebar-collapse -->
 		</div>

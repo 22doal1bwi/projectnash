@@ -121,11 +121,15 @@ body {
 
 .password_field_hidden {
 	width: 50%;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	display: none;
 }
 
 .password_change_btn {
 	position: relative;
 	top: -20px;
+}
+
+.panel_revoke {
+	background-color: #fff;
 }

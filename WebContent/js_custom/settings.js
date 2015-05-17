@@ -37,20 +37,20 @@ function updatePassword() {
 							"messagebar_settings")
 					$("#page_content_settings").addClass(
 							"page_content_move_down")
-					hideMessageBar()
+					hideMessageBarDelayed()
 				}, 1000);
 			} else {
 				unsetLoading()
 				buildAndShowMessageBar("ERR_PWD_CHANGE", "messagebar_settings")
 				$("#page_content_settings").addClass("page_content_move_down")
-				hideMessageBar()
+				hideMessageBarDelayed()
 			}
 		},
 		error : function() {
 			unsetLoading()
 			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_settings")
 			$("#page_content_settings").addClass("page_content_move_down")
-			hideMessageBar()
+			hideMessageBarDelayed()
 		}
 	})
 }
@@ -69,11 +69,15 @@ function changePassword() {
 			"#password_current, #password_new, #password_new_confirm, #button_cancel_password, #button_confirm_password")
 			.fadeIn()
 }
-function hideMessageBar() {
+function hideMessageBarDelayed() {
 	window.setTimeout(function() {
-		$("#messagebar_settings").addClass("messagebar_hidden")
-		$("#page_content_settings").removeClass("page_content_move_down")
+		hideMessageBarInstantly()
 	}, 3000);
+}
+
+function hideMessageBarInstantly() {
+	$("#messagebar_settings").addClass("messagebar_hidden")
+	$("#page_content_settings").removeClass("page_content_move_down")
 }
 
 function cleanPage() {
@@ -82,33 +86,45 @@ function cleanPage() {
 			.fadeOut().promise().done(function() {
 				$("#button_change_password").fadeIn()
 			})
-	$("#messagebar_settings").addClass("messagebar_hidden")
-	$("#page_content_settings").removeClass("page_content_move_down")
+	hideMessageBarInstantly()
 	$("#password_current, #password_new, #password_new_confirm").val("")
 }
 
 function confirmPasswordChange() {
+	// All fields have to be filled out
 	if ($("#password_current").val() !== "" && $("#password_new").val() !== ""
 			&& $("#password_new_confirm").val() !== "") {
-		$("#messagebar_settings").addClass("messagebar_hidden")
-		$("#page_content_settings").removeClass("page_content_move_down")
-		if ($("#password_new").val() === $("#password_new_confirm").val()) {
-			$("#messagebar_settings").addClass("messagebar_hidden")
-			$("#page_content_settings").removeClass("page_content_move_down")
-			setLoading()
-			updatePassword()
-		} else {
-			buildAndShowMessageBar("ERR_INPUT_PASSWORD_COMP",
+		hideMessageBarInstantly()
+
+		// New password has to be different than the current password
+		if ($("#password_current").val() !== $("#password_new").val()) {
+			hideMessageBarInstantly()
+
+			// Repeated new password and password have to be the same
+			if ($("#password_new").val() === $("#password_new_confirm").val()) {
+				hideMessageBarInstantly()
+				setLoading()
+				updatePassword()
+			} else { // If repeated new password and password are not the
+				// same
+				buildAndShowMessageBar("ERR_INPUT_PASSWORD_COMP",
+						"messagebar_settings")
+				$("#page_content_settings").addClass("page_content_move_down")
+				hideMessageBarDelayed()
+			}
+
+		} else { // New and current password are the same
+			buildAndShowMessageBar("ERR_PWD_CURRENT_EQUALS_NEW",
 					"messagebar_settings")
 			$("#page_content_settings").addClass("page_content_move_down")
-			hideMessageBar()
+			hideMessageBarDelayed()
 		}
 
-	} else {
+	} else { // If at least one field is empty
 		buildAndShowMessageBar("WRN_EMPTY_FIELDS_PWD_CHANGE",
 				"messagebar_settings")
 		$("#page_content_settings").addClass("page_content_move_down")
-		hideMessageBar()
+		hideMessageBarDelayed()
 	}
 }
 

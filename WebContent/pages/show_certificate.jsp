@@ -73,6 +73,9 @@
 				break;
 			default:
 				UserController uc = new UserController(sessionId);
+				boolean hasValidCertificate = uc.hasValidCertificate();
+
+				if (hasValidCertificate) {
 		%>
 
 		<!-- Navigation -->
@@ -141,6 +144,9 @@
 	</div>
 	<!-- /#wrapper -->
 	<%
+		} else {
+				response.sendRedirect("home.jsp");
+			}
 		}
 	%>
 
