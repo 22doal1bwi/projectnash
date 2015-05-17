@@ -39,6 +39,9 @@
 <!-- Custom styles for the messagebar -->
 <link href="../css_custom/_messagebar.css" rel="stylesheet" type="text/css">
 
+<!-- Roboto font -->
+<link href="../css_custom/_roboto.css" rel="stylesheet" type="text/css">
+
 <body>
 <body id="body">
 	<div class="messagebar_placeholder">
@@ -100,7 +103,7 @@
 				<!-- 					onpaste="return false;" -->
 			</div>
 			<button id="registerButton" type="button"
-				class="btn btn-lg btn-red btn-block"
+				class="btn btn-lg btn_submit simplecert_btn btn-block"
 				onclick="checkFormBeforeSubmit()">Absenden</button>
 		</form>
 		<br />

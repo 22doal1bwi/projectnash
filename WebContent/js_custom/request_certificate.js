@@ -35,7 +35,7 @@ function requestCertificate() {
 				requestUnsuccessful("ERR_CERT_REQUEST", "messagebar_request")
 			} else {
 				window.setTimeout(function() {
-					location.href = '../index.jsp';
+					location.href = '../home.jsp';
 				}, 1000);
 			}
 		},

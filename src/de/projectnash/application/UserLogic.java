@@ -87,11 +87,20 @@ public class UserLogic {
 	}
 	
 	public static boolean hasRequest(User user){
-		return RequestLogic.checkRequest(user);
+		return RequestLogic.hasRequest(user);
 	}
 	
-	// TODO: implement changePassword method
+	public static boolean isAllowedToDownload(User user){
+		return user.isAllowedToDownload();
+	}
+	
 	public static boolean changePassword(User user, String oldPassword, String newPassword) {
+		if (user.getPassword().equals(oldPassword)) {
+			user.setPassword(newPassword);
+			UserPersistenceService.updateUser(user);
+			LogLogic.createLog("Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
+			return true;
+		}		
 		return false;
 	}
 

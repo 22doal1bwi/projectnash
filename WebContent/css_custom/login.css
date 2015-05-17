@@ -1,25 +1,31 @@
+.body_login {
+	background-color: #fff;
+	font-family: Roboto-Regular;
+}
+
 .form-signin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+	margin-bottom: -14px;
 }
 
 .form-signin .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+	position: relative;
+	font-size: 16px;
+	height: auto;
+	padding: 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .form-signin input[type="email"] {
-    margin-bottom: -10px;
+	margin-bottom: -10px;
 }
 
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .has-error {
@@ -47,16 +53,18 @@
 .btn-red {
 	color: #fff;
 	background-color: #C03A2A;
-	border-color: #C03A2A;
 	outline: none;
 }
 
 .btn-red:hover, .btn-red:focus {
 	color: #fff;
-	background-color: #A83A2A;
-	border-color: #A83A2A;
+	background-color: #DC483C;
 	outline: none;
 	transition: background-color .4s ease;
+}
+
+.link {
+	color: #898989;
 }
 
 .horizontal_divider {
@@ -65,18 +73,28 @@
 	width: 70%
 }
 
-.btn-primary {
-	color: #2C2E2F;
-	background-color: #C8C8C8;
-	border-color: #C8C8C8;
-	outline: none;
+.simplecert_inv_btn {
+	border: 1px solid #C03A2A;
+	background-color: #fff;
+	color: #C03A2A;
+	margin-right: 5px;
+	transition: background-color .4s ease;
 }
 
-.btn-primary:hover, .btn-primary:focus {
-	color: #2C2E2F;
-	background-color: #B8B8B8;
-	border-color: #B8B8B8;
-	outline: none;
+.simplecert_inv_btn:hover, .simplecert_inv_btn:focus {
+	color: #fff;
+	background-color: #C03A2A;
+	transition: background-color .4s ease;
+}
+
+.simplecert_btn {
+	color: #fff !important;
+	background-color: #C03A2A;
+	transition: background-color .4s ease;
+}
+
+.simplecert_btn:hover, .simplecert_btn:focus {
+	background-color: #DC483C;
 	transition: background-color .4s ease;
 }
 

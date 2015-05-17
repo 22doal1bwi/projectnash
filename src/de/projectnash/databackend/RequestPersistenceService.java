@@ -35,10 +35,10 @@ public class RequestPersistenceService {
 	 *            will be loaded.
 	 * @return The specific {@link Request}.
 	 */
-	public static Request loadRequest(String reqId) {
+	public static Request loadRequest(User user) {
 		TypedQuery<Request> query = em.createNamedQuery(
-				"QUERY_FIND_REQUEST_BY_ID", Request.class);
-		query.setParameter("reqId", reqId);
+				"QUERY_FIND_REQUEST_BY_USER", Request.class);
+		query.setParameter("User", user);
 		return query.getSingleResult();
 	}
 

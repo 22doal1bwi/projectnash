@@ -178,7 +178,7 @@ function validateInput(type, kindOfCheck) {
 		switch (type) {
 
 		case "organizationalUnit":
-			if ($("#" + type).val() === "") {
+			if ($("#" + type).val() !== "") {
 				cleanInputField(type)
 			}
 			break
