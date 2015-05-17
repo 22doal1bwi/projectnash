@@ -21,29 +21,33 @@ $(document).ready(
 // ================================== AJAX FUNCTION
 // ===================================//
 // ====================================================================================//
-function updateAccount(type) {
-
-	return $.ajax({
+function updatePassword() {
+	$.ajax({
 		url : '../UpdateServlet',
 		type : 'POST',
 		dataType : 'json',
-		data : $('#' + type + "_current, #" + type + "_new").serialize(),
+		data : $('#password_current, #password_new').serialize(),
+		timeout : 8000,
 		success : function(data) {
 			if (data.pwChangeSuccessful) {
-				unsetLoadingSuccessful()
-				cleanPage(type)
-				buildAndShowMessageBar("SCS_PWD_CHANGE", "messagebar_settings")
+				unsetLoading()
+				window.setTimeout(function() {
+					cleanPage()
+					buildAndShowMessageBar("SCS_PWD_CHANGE",
+							"messagebar_settings")
+					$("#page_content_settings").addClass(
+							"page_content_move_down")
+					hideMessageBar()
+				}, 1000);
+			} else {
+				unsetLoading()
+				buildAndShowMessageBar("ERR_PWD_CHANGE", "messagebar_settings")
 				$("#page_content_settings").addClass("page_content_move_down")
 				hideMessageBar()
-			} else {
-				unsetLoadingUnsuccessful()
-				buildAndShowMessageBar("ERR_PWD_CHANGE", "messagebar_settings")
-				$("#page_content_settings").addClass("page_content_move_down")	
-				hideMessageBar()
-			}		
+			}
 		},
 		error : function() {
-			unsetLoadingUnsuccessful()
+			unsetLoading()
 			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_settings")
 			$("#page_content_settings").addClass("page_content_move_down")
 			hideMessageBar()
@@ -65,29 +69,26 @@ function changePassword() {
 			"#password_current, #password_new, #password_new_confirm, #button_cancel_password, #button_confirm_password")
 			.fadeIn()
 }
-function hideMessageBar () {
+function hideMessageBar() {
 	window.setTimeout(function() {
 		$("#messagebar_settings").addClass("messagebar_hidden")
 		$("#page_content_settings").removeClass("page_content_move_down")
 	}, 3000);
 }
 
-function cleanPage(type) {
+function cleanPage() {
 	$(
-			"#" + type + "_current, #" + type + "_new, #" + type
-					+ "_new_confirm, #button_cancel_" + type
-					+ ", #button_confirm_" + type + "").fadeOut().promise()
-			.done(function() {
+			"#password_current, #password_new, #password_new_confirm, #button_cancel_password, #button_confirm_password")
+			.fadeOut().promise().done(function() {
 				$("#button_change_password").fadeIn()
 			})
 	$("#messagebar_settings").addClass("messagebar_hidden")
 	$("#page_content_settings").removeClass("page_content_move_down")
-	$("#" + type + "_current, #" + type + "_new, #" + type + "_new_confirm")
-			.val("")
+	$("#password_current, #password_new, #password_new_confirm").val("")
 }
 
 function confirmPasswordChange() {
-	if ($("#password_new").val() !== ""
+	if ($("#password_current").val() !== "" && $("#password_new").val() !== ""
 			&& $("#password_new_confirm").val() !== "") {
 		$("#messagebar_settings").addClass("messagebar_hidden")
 		$("#page_content_settings").removeClass("page_content_move_down")
@@ -95,24 +96,23 @@ function confirmPasswordChange() {
 			$("#messagebar_settings").addClass("messagebar_hidden")
 			$("#page_content_settings").removeClass("page_content_move_down")
 			setLoading()
-			updateAccount("password")
+			updatePassword()
 		} else {
 			buildAndShowMessageBar("ERR_INPUT_PASSWORD_COMP",
 					"messagebar_settings")
 			$("#page_content_settings").addClass("page_content_move_down")
-			hideMessageBar ()
+			hideMessageBar()
 		}
 
 	} else {
 		buildAndShowMessageBar("WRN_EMPTY_FIELDS_PWD_CHANGE",
 				"messagebar_settings")
 		$("#page_content_settings").addClass("page_content_move_down")
-		hideMessageBar ()
+		hideMessageBar()
 	}
 }
 
 function setLoading() {
-	$("#password_current, #password_new, #password_new_confirm").attr("disabled", "")
 	$("#loading_gif_settings").fadeIn()
 	$("#button_confirm_password").addClass("disabled")
 	$("#button_confirm_password").removeAttr("onclick")
@@ -120,15 +120,10 @@ function setLoading() {
 	$("#button_cancel_password").removeAttr("onclick")
 }
 
-function unsetLoadingUnsuccessful() {
-	$("#password_current, #password_new, #password_new_confirm").removeAttr("disabled")
+function unsetLoading() {
 	$("#loading_gif_settings").fadeOut()
 	$("#button_confirm_password").removeClass("disabled")
 	$("#button_confirm_password").attr("onclick", "confirmPasswordChange()")
 	$("#button_cancel_password").removeClass("disabled")
 	$("#button_cancel_password").attr("onclick", "cleanPage('password')")
-}
-
-function unsetLoadingSuccessful() {
-	$("#loading_gif_settings").fadeOut()
 }

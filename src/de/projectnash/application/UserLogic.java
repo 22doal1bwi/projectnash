@@ -94,8 +94,13 @@ public class UserLogic {
 		return user.isAllowedToDownload();
 	}
 	
-	// TODO: implement changePassword method
 	public static boolean changePassword(User user, String oldPassword, String newPassword) {
+		if (user.getPassword().equals(oldPassword)) {
+			user.setPassword(newPassword);
+			UserPersistenceService.updateUser(user);
+			LogLogic.createLog("Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
+			return true;
+		}		
 		return false;
 	}
 

@@ -164,7 +164,7 @@
 								class="form-control password_field_hidden"
 								id="password_new_confirm"
 								placeholder="Neues Passwort wiederholen" onpaste="return false;"><br>
-							<button id="button_cancel_password" onclick="cleanPage('password')"
+							<button id="button_cancel_password" onclick="cleanPage()"
 								type="button" class="btn simplecert_inv_btn"
 								style="display: none; margin-right: 2px;">Abbrechen</button>
 							<button id="button_confirm_password" onclick="confirmPasswordChange()"

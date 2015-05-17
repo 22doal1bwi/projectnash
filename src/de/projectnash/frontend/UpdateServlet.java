@@ -29,7 +29,6 @@ public class UpdateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		String sessionIdStatus = SessionController.checkForSessionId(request,
 				response);
 		User user = SessionLogic.loadSession(sessionIdStatus).getUser();
