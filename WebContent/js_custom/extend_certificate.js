@@ -20,9 +20,9 @@ function logout() {
 	document.form_logout.submit()
 }
 
-function extendCertificate() {
-	setLoading()
-	alert("To be implemented")
+//function extendCertificate() {
+//	setLoading()
+//	alert("To be implemented")
 //	$.ajax({
 //		url : '../CertificateServlet',
 //		type : 'POST',
@@ -43,6 +43,19 @@ function extendCertificate() {
 //			requestUnsuccessful("ERR_CONNECTION", "messagebar_extend")
 //		}
 //	})
+//}
+
+function extendCertificate() {
+
+	$.ajax({
+		url : '../AdminRequestServlet',
+		type : 'POST',
+		dataType : 'json',
+		timeout : 8000,
+		success : function(data) {
+		
+		}
+	})
 }
 
 function setLoading() {

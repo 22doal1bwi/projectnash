@@ -83,7 +83,6 @@ public class User implements Serializable {
 	 */
 	public User(int personalId, String firstName, String lastName, String department, 
 			String emailAddress, String password) {
-		super();
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -92,6 +91,24 @@ public class User implements Serializable {
 		this.password = password;
 		this.isAllowedToDownload = false;
 		this.isAdmin = false;
+	}
+	
+	/**
+	 * This constructor is only needed for JSON notation from the 'AdminRequestServlet' to the frontend 
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @param department
+	 * @param personalId
+	 * @param emailAddress
+	 */
+	public User(String firstName, String lastName, String department, int personalId, 
+			String emailAddress) {
+		this.personalId = personalId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailAddress = emailAddress.toLowerCase();
+		this.department = department;
 	}
 	
 	public int getPersonalId() {

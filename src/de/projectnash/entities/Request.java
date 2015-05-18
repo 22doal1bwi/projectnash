@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import de.projectnash.application.UserLogic;
+
 /**
  * This class provides a realistic {@link Request} for a {@link Certificate} with all
  * its attributes.
@@ -59,10 +61,25 @@ public class Request {
 	}
 
 	/**
+	 * This constructor is only needed for JSON notation from the 'AdminRequestServlet' to the frontend  
+	 * 
+	 * @param user
+	 * @param creationDate
+	 */
+	public Request(User user, Date creationDate) {
+		this.user = user;
+		this.creationDate = creationDate;
+	}
+	
+	/**
 	 * @return The {@link User} linked to this {@link Request}.
 	 */
 	public User getUser() {
 		return user;
+	}
+	
+	public Date getCreationDate() {
+		return this.creationDate;
 	}
 	
 	@Override
