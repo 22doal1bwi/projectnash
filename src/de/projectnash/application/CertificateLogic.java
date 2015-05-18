@@ -38,9 +38,10 @@ public class CertificateLogic {
 
 		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
 				"artur.ermisch@simpleCert.com", "Eierkuchen2");
-		// UserPersistenceService.storeUser(tempUser);
+		//UserPersistenceService.storeUser(tempUser);
 		try {
 			createCertificate(tempUser);
+
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,16 +57,16 @@ public class CertificateLogic {
 		// create Certificate with utility class
 		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
-			System.out.println("private Key: " + keyData.toString());
 			byte[] csrData = CertificateUtility.generateCSR(
 					organization.getCountry(), organization.getState(),
 					organization.getLocality(), organization.getOrganization(),
 					user.getDepartment(), UserLogic.getCommonName(user),
 					user.getEmailAddress(), keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
-			byte[] p12Data = CertificateUtility
-					.generatePKCS12(crtData, keyData);
-
+			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData);
+			
+			//CertificateUtility.revokeCRT(crtData, keyData);
+			
 			String subjectData = CertificateUtility.getCRTdata(crtData,
 					"-subject");
 			String datesData = CertificateUtility.getCRTdata(crtData, "-dates");

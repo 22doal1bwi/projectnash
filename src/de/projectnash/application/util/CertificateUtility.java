@@ -120,10 +120,10 @@ public class CertificateUtility {
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in private key generation method!");
 		
-		System.out.println("KEY: \n" + out.toString());
-		
 		/** destroy openssl instance */
 		proc.destroy();
+		
+		System.out.println(out.toString());
 		
 		return out.toByteArray();
 	}
@@ -150,7 +150,6 @@ public class CertificateUtility {
 
 		/** get a temporary key file */
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
-		System.out.println(tmpKeyFile.getAbsoluteFile());
 
 		String[] command = {
 				"openssl",
@@ -175,8 +174,6 @@ public class CertificateUtility {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
-		
-		System.out.println("CSR: \n" + out.toString());
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in CSR generation method!");
 		
@@ -388,7 +385,7 @@ public class CertificateUtility {
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
-		if (out.toString().isEmpty()) throw new OpenSSLException("Root files not found.");
+		if (out.toString().isEmpty()) throw new OpenSSLException("Error while revoking certificate.");
 		
 		/** destroy openssl instance */
 		proc.destroy();
@@ -396,5 +393,40 @@ public class CertificateUtility {
 		return out.toByteArray();
 	}
 	
-
+	public static byte[] extractPrivateKey(byte[] p12Data) throws IOException, OpenSSLException, InterruptedException{
+		
+		File tmpP12File = writeBytesToTempFile(p12Data, FilePattern.P12);
+		//Path tmpKeyFile = Files.createTempFile(FilePattern.KEY.prefix, FilePattern.KEY.suffix);
+		
+		String[] command = {
+				"openssl",
+				"pkcs12",				
+				"-in", tmpP12File.getAbsolutePath(),
+				"-clcerts",
+				"-nodes",
+				"-nocerts",
+				//"-out", tmpKeyFile.toString(),
+				"-password", "pass:"
+				};
+		
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
+		proc.waitFor();
+		
+		/** get output of generation command as input stream */
+		InputStream in = proc.getInputStream();
+		/** prepare collection of output into a byte array */
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		/** write command output into byte stream */
+		writeInputToOutput(in, out);
+		
+		if (out.toString().isEmpty()) throw new OpenSSLException("Error while extracting private key from PKCS12.");
+		
+		/** destroy openssl instance */
+		proc.destroy();
+		
+		return out.toByteArray();
+		
+	}
+	
 }
