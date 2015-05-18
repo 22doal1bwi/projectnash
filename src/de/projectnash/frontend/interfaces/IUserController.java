@@ -67,6 +67,11 @@ public interface IUserController {
 	boolean allowedToDownloadCertificate();
 	
 	/**
+	 * @return true if the {@link User} is an administrator.
+	 */
+	boolean isAdmin();
+	
+	/**
 	 * @return true if {@link User} has a {@link Certificate} - no check of validity.
 	 */
 	boolean hasCertificate();

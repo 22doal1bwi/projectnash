@@ -93,4 +93,9 @@ public class UserController implements IUserController {
 		return CertificateLogic.getTimeLeftForCertificate(user.getCertificate(), timeUnit);
 	}
 
+	@Override
+	public boolean isAdmin() {
+		return user.isAdmin();
+	}
+
 }
