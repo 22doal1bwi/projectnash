@@ -14,8 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import de.projectnash.application.CertificateLogic;
+import de.projectnash.application.LogLogic;
+import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.application.util.OpenSSLException;
+import de.projectnash.entities.Log;
+import de.projectnash.entities.User;
 
 /**
  * Servlet implementation class Certificate Servlet
@@ -31,15 +35,16 @@ public class CertificateServlet extends HttpServlet {
 		String sessionIdStatus = SessionController.checkForSessionId(request,
 				response);
 		
-		System.out.println(UserLogic.loadUserBySession(sessionIdStatus).toString());
+		User user = UserLogic.loadUserBySession(sessionIdStatus);
 		switch (sessionIdStatus) {
 		default:
 			try {
 				boolean createdCertificate = CertificateLogic
-						.createCertificate(UserLogic
-								.loadUserBySession(sessionIdStatus));
+						.createCertificate(user);
 				if (createdCertificate) {
 					map.put("createdCertificate", true);
+					RequestLogic.createRequest(user);
+					LogLogic.createLog("Eine Anfrage zur Beantragung eines Zertifikats wurde gestellt.", user.getEmailAddress());
 				} else {
 					map.put("createdCertificate", false);
 				}

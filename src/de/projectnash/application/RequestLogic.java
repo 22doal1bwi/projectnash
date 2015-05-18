@@ -1,5 +1,7 @@
 package de.projectnash.application;
 
+import java.util.List;
+
 import de.projectnash.databackend.RequestPersistenceService;
 import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
@@ -32,6 +34,10 @@ public class RequestLogic {
 		return RequestPersistenceService.loadRequest(user);
 	}
 
+	public static List<Request> loadAllRequests(){
+		return RequestPersistenceService.loadAllRequests();
+	}
+	
 	public static boolean hasRequest(User user) {
 		return RequestPersistenceService.requestExists(user);
 	}

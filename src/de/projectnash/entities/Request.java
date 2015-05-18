@@ -27,6 +27,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 		@NamedQuery(name = "QUERY_FIND_REQUEST_BY_USER", query = "SELECT r FROM Request r WHERE r.user = :User" ),
 		@NamedQuery(name = "QUERY_REMOVE_REQUEST_BY_REQUEST", query = "DELETE FROM Request r WHERE r = :Request"),
+		@NamedQuery(name = "QUERY_FIND_ALL_REQUESTS", query = "SELECT r FROM Request r"),
 		@NamedQuery(name = "CHECK_REQUEST_EXISTS_BY_USER", query = "SELECT COUNT(r.user) FROM Request r WHERE r.user = :User") })
 public class Request {
 
@@ -62,6 +63,11 @@ public class Request {
 	 */
 	public User getUser() {
 		return user;
+	}
+	
+	@Override
+	public String toString(){
+		return this.user.getFirstName() + ", " + this.user.getLastName() + " has created a request on: " + this.creationDate; 
 	}
 
 }

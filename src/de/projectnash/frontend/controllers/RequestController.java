@@ -1,5 +1,7 @@
 package de.projectnash.frontend.controllers;
 
+import de.projectnash.entities.Request;
+
 /**
  * Controller for {@link Request}s in administrator section.
  * 
@@ -7,9 +9,9 @@ package de.projectnash.frontend.controllers;
  *
  */
 public class RequestController {
-	
-	public RequestController(String sessionId) {
-	}
 
+	public RequestController() {
+		
+	}
 
 }

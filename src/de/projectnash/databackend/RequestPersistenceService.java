@@ -1,5 +1,7 @@
 package de.projectnash.databackend;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -41,6 +43,15 @@ public class RequestPersistenceService {
 		query.setParameter("User", user);
 		return query.getSingleResult();
 	}
+	
+	 /**
+     * Loads all {@link Request}s from the database.
+     * @return A {@link List} of all {@link Request}s in the database.
+     */
+    public static List<Request> loadAllRequests(){
+    	TypedQuery<Request> query = em.createNamedQuery("QUERY_FIND_ALL_REQUESTS", Request.class);
+    	return query.getResultList();
+    }
 
 	/**
 	 * Checks if the {@link Request} exists in the database.
