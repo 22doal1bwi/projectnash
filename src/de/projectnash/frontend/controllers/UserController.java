@@ -21,12 +21,12 @@ public class UserController implements IUserController {
 
 	@Override
 	public String getFirstName() {
-		return user.getFirstName();
+		return UserLogic.getFirstName(user);
 	}
 
 	@Override
 	public String getLastName() {
-		return user.getLastName();
+		return UserLogic.getLastName(user);
 	}
 
 	@Override
@@ -40,17 +40,17 @@ public class UserController implements IUserController {
 	}
 	@Override
 	public String getEmailAddress() {
-		return user.getEmailAddress();
+		return UserLogic.getEmailAddress(user);
 	}
 
 	@Override
 	public String getDepartment() {
-		return user.getDepartment();
+		return UserLogic.getDepartment(user);
 	}
 
 	@Override
 	public int getPersonalId() {
-		return user.getPersonalId();
+		return UserLogic.getPersonalId(user);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class UserController implements IUserController {
 
 	@Override
 	public boolean allowedToDownloadCertificate() {
-		return user.isAllowedToDownload();
+		return UserLogic.isAllowedToDownload(user);
 	}
 	@Override
 	public boolean hasValidCertificate() {
@@ -95,7 +95,7 @@ public class UserController implements IUserController {
 
 	@Override
 	public boolean isAdmin() {
-		return user.isAdmin();
+		return UserLogic.isAdmin(user);
 	}
 
 }

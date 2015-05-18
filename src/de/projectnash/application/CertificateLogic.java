@@ -172,8 +172,38 @@ public class CertificateLogic {
 	public static void extendCertificate(User user) {
 
 	}
+	
+	/* G E T T E R */
 
-	public static Certificate loadCertificate(User user) {
-		return user.getCertificate();
+	public static String getOrganizationalUnit(Certificate certificate) {
+		return certificate.getOrganizationalUnit();
+	}
+
+	public static String getEmailAddress(Certificate certificate) {
+		return certificate.getEmailAddress();
+	}
+
+	public static String getOrganizationName(Certificate certificate) {
+		return certificate.getOrganizationalUnit();
+	}
+
+	public static String getLocalityName(Certificate certificate) {
+		return certificate.getLocalityName();
+	}
+
+	public static Object getExpirationDate(Certificate certificate) {
+		return certificate.getExpirationDate();
+	}
+
+	public static String getCommonName(Certificate certificate) {
+		return certificate.getCommonName();
+	}
+
+	public static String getState(Certificate certificate) {
+		return certificate.getState();
+	}
+
+	public static String getCountryName(Certificate certificate) {
+		return certificate.getCountryName();
 	}
 }

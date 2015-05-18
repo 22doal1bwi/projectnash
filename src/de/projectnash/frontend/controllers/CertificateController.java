@@ -1,5 +1,6 @@
 package de.projectnash.frontend.controllers;
 
+import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.entities.Certificate;
 import de.projectnash.frontend.interfaces.ICertificateController;
@@ -10,21 +11,6 @@ public class CertificateController implements ICertificateController{
 	
 	public CertificateController(String sessionId) {
 		certificate = SessionLogic.loadSession(sessionId).getUser().getCertificate();
-	}
-
-	@Override
-	public String getCountryName() {
-		return certificate.getCountryName();
-	}
-
-	@Override
-	public String getState() {
-		return certificate.getState();
-	}
-
-	@Override
-	public String getCommonName() {
-		return certificate.getCommonName();
 	}
 
 	@Override
@@ -40,27 +26,42 @@ public class CertificateController implements ICertificateController{
 	}
 
 	@Override
+	public String getCountryName() {
+		return CertificateLogic.getCountryName(certificate);
+	}
+
+	@Override
+	public String getState() {
+		return CertificateLogic.getState(certificate);
+	}
+
+	@Override
+	public String getCommonName() {
+		return CertificateLogic.getCommonName(certificate);
+	}
+
+	@Override
 	public String getExpirationDate() {
-		return certificate.getExpirationDate().toString();
+		return CertificateLogic.getExpirationDate(certificate).toString();
 	}
 
 	@Override
 	public String getLocalityName() {
-		return certificate.getLocalityName();
+		return CertificateLogic.getLocalityName(certificate);
 	}
 
 	@Override
 	public String getOrganizationName() {
-		return certificate.getOrganizationName();
+		return CertificateLogic.getOrganizationName(certificate);
 	}
 
 	@Override
 	public String getOrganizationalUnit() {
-		return certificate.getOrganizationalUnit();
+		return CertificateLogic.getOrganizationalUnit(certificate);
 	}
 
 	@Override
 	public String getEmailAddress() {
-		return certificate.getEmailAddress();
+		return CertificateLogic.getEmailAddress(certificate);
 	}
 }

@@ -45,13 +45,6 @@ public class UserLogic {
 		return UserPersistenceService.loadUser(eMailAddress);	
 	}
 	
-	public static String getCommonName(User user){
-		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
-	}
-	
-	public static String getFullName(User user){
-		return (user.getFirstName() + " " + user.getLastName());
-	}
 	
 	/**
 	 * Method which checks if a user with a specific email address already exists
@@ -88,11 +81,7 @@ public class UserLogic {
 	
 	public static boolean hasRequest(User user){
 		return RequestLogic.hasRequest(user);
-	}
-	
-	public static boolean isAllowedToDownload(User user){
-		return user.isAllowedToDownload();
-	}
+	}	
 	
 	public static boolean changePassword(User user, String oldPassword, String newPassword) {
 		if (user.getPassword().equals(oldPassword)) {
@@ -108,4 +97,44 @@ public class UserLogic {
 	public static boolean resetPasswort() {
 		return false;
 	}
+	
+	
+	/* G E T T E R */
+	
+	public static String getCommonName(User user){
+		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
+	}
+	
+	public static String getFullName(User user){
+		return (user.getFirstName() + " " + user.getLastName());
+	}
+	
+	public static String getFirstName(User user) {
+		return user.getFirstName();
+	}
+
+	public static String getLastName(User user) {
+		return user.getLastName();
+	}
+
+	public static String getEmailAddress(User user) {
+		return user.getEmailAddress();
+	}
+
+	public static String getDepartment(User user) {
+		return user.getDepartment();
+	}
+
+	public static int getPersonalId(User user) {
+		return user.getPersonalId();
+	}
+
+	public static boolean isAllowedToDownload(User user){
+		return user.isAllowedToDownload();
+	}
+	
+	public static boolean isAdmin(User user) {
+		return user.isAdmin();
+	}
+	
 }
