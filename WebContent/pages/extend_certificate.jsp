@@ -144,7 +144,7 @@
 			<div id="messagebar_extend"
 				class="alert messagebar_intern messagebar_hidden"></div>
 			<%
-				if (remainingDays > 90) {
+				if (remainingDays > 800) {
 			%>
 			<script type="text/javascript">
 				$(document).ready(
@@ -160,7 +160,7 @@
 			<!-- /.row -->
 
 			<%
-				if (remainingDays <= 90) {
+				if (remainingDays <= 800) {
 			%>
 			<div id="page_content_extend" class="page_content">
 				<div class="row">
@@ -214,7 +214,7 @@
 							</div>
 
 						</div>
-						<div id="loading_gif_extend" class="loading_gif">
+						<div id="loading_gif_extend" class="loading_gif_request">
 							<img src="../img/general/loading.gif">
 						</div>
 					</div>

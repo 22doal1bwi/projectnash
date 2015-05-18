@@ -149,12 +149,12 @@
 									</div>
 								</div>
 								<div id="footer_revoke" class="panel-footer">
-									<button id="button_revoke" onclick="revokeCertificate()"
+									<button id="button_revoke" onclick="revokeOnClick()"
 										type="button" class="btn simplecert_btn">Widerrufen</button>
 								</div>
 							</div>
 						</div>
-						<div id="loading_gif_revoke" class="loading_gif">
+						<div id="loading_gif_revoke" class="loading_gif_revoke">
 							<img src="../img/general/loading.gif">
 						</div>
 					</div>

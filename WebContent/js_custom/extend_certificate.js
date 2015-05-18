@@ -3,7 +3,6 @@
 // ====================================================================================//
 $(document).ready(function() {
 	$("#step2_content_extend").hide()
-	$("#loading_gif_extend").hide()
 
 	jQuery.i18n.properties({
 		name : 'messages',

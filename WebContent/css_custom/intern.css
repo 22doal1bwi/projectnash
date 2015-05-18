@@ -62,12 +62,21 @@ body {
 	position: relative;
 	bottom: 152px;
 	left: 122px;
+	display: none;
 }
 
 .loading_gif_settings {
 	position: relative;
 	bottom: 49px;
-	left: 146px;
+	left: 151px;
+	display: none;
+}
+
+.loading_gif_revoke {
+	position: relative;
+	bottom: 65px;
+	left: 216px;
+	display: none;
 }
 
 .navitem_disabled {
