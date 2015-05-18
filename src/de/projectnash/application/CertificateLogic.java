@@ -38,7 +38,6 @@ public class CertificateLogic {
 
 		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
 				"artur.ermisch@simpleCert.com", "Eierkuchen2");
-		//UserPersistenceService.storeUser(tempUser);
 		try {
 			createCertificate(tempUser);
 
@@ -64,8 +63,6 @@ public class CertificateLogic {
 					user.getEmailAddress(), keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData);
-			
-			//CertificateUtility.revokeCRT(crtData, keyData);
 			
 			String subjectData = CertificateUtility.getCRTdata(crtData,
 					"-subject");

@@ -303,7 +303,6 @@ public class CertificateUtility {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
 		writeInputToOutput(fileInputStream, out);
-		/** destroy openssl instance */
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Could not read input stream.");
 		
@@ -396,16 +395,13 @@ public class CertificateUtility {
 	public static byte[] extractPrivateKey(byte[] p12Data) throws IOException, OpenSSLException, InterruptedException{
 		
 		File tmpP12File = writeBytesToTempFile(p12Data, FilePattern.P12);
-		//Path tmpKeyFile = Files.createTempFile(FilePattern.KEY.prefix, FilePattern.KEY.suffix);
 		
 		String[] command = {
 				"openssl",
 				"pkcs12",				
 				"-in", tmpP12File.getAbsolutePath(),
-				"-clcerts",
 				"-nodes",
 				"-nocerts",
-				//"-out", tmpKeyFile.toString(),
 				"-password", "pass:"
 				};
 		
@@ -425,8 +421,42 @@ public class CertificateUtility {
 		/** destroy openssl instance */
 		proc.destroy();
 		
+		System.out.println("private Key: " + out.toString());
+		
 		return out.toByteArray();
 		
+	}
+	
+	public static String getP12data(byte[] p12Data) throws IOException, InterruptedException, OpenSSLException{
+		
+		Path tmpP12File = Files.createTempFile(FilePattern.P12.prefix, FilePattern.P12.suffix);
+		
+		String[] command = {
+				"openssl",
+				"pkcs12",
+				"-in", writeBytesToTempFile(p12Data, FilePattern.P12).getAbsolutePath(),
+				"-info",
+				"-nodes",
+				"-out", tmpP12File.toString(),
+				"-password", "pass:"
+				};
+
+		Process proc = Runtime.getRuntime().exec(command);
+		proc.waitFor();
+		
+		FileInputStream fileInputStream = new FileInputStream (tmpP12File.toFile());
+		
+		/** prepare collection of output into a byte array */
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
+		writeInputToOutput(fileInputStream, out);
+		
+		if (out.toString().isEmpty()) throw new OpenSSLException("Could not read input stream.");
+		
+		/** destroy openssl instance */
+		proc.destroy();
+		
+		return out.toString();		
 	}
 	
 }
