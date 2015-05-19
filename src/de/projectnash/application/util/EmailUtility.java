@@ -11,23 +11,23 @@ public class EmailUtility {
 	
 	private static String USER_NAME = "simplecert.nash";  // GMail user name (just the part before "@gmail.com")
     private static String PASSWORD = "eierkuchen4"; // GMail password
-    private static String RECIPIENT = "jonathan.schlotz@gmx.de";
-
+    
     private static final String SUBJECT_PASSWORD_RESET = "Ihr Passwort wurde zurückgesetzt";
     private static final String SUBJECT_CERTIFICATE_EXPIRES = "Erinnerung: Verlängern Sie jetzt Ihr Zertifikat";
     
-    public static void main(String[] args, User user, EmailSubject subjectOfeMail) {
+    public static void sendNewPasswordMail(User user, EmailSubject subjectOfeMail) {
         String from = USER_NAME;
         String pass = PASSWORD;
-        String[] to = { RECIPIENT }; // list of recipient email addresses
+        String[] to = { user.getEmailAddress() };
         String subject;
         String body;
+        
         if(EmailSubject.PASSWORD_RESET.equals(subjectOfeMail)){
         	  subject = SUBJECT_PASSWORD_RESET;
-              body = "Hallo " + user.getFirstName() + " " + user.getLastName() + ", \n ihr neues Passwort lautet: " + "123456";
+              body = "Hallo " + user.getFirstName() + " " + user.getLastName() + ",\n\nIhr neues Passwort lautet: " + user.getPassword();
         } else {
         	 subject = SUBJECT_CERTIFICATE_EXPIRES;
-        	 body = "Hallo " + user.getFirstName() + " " + user.getLastName() + ", \n ihr Zertifikat läuft in Kürze ab. Bitte verlängern Sie es schnellstmöglich.";
+        	 body = "Hallo " + user.getFirstName() + " " + user.getLastName() + ",\n\nIhr Zertifikat läuft in Kürze ab. Bitte verlängern Sie es schnellstmöglich.";
         }
        
 
@@ -61,6 +61,7 @@ public class EmailUtility {
             }
 
             message.setSubject(subject);
+            message.setContent("CONTENT", "text/html; charset=utf-8");
             message.setText(body);
             Transport transport = session.getTransport("smtp");
             transport.connect(host, from, pass);

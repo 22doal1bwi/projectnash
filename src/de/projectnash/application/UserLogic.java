@@ -1,8 +1,9 @@
 package de.projectnash.application;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.text.ParseException;
 
-import jdk.nashorn.internal.codegen.Emitter;
 import de.projectnash.application.util.EmailSubject;
 import de.projectnash.application.util.EmailUtility;
 import de.projectnash.application.util.OpenSSLException;
@@ -89,10 +90,19 @@ public class UserLogic {
 		return false;
 	}
 
-	// TODO: implement resetPassword method
-	public static boolean resetPasswort(User user) {
-		EmailUtility.main(null, user, EmailSubject.PASSWORD_RESET);
-		return false;
+	/**
+	 * Resets the password of the specified {@link User}.
+	 * 
+	 * @param user The {@link User} whose password will be reseted.
+	 */
+	public static void resetPasswort(User user) {
+		SecureRandom random = new SecureRandom();
+		String newPassword = new BigInteger(130, random).toString(32).substring(0, 10);
+		
+		user.setPassword(newPassword);
+		UserPersistenceService.updateUser(user);
+
+		EmailUtility.sendNewPasswordMail(user, EmailSubject.PASSWORD_RESET);
 	}
 	
 	/**
