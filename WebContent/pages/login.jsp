@@ -22,25 +22,28 @@
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="../js_custom/login.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <title>simpleCert - Login</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="../css_custom/login.css" rel="stylesheet">
 
 <!-- Custom CSS -->
-<link href="../bower_components/bootstrap/dist/css/sb-admin-2.css" rel="stylesheet">
+<link href="../bower_components/bootstrap/dist/css/sb-admin-2.css"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link
-	href="../bower_components/font-awesome/css/font-awesome.min.css"
+<link href="../bower_components/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 
 <!-- Custom styles for the messagebar -->
-<link href="../css_custom/_messagebar.css" rel="stylesheet" type="text/css">
+<link href="../css_custom/_messagebar.css" rel="stylesheet"
+	type="text/css">
 
 <!-- Roboto font -->
 <link href="../css_custom/_roboto.css" rel="stylesheet" type="text/css">
@@ -68,7 +71,8 @@
 		<div id="login_container">
 			<form class="form-signin">
 				<!--<h2 class="form-signin-heading">Please sign in</h2>-->
-				<img src="../img/simplecert/simplecert_logo_text_128x128.png" style="margin-bottom: 20px; margin-top: 5px"/> <br /> <label
+				<img src="../img/simplecert/simplecert_logo_text_128x128.png"
+					style="margin-bottom: 20px; margin-top: 5px" /> <br /> <label
 					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
 					type="email" id="emailAddress" name="emailAddress"
 					class="form-control" placeholder="E-Mail-Adresse"
@@ -80,9 +84,35 @@
 				<button id="loginButton" class="btn btn-lg simplecert_btn btn-block"
 					type="button" onclick="checkFormBeforeSubmit()">Einloggen</button>
 			</form>
-			<br />
-			<a class="link" href="#">Passwort vergessen?</a>
-			<hr class="horizontal_divider">			
+			<br /> <a class="link" href="" data-toggle="modal"
+				data-target="#myModal">Passwort vergessen</a>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true"
+				style="display: none;">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">Neues Passwort anfordern</h4>
+						</div>
+						<div class="modal-body">
+							<input type="email" id="emailAddressForNewPassword"
+								name="emailAddressForNewPassword" class="form-control"
+								placeholder="E-Mail-Adresse"
+								onchange="" required>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn simplecert_inv_btn"
+								data-dismiss="modal">Abbrechen</button>
+							<button type="button" onclick="requestNewPassword()" class="btn simplecert_btn">Absenden</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<hr class="horizontal_divider">
 			<form class="form-signin">
 				<a class="btn btn-lg simplecert_inv_btn btn-block btn-small"
 					href="register.jsp" role="button">Neu anmelden</a>

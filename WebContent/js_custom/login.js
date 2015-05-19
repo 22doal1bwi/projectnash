@@ -42,6 +42,25 @@ function submitLoginForm() {
 	})
 }
 
+function requestNewPassword() {
+	$.ajax({
+		url : '../ResetPasswordServlet',
+		type : 'POST',
+		dataType : 'json',
+		data : $('#emailAddressForNewPassword').serialize(),
+		success : function(data) {
+			if (data.resetSuccessful) {
+				buildAndShowMessageBar("SCS_PASSWORD_RESET", "messagebar_login")
+			} else {
+				buildAndShowMessageBar("ERR_PASSWORD_RESET", "messagebar_login")
+			}
+		},
+		error : function() {
+			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
+		}
+	})
+}
+
 // ====================================================================================//
 // ================================== MAIN FUNCTION ===================================//
 // ====================================================================================//
