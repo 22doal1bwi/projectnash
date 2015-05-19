@@ -85,7 +85,7 @@
 						e.printStackTrace();
 					}
 
-					if (hasValidCertificate) {
+// 					if (hasValidCertificate) {
 		%>
 
 		<!-- Navigation -->
@@ -265,9 +265,9 @@
 		</div>
 		<!-- /#wrapper -->
 		<%
-			} else {
-					response.sendRedirect("home.jsp");
-				}
+// 			} else {
+// 					response.sendRedirect("home.jsp");
+// 				}
 			}
 		%>
 	

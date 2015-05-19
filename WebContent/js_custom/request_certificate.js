@@ -24,18 +24,18 @@ function logout() {
 function requestCertificate() {
 	setLoading()
 	$.ajax({
-		url : '../CertificateServlet',
+		url : '../RequestCertificateServlet',
 		type : 'POST',
 		dataType : 'json',
 		timeout : 8000,
 		success : function(data) {
-			if (data.validSession && data.createdCertificate) {
+			if (data.validSession && data.createdRequest) {
 				requestSuccessful()
-			} else if (data.validSession && data.createdCertificate === false) {
+			} else if (data.validSession && data.createdRequest === false) {
 				requestUnsuccessful("ERR_CERT_REQUEST", "messagebar_request")
 			} else {
 				window.setTimeout(function() {
-					location.href = '../home.jsp';
+					location.href = '../pages/login.jsp';
 				}, 1000);
 			}
 		},
