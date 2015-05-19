@@ -10,10 +10,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.util.CertificateUtility;
-import de.projectnash.databackend.LogPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
-import de.projectnash.entities.Log;
 import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
 import de.projectnash.application.util.OpenSSLException;

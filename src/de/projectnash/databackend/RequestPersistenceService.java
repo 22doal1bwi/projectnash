@@ -10,6 +10,12 @@ import javax.persistence.TypedQuery;
 import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
 
+/**
+ * This class provides all methods to store, load, remove and update {@link Request}s.
+ * 
+ * @author Marius Boepple, Silvio D'Alessandro
+ *
+ */
 public class RequestPersistenceService {
 
 	private static EntityManagerFactory emf = Persistence
@@ -20,8 +26,7 @@ public class RequestPersistenceService {
 	/**
 	 * Stores the {@link Request} in the database.
 	 * 
-	 * @param requestToStore
-	 *            The {@link Request} that will be stored.
+	 * @param requestToStore The {@link Request} that will be stored.
 	 */
 	public static void storeRequest(Request requestToStore) {
 		em.getTransaction().begin();
@@ -32,9 +37,7 @@ public class RequestPersistenceService {
 	/**
 	 * Loads a {@link Request} from the database.
 	 * 
-	 * @param reqId
-	 *            The {@link Request}'s id on basis which the {@link Request}
-	 *            will be loaded.
+	 * @param reqId The {@link Request}'s id on basis which the {@link Request} will be loaded.
 	 * @return The specific {@link Request}.
 	 */
 	public static Request loadRequest(User user) {
@@ -56,9 +59,7 @@ public class RequestPersistenceService {
 	/**
 	 * Checks if the {@link Request} exists in the database.
 	 * 
-	 * @param personalId
-	 *            The {@link Integer} on basis which the {@link User} will be
-	 *            checked.
+	 * @param personalId The {@link Integer} on basis which the {@link User} will be checked.
 	 * @return A flag that describes if the {@link User} exists.
 	 */
 	public static boolean requestExists(User user) {
@@ -76,8 +77,7 @@ public class RequestPersistenceService {
 	/**
 	 * Removes a {@link Request} from the database.
 	 * 
-	 * @param request
-	 *            The {@link Request} that will be removed.
+	 * @param request The {@link Request} that will be removed.
 	 */
 	public static void removeRequest(Request request) {		
 			em.getTransaction().begin();

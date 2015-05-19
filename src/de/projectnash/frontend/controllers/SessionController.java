@@ -10,6 +10,11 @@ import javax.servlet.http.HttpSession;
 
 import de.projectnash.application.SessionLogic;
 
+/**
+ * This class represents the controller in {@link Session} context.
+ * @author Alexander Dobler
+ *
+ */
 public class SessionController {
 	
 	/**
@@ -26,32 +31,31 @@ public class SessionController {
 	 */
 	public static String checkForSessionId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
-		/** get session from request */
+		/** get session from request. */
 		HttpSession session = request.getSession();
 	
-		/** check if session contains a simplecert attribute */
+		/** check if session contains a simplecert attribute. */
 		if (session.getAttribute("emailAddress") == null) {
 			return "-1";
 		} else {
 			
-			/**  */
 			Cookie[] cookies = request.getCookies();
 			if (cookies == null) {
-				/** cookies empty */
+				
+				/** cookies empty. */
 				return "-1";
 			} else {
-				/** get ssnId from cookie */ 
+				
+				/** get ssnId from cookie. */ 
 				String ssnId = null;
 				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals("JSESSIONID")){
 						ssnId = cookie.getValue();
 					}
 				}
-			/** check if session is available in DB if true return ssnId else 0 */
+			/** check if session is available in DB if true return ssnId else 0. */
 			return SessionLogic.checkSession(ssnId) ? ssnId : "0";
 			}
 		}
-
 	}
-	
 }

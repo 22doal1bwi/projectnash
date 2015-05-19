@@ -69,7 +69,7 @@ public class CertificateUtility {
 	}
 
 	/**
-	 * Writes the content of a binary byte array into a (temporary) file object
+	 * Writes the content of a binary byte array into a (temporary) {@link File} object
 	 * 
 	 * @param binaryFileObject file data as byte array
 	 * @param pattern pattern enum object which defines prefix/suffix of the output file
@@ -78,16 +78,14 @@ public class CertificateUtility {
 	 * @author Alexander Dobler
 	 */
 	private static File writeBytesToTempFile(byte[] binaryFileObject, FilePattern pattern) throws IOException {
-		/**
-		 * create a empty file matching the pattern in the default temporary
-		 * directory
-		 */
+		
+		/** create a empty file matching the pattern in the default temporary directory*/
 		File tmp_file = File.createTempFile(pattern.prefix, pattern.suffix);
+		
 		/** write into file using fos in try with resources */
 		try (FileOutputStream fos = new FileOutputStream(tmp_file)) {
 			fos.write(binaryFileObject);
 		}
-
 		return tmp_file;
 	}
 
@@ -184,7 +182,7 @@ public class CertificateUtility {
 	}
 
 	/**
-	 * Shows output of a CSR file check
+	 * Shows output of a CSR {@link File} check
 	 * 
 	 * @param csrFilePath path of certificate signing request
 	 * @return output of CSR check
@@ -314,7 +312,7 @@ public class CertificateUtility {
 	
 	/**
 	 * 
-	 * Method which shows output of CRT file depending on the kind of data you want to get
+	 * Method which shows output of CRT {@link File} depending on the kind of data you want to get
 	 * 
 	 * @param crtData
 	 * @param kindOfData "-text" (for all data) or "-dates" (for initialization and expiration dates) or "-subject" (for user information)
@@ -392,6 +390,14 @@ public class CertificateUtility {
 		return out.toByteArray();
 	}
 	
+	/**
+	 * Extracts the private key data.
+	 * @param p12Data
+	 * @return
+	 * @throws IOException
+	 * @throws OpenSSLException
+	 * @throws InterruptedException
+	 */
 	public static byte[] extractPrivateKey(byte[] p12Data) throws IOException, OpenSSLException, InterruptedException{
 		
 		File tmpP12File = writeBytesToTempFile(p12Data, FilePattern.P12);
@@ -411,8 +417,10 @@ public class CertificateUtility {
 		
 		/** get output of generation command as input stream */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
@@ -427,6 +435,14 @@ public class CertificateUtility {
 		
 	}
 	
+	/**
+	 * Loads .p12 {@link File} data
+	 * @param p12Data
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws OpenSSLException
+	 */
 	public static String getP12data(byte[] p12Data) throws IOException, InterruptedException, OpenSSLException{
 		
 		Path tmpP12File = Files.createTempFile(FilePattern.P12.prefix, FilePattern.P12.suffix);
