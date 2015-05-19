@@ -46,8 +46,7 @@ public class AdminRequestServlet extends HttpServlet {
 		
 		List<Request> requestList = RequestLogic.loadAllRequests();
 		
-		for (Request requestObject : requestList) {
-
+		requestList.forEach(requestObject -> {
 			User test = new User(
 					requestObject.getUser().getFirstName(),
 					requestObject.getUser().getLastName(),
@@ -58,7 +57,7 @@ public class AdminRequestServlet extends HttpServlet {
 			Request toMap = new Request (test, requestObject.getCreationDate());	
 					
 			map.put("" + requestObject.getUser().getPersonalId(), toMap);
-		}		
+		});
 		
 		write(response, map);
 		
