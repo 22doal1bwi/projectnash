@@ -10,8 +10,10 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.util.CertificateUtility;
+import de.projectnash.databackend.LogPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
+import de.projectnash.entities.Log;
 import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
 import de.projectnash.application.util.OpenSSLException;
@@ -48,12 +50,21 @@ public class CertificateLogic {
 
 	}
 
+	/**
+	 * Creates a {@link Certificate} for the specified {@link User}.
+	 * 
+	 * @param user The {@link User} the {@link Certificate} is created for.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 * @throws ParseException
+	 * @throws OpenSSLException
+	 * @throws InterruptedException
+	 */
 	public static boolean createCertificate(User user) throws ParseException,
 			OpenSSLException, InterruptedException {
 
 		Organization organization = new Organization();
 
-		// create Certificate with utility class
+		/** create certificate with utility class. */
 		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
 			byte[] csrData = CertificateUtility.generateCSR(
@@ -68,7 +79,7 @@ public class CertificateLogic {
 					"-subject");
 			String datesData = CertificateUtility.getCRTdata(crtData, "-dates");
 
-			// Format date String to Date() object
+			/** Format date String to Date() object. */
 			DateFormat formatter = new SimpleDateFormat(
 					"MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);
 
@@ -85,11 +96,12 @@ public class CertificateLogic {
 							.parse(datesData.split("notBefore=")[1]
 									.split("notAfter=")[1])));
 
-			// save certificate to database
+			/** save certificate to database. */
 			UserPersistenceService.updateUser(user);
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			LogLogic.createLog("Zertifikat konnte nicht in der Datenbank gespeichert werden", user.getEmailAddress());
 			return false;
 		}
 		LogLogic.createLog(

@@ -13,8 +13,19 @@ import de.projectnash.entities.User;
  */
 public class UserLogic {
 
+	/**
+	 * Creates an {@link User} and stores it to the database via {@link UserPersistenceService}.
+	 * 
+	 * @param personalId The {@link String} that represents the personalId of the {@link User}.
+	 * @param firstName The {@link String} that represents the first name of the {@link User}.
+	 * @param lastName The {@link String} that represents the last name of the {@link User}.
+	 * @param emailAddress The {@link String} that represents the email address of the {@link User}.
+	 * @param organizationunit The {@link String} that represents the organization unit of the {@link User}.
+	 * @param password The {@link String} that represents the password of the {@link User}.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
 	public static boolean createUser(String personalId, String firstName,
-			String lastName, String emailAddress, String organzationalUnit,
+			String lastName, String emailAddress, String organizationunit,
 			String password) {
 		
 		try {
@@ -22,25 +33,38 @@ public class UserLogic {
 				Integer.parseInt(personalId),
 				firstName,
 				lastName,
-				organzationalUnit,
+				organizationunit,
 				emailAddress,
 				password);
 
-		// save User to database
+		/** save the user to the database. */
 		UserPersistenceService.storeUser(tempUser);
 		LogLogic.createLog("Benutzer wurde erfolgreich in der Datenbank gespeichert", emailAddress);
 		return true;
 		
 		} catch (Exception e) {
 			e.printStackTrace();
+			LogLogic.createLog("Der Benutzer konnte nicht in der Datenbank gespeichert werden", emailAddress);
 			return false;
 		}		
 	}
 	
+	/**
+	 * Loads an {@link User} specified by the entered ssnId.
+	 * 
+	 * @param ssnId The {@link String} that represents the ssnId of the {@link Session}.
+	 * @return The {@link User} specified by the ssnId.
+	 */
 	public static User loadUserBySession(String ssnId){
 		return SessionPersistenceService.loadSession(ssnId).getUser();
 	}
 	
+	/**
+	 * Loads an {@link User} specified by the entered email address.
+	 * 
+	 * @param eMailAddress The {@link String} that represents the email address of the {@link User}.
+	 * @return The {@link User} specified by the email address.
+	 */
 	public static User loadUser(String eMailAddress){
 		return UserPersistenceService.loadUser(eMailAddress);	
 	}
@@ -83,13 +107,22 @@ public class UserLogic {
 		return RequestLogic.hasRequest(user);
 	}	
 	
+	/**
+	 * Changes the password of an {@link User}.
+	 * 
+	 * @param user The {@link User} whose password will be changed.
+	 * @param oldPassword The {@link String} that represents the old password.
+	 * @param newPassword The {@link String} that represents the new password.
+	 * @return The {@link Boolean} that describes if the password has been changed.
+	 */
 	public static boolean changePassword(User user, String oldPassword, String newPassword) {
 		if (user.getPassword().equals(oldPassword)) {
 			user.setPassword(newPassword);
 			UserPersistenceService.updateUser(user);
 			LogLogic.createLog("Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
 			return true;
-		}		
+		}	
+		LogLogic.createLog("Passwort des Benutzers konnte nicht geändert werden", user.getEmailAddress());
 		return false;
 	}
 
