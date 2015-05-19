@@ -53,17 +53,22 @@ function requestNewPassword() {
 		success : function(data) {
 			if (data.resetSuccessful) {
 				$("#resetModal").modal("hide")
+				window.setTimeout(function() {
 				buildAndShowMessageBar("SCS_PASSWORD_RESET", "messagebar_login")	
-				hideMessageBar()
+				}, 500);	
 			} else {
 				$("#resetModal").modal("hide")
-				buildAndShowMessageBar("ERR_PASSWORD_RESET", "messagebar_login")	
-				hideMessageBar()
+				window.setTimeout(function() {
+				buildAndShowMessageBar("ERR_PASSWORD_RESET", "messagebar_login")
+				}, 500);			
 			}
+			hideMessageBar()
+			$("#emailAddressForNewPassword").val("")
 		},
 		error : function() {
 			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
 			hideMessageBar()
+			$("#emailAddressForNewPassword").val("")
 		}
 	})
 }
