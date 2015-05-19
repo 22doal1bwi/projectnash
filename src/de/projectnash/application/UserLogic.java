@@ -2,6 +2,9 @@ package de.projectnash.application;
 
 import java.text.ParseException;
 
+import jdk.nashorn.internal.codegen.Emitter;
+import de.projectnash.application.util.EmailSubject;
+import de.projectnash.application.util.EmailUtility;
 import de.projectnash.application.util.OpenSSLException;
 import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
@@ -87,7 +90,8 @@ public class UserLogic {
 	}
 
 	// TODO: implement resetPassword method
-	public static boolean resetPasswort() {
+	public static boolean resetPasswort(User user) {
+		EmailUtility.main(null, user, EmailSubject.PASSWORD_RESET);
 		return false;
 	}
 	
