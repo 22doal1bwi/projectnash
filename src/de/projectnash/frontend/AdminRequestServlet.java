@@ -47,19 +47,16 @@ public class AdminRequestServlet extends HttpServlet {
 		
 		List<Request> requestList = RequestLogic.loadAllRequests();
 		
-		
 		for (Request requestObject : requestList) {
-			System.out.println(requestObject.getCreationDate());
-			
+
 			User test = new User(
 					requestObject.getUser().getFirstName(),
 					requestObject.getUser().getLastName(),
 					requestObject.getUser().getDepartment(),
 					requestObject.getUser().getPersonalId(),
 					requestObject.getUser().getEmailAddress());
-			
-			Request toMap = new Request (test,
-					requestObject.getCreationDate());	
+
+			Request toMap = new Request (test, requestObject.getCreationDate());	
 					
 			map.put("" + requestObject.getUser().getPersonalId(), toMap);
 		}		

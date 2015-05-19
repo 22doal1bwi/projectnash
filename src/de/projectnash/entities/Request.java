@@ -20,7 +20,7 @@ import de.projectnash.application.UserLogic;
  * This class provides a realistic {@link Request} for a {@link Certificate} with all
  * its attributes.
  * 
- * @author Marius Boepple
+ * @author Marius Boepple, Silvio D'Alessandro
  *
  */
 
@@ -39,8 +39,9 @@ public class Request {
 	private User user;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "req_created_on", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable= true, updatable= false)
+	@Column(name = "req_created_on", nullable = false, insertable= true, updatable= false)
 	private Date creationDate;
+	
 	/**
 	 * This constructor is only needed for JPA.
 	 */
@@ -48,20 +49,7 @@ public class Request {
 	}
 
 	/**
-	 * The constructor for the {@link Request} with all its necessary
-	 * attributes.
-	 * 
-	 * @param user
-	 *            The {@link User} of the {@link Request}.
-	 * @param ssnId
-	 *            The {@link String} reqId of the {@link Request}.
-	 */
-	public Request(User user) {
-		this.user = user;
-	}
-
-	/**
-	 * This constructor is only needed for JSON notation from the 'AdminRequestServlet' to the frontend  
+	 * This constructor represents a {@link Request} with all its necessary attributes.
 	 * 
 	 * @param user
 	 * @param creationDate
