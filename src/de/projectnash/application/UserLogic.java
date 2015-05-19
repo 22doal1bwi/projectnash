@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.ParseException;
 
+import javax.mail.MessagingException;
+
 import de.projectnash.application.util.EmailSubject;
 import de.projectnash.application.util.EmailUtility;
 import de.projectnash.application.util.OpenSSLException;
@@ -95,7 +97,7 @@ public class UserLogic {
 	 * 
 	 * @param user The {@link User} whose password will be reseted.
 	 */
-	public static void resetPasswort(User user) {
+	public static void resetPasswort(User user) throws MessagingException{
 		SecureRandom random = new SecureRandom();
 		String newPassword = new BigInteger(130, random).toString(32).substring(0, 10);
 		

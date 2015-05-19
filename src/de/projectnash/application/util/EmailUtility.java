@@ -12,7 +12,7 @@ import de.projectnash.entities.User;
  * @author Silvio D'Alessandro
  *
  */
-public class EmailUtility {
+public class EmailUtility  {
 	
 	/** GMail user name (just the part before '@googlemail.com'). */
 	private static String USER_NAME = "simplecert.nash";  
@@ -30,7 +30,7 @@ public class EmailUtility {
      * @param user The {@link User} who will receive the email.
      * @param subjectOfeMail The {@link EmailSubject} that represents the subject of the email.
      */
-    public static void sendMail(User user, EmailSubject subjectOfeMail) {
+    public static void sendMail(User user, EmailSubject subjectOfeMail) throws MessagingException{
         String sender = USER_NAME;
         String senderPassword = PASSWORD;
         String recipient =  user.getEmailAddress();
@@ -41,8 +41,8 @@ public class EmailUtility {
         	  subject = SUBJECT_PASSWORD_RESET;
               body = "Hallo " + user.getFirstName() + " " + user.getLastName() + ",\n\nIhr neues Passwort lautet: " + user.getPassword();
         } else {
-        	 subject = SUBJECT_CERTIFICATE_EXPIRES;
-        	 body = "Hallo " + user.getFirstName() + " " + user.getLastName() + ",\n\nIhr Zertifikat läuft in Kürze ab. Bitte verlängern Sie es schnellstmöglich.";
+        	  subject = SUBJECT_CERTIFICATE_EXPIRES;
+        	  body = "Hallo " + user.getFirstName() + " " + user.getLastName() + ",\n\nIhr Zertifikat läuft in Kürze ab. Bitte verlängern Sie es schnellstmöglich.";
         }
        
 
@@ -58,7 +58,7 @@ public class EmailUtility {
      * @param subject The {@link String} that represents the subject of the email.
      * @param body The {@link String} that represents the content of the email.
      */
-    private static void setupGMailConnection(String sender, String senderPassword, String recipient, String subject, String body) {
+    private static void setupGMailConnection(String sender, String senderPassword, String recipient, String subject, String body) throws MessagingException{
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");
@@ -71,7 +71,6 @@ public class EmailUtility {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
 
-        try {
             message.setFrom(new InternetAddress(sender));
             InternetAddress toAddress = new InternetAddress(recipient);
             message.addRecipient(Message.RecipientType.TO, toAddress);
@@ -84,12 +83,6 @@ public class EmailUtility {
             transport.connect(host, sender, senderPassword);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-        }
-        catch (AddressException ae) {
-            ae.printStackTrace();
-        }
-        catch (MessagingException me) {
-            me.printStackTrace();
-        }
+  
     }
 }

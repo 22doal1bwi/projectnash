@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import de.projectnash.application.LogLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
 
@@ -34,20 +36,25 @@ public class ResetPasswordServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		String emailAddress = request.getParameter("emailAddressForNewPassword");
-		
+	try{
 		if(UserLogic.emailAlreadyExists(emailAddress)){
 			 User user = UserLogic.loadUser(emailAddress);
 			 UserLogic.resetPasswort(user);
 			 passwordResettet = true;
 			 map.put("resetSuccessful", passwordResettet);
+			 LogLogic.createLog("Das Passwort wurde erfolgreich zurückgesetzt", user.getEmailAddress());
 		} else {
 			map.put("resetSuccessful", passwordResettet);
 		}
 		write(response, map);
+		
+	} catch (MessagingException me){
+		me.printStackTrace();
+	}
+		
 	}
 
 	private void write(HttpServletResponse resp, Map<String, Object> map)
