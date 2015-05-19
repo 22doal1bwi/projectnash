@@ -14,8 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import de.projectnash.application.UserLogic;
-
 /**
  * This class provides a realistic {@link Request} for a {@link Certificate} with all
  * its attributes.

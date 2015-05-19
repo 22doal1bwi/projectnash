@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.projectnash.frontend;
+package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.User;
+import de.projectnash.frontend.controllers.SessionController;
 
 /**
  * Servlet which response with a file download

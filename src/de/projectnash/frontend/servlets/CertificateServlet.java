@@ -1,4 +1,4 @@
-package de.projectnash.frontend;
+package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -18,8 +18,8 @@ import de.projectnash.application.LogLogic;
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.application.util.OpenSSLException;
-import de.projectnash.entities.Log;
 import de.projectnash.entities.User;
+import de.projectnash.frontend.controllers.SessionController;
 
 /**
  * Servlet implementation class Certificate Servlet

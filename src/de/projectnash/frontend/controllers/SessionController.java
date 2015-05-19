@@ -1,4 +1,4 @@
-package de.projectnash.frontend;
+package de.projectnash.frontend.controllers;
 
 import java.io.IOException;
 

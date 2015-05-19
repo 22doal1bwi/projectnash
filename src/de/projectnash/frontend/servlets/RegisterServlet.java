@@ -1,4 +1,4 @@
-package de.projectnash.frontend;
+package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;

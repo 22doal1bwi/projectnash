@@ -1,4 +1,4 @@
-<%@page import="de.projectnash.frontend.SessionController"%>
+<%@page import="de.projectnash.frontend.controllers.SessionController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>

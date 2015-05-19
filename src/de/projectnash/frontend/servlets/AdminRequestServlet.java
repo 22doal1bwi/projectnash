@@ -1,7 +1,6 @@
-package de.projectnash.frontend;
+package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import de.projectnash.application.RequestLogic;
-import de.projectnash.application.SessionLogic;
 import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
 
@@ -39,9 +37,10 @@ public class AdminRequestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String sessionIdStatus = SessionController.checkForSessionId(request,
-				response);
-		User user = SessionLogic.loadSession(sessionIdStatus).getUser();
+	//	String sessionIdStatus = SessionController.checkForSessionId(request,
+	//			response);
+		
+//		User user = SessionLogic.loadSession(sessionIdStatus).getUser();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		

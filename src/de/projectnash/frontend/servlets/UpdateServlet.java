@@ -1,4 +1,4 @@
-package de.projectnash.frontend;
+package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
+import de.projectnash.frontend.controllers.SessionController;
 
 /**
  * Servlet implementation class UpdateServlet

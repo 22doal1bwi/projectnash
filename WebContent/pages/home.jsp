@@ -2,7 +2,7 @@
 <%@page import="de.projectnash.application.UserLogic"%>
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.frontend.interfaces.IUserController"%>
-<%@page import="de.projectnash.frontend.SessionController"%>
+<%@page import="de.projectnash.frontend.controllers.SessionController"%>
 <%@page import="de.projectnash.application.SessionLogic"%>
 <%@page import="de.projectnash.entities.User"%>
 <%@page import="de.projectnash.entities.Session"%>

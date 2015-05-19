@@ -1,4 +1,4 @@
-<%@page import="de.projectnash.frontend.SessionController"%>
+<%@page import="de.projectnash.frontend.controllers.SessionController"%>
 <%@page import="de.projectnash.application.SessionLogic"%>
 <%@page
 	import="de.projectnash.frontend.controllers.CertificateController"%>
