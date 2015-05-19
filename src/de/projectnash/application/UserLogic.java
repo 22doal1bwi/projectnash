@@ -1,5 +1,9 @@
 package de.projectnash.application;
 
+import java.text.ParseException;
+
+import de.projectnash.application.util.CertificateUtility;
+import de.projectnash.application.util.OpenSSLException;
 import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.User;
@@ -39,7 +43,7 @@ public class UserLogic {
 
 		/** save the user to the database. */
 		UserPersistenceService.storeUser(tempUser);
-		LogLogic.createLog("Benutzer wurde erfolgreich in der Datenbank gespeichert", emailAddress);
+		LogLogic.createLog("Der Benutzer wurde erfolgreich in der Datenbank gespeichert", emailAddress);
 		return true;
 		
 		} catch (Exception e) {
@@ -107,6 +111,25 @@ public class UserLogic {
 		return RequestLogic.hasRequest(user);
 	}	
 	
+	public static String getRequestStatus(User user){
+		return RequestLogic.loadRequest(user).getRequestStatus().toString();	
+	}
+	
+	//TODO: see comment
+	public static boolean activateCertificateForRequest(User user) throws ParseException,  OpenSSLException, InterruptedException{
+		
+		if(hasCertificate(user)){
+		//	CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
+			user.setCertificate(null);
+			UserPersistenceService.updateUser(user);	
+		}
+			CertificateLogic.createCertificate(user);
+			RequestLogic.removeRequest(user);
+			user.setAllowedToDownload(true);
+			LogLogic.createLog("Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen", user.getEmailAddress());
+			return true;	
+	}
+	
 	/**
 	 * Changes the password of an {@link User}.
 	 * 
@@ -119,10 +142,10 @@ public class UserLogic {
 		if (user.getPassword().equals(oldPassword)) {
 			user.setPassword(newPassword);
 			UserPersistenceService.updateUser(user);
-			LogLogic.createLog("Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
+			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
 			return true;
 		}	
-		LogLogic.createLog("Passwort des Benutzers konnte nicht geändert werden", user.getEmailAddress());
+		LogLogic.createLog("Das Passwort des Benutzers konnte nicht geändert werden", user.getEmailAddress());
 		return false;
 	}
 

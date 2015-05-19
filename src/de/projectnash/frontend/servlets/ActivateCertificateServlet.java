@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.LogLogic;
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
@@ -22,15 +21,21 @@ import de.projectnash.entities.User;
 import de.projectnash.frontend.controllers.SessionController;
 
 /**
- * Servlet implementation class Certificate Servlet
+ * Servlet implementation class ActivateCertificateServlet
  */
-@WebServlet("/CertificateServlet")
-public class CertificateServlet extends HttpServlet {
+@WebServlet("/ActivateCertificateServlet")
+public class ActivateCertificateServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ActivateCertificateServlet() {}
 
-	private static final long serialVersionUID = 4192643567772796818L;
-
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String sessionIdStatus = SessionController.checkForSessionId(request,
 				response);
@@ -39,19 +44,20 @@ public class CertificateServlet extends HttpServlet {
 		switch (sessionIdStatus) {
 		default:
 			try {
-				boolean createdCertificate = CertificateLogic
-						.createCertificate(user);
-				if (createdCertificate) {
-					map.put("createdCertificate", true);
-					RequestLogic.createRequest(user);
-					LogLogic.createLog("Eine Anfrage zur Beantragung eines Zertifikats wurde gestellt.", user.getEmailAddress());
+				
+				boolean activateCertificate = UserLogic.activateCertificateForRequest(user);
+				
+				if (activateCertificate) {
+					map.put("activatedCertificate", true);
+					
 				} else {
-					map.put("createdCertificate", false);
+					map.put("activatedCertificate", false);
 				}
+			}
 
-			} catch (ParseException | OpenSSLException | InterruptedException e) {
+			catch (InterruptedException | ParseException | OpenSSLException e) {
 				e.printStackTrace();
-				map.put("createdCertificate", false);
+				map.put("activatedCertificate", false);
 			}
 			map.put("validSession", true);
 			break;

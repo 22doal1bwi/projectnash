@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -13,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import de.projectnash.application.util.RequestStatus;
 
 /**
  * This class provides a realistic {@link Request} for a {@link Certificate} with all
@@ -40,6 +44,9 @@ public class Request {
 	@Column(name = "req_created_on", nullable = false, insertable= true, updatable= false)
 	private Date creationDate;
 	
+	@Enumerated(EnumType.STRING)
+    private RequestStatus requestStatus;
+	
 	/**
 	 * This constructor is only needed for JPA.
 	 */
@@ -55,6 +62,7 @@ public class Request {
 	public Request(User user, Date creationDate) {
 		this.user = user;
 		this.creationDate = creationDate;
+		this.requestStatus = RequestStatus.WAITING;
 	}
 	
 	/**
@@ -66,6 +74,10 @@ public class Request {
 	
 	public Date getCreationDate() {
 		return this.creationDate;
+	}
+	
+	public RequestStatus getRequestStatus(){
+		return this.requestStatus;
 	}
 	
 	@Override

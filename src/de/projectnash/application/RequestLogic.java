@@ -3,9 +3,7 @@ package de.projectnash.application;
 import java.util.Date;
 import java.util.List;
 
-import de.projectnash.databackend.LogPersistenceService;
 import de.projectnash.databackend.RequestPersistenceService;
-import de.projectnash.entities.Log;
 import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
 
@@ -95,7 +93,7 @@ public class RequestLogic {
 	}
 
 	/**
-	 * Denies the request ask by the {@link User}.
+	 * Denies the {@link Request} ask by the {@link User}.
 	 * 
 	 * @param user The {@link User} whose {@link Request} will be denied.
 	 * @return The {@link Boolean} that describes if the process was successful.
