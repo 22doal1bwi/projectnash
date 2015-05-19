@@ -2,13 +2,7 @@ package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-
-
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,19 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
 import com.google.gson.Gson;
-
-
-
 
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.util.RequestObjectTable;
-import de.projectnash.application.util.RequestStatus;
 import de.projectnash.entities.Request;
-import de.projectnash.entities.User;
 
 /**
  * Servlet implementation class AdminRequestServlet
@@ -55,21 +41,25 @@ public class AdminRequestServlet extends HttpServlet {
 		
     //  User user = SessionLogic.loadSession(sessionIdStatus).getUser();
 		
-//		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<Object> requestObjects = new ArrayList<>();
+		List<RequestObjectTable> requestObjects = new ArrayList<>();
 		
 		List<Request> requestList = RequestLogic.loadAllRequests();		
 		
+		requestList.forEach(requestObject -> {
 			RequestObjectTable rot = new RequestObjectTable(
-					"Dasi", "Zwei", "IT", 12345, "dasi.zwei@silvioplanet.de", new Date(), RequestStatus.WAITING);
+					requestObject.getUser().getFirstName(), 
+					requestObject.getUser().getLastName(), 
+					requestObject.getUser().getDepartment(), 
+					requestObject.getUser().getPersonalId(), 
+					requestObject.getUser().getEmailAddress(), 
+					requestObject.getCreationDate(), 
+					requestObject.getRequestStatus());
 				requestObjects.add(rot);
-				
+		});	
 		write(response, requestObjects);
-		
 	}
 
-	private void write(HttpServletResponse resp, List<Object> rot)
+	private void write(HttpServletResponse resp, List<RequestObjectTable> rot)
 			throws IOException {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");

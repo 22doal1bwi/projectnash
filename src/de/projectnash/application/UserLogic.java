@@ -2,7 +2,6 @@ package de.projectnash.application;
 
 import java.text.ParseException;
 
-import de.projectnash.application.util.CertificateUtility;
 import de.projectnash.application.util.OpenSSLException;
 import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;

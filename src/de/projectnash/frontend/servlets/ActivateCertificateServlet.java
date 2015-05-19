@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import de.projectnash.application.LogLogic;
-import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.application.util.OpenSSLException;
 import de.projectnash.entities.User;
