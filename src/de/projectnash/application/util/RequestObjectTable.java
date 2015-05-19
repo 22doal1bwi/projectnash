@@ -4,6 +4,11 @@ import java.util.Date;
 
 import de.projectnash.entities.Request;
 
+/**
+ * This class provides a container that concatenates incoming data in order to build a clean JSON-Object and send it to the frontend.
+ * @author Silvio D'Alessandro
+ *
+ */
 public class RequestObjectTable {
 	
 	private String firstName;

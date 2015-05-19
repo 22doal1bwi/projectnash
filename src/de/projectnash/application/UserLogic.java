@@ -102,7 +102,7 @@ public class UserLogic {
 		user.setPassword(newPassword);
 		UserPersistenceService.updateUser(user);
 
-		EmailUtility.sendNewPasswordMail(user, EmailSubject.PASSWORD_RESET);
+		EmailUtility.sendMail(user, EmailSubject.PASSWORD_RESET);
 	}
 	
 	/**
