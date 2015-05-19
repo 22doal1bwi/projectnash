@@ -135,8 +135,21 @@
 		<div id="page-wrapper">
 			<div id="messagebar_request"
 				class="alert messagebar_intern messagebar_hidden"></div>
+				<%
+				if (uc.hasRequest() && !uc.allowedToDownloadCertificate()) {							
+			%>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#page_content_request").addClass("page_content_move_down")
+					buildAndShowMessageBar("WRN_CERT_REQUEST_WAITING", "messagebar_request")
+				});
+			</script>
+			<%
+				} 
+			%>
 			<!-- /.row -->
 			<div id="page_content_request" class="page_content">
+			<% if (!uc.hasRequest()) { %>
 				<div class="row">
 					<div class="col-lg-5 col-md-8">
 						<div class="panel panel-default functiontile">
@@ -154,27 +167,81 @@
 										Genehmigung - herunterladen können.</p>
 								</div>
 								<div class="panel-footer">
-									<button id="button_request" onclick="requestCertificate()"
+									<button id="step1_button_request" onclick="requestCertificate()"
 										type="button" class="btn simplecert_btn">Beantragen</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<% } else { 
+					%> 
+				<div class="row">
+					<div class="col-lg-5 col-md-8">
+						<div class="panel panel-default functiontile">
+							<div id="step1_header_request" class="panel-heading panelheader panelheader_completed">
+								<button id="step1_icon_request" type="button"
+									class="btn btn-default btn-circle panelicon messageicon_border_success">
+									<i id="step1_iconfont_request" class="fa fa-check messageicon_success"></i>
+								</button>
+								Schritt 1: Zertifikat beantragen
+							</div>						
+						</div>
+					</div>
+				</div>
+					<% }  %>
 				<!-- /.row -->
-
+				<% if (uc.hasRequest() && uc.allowedToDownloadCertificate()) { %>
 				<div class="row">
 					<div class="col-lg-5 col-md-8">
 						<div class="panel panel-default">
-							<div id="step2_header_request"
+							<div id="step2_header_request" class="panel-heading panelheader">
+								<button id="step2_icon_request" type="button"
+									class="btn btn-default btn-circle panelicon">
+									<i id="step2_iconfont_request" class="fa fa-check"></i>
+								</button>
+								Schritt 2: Zertifikat aktivieren								
+							</div>
+							<div id="step2_content_request">
+								<div id="step2_panel_body_request" class="panel-body">
+									<p>Aktivieren Sie....</p>
+								</div>
+								<div class="panel-footer">
+									<button id="step2_button_request" onclick="activateCertificate()"
+										type="button" class="btn simplecert_btn">Aktivieren</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<% } else { %>
+					<div class="row">
+					<div class="col-lg-5 col-md-8">
+						<div class="panel panel-default">
+							<div id="step2_header_request" class="panel-heading panelheader panel_next_step_or_loading">
+								<button id="step2_icon_request" type="button"
+									class="btn btn-default btn-circle panelicon">
+									<i id="step2_iconfont_request" class="fa fa-check"></i>
+								</button>
+								Schritt 2: Zertifikat aktivieren								
+							</div>							
+						</div>
+					</div>
+				</div>
+					<% } %>
+				<!-- /.row -->
+				<div class="row">
+					<div class="col-lg-5 col-md-8">
+						<div class="panel panel-default">
+							<div id="step3_header_request"
 								class="panel-heading panelheader panel_next_step_or_loading">
 								<button type="submit"
 									class="btn btn-default btn-circle panelicon">
 									<i class="fa fa-check"></i>
 								</button>
-								Schritt 2: Zertifikat herunterladen
+								Schritt 3: Zertifikat herunterladen
 							</div>
-							<div id="step2_content_request">
+							<div id="step3_content_request" class="panel_content_next_step_or_loading">
 								<div class="panel-body">
 									<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
 										es, um es anschließend in ihren Browser importieren zu können.</p>
@@ -187,7 +254,7 @@
 							</div>
 
 						</div>
-						<div id="loading_gif_request" class="loading_gif_request">
+						<div id="loading_gif_request" class="loading_gif">
 							<img src="../img/general/loading.gif">
 						</div>
 					</div>
