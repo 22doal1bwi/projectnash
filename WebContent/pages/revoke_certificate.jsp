@@ -154,7 +154,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="loading_gif_revoke" class="loading_gif_revoke">
+						<div id="loading_gif_revoke" class="loading_gif loading_gif_revoke">
 							<img src="../img/general/loading.gif">
 						</div>
 					</div>

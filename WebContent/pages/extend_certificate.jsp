@@ -85,7 +85,7 @@
 						e.printStackTrace();
 					}
 
-// 					if (hasValidCertificate) {
+					if (hasValidCertificate) {
 		%>
 
 		<!-- Navigation -->
@@ -214,7 +214,7 @@
 							</div>
 
 						</div>
-						<div id="loading_gif_extend" class="loading_gif_request">
+						<div id="loading_gif_extend" class="loading_gif">
 							<img src="../img/general/loading.gif">
 						</div>
 					</div>
@@ -265,9 +265,9 @@
 		</div>
 		<!-- /#wrapper -->
 		<%
-// 			} else {
-// 					response.sendRedirect("home.jsp");
-// 				}
+			} else {
+					response.sendRedirect("home.jsp");
+				}
 			}
 		%>
 	
