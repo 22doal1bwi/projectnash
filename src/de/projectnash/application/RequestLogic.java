@@ -46,23 +46,47 @@ public class RequestLogic {
 		}
 	}
 
+	/**
+	 * Loads a {@link Request} via {@link RequestPersistenceService} from the database.
+	 * @param user The {@link User} that belongs to the {@link Request}.
+	 * @return The {@link Request} for the specified {@link User}.
+	 */
 	public static Request loadRequest(User user) {
 		return RequestPersistenceService.loadRequest(user);
 	}
 
+	/**
+	 * Loads all {@link Request}s via {@link RequestPersistenceService} from the database.
+	 * @return A {@link List} that contains all {@link Request}s.
+	 */
 	public static List<Request> loadAllRequests(){
 		return RequestPersistenceService.loadAllRequests();
 	}
 	
+	/**
+	 * Checks if the {@link User} already has a {@link Request}.
+	 * @param user The {@link User} whose {@link Request} will be checked.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
 	public static boolean hasRequest(User user) {
 		return RequestPersistenceService.requestExists(user);
 	}
 
+	/**
+	 * Allows the {@link User} to download his {@link Certificate} and removes the {@link Request} afterwards.
+	 * @param user The {@link User} that will be allowed.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
 	public static boolean confirmRequest(User user) {
 		user.setAllowedToDownload(true);
 		return removeRequest(user);
 	}
 
+	/**
+	 * Denies the request ask by the {@link User}.
+	 * @param user The {@link User} whose {@link Request} will be denied.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
 	public static boolean denyRequest(User user) {
 		return removeRequest(user);
 	}
