@@ -37,6 +37,11 @@ public class RequestCertificateServlet extends HttpServlet {
 		default:
 			boolean createdRequest = RequestLogic.createRequest(user);
 			
+			// only for testing
+			user.setAllowedToDownload(true);
+			UserLogic.updateUser(user);
+			//..
+			
 				if (createdRequest) {
 					map.put("createdRequest", true);
 

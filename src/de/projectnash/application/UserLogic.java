@@ -51,69 +51,7 @@ public class UserLogic {
 			return false;
 		}		
 	}
-	
-	/**
-	 * Loads an {@link User} specified by the entered ssnId.
-	 * 
-	 * @param ssnId The {@link String} that represents the ssnId of the {@link Session}.
-	 * @return The {@link User} specified by the ssnId.
-	 */
-	public static User loadUserBySession(String ssnId){
-		return SessionPersistenceService.loadSession(ssnId).getUser();
-	}
-	
-	/**
-	 * Loads an {@link User} specified by the entered email address.
-	 * 
-	 * @param eMailAddress The {@link String} that represents the email address of the {@link User}.
-	 * @return The {@link User} specified by the email address.
-	 */
-	public static User loadUser(String eMailAddress){
-		return UserPersistenceService.loadUser(eMailAddress);	
-	}
-	
-	
-	/**
-	 * Method which checks if a user with a specific email address already exists
-	 * 
-	 * @param emailAddress the email address of the user you want to check for existence
-	 * @return true if the user exists
-	 */
-	public static boolean emailAlreadyExists(String emailAddress) {
-		return UserPersistenceService.userExists(emailAddress);
-	}
-
-	/**
-	 * Method which checks if a user with a specific personal id already exists
-	 * 
-	 * @param personalId the personal id of the user you want to check for existence
-	 * @return true if the user exists
-	 */
-	public static boolean personalIdAlreadyExists(String personalId) {
-		if (personalId != null){
-			if (!personalId.isEmpty()){
-				return UserPersistenceService.userExists(Integer.parseInt(personalId));	
-			}
-		}			
-	return false;
-	}
-	
-	public static boolean hasCertificate(User user){
-		return user.getCertificate() != null;
-	}
-	
-	public static boolean hasValidCertificate(User user){
-		return CertificateLogic.certificateIsValid(user.getCertificate());
-	}
-	
-	public static boolean hasRequest(User user){
-		return RequestLogic.hasRequest(user);
-	}	
-	
-	public static String getRequestStatus(User user){
-		return RequestLogic.loadRequest(user).getRequestStatus().toString();	
-	}
-	
+		
 	//TODO: see comment
 	public static boolean activateCertificateForRequest(User user) throws ParseException,  OpenSSLException, InterruptedException{
 		
@@ -153,8 +91,77 @@ public class UserLogic {
 		return false;
 	}
 	
+	/**
+	 * Loads an {@link User} specified by the entered ssnId.
+	 * 
+	 * @param ssnId The {@link String} that represents the ssnId of the {@link Session}.
+	 * @return The {@link User} specified by the ssnId.
+	 */
+	public static User loadUserBySession(String ssnId){
+		return SessionPersistenceService.loadSession(ssnId).getUser();
+	}
+	
+	/**
+	 * Loads an {@link User} specified by the entered email address.
+	 * 
+	 * @param eMailAddress The {@link String} that represents the email address of the {@link User}.
+	 * @return The {@link User} specified by the email address.
+	 */
+	public static User loadUser(String eMailAddress){
+		return UserPersistenceService.loadUser(eMailAddress);	
+	}
+	
+	/**
+	 * Updates an {@link User} specified by the entered {@link User}.
+	 * 
+	 * @param user
+	 */
+	public static void updateUser(User user) {
+		UserPersistenceService.updateUser(user);
+	}
+	
+	/**
+	 * Method which checks if a user with a specific email address already exists
+	 * 
+	 * @param emailAddress the email address of the user you want to check for existence
+	 * @return true if the user exists
+	 */
+	public static boolean emailAlreadyExists(String emailAddress) {
+		return UserPersistenceService.userExists(emailAddress);
+	}
+
+	/**
+	 * Method which checks if a user with a specific personal id already exists
+	 * 
+	 * @param personalId the personal id of the user you want to check for existence
+	 * @return true if the user exists
+	 */
+	public static boolean personalIdAlreadyExists(String personalId) {
+		if (personalId != null){
+			if (!personalId.isEmpty()){
+				return UserPersistenceService.userExists(Integer.parseInt(personalId));	
+			}
+		}			
+	return false;
+	}	
 	
 	/* G E T T E R */
+	
+	public static boolean hasCertificate(User user){
+		return user.getCertificate() != null;
+	}
+	
+	public static boolean hasValidCertificate(User user){
+		return CertificateLogic.certificateIsValid(user.getCertificate());
+	}
+	
+	public static boolean hasRequest(User user){
+		return RequestLogic.hasRequest(user);
+	}	
+	
+	public static String getRequestStatus(User user){
+		return RequestLogic.loadRequest(user).getRequestStatus().toString();	
+	}
 	
 	public static String getCommonName(User user){
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
