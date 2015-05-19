@@ -3,7 +3,7 @@
 // ====================================================================================//
 $(document).ready(function() {
 	// Method that triggers the login button when the 'enter'-key is pressed
-	$('#password, #emailAddress').keypress(function(e) {
+	$('#password, #emailAddress, #emailAddressForNewPassword').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#loginButton').click();
 	});
