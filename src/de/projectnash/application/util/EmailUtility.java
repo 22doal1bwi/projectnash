@@ -31,9 +31,9 @@ public class EmailUtility {
      * @param subjectOfeMail The {@link EmailSubject} that represents the subject of the email.
      */
     public static void sendMail(User user, EmailSubject subjectOfeMail) {
-        String from = USER_NAME;
-        String pass = PASSWORD;
-        String[] to = { user.getEmailAddress() };
+        String sender = USER_NAME;
+        String senderPassword = PASSWORD;
+        String recipient =  user.getEmailAddress();
         String subject;
         String body;
         
@@ -46,25 +46,25 @@ public class EmailUtility {
         }
        
 
-        setupGMailConnection(from, pass, to, subject, body);
+        setupGMailConnection(sender, senderPassword, recipient, subject, body);
     }
 
     /**
      * Sets up the connection for GMail-Account and sends the email with the specified data.
      * 
-     * @param from The {@link String} that represents the email address of the sender.
-     * @param pass The {@link String} that represents the password of the sender.
-     * @param to The {@link String} that represents the recipients of the email.
+     * @param sender The {@link String} that represents the email address of the sender.
+     * @param senderPassword The {@link String} that represents the password of the sender.
+     * @param recipient The {@link String} that represents the recipient of the email.
      * @param subject The {@link String} that represents the subject of the email.
      * @param body The {@link String} that represents the content of the email.
      */
-    private static void setupGMailConnection(String from, String pass, String[] to, String subject, String body) {
+    private static void setupGMailConnection(String sender, String senderPassword, String recipient, String subject, String body) {
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
-        props.put("mail.smtp.user", from);
-        props.put("mail.smtp.password", pass);
+        props.put("mail.smtp.user", sender);
+        props.put("mail.smtp.password", senderPassword);
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
 
@@ -72,23 +72,16 @@ public class EmailUtility {
         MimeMessage message = new MimeMessage(session);
 
         try {
-            message.setFrom(new InternetAddress(from));
-            InternetAddress[] toAddress = new InternetAddress[to.length];
-
-            /** To get the array of addresses. */
-            for( int i = 0; i < to.length; i++ ) {
-                toAddress[i] = new InternetAddress(to[i]);
-            }
-
-            for( int i = 0; i < toAddress.length; i++) {
-                message.addRecipient(Message.RecipientType.TO, toAddress[i]);
-            }
+            message.setFrom(new InternetAddress(sender));
+            InternetAddress toAddress = new InternetAddress(recipient);
+            message.addRecipient(Message.RecipientType.TO, toAddress);
+          
 
             message.setSubject(subject);
-            message.setContent("CONTENT", "text/html; charset=utf-8");
+            message.setContent("CONTENT", "text/html; charset=UTF-8");
             message.setText(body);
             Transport transport = session.getTransport("smtp");
-            transport.connect(host, from, pass);
+            transport.connect(host, sender, senderPassword);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         }
