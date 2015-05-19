@@ -28,8 +28,9 @@ function submitLoginForm() {
 		dataType : 'json',
 		data : $('#emailAddress, #password').serialize(),
 		success : function(data) {
-			if (data.loginFailed) {
+			if (data.loginFailed) {				
 				buildAndShowMessageBar("ERR_CREDENTIALS", "messagebar_login")
+				hideMessageBar()
 			} else {
 				window.setTimeout(function() {
 					location.href = 'home.jsp';
@@ -38,6 +39,7 @@ function submitLoginForm() {
 		},
 		error : function() {
 			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
+			hideMessageBar()
 		}
 	})
 }
@@ -50,13 +52,18 @@ function requestNewPassword() {
 		data : $('#emailAddressForNewPassword').serialize(),
 		success : function(data) {
 			if (data.resetSuccessful) {
-				buildAndShowMessageBar("SCS_PASSWORD_RESET", "messagebar_login")
+				$("#resetModal").modal("hide")
+				buildAndShowMessageBar("SCS_PASSWORD_RESET", "messagebar_login")	
+				hideMessageBar()
 			} else {
-				buildAndShowMessageBar("ERR_PASSWORD_RESET", "messagebar_login")
+				$("#resetModal").modal("hide")
+				buildAndShowMessageBar("ERR_PASSWORD_RESET", "messagebar_login")	
+				hideMessageBar()
 			}
 		},
 		error : function() {
 			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
+			hideMessageBar()
 		}
 	})
 }
@@ -72,4 +79,10 @@ function checkFormBeforeSubmit() {
 	} else {
 		buildAndShowMessageBar("WRN_EMPTY_FIELDS_LOGIN", "messagebar_login")
 	}
+}
+
+function hideMessageBar() {
+	window.setTimeout(function() {
+		$("#messagebar_login").addClass("messagebar_hidden")
+	}, 3000);	
 }

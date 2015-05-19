@@ -85,16 +85,16 @@
 					type="button" onclick="checkFormBeforeSubmit()">Einloggen</button>
 			</form>
 			<br /> <a class="link" href="" data-toggle="modal"
-				data-target="#myModal">Passwort vergessen</a>
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-				aria-labelledby="myModalLabel" aria-hidden="true"
+				data-target="#resetModal">Passwort vergessen</a>
+			<div class="modal fade" id="resetModal" tabindex="-1" role="dialog"
+				aria-labelledby="resetModalLabel" aria-hidden="true"
 				style="display: none;">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"
 								aria-hidden="true">×</button>
-							<h4 class="modal-title" id="myModalLabel">Neues Passwort anfordern</h4>
+							<h4 class="modal-title">Neues Passwort anfordern</h4>
 						</div>
 						<div class="modal-body">
 							<input type="email" id="emailAddressForNewPassword"
