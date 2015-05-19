@@ -40,21 +40,21 @@ public class AdminRequestServlet extends HttpServlet {
 	//	String sessionIdStatus = SessionController.checkForSessionId(request,
 	//			response);
 		
-//		User user = SessionLogic.loadSession(sessionIdStatus).getUser();
+    //  User user = SessionLogic.loadSession(sessionIdStatus).getUser();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		List<Request> requestList = RequestLogic.loadAllRequests();
 		
 		requestList.forEach(requestObject -> {
-			User test = new User(
+			User requestedUser = new User(
 					requestObject.getUser().getFirstName(),
 					requestObject.getUser().getLastName(),
 					requestObject.getUser().getDepartment(),
 					requestObject.getUser().getPersonalId(),
 					requestObject.getUser().getEmailAddress());
 
-			Request toMap = new Request (test, requestObject.getCreationDate());	
+			Request toMap = new Request (requestedUser, requestObject.getCreationDate());	
 					
 			map.put("" + requestObject.getUser().getPersonalId(), toMap);
 		});
@@ -69,5 +69,4 @@ public class AdminRequestServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().write(new Gson().toJson(map));
 	}
-
 }
