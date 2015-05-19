@@ -103,3 +103,29 @@
 	top: -40px;
 	height: 55px;
 }
+
+.modal-dialog {
+	width: 330px;
+	position: relative;
+	top: 255px;
+}
+
+.modal-header {
+	color: grey;
+	border-bottom: none;
+}
+
+.modal-footer {
+	border-top: none;
+}
+
+.modal-text {
+	color: grey;
+	text-align: left;
+}
+
+.form-control {
+	padding: 10px;
+	font-size: 16px;
+	height: auto;
+}

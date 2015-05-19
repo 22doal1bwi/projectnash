@@ -75,12 +75,10 @@
 					style="margin-bottom: 20px; margin-top: 5px" /> <br /> <label
 					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
 					type="email" id="emailAddress" name="emailAddress"
-					class="form-control" placeholder="E-Mail-Adresse"
-					onchange="cleanInputField('emailAddress')" required autofocus>
+					class="form-control" placeholder="E-Mail-Adresse" required autofocus>
 				<br /> <label for="inputPassword" class="sr-only">Passwort</label>
 				<input type="password" id="password" name="password"
-					class="form-control" placeholder="Passwort"
-					onchange="cleanInputField('password')" required>
+					class="form-control" placeholder="Passwort" required>
 				<button id="loginButton" class="btn btn-lg simplecert_btn btn-block"
 					type="button" onclick="checkFormBeforeSubmit()">Einloggen</button>
 			</form>
@@ -91,12 +89,12 @@
 				style="display: none;">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<div class="modal-header">
+						<div class="modal-header">						
 							<button type="button" class="close" data-dismiss="modal"
 								aria-hidden="true">×</button>
-							<h4 class="modal-title">Neues Passwort anfordern</h4>
+							<h4 class="modal-title">Passwort vergessen?</h4>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body"><p class="modal-text">Geben Sie Ihre E-Mail-Adresse ein und wir helfen Ihnen, Ihr Passwort zurückzusetzen.</p>
 							<input type="email" id="emailAddressForNewPassword"
 								name="emailAddressForNewPassword" class="form-control"
 								placeholder="E-Mail-Adresse"
@@ -105,7 +103,7 @@
 						<div class="modal-footer">
 							<button type="button" class="btn simplecert_inv_btn"
 								data-dismiss="modal">Abbrechen</button>
-							<button type="button" onclick="requestNewPassword()" class="btn simplecert_btn">Absenden</button>
+							<button id="resetButton" type="button" onclick="requestNewPassword()" class="btn simplecert_btn">Absenden</button>
 						</div>
 					</div>
 					<!-- /.modal-content -->

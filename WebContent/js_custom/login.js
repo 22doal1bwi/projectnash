@@ -3,9 +3,14 @@
 // ====================================================================================//
 $(document).ready(function() {
 	// Method that triggers the login button when the 'enter'-key is pressed
-	$('#password, #emailAddress, #emailAddressForNewPassword').keypress(function(e) {
+	$('#password, #emailAddress').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#loginButton').click();
+	});
+
+	$('#emailAddressForNewPassword').keypress(function(e) {
+		if (e.keyCode == 13)
+			$('#resetButton').click();
 	});
 
 	jQuery.i18n.properties({
@@ -13,12 +18,13 @@ $(document).ready(function() {
 		path : '../i18n/',
 		language : 'de',
 		mode : 'map',
-		encoding: 'UTF-8'
+		encoding : 'UTF-8'
 	});
 });
 
 // ====================================================================================//
-// ================================== AJAX FUNCTION ===================================//
+// ================================== AJAX FUNCTION
+// ===================================//
 // ====================================================================================//
 // Method which submits the 'emailAddress' and 'password' from the input fields
 function submitLoginForm() {
@@ -28,7 +34,7 @@ function submitLoginForm() {
 		dataType : 'json',
 		data : $('#emailAddress, #password').serialize(),
 		success : function(data) {
-			if (data.loginFailed) {				
+			if (data.loginFailed) {
 				buildAndShowMessageBar("ERR_CREDENTIALS", "messagebar_login")
 				hideMessageBar()
 			} else {
@@ -54,19 +60,24 @@ function requestNewPassword() {
 			if (data.resetSuccessful) {
 				$("#resetModal").modal("hide")
 				window.setTimeout(function() {
-				buildAndShowMessageBar("SCS_PASSWORD_RESET", "messagebar_login")	
-				}, 500);	
+					buildAndShowMessageBar("SCS_PASSWORD_RESET",
+							"messagebar_login")
+				}, 500);
 			} else {
 				$("#resetModal").modal("hide")
 				window.setTimeout(function() {
-				buildAndShowMessageBar("ERR_PASSWORD_RESET", "messagebar_login")
-				}, 500);			
+					buildAndShowMessageBar("ERR_PASSWORD_RESET",
+							"messagebar_login")
+				}, 500);
 			}
 			hideMessageBar()
 			$("#emailAddressForNewPassword").val("")
 		},
 		error : function() {
+			$("#resetModal").modal("hide")
+			window.setTimeout(function() {
 			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
+			}, 500);
 			hideMessageBar()
 			$("#emailAddressForNewPassword").val("")
 		}
@@ -74,7 +85,8 @@ function requestNewPassword() {
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTION ===================================//
+// ================================== MAIN FUNCTION
+// ===================================//
 // ====================================================================================//
 // Method which checks all field values before submitting them to the backend
 function checkFormBeforeSubmit() {
@@ -83,11 +95,12 @@ function checkFormBeforeSubmit() {
 		submitLoginForm()
 	} else {
 		buildAndShowMessageBar("WRN_EMPTY_FIELDS_LOGIN", "messagebar_login")
+		hideMessageBar()
 	}
 }
 
 function hideMessageBar() {
 	window.setTimeout(function() {
 		$("#messagebar_login").addClass("messagebar_hidden")
-	}, 3000);	
+	}, 3000);
 }
