@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.CertificateLogic;
-import de.projectnash.application.RequestLogic;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
@@ -57,15 +56,10 @@ public class UserController implements IUserController {
 	public boolean setPassword(String oldPassword, String newPassword) {
 		return UserLogic.changePassword(user, oldPassword, newPassword);
 	}
-	
-	@Override
-	public boolean requestCertificate() {
-		return RequestLogic.createRequest(user);
-	}
 
 	@Override
 	public boolean hasRequest() {
-		return RequestLogic.hasRequest(user);
+		return UserLogic.hasRequest(user);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import de.projectnash.application.UserLogic;
-import de.projectnash.application.util.OpenSSLException;
 import de.projectnash.entities.User;
 import de.projectnash.frontend.controllers.SessionController;
 
@@ -58,7 +56,7 @@ public class ActivateCertificateServlet extends HttpServlet {
 				}
 			}
 
-			catch (InterruptedException | ParseException | OpenSSLException e) {
+			catch (Exception e) {
 				e.printStackTrace();
 				map.put("activatedCertificate", false);
 			}

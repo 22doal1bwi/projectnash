@@ -2,15 +2,13 @@ package de.projectnash.application;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.text.ParseException;
 
 import javax.mail.MessagingException;
 
 import de.projectnash.application.util.EmailSubject;
 import de.projectnash.application.util.EmailUtility;
-import de.projectnash.application.util.OpenSSLException;
-import de.projectnash.databackend.SessionPersistenceService;
 import de.projectnash.databackend.UserPersistenceService;
+import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
 
 /**
@@ -59,18 +57,58 @@ public class UserLogic {
 	}
 		
 	//TODO: see comment
-	public static boolean activateCertificateForRequest(User user, String password) throws ParseException,  OpenSSLException, InterruptedException{
-		
-		if(hasCertificate(user)){
-		//	CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
-			user.setCertificate(null);
-			UserPersistenceService.updateUser(user);	
-		}
+	public static boolean activateCertificateForRequest(User user, String password) {
+		try {
+			if(hasCertificate(user)){
+				//	CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
+				user.setCertificate(null);
+			}		
 			CertificateLogic.createCertificate(user, password);
 			RequestLogic.removeRequest(user);
-			user.setAllowedToDownload(true);
+			UserPersistenceService.updateUser(user);
 			LogLogic.createLog("Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen", user.getEmailAddress());
 			return true;	
+		} catch (Exception e) {
+			LogLogic.createLog("Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen", user.getEmailAddress());
+			e.printStackTrace();
+			return false;
+		}		
+	}
+	
+	public static void checkAndUpdateAllowanceToDownload(User user){
+		if (CertificateLogic.certificateIsValid(user.getCertificate())) {
+			if (!user.isAllowedToDownload()) {				
+				user.setAllowedToDownload(true);
+				UserPersistenceService.updateUser(user);
+			}
+		} else {
+			if (user.isAllowedToDownload()) {
+				user.setAllowedToDownload(false);
+				UserPersistenceService.updateUser(user);
+			}
+		}		
+	}
+	
+	/**
+	 * Checks if the {@link User} already has a {@link Request}.
+	 * 
+	 * @param user The {@link User} whose {@link Request} will be checked.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
+	public static boolean hasRequest(User user) {
+		return RequestLogic.requestExists(user);
+	}
+	
+	public String getRequestStatus(User user) {
+		return RequestLogic.getRequestStatus(user);
+	}
+	
+	public static boolean denyRequest(User user) {
+		return RequestLogic.denyRequest(RequestLogic.loadRequest(user));
+	}
+	
+	public static boolean confirmRequest(User user) {
+		return RequestLogic.confirmRequest(RequestLogic.loadRequest(user));
 	}
 	
 	/**
@@ -114,7 +152,7 @@ public class UserLogic {
 	 * @return The {@link User} specified by the ssnId.
 	 */
 	public static User loadUserBySession(String ssnId){
-		return SessionPersistenceService.loadSession(ssnId).getUser();
+		return SessionLogic.loadSession(ssnId).getUser();
 	}
 	
 	/**
@@ -160,9 +198,7 @@ public class UserLogic {
 		}			
 	return false;
 	}	
-	
-	/* G E T T E R */
-	
+		
 	public static boolean hasCertificate(User user){
 		return user.getCertificate() != null;
 	}
@@ -171,13 +207,7 @@ public class UserLogic {
 		return CertificateLogic.certificateIsValid(user.getCertificate());
 	}
 	
-	public static boolean hasRequest(User user){
-		return RequestLogic.hasRequest(user);
-	}	
-	
-	public static String getRequestStatus(User user){
-		return RequestLogic.loadRequest(user).getRequestStatus().toString();	
-	}
+	/* G E T T E R */
 	
 	public static String getCommonName(User user){
 		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");

@@ -1,7 +1,6 @@
 package de.projectnash.application;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,7 +9,6 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.util.CertificateUtility;
-import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
@@ -25,27 +23,16 @@ import de.projectnash.application.util.OpenSSLException;
  */
 public class CertificateLogic {
 
-	/**
-	 * Test Utility Class
-	 * 
-	 * @param args
-	 * @throws ParseException
-	 *             TODO: delete method when ready with testing
-	 * @throws OpenSSLException
-	 */
-	public static void main(String[] args) throws ParseException,
-			OpenSSLException {
+	public static void main(String[] args) {
 
 		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
 				"artur.ermisch@simpleCert.com", "Eierkuchen2");
 		try {
 			createCertificate(tempUser, "");
 
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -57,8 +44,7 @@ public class CertificateLogic {
 	 * @throws OpenSSLException
 	 * @throws InterruptedException
 	 */
-	public static boolean createCertificate(User user, String password) throws ParseException,
-			OpenSSLException, InterruptedException {
+	public static boolean createCertificate(User user, String password) {
 
 		Organization organization = new Organization();
 
@@ -95,19 +81,33 @@ public class CertificateLogic {
 									.split("notAfter=")[1])));
 
 			/** save certificate to database. */
-			UserPersistenceService.updateUser(user);
+			UserLogic.updateUser(user);
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			LogLogic.createLog("Zertifikat konnte nicht in der Datenbank gespeichert werden", user.getEmailAddress());
 			return false;
 		}
 		LogLogic.createLog(
-				"Zertifikat wurde erfolgreich in der Datenbank gespeichert",
-				user.getEmailAddress());
+				"Zertifikat wurde erfolgreich in der Datenbank gespeichert", user.getEmailAddress());
 		return true;
 	}
 
+	// TODO: implement revokeCertificate method
+	public static boolean revokeCertificate(User user) {
+		try {
+			//  CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
+			user.setCertificate(null);
+			UserLogic.updateUser(user);
+			LogLogic.createLog("Das Zertifikat wurde widerrufen", user.getEmailAddress());
+			return true;
+		} catch (Exception e) {
+			LogLogic.createLog("Das Zertifikat konnte nicht widerrufen werden", user.getEmailAddress());
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * Method which returns true if {@link Certificate} is valid.
 	 * 
@@ -170,16 +170,6 @@ public class CertificateLogic {
 		throw new FileNotFoundException();
 	}
 
-	// TODO: implement revokeCertificate method
-	public static void revokeCertificate(User user) {
-
-	}
-
-	// TODO: implement extendCertificate method
-	public static void extendCertificate(User user) {
-
-	}
-	
 	/* G E T T E R */
 
 	public static String getOrganizationalUnit(Certificate certificate) {

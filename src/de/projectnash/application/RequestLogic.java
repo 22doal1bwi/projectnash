@@ -3,6 +3,7 @@ package de.projectnash.application;
 import java.util.Date;
 import java.util.List;
 
+import de.projectnash.application.util.RequestStatus;
 import de.projectnash.databackend.RequestPersistenceService;
 import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
@@ -47,7 +48,7 @@ public class RequestLogic {
 			LogLogic.createLog("Antrag wurde erfolgreich aus der Datenbank entfernt", user.getEmailAddress());
 			return true;
 		} catch (Exception e) {
-			LogLogic.createLog("Antrag konnte nicht aus der Datenbank entfertn werden", user.getEmailAddress());
+			LogLogic.createLog("Antrag konnte nicht aus der Datenbank entfernt werden", user.getEmailAddress());
 			return false;
 		}
 	}
@@ -71,35 +72,50 @@ public class RequestLogic {
 		return RequestPersistenceService.loadAllRequests();
 	}
 	
-	/**
-	 * Checks if the {@link User} already has a {@link Request}.
-	 * 
-	 * @param user The {@link User} whose {@link Request} will be checked.
-	 * @return The {@link Boolean} that describes if the process was successful.
-	 */
-	public static boolean hasRequest(User user) {
+	public static boolean requestExists(User user) {
 		return RequestPersistenceService.requestExists(user);
+	}
+	
+	public static String getRequestStatus(User user) {
+		return RequestPersistenceService.loadRequest(user).getRequestStatus().name();
 	}
 
 	/**
 	 * Allows the {@link User} to download his {@link Certificate} and removes the {@link Request} afterwards.
-	 * 
-	 * @param user The {@link User} that will be allowed.
+	 *
+	 * @param request The {@link Request} that should be confirmed.
 	 * @return The {@link Boolean} that describes if the process was successful.
 	 */
-	public static boolean confirmRequest(User user) {
-		user.setAllowedToDownload(true);
-		return removeRequest(user);
+	public static boolean confirmRequest(Request request) {
+		try {
+			request.setRequestStatus(RequestStatus.ACCEPTED);
+			RequestPersistenceService.updateRequest(request);
+			LogLogic.createLog("Antrag wurde bestätigt", request.getUser().getEmailAddress());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogLogic.createLog("Antrag konnte nicht bestätigt werden", request.getUser().getEmailAddress());
+			return false;
+		}		
 	}
 
 	/**
 	 * Denies the {@link Request} ask by the {@link User}.
 	 * 
-	 * @param user The {@link User} whose {@link Request} will be denied.
+	 * @param request The {@link Request} that should be denied.
 	 * @return The {@link Boolean} that describes if the process was successful.
 	 */
-	public static boolean denyRequest(User user) {
-		return removeRequest(user);
+	public static boolean denyRequest(Request request) {
+		try {
+			request.setRequestStatus(RequestStatus.DENIED);
+			RequestPersistenceService.updateRequest(request);
+			LogLogic.createLog("Antrag wurde abgelehnt", request.getUser().getEmailAddress());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogLogic.createLog("Antrag konnte nicht abgelehnt werden", request.getUser().getEmailAddress());
+			return false;
+		}
 	}
 
 }

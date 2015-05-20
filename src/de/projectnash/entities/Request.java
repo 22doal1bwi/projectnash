@@ -79,6 +79,18 @@ public class Request {
 	public RequestStatus getRequestStatus(){
 		return this.requestStatus;
 	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public void setRequestStatus(RequestStatus requestStatus) {
+		this.requestStatus = requestStatus;
+	}
 	
 	@Override
 	public String toString(){

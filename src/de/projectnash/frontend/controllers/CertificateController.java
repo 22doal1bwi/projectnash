@@ -14,18 +14,6 @@ public class CertificateController implements ICertificateController{
 	}
 
 	@Override
-	public boolean revokeCertificate() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean extendCertificate() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public String getCountryName() {
 		return CertificateLogic.getCountryName(certificate);
 	}

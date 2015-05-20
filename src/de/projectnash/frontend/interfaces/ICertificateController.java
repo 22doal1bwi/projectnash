@@ -43,16 +43,6 @@ public interface ICertificateController {
 	String getEmailAddress();
 	
 	/**
-	 * @return The {@link Boolean} that describes if the revocation was successful or not.
-	 */
-	boolean revokeCertificate();
-	
-	/**
-	 * @return The {@link Boolean} that describes if the extension was successful or not.
-	 */
-	boolean extendCertificate();
-
-	/**
 	 * @return The {@link String} that contains the value of the expiration date of the {@link Certificate}.
 	 */
 	String getExpirationDate();

@@ -73,6 +73,16 @@ public class RequestPersistenceService {
 			return false;
 		}
 	}
+	
+	 /**
+     * Updates a {@link Request}.
+     * @param requestToUpdate The {@link Request} that will be updated.
+     */
+    public static void updateRequest(Request requestToUpdate){
+    	em.getTransaction().begin();
+    	em.merge(requestToUpdate);
+    	em.getTransaction().commit();
+    }
 
 	/**
 	 * Removes a {@link Request} from the database.
