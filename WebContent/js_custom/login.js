@@ -39,7 +39,7 @@ function submitLoginForm() {
 				hideMessageBar()
 			} else {
 				window.setTimeout(function() {
-					location.href = 'home.jsp';
+					location.href = 'app_frame.jsp';
 				}, 1000);
 			}
 		},
