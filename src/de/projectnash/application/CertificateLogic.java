@@ -39,7 +39,7 @@ public class CertificateLogic {
 		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
 				"artur.ermisch@simpleCert.com", "Eierkuchen2");
 		try {
-			createCertificate(tempUser);
+			createCertificate(tempUser, "");
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -57,7 +57,7 @@ public class CertificateLogic {
 	 * @throws OpenSSLException
 	 * @throws InterruptedException
 	 */
-	public static boolean createCertificate(User user) throws ParseException,
+	public static boolean createCertificate(User user, String password) throws ParseException,
 			OpenSSLException, InterruptedException {
 
 		Organization organization = new Organization();
@@ -71,7 +71,7 @@ public class CertificateLogic {
 					user.getDepartment(), UserLogic.getCommonName(user),
 					user.getEmailAddress(), keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
-			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData);
+			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData, password);
 			
 			String subjectData = CertificateUtility.getCRTdata(crtData,
 					"-subject");

@@ -59,14 +59,14 @@ public class UserLogic {
 	}
 		
 	//TODO: see comment
-	public static boolean activateCertificateForRequest(User user) throws ParseException,  OpenSSLException, InterruptedException{
+	public static boolean activateCertificateForRequest(User user, String password) throws ParseException,  OpenSSLException, InterruptedException{
 		
 		if(hasCertificate(user)){
 		//	CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
 			user.setCertificate(null);
 			UserPersistenceService.updateUser(user);	
 		}
-			CertificateLogic.createCertificate(user);
+			CertificateLogic.createCertificate(user, password);
 			RequestLogic.removeRequest(user);
 			user.setAllowedToDownload(true);
 			LogLogic.createLog("Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen", user.getEmailAddress());
@@ -85,10 +85,10 @@ public class UserLogic {
 		if (user.getPassword().equals(oldPassword)) {
 			user.setPassword(newPassword);
 			UserPersistenceService.updateUser(user);
-			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
+			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich geï¿½ndert", user.getEmailAddress());
 			return true;
 		}	
-		LogLogic.createLog("Das Passwort des Benutzers konnte nicht geändert werden", user.getEmailAddress());
+		LogLogic.createLog("Das Passwort des Benutzers konnte nicht geï¿½ndert werden", user.getEmailAddress());
 		return false;
 	}
 

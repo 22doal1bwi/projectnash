@@ -43,7 +43,7 @@ public class ActivateCertificateServlet extends HttpServlet {
 		default:
 			try {
 				
-				boolean activateCertificate = UserLogic.activateCertificateForRequest(user);
+				boolean activateCertificate = UserLogic.activateCertificateForRequest(user, "");
 				
 				if (activateCertificate) {
 					map.put("activatedCertificate", true);

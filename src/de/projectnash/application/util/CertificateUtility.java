@@ -267,13 +267,14 @@ public class CertificateUtility {
 	 * Method which generates a certificate (.p12 file)
 	 * @param crtData
 	 * @param privateKey
+	 * @param password password which protects pkcs12
 	 * @return A byte array that contains the .p12 data
 	 * @throws IOException
 	 * @throws InterruptedException
+	 * @throws OpenSSLException
 	 * @author Alexander Dobler, Jonathan Schlotz, Silvio D'Alessandro
-	 * @throws OpenSSLException 
 	 */
-	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey) throws IOException, InterruptedException, OpenSSLException{
+	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey, String password) throws IOException, InterruptedException, OpenSSLException{
 		
 		File rootCertFile = new File("root_cert.pem");
 		
@@ -287,13 +288,13 @@ public class CertificateUtility {
 				"-inkey", tmpKeyFile.getAbsolutePath(),
 				"-in", tmpCrtFile.getAbsolutePath(),
 				"-certfile", rootCertFile.getAbsolutePath(),
-				"-password", "pass:"
+				"-password", "pass:"+password
 				};
 		
 		Process proc = Runtime.getRuntime().exec(command);
 		proc.waitFor();
 		
-		/** get output of crt generation command as input stream */
+		/** get output of pkcs12 generation command as input stream */
 		InputStream in = proc.getInputStream();
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -374,7 +375,7 @@ public class CertificateUtility {
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
 		
-		/** get output of pkcs12 generation command as input stream */
+		/** get output of revoke crt command as input stream */
 		InputStream in = proc.getInputStream();
 		
 		/** prepare collection of output into a byte array */
@@ -438,21 +439,23 @@ public class CertificateUtility {
 	
 	/**
 	 * Loads .p12 {@link File} data
-	 * @param p12Data
+	 * @param p12Data pkcs12 byte array
+	 * @param password password which protects pkcs12
 	 * @return
 	 * @throws IOException
 	 * @throws InterruptedException
 	 * @throws OpenSSLException
 	 */
-	public static String getP12data(byte[] p12Data) throws IOException, InterruptedException, OpenSSLException{
-			
+	public static String getP12data(byte[] p12Data, String password) throws IOException, InterruptedException, OpenSSLException{ 
+		File tmpP12File = writeBytesToTempFile(p12Data, FilePattern.P12);
+		
 		String[] command = {
 				"openssl",
 				"pkcs12",
-				"-in", writeBytesToTempFile(p12Data, FilePattern.P12).getAbsolutePath(),
+				"-in", tmpP12File.getAbsolutePath(),
 				"-info",
 				"-nodes",
-				"-password", "pass:"
+				"-password", "pass:"+password
 				};
 
 		Process proc = Runtime.getRuntime().exec(command);
