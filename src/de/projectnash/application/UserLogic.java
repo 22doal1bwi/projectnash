@@ -77,6 +77,13 @@ public class UserLogic {
 	}
 	
 	public static void checkAndUpdateAllowanceToDownload(User user){
+		if (RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted")) {
+			if (!user.isAllowedToDownload()){
+				user.setAllowedToDownload(true);
+				UserPersistenceService.updateUser(user);
+				return;
+			}
+		}
 		if (CertificateLogic.certificateIsValid(user.getCertificate())) {
 			if (!user.isAllowedToDownload()) {				
 				user.setAllowedToDownload(true);
