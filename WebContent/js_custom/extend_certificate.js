@@ -21,26 +21,26 @@ function logout() {
 
 function extendCertificate() {
 	setLoading(1)
-//	$.ajax({
-//		url : '../RequestCertificateServlet',
-//		type : 'POST',
-//		dataType : 'json',
-//		timeout : 8000,
-//		success : function(data) {
-//			if (data.validSession && data.createdRequest) {
+	$.ajax({
+		url : '../RequestCertificateServlet',
+		type : 'POST',
+		dataType : 'json',
+		timeout : 8000,
+		success : function(data) {
+			if (data.validSession && data.createdRequest) {
 				successful(1, "SCS_CERT_REQUEST")
-//			} else if (data.validSession && data.createdRequest === false) {
-//				unsuccessful("ERR_CERT_REQUEST")
-//			} else {
-//				window.setTimeout(function() {
-//					location.href = '../pages/login.jsp';
-//				}, 1000);
-//			}
-//		},
-//		error : function() {
-//			unsuccessful("ERR_CONNECTION")
-//		}
-//	})
+			} else if (data.validSession && data.createdRequest === false) {
+				unsuccessful("ERR_CERT_REQUEST")
+			} else {
+				window.setTimeout(function() {
+					location.href = '../pages/login.jsp';
+				}, 1000);
+			}
+		},
+		error : function() {
+			unsuccessful("ERR_CONNECTION")
+		}
+	})
 }
 
 function activateCertificate() {

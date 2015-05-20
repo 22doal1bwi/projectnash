@@ -89,11 +89,13 @@
 		<div id="messagebar_extend"
 			class="alert messagebar_intern messagebar_hidden"></div>
 		<%
-			if (remainingDays > 800) {
+			if (remainingDays > 90) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(
 					function() {
+						$("#page_content_extend").addClass(
+						"page_content_move_down")
 						buildAndShowMessageBar("WRN_CERT_EXTENSION_IMPOSSIBLE",
 								"messagebar_extend")
 					});
@@ -103,7 +105,7 @@
 		%>
 		<div id="page_content_extend" class="page_content">
 			<%
-				if (remainingDays <= 800) {
+				if (!uc.hasRequest() && remainingDays <= 90) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
@@ -131,7 +133,7 @@
 				</div>
 			</div>
 			<%
-				} else {
+				} else if (!uc.hasRequest() && remainingDays > 90) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
@@ -153,6 +155,20 @@
 			<%
 				if (uc.hasRequest() && uc.allowedToDownloadCertificate()) {
 			%>
+			<div class="row">
+				<div class="col-lg-5 col-md-8">
+					<div class="panel panel-default functiontile">
+						<div id="step1_header_extend"
+							class="panel-heading panelheader panelheader_completed">
+							<button id="step1_icon_extend" type="button"
+								class="btn btn-default btn-circle panelicon messageicon_border_success">
+								<i id="step1_iconfont_extend" class="fa fa-check messageicon_success"></i>
+							</button>
+							Schritt 1: Zertifikatsverlängerung beantragen
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
 					<div class="panel panel-default">
