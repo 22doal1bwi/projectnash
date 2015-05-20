@@ -65,6 +65,7 @@ public class UserLogic {
 			}		
 			CertificateLogic.createCertificate(user, password);
 			RequestLogic.removeRequest(user);
+			checkAndUpdateAllowanceToDownload(user);
 			UserPersistenceService.updateUser(user);
 			LogLogic.createLog("Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen", user.getEmailAddress());
 			return true;	
