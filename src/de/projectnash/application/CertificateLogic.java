@@ -191,7 +191,7 @@ public class CertificateLogic {
 	}
 
 	public static String getOrganizationName(Certificate certificate) {
-		return certificate.getOrganizationalUnit();
+		return certificate.getOrganizationName();
 	}
 
 	public static String getLocalityName(Certificate certificate) {

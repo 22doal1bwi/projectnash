@@ -76,6 +76,8 @@
 				boolean hasValidCertificate = uc.hasValidCertificate();
 
 				if (hasValidCertificate) {
+					
+					CertificateController cc = new CertificateController(sessionId);
 		%>
 
 		<!-- Navigation -->
@@ -135,6 +137,33 @@
 				class="alert messagebar_intern messagebar_hidden"></div>
 			<div class="row"></div>
 			<!-- /.row -->
+			<div id="page_content_settings" class="page_content">
+				<div class="row">
+					<div class="col-lg-4 col-md-8">
+						<h1 class="page-header">Zertifikat</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-md-8">
+						<div class="form-group">
+							<label>Ausgestellt an</label>
+							<p class="form-control-static"><%=cc.getCommonName()%></p>
+							<label>E-Mail-Addresse</label>
+							<p class="form-control-static"><%=cc.getEmailAddress()%></p>
+							<label>Abteilung</label>
+							<p class="form-control-static"><%=cc.getOrganizationalUnit()%></p>
+							<label>Unternehmen</label>
+							<p class="form-control-static"><%=cc.getOrganizationName()%></p>
+							<label>Standort</label>
+							<p class="form-control-static"><%=cc.getLocalityName()%></p>
+							<label>Gültig bis</label>
+							<p class="form-control-static"><%=cc.getExpirationDate()%></p>
+						</div>
+					</div>
+				</div>
+				<!-- /.row -->
+
+			</div>
 
 			<!-- /.row -->
 
