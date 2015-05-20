@@ -400,7 +400,7 @@ public class CertificateUtility {
 	 * @throws OpenSSLException
 	 * @throws InterruptedException
 	 */
-	public static byte[] extractPrivateKey(byte[] p12Data) throws IOException, OpenSSLException, InterruptedException{
+	public static byte[] extractPrivateKey(byte[] p12Data, String password) throws IOException, OpenSSLException, InterruptedException{
 		
 		File tmpP12File = writeBytesToTempFile(p12Data, FilePattern.P12);
 		
@@ -410,7 +410,7 @@ public class CertificateUtility {
 				"-in", tmpP12File.getAbsolutePath(),
 				"-nodes",
 				"-nocerts",
-				"-password", "pass:"
+				"-password", "pass:"+password
 				};
 		
 		/** execute command */

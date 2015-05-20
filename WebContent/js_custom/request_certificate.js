@@ -49,6 +49,7 @@ function activateCertificate() {
 		url : '../ActivateCertificateServlet',
 		type : 'POST',
 		dataType : 'json',
+		data : $('#password').serialize(),
 		timeout : 8000,
 		success : function(data) {
 			if (data.validSession && data.activatedCertificate) {

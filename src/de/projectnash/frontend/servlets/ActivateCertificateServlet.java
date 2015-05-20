@@ -29,6 +29,8 @@ public class ActivateCertificateServlet extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public ActivateCertificateServlet() {}
+    
+	private static final String PASSWORD = "password";
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -38,12 +40,15 @@ public class ActivateCertificateServlet extends HttpServlet {
 		String sessionIdStatus = SessionController.checkForSessionId(request,
 				response);
 		
+		/** get request parameters for userID and password */
+		String password = request.getParameter(PASSWORD);
+		
 		User user = UserLogic.loadUserBySession(sessionIdStatus);
 		switch (sessionIdStatus) {
 		default:
 			try {
 				
-				boolean activateCertificate = UserLogic.activateCertificateForRequest(user, "");
+				boolean activateCertificate = UserLogic.activateCertificateForRequest(user, password);
 				
 				if (activateCertificate) {
 					map.put("activatedCertificate", true);

@@ -204,7 +204,9 @@
 							</div>
 							<div id="step2_content_request">
 								<div id="step2_panel_body_request" class="panel-body">
-									<p>Aktivieren Sie....</p>
+									<p>Geben Sie ein Passwort ein, mit welchem das Zertifikat gesichert werden soll und aktivieren Sie anschließend Ihr Zertifikat </p>
+									<input type="password" id="password" name="password"
+									class="form-control" placeholder="Passwort" required>
 								</div>
 								<div class="panel-footer">
 									<button id="step2_button_request" onclick="activateCertificate()"
