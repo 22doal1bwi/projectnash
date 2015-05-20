@@ -279,7 +279,6 @@ public class CertificateUtility {
 		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
-		Path tmpP12File = Files.createTempFile(FilePattern.P12.prefix, FilePattern.P12.suffix);
 		
 		String[] command = {
 				"openssl",
@@ -288,19 +287,18 @@ public class CertificateUtility {
 				"-inkey", tmpKeyFile.getAbsolutePath(),
 				"-in", tmpCrtFile.getAbsolutePath(),
 				"-certfile", rootCertFile.getAbsolutePath(),
-				"-out", tmpP12File.toString(),
 				"-password", "pass:"
 				};
 		
 		Process proc = Runtime.getRuntime().exec(command);
 		proc.waitFor();
 		
-		FileInputStream fileInputStream = new FileInputStream (tmpP12File.toFile());
-		
+		/** get output of crt generation command as input stream */
+		InputStream in = proc.getInputStream();
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		
-		writeInputToOutput(fileInputStream, out);
+		/** write command output into byte stream */
+		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Could not read input stream.");
 		
@@ -375,10 +373,13 @@ public class CertificateUtility {
 		
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
-		/** get output of crt generation command as input stream */
+		
+		/** get output of pkcs12 generation command as input stream */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
@@ -444,28 +445,27 @@ public class CertificateUtility {
 	 * @throws OpenSSLException
 	 */
 	public static String getP12data(byte[] p12Data) throws IOException, InterruptedException, OpenSSLException{
-		
-		Path tmpP12File = Files.createTempFile(FilePattern.P12.prefix, FilePattern.P12.suffix);
-		
+			
 		String[] command = {
 				"openssl",
 				"pkcs12",
 				"-in", writeBytesToTempFile(p12Data, FilePattern.P12).getAbsolutePath(),
 				"-info",
 				"-nodes",
-				"-out", tmpP12File.toString(),
 				"-password", "pass:"
 				};
 
 		Process proc = Runtime.getRuntime().exec(command);
 		proc.waitFor();
 		
-		FileInputStream fileInputStream = new FileInputStream (tmpP12File.toFile());
+		/** get output of pkcs12 information command as input stream */
+		InputStream in = proc.getInputStream();
 		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		writeInputToOutput(fileInputStream, out);
+		/** write command output into byte stream */
+		writeInputToOutput(in, out);
 		
 		if (out.toString().isEmpty()) throw new OpenSSLException("Could not read input stream.");
 		
