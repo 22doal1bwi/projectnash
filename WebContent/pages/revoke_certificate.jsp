@@ -57,9 +57,8 @@
 </head>
 
 <body>
-
 		<%
-			//allow access only if session exists if not, redirect to login
+			// Allow access only if session exists - if not, redirect to login
 			String sessionId = SessionController.checkForSessionId(request,
 					response);
 
@@ -75,11 +74,9 @@
 
 				if (hasValidCertificate) {
 		%>
-
 		<div id="page-wrapper">
 			<div id="messagebar_revoke"
 				class="alert messagebar_intern messagebar_hidden"></div>
-			<!-- /.row -->
 			<div id="page_content_revoke" class="page_content">
 				<div class="row">
 					<div class="col-lg-5 col-md-8">
@@ -106,16 +103,11 @@
 						</div>
 					</div>
 				</div>
-				<!-- /.row -->
-
 			</div>
-			<!-- /#page-wrapper -->
-
 		</div>
-		<!-- /#wrapper -->
 		<%
 			} else {
-					response.sendRedirect("home.jsp");
+					response.sendRedirect("app_frame.jsp");
 				}
 			}
 		%>

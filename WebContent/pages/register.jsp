@@ -63,7 +63,6 @@
 					placeholder="Nachname" required>
 			</div>
 			<div class="form-group col-lg-6">
-				<!--<div class="form-group"> -->
 				<select class="form-control" id="organizationalUnit"
 					name="organizationalUnit"
 					onchange="validateInput('organizationalUnit', 'ui_only')" required>
@@ -108,6 +107,5 @@
 		</form>
 		<br />
 	</div>
-	<!-- End container -->
 </body>
 </html>

@@ -59,165 +59,182 @@
 </head>
 
 <body>
+	<%
+		// Allow access only if session exists - if not, redirect to login
+		String sessionId = SessionController.checkForSessionId(request,
+				response);
 
-		<%
-			//allow access only if session exists if not, redirect to login
-			String sessionId = SessionController.checkForSessionId(request,
-					response);
+		switch (sessionId) {
 
-			switch (sessionId) {
+			case "-1" :
+			case "0" :
+				response.sendRedirect("login.jsp");
+				break;
+			default :
+				UserController uc = new UserController(sessionId);
+				boolean hasValidCertificate = uc.hasValidCertificate();
 
-				case "-1" :
-				case "0" :
-					response.sendRedirect("login.jsp");
-					break;
-				default :
-					UserController uc = new UserController(sessionId);
-					boolean hasValidCertificate = uc.hasValidCertificate();
+				int remainingDays = 0;
 
-					int remainingDays = 0;
-
-					try {
-						remainingDays = uc
-								.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-					if (hasValidCertificate) {
-		%>
-
-		
-		<div id="page-wrapper">
-			<div id="messagebar_extend"
-				class="alert messagebar_intern messagebar_hidden"></div>
-			<%
-				if (remainingDays > 800) {
-			%>
-			<script type="text/javascript">
-				$(document).ready(
-						function() {
-							buildAndShowMessageBar(
-									"WRN_CERT_EXTENSION_IMPOSSIBLE",
-									"messagebar_extend")
-						});
-			</script>
-			<%
+				try {
+					remainingDays = uc
+							.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			%>
-			<!-- /.row -->
 
+				if (hasValidCertificate) {
+	%>
+	<div id="page-wrapper">
+		<div id="messagebar_extend"
+			class="alert messagebar_intern messagebar_hidden"></div>
+		<%
+			if (remainingDays > 800) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+						buildAndShowMessageBar("WRN_CERT_EXTENSION_IMPOSSIBLE",
+								"messagebar_extend")
+					});
+		</script>
+		<%
+			}
+		%>
+		<div id="page_content_extend" class="page_content">
 			<%
 				if (remainingDays <= 800) {
 			%>
-			<div id="page_content_extend" class="page_content">
-				<div class="row">
-					<div class="col-lg-5 col-md-8">
-						<div class="panel panel-default functiontile">
-							<div id="step1_header_extend" class="panel-heading panelheader">
-								<button id="step1_icon_extend" type="button"
-									class="btn btn-default btn-circle panelicon">
-									<i id="step1_iconfont_extend" class="fa fa-check"></i>
-								</button>
-								Schritt 1: Zertifikatsverlängerung beantragen
-							</div>
-							<div id="step1_content_extend">
-								<div id="step1_panel_body_extend" class="panel-body">
-									<p>Beantragen Sie eine Verlängerung für Ihr Zertifikat. Im
-										nächsten Schritt können Sie anschließend - nach erfolgreicher
-										Genehmigung Ihres Antrags - das länger gültige Zertifikat
-										herunterladen.</p>
-								</div>
-								<div class="panel-footer">
-									<button id="button_extend" onclick="extendCertificate()"
-										type="button" class="btn simplecert_btn">Beantragen</button>
-								</div>
-							</div>
+			<div class="row">
+				<div class="col-lg-5 col-md-8">
+					<div class="panel panel-default functiontile">
+						<div id="step1_header_extend" class="panel-heading panelheader">
+							<button id="step1_icon_extend" type="button"
+								class="btn btn-default btn-circle panelicon">
+								<i id="step1_iconfont_extend" class="fa fa-check"></i>
+							</button>
+							Schritt 1: Zertifikatsverlängerung beantragen
 						</div>
-					</div>
-				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<div class="col-lg-5 col-md-8">
-						<div class="panel panel-default">
-							<div id="step2_header_extend"
-								class="panel-heading panelheader panel_next_step_or_loading">
-								<button type="submit"
-									class="btn btn-default btn-circle panelicon">
-									<i class="fa fa-check"></i>
-								</button>
-								Schritt 2: Zertifikat herunterladen
+						<div id="step1_content_extend">
+							<div id="step1_panel_body_extend" class="panel-body">
+								<p>Beantragen Sie eine Verlängerung für Ihr Zertifikat. Im
+									nächsten Schritt können Sie anschließend - nach erfolgreicher
+									Genehmigung Ihres Antrags - das länger gültige Zertifikat
+									herunterladen.</p>
 							</div>
-							<div id="step2_content_extend">
-								<div class="panel-body">
-									<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
-										es, um es anschließend in ihren Browser importieren zu können.</p>
-								</div>
-								<div class="panel-footer">
-									<form action="../CrtDownload" method="get">
-										<button type="submit" class="btn simplecert_btn">Herunterladen</button>
-									</form>
-								</div>
+							<div class="panel-footer">
+								<button id="button_extend" onclick="extendCertificate()"
+									type="button" class="btn simplecert_btn">Beantragen</button>
 							</div>
-
-						</div>
-						<div id="loading_gif_extend" class="loading_gif">
-							<img src="../img/general/loading.gif">
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- /.row -->
 			<%
 				} else {
 			%>
-			<div id="page_content_extend">
-				<div class="row">
-					<div class="col-lg-5 col-md-8">
-						<div class="panel panel-default functiontile">
-							<div id="step1_header_extend"
-								class="panel-heading panelheader panel_next_step_or_loading">
-								<button id="step1_icon_extend" type="button"
-									class="btn btn-default btn-circle panelicon">
-									<i id="step1_iconfont_extend" class="fa fa-check"></i>
-								</button>
-								Schritt 1: Zertifikatsverlängerung beantragen
-							</div>
+			<div class="row">
+				<div class="col-lg-5 col-md-8">
+					<div class="panel panel-default functiontile">
+						<div id="step1_header_extend"
+							class="panel-heading panelheader panel_next_step_or_loading">
+							<button id="step1_icon_extend" type="button"
+								class="btn btn-default btn-circle panelicon">
+								<i id="step1_iconfont_extend" class="fa fa-check"></i>
+							</button>
+							Schritt 1: Zertifikatsverlängerung beantragen
 						</div>
 					</div>
 				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<div class="col-lg-5 col-md-8">
-						<div class="panel panel-default">
-							<div id="step2_header_extend"
-								class="panel-heading panelheader panel_next_step_or_loading">
-								<button type="submit"
-									class="btn btn-default btn-circle panelicon">
-									<i class="fa fa-check"></i>
-								</button>
-								Schritt 2: Zertifikat herunterladen
+			</div>
+			<%
+				}
+			%>
+			<%
+				if (uc.hasRequest() && uc.allowedToDownloadCertificate()) {
+			%>
+			<div class="row">
+				<div class="col-lg-5 col-md-8">
+					<div class="panel panel-default">
+						<div id="step2_header_extend" class="panel-heading panelheader">
+							<button id="step2_icon_extend" type="button"
+								class="btn btn-default btn-circle panelicon">
+								<i id="step2_iconfont_extend" class="fa fa-check"></i>
+							</button>
+							Schritt 2: Zertifikat aktivieren
+						</div>
+						<div id="step2_content_extend">
+							<div id="step2_panel_body_extend" class="panel-body">
+								<p>Geben Sie ein Passwort ein, mit welchem das Zertifikat
+									gesichert werden soll und aktivieren Sie anschließend Ihr
+									Zertifikat.</p>
+								<input type="password" id="password" name="password"
+									class="form-control passwort_field_request_extend" placeholder="Passwort" required>
+							</div>
+							<div class="panel-footer">
+								<button id="step2_button_extend" onclick="activateCertificate()"
+									type="button" class="btn simplecert_btn">Aktivieren</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- /.row -->
+			<%
+				} else {
+			%>
+			<div class="row">
+				<div class="col-lg-5 col-md-8">
+					<div class="panel panel-default">
+						<div id="step2_header_extend"
+							class="panel-heading panelheader panel_next_step_or_loading">
+							<button id="step2_icon_extend" type="button"
+								class="btn btn-default btn-circle panelicon">
+								<i id="step2_iconfont_extend" class="fa fa-check"></i>
+							</button>
+							Schritt 2: Zertifikat aktivieren
+						</div>
+					</div>
+				</div>
+			</div>
 			<%
 				}
 			%>
-			<!-- /#page-wrapper -->
-
+			<div class="row">
+				<div class="col-lg-5 col-md-8">
+					<div class="panel panel-default">
+						<div id="step3_header_extend"
+							class="panel-heading panelheader panel_next_step_or_loading">
+							<button type="submit"
+								class="btn btn-default btn-circle panelicon">
+								<i class="fa fa-check"></i>
+							</button>
+							Schritt 3: Zertifikat herunterladen
+						</div>
+						<div id="step3_content_extend"
+							class="panel_content_next_step_or_loading">
+							<div class="panel-body">
+								<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
+									es, um es anschließend in ihren Browser importieren zu können.</p>
+							</div>
+							<div class="panel-footer">
+								<form action="../CrtDownload" method="get">
+									<button type="submit" class="btn simplecert_btn">Herunterladen</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div id="loading_gif_extend" class="loading_gif">
+						<img src="../img/general/loading.gif">
+					</div>
+				</div>
+			</div>
 		</div>
-		<!-- /#wrapper -->
-		<%
-			} else {
-					response.sendRedirect("home.jsp");
-				}
+	</div>
+	<%
+		} else {
+				response.sendRedirect("app_frame.jsp");
 			}
-		%>
-	
+		}
+	%>
 </body>
 </html>

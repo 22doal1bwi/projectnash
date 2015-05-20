@@ -151,3 +151,10 @@ html, body {
 .panel_revoke {
 	background-color: #fff;
 }
+
+.horizontal_divider {
+	margin-top: 7px;
+}
+.passwort_field_request_extend {
+	width: 50%;
+}

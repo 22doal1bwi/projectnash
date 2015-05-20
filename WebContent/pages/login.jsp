@@ -51,7 +51,6 @@
 </head>
 
 <body class="body_login">
-
 	<%
 		String sessionIdStatus = SessionController.checkForSessionId(
 				request, response);
@@ -63,14 +62,12 @@
 		case "0":
 		case "-1":
 	%>
-
 	<div class="messagebar_placeholder">
 		<div id="messagebar_login" class="alert messagebar messagebar_hidden"></div>
 	</div>
 	<div class="container">
 		<div id="login_container">
 			<form class="form-signin">
-				<!--<h2 class="form-signin-heading">Please sign in</h2>-->
 				<img src="../img/simplecert/simplecert_logo_text_128x128.png"
 					style="margin-bottom: 20px; margin-top: 5px" /> <br /> <label
 					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
@@ -106,9 +103,7 @@
 							<button id="resetButton" type="button" onclick="requestNewPassword()" class="btn simplecert_btn">Absenden</button>
 						</div>
 					</div>
-					<!-- /.modal-content -->
 				</div>
-				<!-- /.modal-dialog -->
 			</div>
 			<hr class="horizontal_divider">
 			<form class="form-signin">
@@ -118,7 +113,6 @@
 			<br />
 		</div>
 	</div>
-	<!-- End container -->
 	<%
 		}
 	%>

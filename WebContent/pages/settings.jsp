@@ -59,7 +59,7 @@
 
 <body>
 		<%
-			//allow access only if session exists if not, redirect to login
+			// Allow access only if session exists - if not, redirect to login
 			String sessionId = SessionController.checkForSessionId(request,
 					response);
 
@@ -79,12 +79,10 @@
 				String emailAddress = uc.getEmailAddress();
 				hasValidCertificate = uc.hasValidCertificate();				
 		%>
-
 		<div id="page-wrapper">
 			<div id="messagebar_settings"
 				class="alert messagebar_intern messagebar_hidden"></div>
 			<div class="row"></div>
-			<!-- /.row -->
 			<div id="page_content_settings" class="page_content">
 				<div class="row">
 					<div class="col-lg-4 col-md-8">
@@ -121,18 +119,13 @@
 								type="button" class="btn simplecert_btn password_change_btn">Passwort
 								ändern</button>
 						</div>
-						<div id="loading_gif_settings" class="loading_gif_settings" style="display: none;">
+						<div id="loading_gif_settings" class="loading_gif loading_gif_settings" style="display: none;">
 							<img src="../img/general/loading.gif">
 						</div>
 					</div>
 				</div>
-				<!-- /.row -->
-
 			</div>
-			<!-- /#page-wrapper -->
-
 		</div>
-		<!-- /#wrapper -->
 		<%
 			}
 		%>

@@ -59,9 +59,8 @@
 
 <body>
 	<div id="wrapper">
-
 		<%
-			//allow access only if session exists if not, redirect to login
+			// Allow access only if session exists - if not, redirect to login
 			String sessionId = SessionController.checkForSessionId(request,
 					response);
 
@@ -76,15 +75,14 @@
 				boolean hasValidCertificate = uc.hasValidCertificate();
 
 				if (hasValidCertificate) {
-					
-					CertificateController cc = new CertificateController(sessionId);
-		%>
 
+					CertificateController cc = new CertificateController(
+							sessionId);
+		%>
 		<div id="page-wrapper">
 			<div id="messagebar_show"
 				class="alert messagebar_intern messagebar_hidden"></div>
 			<div class="row"></div>
-			<!-- /.row -->
 			<div id="page_content_settings" class="page_content">
 				<div class="row">
 					<div class="col-lg-4 col-md-8">
@@ -106,30 +104,21 @@
 							<p class="form-control-static"><%=cc.getLocalityName()%></p>
 							<label>Gültig bis</label>
 							<p class="form-control-static"><%=cc.getExpirationDate()%></p>
-							<br />
+							<hr class="horizontal_divider">
 							<form action="../CrtDownload" method="get">
 								<button type="submit" class="btn simplecert_btn">Herunterladen</button>
 							</form>
 						</div>
 					</div>
 				</div>
-				<!-- /.row -->
-
 			</div>
-
-			<!-- /.row -->
-
 		</div>
-		<!-- /#page-wrapper -->
-
 	</div>
-	<!-- /#wrapper -->
 	<%
 		} else {
-				response.sendRedirect("home.jsp");
+				response.sendRedirect("app_frame.jsp");
 			}
 		}
 	%>
-
 </body>
 </html>

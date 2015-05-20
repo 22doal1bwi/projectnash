@@ -58,9 +58,8 @@
 </head>
 
 <body>
-
 	<%
-		//allow access only if session exists if not, redirect to login
+		// Allow access only if session exists - if not, redirect to login
 		String sessionId = SessionController.checkForSessionId(request,
 				response);
 
@@ -93,151 +92,139 @@
 					e.printStackTrace();
 				}
 	%>
+	<div id="page-wrapper">
+		<div id="messagebar_home"
+			class="alert messagebar_intern messagebar_hidden"></div>
+		<%
+			if (hasCertificate && hasValidCertificate) {
+						if (remainingDays > 90) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")
+			});
+		</script>
+		<%
+			} else {
+		%>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				buildAndShowMessageBar("WRN_CERT_EXPIRING", "messagebar_home")
+			});
+		</script>
+		<%
+			} // close of if (hasCertificate && hasValidCertificate)
+					} else if (hasCertificate && !hasValidCertificate) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				buildAndShowMessageBar("ERR_CERT_NOT_VALID", "messagebar_home")
+			});
+		</script>
+		<%
+			} else if (!hasCertificate) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+						window.buildAndShowMessageBar("ERR_CERT_NOT_EXISTING",
+								"messagebar_home")
+					});
+		</script>
+		<%
+			} // close of last 'else if'
+		%>
+		<div class="row">
+			<div class="col-lg-12"></div>
+		</div>
+		<div class="row">
 
-	
-		<div id="page-wrapper">
-			<div id="messagebar_home"
-				class="alert messagebar_intern messagebar_hidden"></div>
-			<%
-				if (hasCertificate && hasValidCertificate) {
-							if (remainingDays > 90) {
-			%>
-			<script type="text/javascript">
-				$(document).ready(function() {
-					buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")
-				});
-			</script>
-			<%
-				} else {
-			%>
-			<script type="text/javascript">
-				$(document).ready(
-						function() {
-							buildAndShowMessageBar("WRN_CERT_EXPIRING",
-									"messagebar_home")
-						});
-			</script>
-			<%
-				} // close of if (hasCertificate && hasValidCertificate)
-						} else if (hasCertificate && !hasValidCertificate) {
-			%>
-			<script type="text/javascript">
-				$(document).ready(
-						function() {
-							buildAndShowMessageBar("ERR_CERT_NOT_VALID",
-									"messagebar_home")
-						});
-			</script>
-			<%
-				} else if (!hasCertificate) {
-			%>
-			<script type="text/javascript">
-				$(document).ready(
-						function() {
-							window.buildAndShowMessageBar(
-									"ERR_CERT_NOT_EXISTING", "messagebar_home")
-						});
-			</script>
-			<%
-				} // close of last 'else'
-			%>
-			<div class="row">
-				<div class="col-lg-12"></div>
-				<!-- /.col-lg-12 -->
-			</div>
-			<!-- /.row -->
-			<div class="row">
-
-				<div class="col-lg-4 col-md-6">
-					<%
-						if (!hasCertificate) {
-					%>
-					<a href="request_certificate.jsp"> <%
+			<div class="col-lg-4 col-md-6">
+				<%
+					if (!hasCertificate) {
+				%>
+				<a href="request_certificate.jsp"> <%
  	} else {
  %> <a href="show_certificate.jsp"> <%
  	}
  %>
-							<div class="panel panel-green functiontile">
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-3">
-											<i class="fa fa-file-text-o fa-5x"></i>
-										</div>
-										<div class="col-xs-9 text-right">
-
-											<div class="text-top te" style="font-size: 24px">
-												<%
-													if (!hasCertificate) {
-															out.print("Zertifikat beantragen");
-														} else {
-															out.print("Zertifikat anzeigen");
-														}
-												%>
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-					</a>
-				</div>
-				<%
-					if (hasCertificate) {
-				%>
-				<div class="col-lg-4 col-md-6">
-					<a href="extend_certificate.jsp">
-						<div class="panel panel-yellow functiontile">
+						<div class="panel panel-green functiontile">
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="fa fa-history fa-5x"></i>
+										<i class="fa fa-file-text-o fa-5x"></i>
 									</div>
 									<div class="col-xs-9 text-right">
 
-										<div class="text-top te" style="font-size: 24px">Zertifikat
-											verlängern</div>
-										<div class="text-top te" style="font-size: 16px"><%=remainingTimeOfCert%>
-											verbleibend
+										<div class="text-top te" style="font-size: 24px">
+											<%
+												if (!hasCertificate) {
+														out.print("Zertifikat beantragen");
+													} else {
+														out.print("Zertifikat anzeigen");
+													}
+											%>
+
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</a>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="panel panel-red functiontile">
-						<a href="revoke_certificate.jsp">
-							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-3">
-										<i class="fa fa-ban fa-5x"></i>
-									</div>
-									<div class="col-xs-9 text-right">
+				</a>
+			</div>
+			<%
+				if (hasCertificate) {
+			%>
+			<div class="col-lg-4 col-md-6">
+				<a href="extend_certificate.jsp">
+					<div class="panel panel-yellow functiontile">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-history fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
 
-										<div class="text-top te" style="font-size: 24px">Zertifikat
-											widerrufen</div>
-										<div class="text-top te" style="font-size: 16px">Missbrauch
-											melden</div>
+									<div class="text-top te" style="font-size: 24px">Zertifikat
+										verlängern</div>
+									<div class="text-top te" style="font-size: 16px"><%=remainingTimeOfCert%>
+										verbleibend
 									</div>
 								</div>
 							</div>
-						</a>
+						</div>
 					</div>
-				</div>
-				<!-- /.row -->
-				<%
-					} // close of if(hasCertificate)
-				%>
+				</a>
 			</div>
-			<!-- /#page-wrapper -->
+			<div class="col-lg-4 col-md-6">
+				<div class="panel panel-red functiontile">
+					<a href="revoke_certificate.jsp">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-ban fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
 
+									<div class="text-top te" style="font-size: 24px">Zertifikat
+										widerrufen</div>
+									<div class="text-top te" style="font-size: 16px">Missbrauch
+										melden</div>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<%
+				} // close of if(hasCertificate)
+			%>
 		</div>
-		<!-- /#wrapper -->
-		<%
-			} // switch (sessionId)
-		%>
-	
+	</div>
+	<%
+		} // switch (sessionId)
+	%>
+
 </body>
 
 </html>

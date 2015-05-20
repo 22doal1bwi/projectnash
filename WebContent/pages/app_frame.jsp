@@ -1,13 +1,14 @@
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.frontend.controllers.SessionController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1">
 
 <script type="text/javascript" src="../js_custom/frame.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -45,9 +46,8 @@
 
 </head>
 <body>
-
-<%
-		//allow access only if session exists if not, redirect to login
+	<%
+		// Allow access only if session exists - if not, redirect to login
 		String sessionId = SessionController.checkForSessionId(request,
 				response);
 
@@ -71,10 +71,7 @@
 				hasCertificate = uc.hasCertificate();
 				hasValidCertificate = uc.hasValidCertificate();
 	%>
-
 	<div id="wrapper">
-
-		<!-- Navigation -->
 		<nav class="navbar navbar-default navbar-static-top" role="navigation"
 			style="margin-bottom: 0">
 		<div class="navbar-header">
@@ -84,19 +81,12 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<!--  <a class="navbar-brand" href="index.html">SimpleCert</a>-->
-
-
 		</div>
-		<!-- /.navbar-header -->
-
 		<ul class="nav navbar-top-links navbar-right">
 
-			<!-- /.dropdown -->
 			<li><div class="name"><%=uc.getFullName()%></div></li>
-			<!-- 			<li><img class="displayed" src="assets/img/find_user.png" -->
-			<!-- 				style="width: 20px;" /></li> -->
-			<li><a href="settings.jsp" target="app_content"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li><a href="settings.jsp" target="app_content"><i
+					class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">
 					<a role="button" class="fa fa-sign-out fa-2x logout"
@@ -110,8 +100,6 @@
 			</li>
 
 		</ul>
-		<!-- /.navbar-top-links -->
-
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
@@ -150,25 +138,23 @@
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
 					<li class="disabled"><a class="navitem_disabled"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
-					
-						<%
-							}
-						%>
-				</ul>
-				
-			</div>
-			<!-- /.sidebar-collapse -->
-		</div>
-		<!-- /.navbar-static-side --> </nav>
-		
-	</div>
 
-<iframe onload="document.title=this.contentWindow.document.title" name="app_content" style="height: 100%; border: none; seamless" src="home.jsp" width="100%">
-  <p>Your browser does not support iframes.</p>
-</iframe>
-	
-<%
-	} // switch (sessionId)
-%>
+					<%
+						}
+					%>
+				</ul>
+			</div>
+		</div>
+		</nav>
+	</div>
+	<iframe onload="document.title=this.contentWindow.document.title"
+		name="app_content" style="height: 100%; border: none;" src="home.jsp"
+		width="100%">
+		<p>Your browser does not support iframes.</p>
+	</iframe>
+
+	<%
+		} // switch (sessionId)
+	%>
 </body>
 </html>
