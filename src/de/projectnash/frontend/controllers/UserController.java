@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.CertificateLogic;
+import de.projectnash.application.RequestLogic;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
@@ -60,6 +61,21 @@ public class UserController implements IUserController {
 	@Override
 	public boolean hasRequest() {
 		return UserLogic.hasRequest(user);
+	}
+
+	@Override
+	public boolean hasWaitingRequest() {
+		return RequestLogic.getRequestStatus(user).equalsIgnoreCase("waiting");
+	}
+
+	@Override
+	public boolean hasAcceptedRequest() {
+		return RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted");
+	}
+
+	@Override
+	public boolean hasDeniedRequest() {
+		return RequestLogic.getRequestStatus(user).equalsIgnoreCase("denied");
 	}
 
 	@Override

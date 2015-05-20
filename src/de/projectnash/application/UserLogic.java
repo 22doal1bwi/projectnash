@@ -246,6 +246,7 @@ public class UserLogic {
 	}
 
 	public static boolean isAllowedToDownload(User user){
+		checkAndUpdateAllowanceToDownload(user);
 		return user.isAllowedToDownload();
 	}
 	

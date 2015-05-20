@@ -57,9 +57,24 @@ public interface IUserController {
 	boolean setPassword(String oldPassword, String newPassword);
 	
 	/**
-	 * @return true if the {@link User} is currently requesting a {@link Certificate}.
+	 * @return true if the {@link User} is has a {@link Request} in the database.
 	 */
 	boolean hasRequest();
+	
+	/**
+	 * @return true if the {@link User} is currently {@link Request}ing a new {@link Certificate}.
+	 */
+	boolean hasWaitingRequest();
+	
+	/**
+	 * @return true if the {@link User} has an accepted {@link Request}.
+	 */
+	boolean hasAcceptedRequest();
+	
+	/**
+	 * @return true if the {@link User} has a denied {@link Request}.
+	 */
+	boolean hasDeniedRequest();
 	
 	/**
 	 * @return true if the {@link User} is allowed to download a {@link Certificate}.
