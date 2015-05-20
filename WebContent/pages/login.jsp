@@ -83,7 +83,7 @@
 					type="button" onclick="checkFormBeforeSubmit()">Einloggen</button>
 			</form>
 			<br /> <a class="link" href="" data-toggle="modal"
-				data-target="#resetModal">Passwort vergessen</a>
+				data-target="#resetModal">Passwort vergessen?</a>
 			<div class="modal fade" id="resetModal" tabindex="-1" role="dialog"
 				aria-labelledby="resetModalLabel" aria-hidden="true"
 				style="display: none;">

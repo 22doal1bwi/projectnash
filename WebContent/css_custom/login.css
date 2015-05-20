@@ -111,7 +111,7 @@
 }
 
 .modal-header {
-	color: grey;
+	color: #666;
 	border-bottom: none;
 }
 
@@ -120,7 +120,7 @@
 }
 
 .modal-text {
-	color: grey;
+	color: #666;
 	text-align: left;
 }
 
