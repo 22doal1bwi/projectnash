@@ -68,7 +68,7 @@
 				//setting status
 				hasAcceptedRequest = uc.hasAcceptedRequest();
 				hasValidCertificate = uc.hasValidCertificate();
-				isAdmin = uc.isAdmin();				
+				isAdmin = uc.isAdmin();
 	%>
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation"
@@ -109,20 +109,20 @@
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<%
 						if (!hasValidCertificate) {
-							if(hasAcceptedRequest){
+								if (hasAcceptedRequest) {
 					%>
 					<li><a href="request_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
 							aktivieren</a></li>
 					<%
-							} else {
+						} else {
 					%>
 					<li><a href="request_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
-							beantragen</a></li>					
+							beantragen</a></li>
 					<%
-							}
-						} else {
+						}
+							} else {
 					%>
 					<li><a href="show_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
@@ -148,7 +148,15 @@
 
 					<%
 						}
+							if (isAdmin) {
 					%>
+						<br>				
+					<li><a href="manage_certificates.jsp" target="app_content"><i
+							class="fa fa-files-o fa-fw navbaricon"></i>Anträge verwalten</a></li>
+					<%
+						}
+					%>
+
 				</ul>
 			</div>
 		</div>

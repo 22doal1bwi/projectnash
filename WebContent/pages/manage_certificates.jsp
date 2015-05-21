@@ -12,17 +12,24 @@
 
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script
+	src="../bower_components/datatables/media/js/jquery.dataTables.min.js"
+	type="text/javascript"></script>
+<script
+	src="../bower_components/datatables/media/js/jquery.jeditable.js"
+	type="text/javascript"></script>
+<script src="../bower_components/datatables/media/js/jquery.validate.js"
+	type="text/javascript"></script>
+<script
+	src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"
+	type="text/javascript"></script>
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="../js_custom/show_certificate.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
- <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
- <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" type="text/javascript"></script>
- <script src="../bower_components/datatables/media/js/jquery.jeditable.js" type="text/javascript"></script>
- <script src="../bower_components/datatables/media/js/jquery.validate.js" type="text/javascript"></script>
- 
+
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
@@ -35,7 +42,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>simpleCert - Zertifikat anzeigen</title>
+<title>simpleCert - Anträge verwalten</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
@@ -44,8 +51,12 @@
 <!-- Custom CSS -->
 <link href="../bower_components/bootstrap/dist/css/sb-admin-2.css"
 	rel="stylesheet">
-<link href="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"rel="stylesheet">
-<link href="../bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+<link
+	href="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"
+	rel="stylesheet">
+<link
+	href="../bower_components/datatables-responsive/css/dataTables.responsive.css"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link href="../bower_components/font-awesome/css/font-awesome.min.css"
@@ -72,30 +83,19 @@
 
 			switch (sessionId) {
 
-			case "-1":
-			case "0":
-				response.sendRedirect("../login.jsp");
-				break;
-			default:
-				UserController uc = new UserController(sessionId);
-				boolean hasValidCertificate = uc.hasValidCertificate();
+				case "-1" :
+				case "0" :
+					response.sendRedirect("../login.jsp");
+					break;
+				default :
+					UserController uc = new UserController(sessionId);
+					boolean hasValidCertificate = uc.hasValidCertificate();
 
-				if (hasValidCertificate) {
+					if (hasValidCertificate) {
 
-					CertificateController cc = new CertificateController(
-							sessionId);
-		%>
-<!-- 		<script type="text/javascript"> -->
-// 		$(".editable_select").editable("../AdminRequestUpdateServlet", { 
-//     indicator : "..saving",
-//     data   : "{'Warten':'WAITING','Genehmigen':'ACCEPTED','Ablehnen':'DENIED'}",
-//     type   : "select",
-//     submit : "OK",
-//     style  : "inherit",
-//     submitdata : function() {
-//       return {id : 2}    }
-// 		  });
-<!--       </script> -->
+						CertificateController cc = new CertificateController(
+								sessionId);
+		%>	
 		<div id="page-wrapper">
 			<div id="messagebar_show"
 				class="alert messagebar_intern messagebar_hidden"></div>
@@ -103,59 +103,78 @@
 			<div id="page_content_settings" class="page_content">
 				<div class="row">
 					<div class="col-lg-4 col-md-8">
-						<h1 class="page-header">Zertifikate verwalten</h1>
+						<h1 class="page-header">Anträge verwalten [GEEKMODE]</h1>
 					</div>
 				</div>
 				<div class="row">
 					<script type="text/javascript">
-        $(document).ready(function () {
-            $("#Requests").dataTable({
-		        "bServerSide": true,
-                // "sAjaxSource": "../AdminRequestServlet",
-                "bProcessing": true,
-                "sPaginationType": "full_numbers",
-	            "bJQueryUI": true,
-
-	            
-                    "ajax":{"type":"POST","url":"../AdminRequestServlet"},
-                "columns":[{"data":"firstName"},{"data":"lastName"},{"data":"department"},{"data":"personalId"},{"data":"emailAddress"},
-                                {"data":"requestCreationDate"},{"data":"status"}]
-// 				"aoColumns": [
-//                       { "mDataProp": "firstName" },
-//                       { "mDataProp": "lastName" },
-//                       { "mDataProp": "department" },
-//                       { "mDataProp": "personalId" },
-//                       { "mDataProp": "emailAddress" },
-//                       { "mDataProp": "requestCreationDate" },
-//                       { "mDataProp": "status" }
-//                   ]
-               })
-               });
-        $('#Requests').dataTable().makeEditable({
-            "sUpdateURL": "../AdminUpdateServlet",
-            "aoColumns": [
-            {
-                //Empty object is used for the default editable settings
-            },
-            null,null,null,null,null,//null for read-only columns
-            {
-                indicator: 'Saving...',
-                tooltip: 'Click to select town',
-                loadtext: 'loading...',
-                type: 'select',
-                onblur: 'submit',
-                data: "{'Warten':'WAITING','Genehmigen':'ACCEPTED','Ablehnen':'DENIED'}"
-            }
-          ]
-        });
-        
-        </script>
+						$(document)
+								.ready(
+									function() {
+											$("#Requests")
+													.dataTable(
+															{														
+																"sPaginationType" : "full_numbers",
+																"ajax" : {
+																	"type" : "POST",
+																	"url" : "../AdminRequestServlet"
+																},
+																"columns" : [
+																		{
+																			"data" : "firstName"
+																		},
+																		{
+																			"data" : "lastName"
+																		},
+																		{
+																			"data" : "department"
+																		},
+																		{
+																			"data" : "personalId"
+																		},
+																		{
+																			"data" : "emailAddress"
+																		},
+																		{
+																			"data" : "requestCreationDate"
+																		},
+																		{
+																			"data" : "status"
+																		} ],
+																"fnDrawCallback" : function() {
+																	/* Init DataTable */
+																	var oTable = $(
+																			'#Requests')
+																			.dataTable();
+																	$(
+																			'#Requests tbody td:nth-child(7)')
+																			.editable(
+																					"../AdminUpdateServlet",
+																					{
+																						indicator : '<img src="../img/general/loading.gif">',
+																						data : "{'WAITING':'Warten','ACCEPTED':'Genehmigen','DENIED':'Ablehnen'}",
+																						tooltip : "Wählen Sie den Status...",
+																						loadtext : "lädt...",
+																						type : "select",
+																						onblur : 'submit',
+																						submitdata : function() {
+																							var updatedUser = {}, aPos = oTable
+																									.fnGetPosition(this);
+																							return {
+																								emailAddress : oTable
+																										.fnGetData(aPos[0]).emailAddress
+																							}
+																						}
+																					})
+																}
+															});
+										});
+					</script>
 					<div class="dataTable_wrapper">
 						<table class="table table-striped table-bordered table-hover"
 							id="Requests">
 							<thead>
 								<tr>
-									
 									<th>Vorname</th>
 									<th>Nachname</th>
 									<th>Abteilung</th>
@@ -166,7 +185,6 @@
 								</tr>
 							</thead>
 							<tbody>
-
 							</tbody>
 						</table>
 					</div>
@@ -174,10 +192,11 @@
 			</div>
 		</div>
 		<%
-		} else {
-				response.sendRedirect("app_frame.jsp");
+			} else {
+					response.sendRedirect("app_frame.jsp");
+				}
 			}
-		}
-	%>
+		%>
+	
 </body>
 </html>
