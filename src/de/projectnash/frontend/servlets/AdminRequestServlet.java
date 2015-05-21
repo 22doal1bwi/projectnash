@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.util.RequestObjectTable;
@@ -41,9 +43,14 @@ public class AdminRequestServlet extends HttpServlet {
 		
     //  User user = SessionLogic.loadSession(sessionIdStatus).getUser();
 		
-		List<RequestObjectTable> requestObjects = new ArrayList<>();
+		JsonArray requestObjects = new JsonArray();
+		
 		
 		List<Request> requestList = RequestLogic.loadAllRequests();		
+		
+		JsonObject JsonResponse = new JsonObject();
+		
+		
 		
 		requestList.forEach(requestObject -> {
 			RequestObjectTable rot = new RequestObjectTable(
@@ -54,15 +61,22 @@ public class AdminRequestServlet extends HttpServlet {
 					requestObject.getUser().getEmailAddress(), 
 					requestObject.getCreationDate(), 
 					requestObject.getRequestStatus());
-				requestObjects.add(rot);
-		});	
-		write(response, requestObjects);
+			JsonObject jsonrot = (JsonObject) new Gson().toJsonTree(rot);
+			requestObjects.add(jsonrot);
+		});
+		JsonResponse.add("data", requestObjects);
+		JsonResponse.addProperty("sEcho", 1);
+		JsonResponse.addProperty("iTotalRecords", requestList.size());
+		JsonResponse.addProperty("iTotalDisplayRecords", requestList.size());
+		response.getWriter().print(JsonResponse.toString());
+		
+		//write(response, requestObjects);
 	}
 
-	private void write(HttpServletResponse resp, List<RequestObjectTable> rot)
-			throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(rot));
-	}
+//	private void write(HttpServletResponse resp, List<RequestObjectTable> rot)
+//			throws IOException {
+//		resp.setContentType("application/Json");
+//		resp.setCharacterEncoding("UTF-8");
+//		resp.getWriter().write(new Gson().toJson(rot));
+//	}
 }
