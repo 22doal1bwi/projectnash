@@ -60,46 +60,15 @@
 				break;
 			default :
 				UserController uc = new UserController(sessionId);
-
 				//certificate status
-				boolean hasCertificate = false;
 				boolean hasValidCertificate = false;
-				String remainingTimeOfCert = null;
-				int remainingDays = 0;
-
-				//request status
-				boolean hasRequest = false;
-				boolean hasWaitingRequest = false;
-				boolean hasAcceptedRequest = false;
-				boolean hasDeniedRequest = false;
-
 				//user status
+				boolean hasAcceptedRequest = false;
 				boolean isAdmin = false;
-				boolean allowedToDownloadCert = false;
-
 				//setting status
-				hasCertificate = uc.hasCertificate();
-				hasValidCertificate = uc.hasValidCertificate();
-				remainingTimeOfCert = uc.getRemainingTimeOfCertificate();
-				remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-				hasRequest = uc.hasRequest();
-				hasWaitingRequest = uc.hasWaitingRequest();
 				hasAcceptedRequest = uc.hasAcceptedRequest();
-				hasDeniedRequest = uc.hasDeniedRequest();
-				isAdmin = uc.isAdmin();
-				allowedToDownloadCert = uc.allowedToDownloadCertificate();
-				
-				//print status for testing
-				System.out.println("hasCertificate: " + hasCertificate);
-				System.out.println("hasValidCertificate: " + hasValidCertificate);
-				System.out.println("remainingTimeOfCert: " + remainingTimeOfCert);
-				System.out.println("remainingDays: " + remainingDays);
-				System.out.println("hasRequest: " + hasRequest);
-				System.out.println("hasWaitingRequest: " + hasWaitingRequest);
-				System.out.println("hasAcceptedRequest: " + hasAcceptedRequest);
-				System.out.println("hasDeniedRequest: " + hasDeniedRequest);
-				System.out.println("isAdmin: " + isAdmin);
-				System.out.println("allowedToDownloadCert: " + allowedToDownloadCert);
+				hasValidCertificate = uc.hasValidCertificate();
+				isAdmin = uc.isAdmin();				
 	%>
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation"
@@ -139,12 +108,20 @@
 					<li><a href="home.jsp" target="app_content"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<%
-						if (!hasCertificate) {
+						if (!hasValidCertificate) {
+							if(hasAcceptedRequest){
 					%>
 					<li><a href="request_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
-							beantragen</a></li>
+							aktivieren</a></li>
 					<%
+							} else {
+					%>
+					<li><a href="request_certificate.jsp" target="app_content"><i
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
+							beantragen</a></li>					
+					<%
+							}
 						} else {
 					%>
 					<li><a href="show_certificate.jsp" target="app_content"><i
@@ -153,7 +130,7 @@
 						}
 					%>
 					<%
-						if (hasCertificate) {
+						if (hasValidCertificate) {
 					%>
 					<li><a href="extend_certificate.jsp" target="app_content"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>

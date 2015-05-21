@@ -79,33 +79,21 @@
 				int remainingDays = 0;
 
 				//request status
-				boolean hasRequest = false;
-				boolean hasWaitingRequest = false;
 				boolean hasAcceptedRequest = false;
-				boolean hasDeniedRequest = false;
-
-				//user status
-				boolean isAdmin = false;
-				boolean allowedToDownloadCert = false;
 
 				//setting status
 				hasCertificate = uc.hasCertificate();
 				hasValidCertificate = uc.hasValidCertificate();
 				remainingTimeOfCert = uc.getRemainingTimeOfCertificate();
 				remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-				hasRequest = uc.hasRequest();
-				hasWaitingRequest = uc.hasWaitingRequest();
 				hasAcceptedRequest = uc.hasAcceptedRequest();
-				hasDeniedRequest = uc.hasDeniedRequest();
-				isAdmin = uc.isAdmin();
-				allowedToDownloadCert = uc.allowedToDownloadCertificate();
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_home"
 			class="alert messagebar_intern messagebar_hidden"></div>
 		<%
-			if (hasCertificate && hasValidCertificate) {
-						if (remainingDays > 90) {
+			if (hasValidCertificate) {
+				if (remainingDays > 90) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -121,8 +109,8 @@
 			});
 		</script>
 		<%
-			} // close of if (hasCertificate && hasValidCertificate)
-					} else if (hasCertificate && !hasValidCertificate) {
+				} // close of if (hasCertificate && hasValidCertificate)
+			} else if (hasCertificate && !hasValidCertificate) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -148,14 +136,22 @@
 		<div class="row">
 
 			<div class="col-lg-4 col-md-6">
+				
 				<%
-					if (!hasCertificate) {
+					if (!hasValidCertificate) {
 				%>
-				<a href="request_certificate.jsp"> <%
- 	} else {
- %> <a href="show_certificate.jsp"> <%
- 	}
- %>
+				
+				<a href="request_certificate.jsp">
+				
+				<%
+ 					} else {
+ 				%>
+ 				
+ 				<a href="show_certificate.jsp">
+ 				
+ 				<%
+ 					}
+ 				%>
 						<div class="panel panel-green functiontile">
 							<div class="panel-heading">
 								<div class="row">
@@ -166,11 +162,16 @@
 
 										<div class="text-top te" style="font-size: 24px">
 											<%
-												if (!hasCertificate) {
-														out.print("Zertifikat beantragen");
+												if (!hasValidCertificate) {
+													if (hasAcceptedRequest) {
+														out.print("Zertifikat aktivieren");
 													} else {
-														out.print("Zertifikat anzeigen");
+														out.print("Zertifikat beantragen");
 													}
+												} else {
+													out.print("Zertifikat anzeigen");
+												}
+												
 											%>
 
 										</div>
@@ -181,7 +182,7 @@
 				</a>
 			</div>
 			<%
-				if (hasCertificate) {
+				if (hasValidCertificate) {
 			%>
 			<div class="col-lg-4 col-md-6">
 				<a href="extend_certificate.jsp">

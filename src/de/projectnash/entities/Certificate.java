@@ -107,6 +107,7 @@ public class Certificate implements Serializable {
 		this.initializationDate = initializationDate;
 		this.expirationDate = expirationDate;
 		this.certificateStatus = certificateStatus;
+		this.revokeReason = "";
 	}
 
 	@Override

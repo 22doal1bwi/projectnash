@@ -72,16 +72,13 @@
 			default :
 				UserController uc = new UserController(sessionId);
 
-				boolean hasCertificate = uc.hasCertificate();
-
-				if (!hasCertificate) {
+				if (!uc.hasCertificate()) {
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_request"
 			class="alert messagebar_intern messagebar_hidden"></div>
 		<%
-			if (uc.hasRequest()
-								&& !uc.allowedToDownloadCertificate()) {
+			if (uc.hasWaitingRequest()) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(
@@ -89,6 +86,30 @@
 						$("#page_content_request").addClass(
 								"page_content_move_down")
 						buildAndShowMessageBar("WRN_CERT_REQUEST_WAITING",
+								"messagebar_request")
+					});
+		</script>
+		<%
+			} else if (uc.hasAcceptedRequest()) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+						$("#page_content_request").addClass(
+								"page_content_move_down")
+						buildAndShowMessageBar("SCS_CERT_REQUEST_ACCEPTED",
+								"messagebar_request")
+					});
+		</script>
+		<%
+			} else if (uc.hasDeniedRequest()) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+						$("#page_content_request").addClass(
+								"page_content_move_down")
+						buildAndShowMessageBar("WRN_CERT_REQUEST_DENIED",
 								"messagebar_request")
 					});
 		</script>
@@ -145,7 +166,7 @@
 				}
 			%>
 			<%
-				if (uc.hasRequest() && uc.allowedToDownloadCertificate()) {
+				if (uc.hasAcceptedRequest()) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
@@ -163,7 +184,8 @@
 									gesichert werden soll und aktivieren Sie anschließend Ihr
 									Zertifikat.</p>
 								<input type="password" id="password" name="password"
-									class="form-control passwort_field_request_extend" placeholder="Passwort" required>
+									class="form-control passwort_field_request_extend"
+									placeholder="Passwort" required>
 							</div>
 							<div class="panel-footer">
 								<button id="step2_button_request"
