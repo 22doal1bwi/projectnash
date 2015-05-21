@@ -21,6 +21,8 @@ import de.projectnash.application.util.OpenSSLException;
  */
 public class CertificateUtility {
 	
+	private static final String ROOT_CERT_FILENAME = "pki/root_cert.pem";
+	private static final String ROOT_KEY_FILENAME = "pki/root_key.pem";
 	static int enterKey = KeyEvent.VK_ENTER;
 
 	/**
@@ -225,9 +227,8 @@ public class CertificateUtility {
 	public static byte[] generateCRT(byte[] csrData) throws IOException, OpenSSLException {
 
 		/** get simpleCert root files */
-		File rootKeyFile = new File("root_key.pem");
-		File rootCertFile = new File("root_cert.pem");
-		//File rootConfFile = new File("root_conf.cnf");
+		File rootKeyFile = new File(ROOT_KEY_FILENAME);
+		File rootCertFile = new File(ROOT_CERT_FILENAME);
 
 		File tmpCsrFile = writeBytesToTempFile(csrData, FilePattern.CSR);
 		// openssl x509 -req -in userRequest.csr -CA rootCert.pem -CAkey
@@ -240,7 +241,7 @@ public class CertificateUtility {
 				"-CA", rootCertFile.getAbsolutePath(),
 				"-CAkey", rootKeyFile.getAbsolutePath(),
 				"-CAcreateserial",
-				"-CAserial", "crlnumber",
+				"-CAserial", "pki/crlnumber",
 				"-days", Constants.DAYS_VALID,
 				"-sha512"
 				};
@@ -275,7 +276,7 @@ public class CertificateUtility {
 	 */
 	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey, String password) throws IOException, InterruptedException, OpenSSLException{
 		
-		File rootCertFile = new File("root_cert.pem");
+		File rootCertFile = new File(ROOT_CERT_FILENAME);
 		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
@@ -358,7 +359,7 @@ public class CertificateUtility {
 	 */
 	public static byte[] revokeCRT(byte[] crtData, byte[] privateKey) throws IOException, InterruptedException, OpenSSLException{
 		
-		File rootCertFile = new File("root_cert.pem");
+		File rootCertFile = new File(ROOT_CERT_FILENAME);
 		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
@@ -396,8 +397,8 @@ public class CertificateUtility {
 		//file you want to create
 		File crlFile = new File("root_crl.pem");
 		
-		File rootCertFile = new File("root_cert.pem");
-		File rootKeyFile = new File("root_key.pem");
+		File rootCertFile = new File(ROOT_CERT_FILENAME);
+		File rootKeyFile = new File(ROOT_KEY_FILENAME);
 		File rootConfFile = new File("root_conf.cnf");
 		
 		String[] command = {
