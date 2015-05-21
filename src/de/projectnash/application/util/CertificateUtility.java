@@ -227,6 +227,7 @@ public class CertificateUtility {
 		/** get simpleCert root files */
 		File rootKeyFile = new File("root_key.pem");
 		File rootCertFile = new File("root_cert.pem");
+		//File rootConfFile = new File("root_conf.cnf");
 
 		File tmpCsrFile = writeBytesToTempFile(csrData, FilePattern.CSR);
 		// openssl x509 -req -in userRequest.csr -CA rootCert.pem -CAkey
@@ -239,6 +240,7 @@ public class CertificateUtility {
 				"-CA", rootCertFile.getAbsolutePath(),
 				"-CAkey", rootKeyFile.getAbsolutePath(),
 				"-CAcreateserial",
+				"-CAserial", "crlnumber",
 				"-days", Constants.DAYS_VALID,
 				"-sha512"
 				};
@@ -387,6 +389,26 @@ public class CertificateUtility {
 		proc.destroy();
 		
 		return out.toByteArray();
+	}
+	
+	private static void createCRL(){
+		
+		//file you want to create
+		File crlFile = new File("root_crl.pem");
+		
+		File rootCertFile = new File("root_cert.pem");
+		File rootKeyFile = new File("root_key.pem");
+		File rootConfFile = new File("root_conf.cnf");
+		
+		String[] command = {
+				"openssl",
+				"ca",
+				"-conf", rootConfFile.getAbsolutePath(),
+				"-keyfile", rootKeyFile.getAbsolutePath(),
+				"-cert", rootCertFile.getAbsolutePath(),
+				"-gencrl",
+				"-out", crlFile.getAbsolutePath()				
+				};
 	}
 	
 	/**
