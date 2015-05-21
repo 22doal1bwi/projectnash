@@ -351,19 +351,24 @@ public class CertificateUtility {
 	 * 
 	 * Method which revokes a certificate
 	 * 
-	 * @param crtData
-	 * @param privKey
+	 * @param crtData certificate data as byte array
 	 * @return
 	 * @throws IOException
-	 * @author Tobias Burger
+	 * @author Alexander Dobler, Tobias Burger
 	 */
-	public static byte[] revokeCRT(byte[] crtData) throws IOException, InterruptedException, OpenSSLException{
+	public static boolean revokeCRT(byte[] crtData) throws IOException, InterruptedException, OpenSSLException{
+		
+		// check if certindex exists and create it if not
+		if(!CERTINDEX_FILE.exists()){
+			CERTINDEX_FILE.createNewFile();
+		}
 		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
 		
 		String[] command = {
 				"openssl",
 				"ca",
+				"-config", ROOT_CONF_FILE.getAbsolutePath(),
 				"-keyfile", ROOT_KEY_FILE.getAbsolutePath(),
 				"-cert", ROOT_CERT_FILE.getAbsolutePath(),
 				"-revoke", tmpCrtFile.getAbsolutePath()
@@ -372,25 +377,15 @@ public class CertificateUtility {
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
 		proc.waitFor();
-		
-		/** get output of revoke crt command as input stream */
-		InputStream in = proc.getInputStream();
-		
-		/** prepare collection of output into a byte array */
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		
-		/** write command output into byte stream */
-		writeInputToOutput(in, out);
-		
-		if (out.toString().isEmpty()) throw new OpenSSLException("Error while revoking certificate.");
-		
+				
 		/** destroy openssl instance */
 		proc.destroy();
 		
 		/** update the signed crl list */
 		updateCRL();
 		
-		return out.toByteArray();
+		/** TODO: */
+		return true;
 	}
 	
 	/**
@@ -398,23 +393,18 @@ public class CertificateUtility {
 	 * 
 	 * @throws IOException
 	 * @throws InterruptedException
+	 * @author Alexander Dobler, Tobias Burger
 	 */
 	private static void updateCRL() throws IOException, InterruptedException{
-			
-		// check if certindex exists and create it if not
-		if(!CERTINDEX_FILE.exists()){
-			CERTINDEX_FILE.createNewFile();
-		}
-		
+					
 		if(!ROOT_CRL_FILE.exists()){
 			ROOT_CRL_FILE.createNewFile();
 		}
 		
-		
 		String[] command = {
 				"openssl",
 				"ca",
-				"-conf", ROOT_CONF_FILE.getAbsolutePath(),
+				"-config", ROOT_CONF_FILE.getAbsolutePath(),
 				"-keyfile", ROOT_KEY_FILE.getAbsolutePath(),
 				"-cert", ROOT_CERT_FILE.getAbsolutePath(),
 				"-gencrl",
