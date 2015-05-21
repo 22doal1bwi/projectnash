@@ -153,7 +153,7 @@
 				}
 			%>
 			<%
-				if (uc.hasRequest() && uc.allowedToDownloadCertificate()) {
+				if (uc.hasRequest()) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
