@@ -90,10 +90,6 @@ public class UserController implements IUserController {
 	}
 
 	@Override
-	public boolean allowedToDownloadCertificate() {
-		return UserLogic.isAllowedToDownload(user);
-	}
-	@Override
 	public boolean hasValidCertificate() {
 		return UserLogic.hasValidCertificate(user);
 	}

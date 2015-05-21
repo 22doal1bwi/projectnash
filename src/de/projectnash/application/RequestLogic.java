@@ -62,6 +62,10 @@ public class RequestLogic {
 	public static Request loadRequest(User user) {
 		return RequestPersistenceService.loadRequest(user);
 	}
+	
+	public static void updateRequest(Request request){
+		RequestPersistenceService.updateRequest(request);
+	}
 
 	/**
 	 * Loads all {@link Request}s via {@link RequestPersistenceService} from the database.

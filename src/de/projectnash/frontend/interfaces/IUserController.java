@@ -77,11 +77,6 @@ public interface IUserController {
 	boolean hasDeniedRequest();
 	
 	/**
-	 * @return true if the {@link User} is allowed to download a {@link Certificate}.
-	 */
-	boolean allowedToDownloadCertificate();
-	
-	/**
 	 * @return true if the {@link User} is an administrator.
 	 */
 	boolean isAdmin();

@@ -62,38 +62,16 @@ public class UserLogic {
 			if(hasCertificate(user)){
 				//	CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
 				user.setCertificate(null);
+				UserLogic.updateUser(user);
 			}		
 			CertificateLogic.createCertificate(user, password);
 			RequestLogic.removeRequest(user);
-			checkAndUpdateAllowanceToDownload(user);
-			UserPersistenceService.updateUser(user);
 			LogLogic.createLog("Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen", user.getEmailAddress());
 			return true;	
 		} catch (Exception e) {
 			LogLogic.createLog("Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen", user.getEmailAddress());
 			e.printStackTrace();
 			return false;
-		}		
-	}
-	
-	public static void checkAndUpdateAllowanceToDownload(User user){
-		if (hasRequest(user) && RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted")) {
-			if (!user.isAllowedToDownload()){
-				user.setAllowedToDownload(true);
-				UserPersistenceService.updateUser(user);
-				return;
-			}
-		}
-		if (CertificateLogic.certificateIsValid(user.getCertificate())) {
-			if (!user.isAllowedToDownload()) {				
-				user.setAllowedToDownload(true);
-				UserPersistenceService.updateUser(user);
-			}
-		} else {
-			if (user.isAllowedToDownload()) {
-				user.setAllowedToDownload(false);
-				UserPersistenceService.updateUser(user);
-			}
 		}		
 	}
 	
@@ -231,11 +209,6 @@ public class UserLogic {
 
 	public static int getPersonalId(User user) {
 		return user.getPersonalId();
-	}
-
-	public static boolean isAllowedToDownload(User user){
-		checkAndUpdateAllowanceToDownload(user);
-		return user.isAllowedToDownload();
 	}
 	
 	public static boolean isAdmin(User user) {

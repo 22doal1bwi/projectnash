@@ -74,7 +74,7 @@ public class Certificate implements Serializable {
 	@Enumerated(EnumType.STRING)
     private CertificateStatus certificateStatus;
 	
-	@Column(name = "crt_revoke_reason", nullable = false)
+	@Column(name = "crt_revoke_reason", nullable = true)
 	private String revokeReason;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -107,7 +107,6 @@ public class Certificate implements Serializable {
 		this.initializationDate = initializationDate;
 		this.expirationDate = expirationDate;
 		this.certificateStatus = certificateStatus;
-		this.revokeReason = "";
 	}
 
 	@Override

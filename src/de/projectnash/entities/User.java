@@ -55,9 +55,6 @@ public class User implements Serializable {
 	@Column(name="usr_password", nullable = false)
 	private String password;
 	
-	@Column(name="usr_download_allow", columnDefinition="BOOLEAN default 0", nullable = false)
-	private boolean isAllowedToDownload;
-	
 	@Column(name="usr_is_admin", columnDefinition="BOOLEAN default 0", nullable = false)
 	private boolean isAdmin;
 	
@@ -89,7 +86,6 @@ public class User implements Serializable {
 		this.emailAddress = emailAddress.toLowerCase();
 		this.department = department;
 		this.password = password;
-		this.isAllowedToDownload = false;
 		this.isAdmin = false;
 	}
 	
@@ -167,14 +163,6 @@ public class User implements Serializable {
 		this.certificate = certificateId;
 	}
 	
-	public boolean isAllowedToDownload() {
-		return isAllowedToDownload;
-	}
-
-	public void setAllowedToDownload(boolean isAllowedToDownload) {
-		this.isAllowedToDownload = isAllowedToDownload;
-	}
-
 	public boolean isAdmin() {
 		return isAdmin;
 	}

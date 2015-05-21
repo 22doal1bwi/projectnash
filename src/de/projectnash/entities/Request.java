@@ -36,6 +36,9 @@ import de.projectnash.application.util.RequestStatus;
 public class Request {
 
 	@Id
+	@Column(name="req_id", nullable = false)
+	private int requestId;
+	
 	@JoinColumn
 	@OneToOne(cascade = CascadeType.MERGE)
 	private User user;
@@ -60,6 +63,7 @@ public class Request {
 	 * @param creationDate
 	 */
 	public Request(User user, Date creationDate) {
+		this.requestId = user.getPersonalId();
 		this.user = user;
 		this.creationDate = creationDate;
 		this.requestStatus = RequestStatus.WAITING;

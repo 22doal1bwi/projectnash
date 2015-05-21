@@ -106,7 +106,6 @@ public class CertificateLogic {
 			CertificatePersistenceService.updateCertificate(certificate);
 			
 			user.setCertificate(null);
-			UserLogic.checkAndUpdateAllowanceToDownload(user);
 			UserLogic.updateUser(user);
 			LogLogic.createLog("Das Zertifikat wurde widerrufen", user.getEmailAddress());
 			return true;
