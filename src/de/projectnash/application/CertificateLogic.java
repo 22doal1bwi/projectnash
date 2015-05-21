@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import de.projectnash.application.util.CertificateStatus;
 import de.projectnash.application.util.CertificateUtility;
+import de.projectnash.databackend.CertificatePersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Organization;
 import de.projectnash.entities.User;
@@ -78,7 +80,8 @@ public class CertificateLogic {
 							.parse(datesData.split("notBefore=")[1]
 									.split("notAfter=")[0]), formatter
 							.parse(datesData.split("notBefore=")[1]
-									.split("notAfter=")[1])));
+									.split("notAfter=")[1]),
+							CertificateStatus.ACTIVE));
 
 			/** save certificate to database. */
 			UserLogic.updateUser(user);
@@ -94,9 +97,14 @@ public class CertificateLogic {
 	}
 
 	// TODO: implement revokeCertificate method
-	public static boolean revokeCertificate(User user) {
+	public static boolean revokeCertificate(User user, String revokeReason) {
 		try {
-			//  CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
+			Certificate certificate = user.getCertificate();
+			//  CertificateUtility.revokeCRT(certificate.getCertificateFile(), CertificateUtility.extractPrivateKey(certificate.getCertificateFile()));
+			certificate.setCertificateStatus(CertificateStatus.REVOKED);
+			certificate.setRevokeReason(revokeReason);
+			CertificatePersistenceService.updateCertificate(certificate);
+			
 			user.setCertificate(null);
 			UserLogic.checkAndUpdateAllowanceToDownload(user);
 			UserLogic.updateUser(user);
@@ -148,7 +156,7 @@ public class CertificateLogic {
 			return getTimeLeftForCertificate(certificate, TimeUnit.DAYS)
 					+ " Tage";
 		}
-		throw new FileNotFoundException();
+		throw new FileNotFoundException("Noch kein Zertifikat vorhanden");
 	};
 
 	/**
@@ -168,7 +176,7 @@ public class CertificateLogic {
 					- new Date().getTime();
 			return (int) timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		}
-		throw new FileNotFoundException();
+		throw new FileNotFoundException("Noch kein Zertifikat vorhanden");
 	}
 
 	/* G E T T E R */

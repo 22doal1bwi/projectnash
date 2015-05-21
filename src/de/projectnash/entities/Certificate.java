@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import de.projectnash.application.util.CertificateStatus;
 
 /**
  * This class provides a realistic {@link Certificate} with all its attributes.
@@ -67,8 +71,11 @@ public class Certificate implements Serializable {
 	@Column(name = "crt_expiration_date", nullable = false)
 	private Date expirationDate;
 	
-	@Column(name = "crt_revoked_yn", nullable = false)
-	private boolean revoked;
+	@Enumerated(EnumType.STRING)
+    private CertificateStatus certificateStatus;
+	
+	@Column(name = "crt_revoke_reason", nullable = false)
+	private String revokeReason;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "crt_created_on", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable= true, updatable= false)
@@ -87,7 +94,7 @@ public class Certificate implements Serializable {
 			String countryName, String state, String localityName,
 			String organizationName, String organizationalUnit,
 			String commonName, String emailAddress, Date initializationDate,
-			Date expirationDate) {
+			Date expirationDate, CertificateStatus certificateStatus) {
 		super();
 		this.certificateFile = certificateFile;
 		this.countryName = countryName;
@@ -99,6 +106,7 @@ public class Certificate implements Serializable {
 		this.emailAddress = emailAddress;
 		this.initializationDate = initializationDate;
 		this.expirationDate = expirationDate;
+		this.certificateStatus = certificateStatus;
 	}
 
 	@Override
@@ -207,6 +215,22 @@ public class Certificate implements Serializable {
 
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
+	}
+
+	public CertificateStatus getCertificateStatus() {
+		return certificateStatus;
+	}
+
+	public void setCertificateStatus(CertificateStatus certificateStatus) {
+		this.certificateStatus = certificateStatus;
+	}
+
+	public String getRevokeReason() {
+		return revokeReason;
+	}
+
+	public void setRevokeReason(String revokeReason) {
+		this.revokeReason = revokeReason;
 	}
 
 }

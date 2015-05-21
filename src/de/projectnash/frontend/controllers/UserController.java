@@ -108,7 +108,6 @@ public class UserController implements IUserController {
 		try {
 			return CertificateLogic.getAppropriateTimeLeftForCertificate(user.getCertificate());
 		} catch (Exception e) {
-			e.printStackTrace();
 			return "[unbekannte Zeit]";
 		}		
 	}
@@ -118,7 +117,6 @@ public class UserController implements IUserController {
 		try {
 			return CertificateLogic.getTimeLeftForCertificate(user.getCertificate(), timeUnit);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return 0;
 		}		
 	}

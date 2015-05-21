@@ -24,6 +24,10 @@ import de.projectnash.frontend.controllers.SessionController;
 public class RevokeCertificateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
+	public RevokeCertificateServlet() {}
+	
+	private static final String REASON = "Test";
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -33,11 +37,13 @@ public class RevokeCertificateServlet extends HttpServlet {
 		String sessionIdStatus = SessionController.checkForSessionId(request,
 				response);
 		
+		String reason = request.getParameter(REASON);
+		
 		User user = UserLogic.loadUserBySession(sessionIdStatus);
 		
 		switch (sessionIdStatus) {
 		default:
-			boolean revokedCertificate = CertificateLogic.revokeCertificate(user);
+			boolean revokedCertificate = CertificateLogic.revokeCertificate(user, reason);
 			
 				if (revokedCertificate) {
 					map.put("revokedCertificate", true);
