@@ -21,8 +21,12 @@ import de.projectnash.application.util.OpenSSLException;
  */
 public class CertificateUtility {
 	
-	private static final String ROOT_CERT_FILENAME = "pki/root_cert.pem";
-	private static final String ROOT_KEY_FILENAME = "pki/root_key.pem";
+	// File constants
+	private static final File ROOT_CONF_FILE = new File("pki/root_conf.cnf");
+	private static final File ROOT_CERT_FILE = new File("pki/root_cert.pem");
+	private static final File ROOT_KEY_FILE = new File("pki/root_key.pem");
+	private static final File ROOT_CRL_FILE = new File("pki/root_crl.pem");
+	private static final File CERTINDEX_FILE = new File("pki/certindex");
 	static int enterKey = KeyEvent.VK_ENTER;
 
 	/**
@@ -227,8 +231,6 @@ public class CertificateUtility {
 	public static byte[] generateCRT(byte[] csrData) throws IOException, OpenSSLException {
 
 		/** get simpleCert root files */
-		File rootKeyFile = new File(ROOT_KEY_FILENAME);
-		File rootCertFile = new File(ROOT_CERT_FILENAME);
 
 		File tmpCsrFile = writeBytesToTempFile(csrData, FilePattern.CSR);
 		// openssl x509 -req -in userRequest.csr -CA rootCert.pem -CAkey
@@ -238,8 +240,8 @@ public class CertificateUtility {
 				"x509",
 				"-req",
 				"-in", tmpCsrFile.getAbsolutePath(),
-				"-CA", rootCertFile.getAbsolutePath(),
-				"-CAkey", rootKeyFile.getAbsolutePath(),
+				"-CA", ROOT_CERT_FILE.getAbsolutePath(),
+				"-CAkey", ROOT_KEY_FILE.getAbsolutePath(),
 				"-CAcreateserial",
 				"-CAserial", "pki/crlnumber",
 				"-days", Constants.DAYS_VALID,
@@ -276,8 +278,6 @@ public class CertificateUtility {
 	 */
 	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey, String password) throws IOException, InterruptedException, OpenSSLException{
 		
-		File rootCertFile = new File(ROOT_CERT_FILENAME);
-		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
 		
@@ -287,7 +287,7 @@ public class CertificateUtility {
 				"-export",
 				"-inkey", tmpKeyFile.getAbsolutePath(),
 				"-in", tmpCrtFile.getAbsolutePath(),
-				"-certfile", rootCertFile.getAbsolutePath(),
+				"-certfile", ROOT_CERT_FILE.getAbsolutePath(),
 				"-password", "pass:"+password
 				};
 		
@@ -357,23 +357,21 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * @author Tobias Burger
 	 */
-	public static byte[] revokeCRT(byte[] crtData, byte[] privateKey) throws IOException, InterruptedException, OpenSSLException{
-		
-		File rootCertFile = new File(ROOT_CERT_FILENAME);
+	public static byte[] revokeCRT(byte[] crtData) throws IOException, InterruptedException, OpenSSLException{
 		
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
-		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
 		
 		String[] command = {
 				"openssl",
 				"ca",
-				"-keyfile", tmpKeyFile.getAbsolutePath(),
-				"-cert", rootCertFile.getAbsolutePath(),
+				"-keyfile", ROOT_KEY_FILE.getAbsolutePath(),
+				"-cert", ROOT_CERT_FILE.getAbsolutePath(),
 				"-revoke", tmpCrtFile.getAbsolutePath()
 				};
 		
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
+		proc.waitFor();
 		
 		/** get output of revoke crt command as input stream */
 		InputStream in = proc.getInputStream();
@@ -389,27 +387,43 @@ public class CertificateUtility {
 		/** destroy openssl instance */
 		proc.destroy();
 		
+		updateCRL();
+		
 		return out.toByteArray();
 	}
 	
-	private static void createCRL(){
+	/**
+	 * Create/Update CRL file
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	private static void updateCRL() throws IOException, InterruptedException{
+			
+		// check if certindex exists and create it if not
+		if(!CERTINDEX_FILE.exists()){
+			CERTINDEX_FILE.createNewFile();
+		}
 		
-		//file you want to create
-		File crlFile = new File("root_crl.pem");
+		if(!ROOT_CRL_FILE.exists()){
+			ROOT_CRL_FILE.createNewFile();
+		}
 		
-		File rootCertFile = new File(ROOT_CERT_FILENAME);
-		File rootKeyFile = new File(ROOT_KEY_FILENAME);
-		File rootConfFile = new File("root_conf.cnf");
 		
 		String[] command = {
 				"openssl",
 				"ca",
-				"-conf", rootConfFile.getAbsolutePath(),
-				"-keyfile", rootKeyFile.getAbsolutePath(),
-				"-cert", rootCertFile.getAbsolutePath(),
+				"-conf", ROOT_CONF_FILE.getAbsolutePath(),
+				"-keyfile", ROOT_KEY_FILE.getAbsolutePath(),
+				"-cert", ROOT_CERT_FILE.getAbsolutePath(),
 				"-gencrl",
-				"-out", crlFile.getAbsolutePath()				
+				"-out", ROOT_CRL_FILE.getAbsolutePath()				
 				};
+		
+		/** execute command */
+		Process proc = Runtime.getRuntime().exec(command);
+		proc.waitFor();
+		
 	}
 	
 	/**
