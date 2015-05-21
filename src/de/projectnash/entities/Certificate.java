@@ -40,7 +40,10 @@ public class Certificate implements Serializable {
 	private int certificateId;
 	
 	@Column(name = "crt_file", nullable = false)
-	private byte[] certificateFile;
+	private byte[] certificateFileP12;
+	
+	@Column(name = "crt_file_crt", nullable = false)
+	private byte[] certificateFileCRT;
 	
 	@Column(name = "crt_country", nullable = false)
 	private String countryName;
@@ -90,13 +93,14 @@ public class Certificate implements Serializable {
 	 */
 	protected Certificate(){}
 	
-	public Certificate(byte[] certificateFile,
+	public Certificate(byte[] certificateFileP12, byte[] certificateFileCRT,
 			String countryName, String state, String localityName,
 			String organizationName, String organizationalUnit,
 			String commonName, String emailAddress, Date initializationDate,
 			Date expirationDate, CertificateStatus certificateStatus) {
 		super();
-		this.certificateFile = certificateFile;
+		this.certificateFileCRT = certificateFileCRT;
+		this.certificateFileP12 = certificateFileP12;
 		this.countryName = countryName;
 		this.state = state;
 		this.localityName = localityName;
@@ -112,7 +116,7 @@ public class Certificate implements Serializable {
 	@Override
 	public String toString() {
 		return "Certificate [certificateId=" + certificateId + ", certificateFile="
-				+ certificateFile + ", countryName=" + countryName
+				+ certificateFileP12 + ", countryName=" + countryName
 				+ ", state=" + state + ", localityName=" + localityName
 				+ ", organizationName=" + organizationName
 				+ ", organizationalUnit=" + organizationalUnit
@@ -130,11 +134,11 @@ public class Certificate implements Serializable {
 	}
 
 	public byte[] getCertificateFile() {
-		return certificateFile;
+		return certificateFileP12;
 	}
 
 	public void setCertificateFile(byte[] certificateFile) {
-		this.certificateFile = certificateFile;
+		this.certificateFileP12 = certificateFile;
 	}
 
 	public String getCountryName() {
@@ -193,12 +197,20 @@ public class Certificate implements Serializable {
 		this.emailAddress = emailAddress;
 	}
 
-	public byte[] getCertificate() {
-		return certificateFile;
+	public byte[] getCertificateCRT() {
+		return certificateFileCRT;
 	}
 
-	public void setCertificate(byte[] certificate) {
-		this.certificateFile = certificate;
+	public void setCertificateCRT(byte[] certificate) {
+		this.certificateFileCRT = certificate;
+	}
+	
+	public byte[] getCertificateP12() {
+		return certificateFileP12;
+	}
+
+	public void setCertificateP12(byte[] certificate) {
+		this.certificateFileP12 = certificate;
 	}
 
 	public Date getInitializationDate() {

@@ -387,6 +387,7 @@ public class CertificateUtility {
 		/** destroy openssl instance */
 		proc.destroy();
 		
+		/** update the signed crl list */
 		updateCRL();
 		
 		return out.toByteArray();

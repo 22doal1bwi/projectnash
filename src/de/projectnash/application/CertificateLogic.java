@@ -69,7 +69,10 @@ public class CertificateLogic {
 			DateFormat formatter = new SimpleDateFormat(
 					"MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);
 
-			user.setCertificate(new Certificate(p12Data,
+			user.setCertificate(
+					new Certificate(
+					p12Data,
+					crtData,
 					subjectData.split("/")[1].split("=")[1], subjectData
 							.split("/")[2].split("=")[1], subjectData
 							.split("/")[3].split("=")[1], subjectData
