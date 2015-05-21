@@ -37,20 +37,10 @@ public class AdminRequestServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	//	String sessionIdStatus = SessionController.checkForSessionId(request,
-	//			response);
-		
-    //  User user = SessionLogic.loadSession(sessionIdStatus).getUser();
-		
-		JsonArray requestObjects = new JsonArray();
-		
-		
-		List<Request> requestList = RequestLogic.loadAllRequests();		
-		
-		JsonObject JsonResponse = new JsonObject();
-		
-		
+
+		JsonArray requestObjects = new JsonArray();		
+		List<Request> requestList = RequestLogic.loadAllRequests();				
+		JsonObject JsonResponse = new JsonObject();		
 		
 		requestList.forEach(requestObject -> {
 			RequestObjectTable rot = new RequestObjectTable(
@@ -69,14 +59,5 @@ public class AdminRequestServlet extends HttpServlet {
 		JsonResponse.addProperty("iTotalRecords", requestList.size());
 		JsonResponse.addProperty("iTotalDisplayRecords", requestList.size());
 		response.getWriter().print(JsonResponse.toString());
-		
-		//write(response, requestObjects);
 	}
-
-//	private void write(HttpServletResponse resp, List<RequestObjectTable> rot)
-//			throws IOException {
-//		resp.setContentType("application/Json");
-//		resp.setCharacterEncoding("UTF-8");
-//		resp.getWriter().write(new Gson().toJson(rot));
-//	}
 }
