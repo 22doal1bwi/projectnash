@@ -1,6 +1,5 @@
 package de.projectnash.frontend.controllers;
 
-import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.CertificateLogic;
@@ -65,17 +64,29 @@ public class UserController implements IUserController {
 
 	@Override
 	public boolean hasWaitingRequest() {
-		return RequestLogic.getRequestStatus(user).equalsIgnoreCase("waiting");
+		try {
+			return RequestLogic.getRequestStatus(user).equalsIgnoreCase("waiting");
+		} catch (Exception e) {
+			return false;
+		}		
 	}
 
 	@Override
 	public boolean hasAcceptedRequest() {
-		return RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted");
+		try {
+			return RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted");
+		} catch (Exception e) {
+			return false;
+		}		
 	}
 
 	@Override
 	public boolean hasDeniedRequest() {
-		return RequestLogic.getRequestStatus(user).equalsIgnoreCase("denied");
+		try {
+			return RequestLogic.getRequestStatus(user).equalsIgnoreCase("denied");
+		} catch (Exception e) {
+			return false;
+		}		
 	}
 
 	@Override
@@ -93,19 +104,28 @@ public class UserController implements IUserController {
 	}
 
 	@Override
-	public String getRemainingTimeOfCertificate() throws FileNotFoundException {
-		return CertificateLogic.getAppropriateTimeLeftForCertificate(user.getCertificate());
+	public String getRemainingTimeOfCertificate(){
+		try {
+			return CertificateLogic.getAppropriateTimeLeftForCertificate(user.getCertificate());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "[unbekannte Zeit]";
+		}		
 	}
 
 	@Override
-	public int getRemainingTimeOfCertificate(TimeUnit timeUnit)
-			throws FileNotFoundException {
-		return CertificateLogic.getTimeLeftForCertificate(user.getCertificate(), timeUnit);
+	public int getRemainingTimeOfCertificate(TimeUnit timeUnit){
+		try {
+			return CertificateLogic.getTimeLeftForCertificate(user.getCertificate(), timeUnit);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}		
 	}
 
 	@Override
 	public boolean isAdmin() {
 		return UserLogic.isAdmin(user);
 	}
-
+	
 }

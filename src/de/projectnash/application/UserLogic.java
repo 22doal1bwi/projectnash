@@ -77,7 +77,7 @@ public class UserLogic {
 	}
 	
 	public static void checkAndUpdateAllowanceToDownload(User user){
-		if (RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted")) {
+		if (hasRequest(user) && RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted")) {
 			if (!user.isAllowedToDownload()){
 				user.setAllowedToDownload(true);
 				UserPersistenceService.updateUser(user);
@@ -105,18 +105,6 @@ public class UserLogic {
 	 */
 	public static boolean hasRequest(User user) {
 		return RequestLogic.requestExists(user);
-	}
-	
-	public String getRequestStatus(User user) {
-		return RequestLogic.getRequestStatus(user);
-	}
-	
-	public static boolean denyRequest(User user) {
-		return RequestLogic.denyRequest(RequestLogic.loadRequest(user));
-	}
-	
-	public static boolean confirmRequest(User user) {
-		return RequestLogic.confirmRequest(RequestLogic.loadRequest(user));
 	}
 	
 	/**

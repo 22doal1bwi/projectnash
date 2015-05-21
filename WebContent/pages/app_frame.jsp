@@ -1,5 +1,6 @@
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.frontend.controllers.SessionController"%>
+<%@page import="java.util.concurrent.TimeUnit"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -59,17 +60,46 @@
 				break;
 			default :
 				UserController uc = new UserController(sessionId);
+
+				//certificate status
 				boolean hasCertificate = false;
 				boolean hasValidCertificate = false;
-				boolean hasRequest = false;
-				boolean allowedToDownloadCert = false;
 				String remainingTimeOfCert = null;
 				int remainingDays = 0;
 
-				hasRequest = uc.hasRequest();
-				allowedToDownloadCert = uc.allowedToDownloadCertificate();
+				//request status
+				boolean hasRequest = false;
+				boolean hasWaitingRequest = false;
+				boolean hasAcceptedRequest = false;
+				boolean hasDeniedRequest = false;
+
+				//user status
+				boolean isAdmin = false;
+				boolean allowedToDownloadCert = false;
+
+				//setting status
 				hasCertificate = uc.hasCertificate();
 				hasValidCertificate = uc.hasValidCertificate();
+				remainingTimeOfCert = uc.getRemainingTimeOfCertificate();
+				remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+				hasRequest = uc.hasRequest();
+				hasWaitingRequest = uc.hasWaitingRequest();
+				hasAcceptedRequest = uc.hasAcceptedRequest();
+				hasDeniedRequest = uc.hasDeniedRequest();
+				isAdmin = uc.isAdmin();
+				allowedToDownloadCert = uc.allowedToDownloadCertificate();
+				
+				//print status for testing
+				System.out.println("hasCertificate: " + hasCertificate);
+				System.out.println("hasValidCertificate: " + hasValidCertificate);
+				System.out.println("remainingTimeOfCert: " + remainingTimeOfCert);
+				System.out.println("remainingDays: " + remainingDays);
+				System.out.println("hasRequest: " + hasRequest);
+				System.out.println("hasWaitingRequest: " + hasWaitingRequest);
+				System.out.println("hasAcceptedRequest: " + hasAcceptedRequest);
+				System.out.println("hasDeniedRequest: " + hasDeniedRequest);
+				System.out.println("isAdmin: " + isAdmin);
+				System.out.println("allowedToDownloadCert: " + allowedToDownloadCert);
 	%>
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation"

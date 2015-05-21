@@ -77,7 +77,11 @@ public class RequestLogic {
 	}
 	
 	public static String getRequestStatus(User user) {
-		return RequestPersistenceService.loadRequest(user).getRequestStatus().name();
+		try {
+			return RequestPersistenceService.loadRequest(user).getRequestStatus().name();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

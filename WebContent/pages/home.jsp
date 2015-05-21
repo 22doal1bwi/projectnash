@@ -71,26 +71,34 @@
 				break;
 			default :
 				UserController uc = new UserController(sessionId);
+
+				//certificate status
 				boolean hasCertificate = false;
 				boolean hasValidCertificate = false;
-				boolean hasRequest = false;
-				boolean allowedToDownloadCert = false;
 				String remainingTimeOfCert = null;
 				int remainingDays = 0;
 
-				hasRequest = uc.hasRequest();
-				allowedToDownloadCert = uc.allowedToDownloadCertificate();
+				//request status
+				boolean hasRequest = false;
+				boolean hasWaitingRequest = false;
+				boolean hasAcceptedRequest = false;
+				boolean hasDeniedRequest = false;
+
+				//user status
+				boolean isAdmin = false;
+				boolean allowedToDownloadCert = false;
+
+				//setting status
 				hasCertificate = uc.hasCertificate();
 				hasValidCertificate = uc.hasValidCertificate();
-				try {
-					remainingTimeOfCert = uc
-							.getRemainingTimeOfCertificate();
-					remainingDays = uc
-							.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-				} catch (Exception e) {
-					remainingTimeOfCert = "[unbekannte Zeit]";
-					e.printStackTrace();
-				}
+				remainingTimeOfCert = uc.getRemainingTimeOfCertificate();
+				remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+				hasRequest = uc.hasRequest();
+				hasWaitingRequest = uc.hasWaitingRequest();
+				hasAcceptedRequest = uc.hasAcceptedRequest();
+				hasDeniedRequest = uc.hasDeniedRequest();
+				isAdmin = uc.isAdmin();
+				allowedToDownloadCert = uc.allowedToDownloadCertificate();
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_home"
