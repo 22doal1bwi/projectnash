@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
+import de.projectnash.frontend.controllers.RequestController;
 import de.projectnash.frontend.controllers.SessionController;
 
 /**
@@ -31,15 +32,14 @@ public class RequestCertificateServlet extends HttpServlet {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String sessionIdStatus = SessionController.checkForSessionId(request,
 				response);
-		
+
 		User user = UserLogic.loadUserBySession(sessionIdStatus);
 		switch (sessionIdStatus) {
 		default:
 			boolean createdRequest = RequestLogic.createRequest(user);
 			
 			// only for testing
-			user.setAllowedToDownload(true);
-			UserLogic.updateUser(user);
+			RequestLogic.confirmRequest(RequestLogic.loadRequest(user));			
 			//..
 			
 				if (createdRequest) {

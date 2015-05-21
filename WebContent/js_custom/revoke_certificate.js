@@ -16,27 +16,27 @@ $(document).ready(function() {
 //====================================================================================//
 function revokeCertificate() {
 	setLoading()
-	alert("To be implmented")
-//	$.ajax({
-//		url : '../CertificateServlet',
-//		type : 'POST',
-//		dataType : 'json',
-//		timeout : 8000,
-//		success : function(data) {
-//			if (data.validSession && data.revokedCertificate) {
-//				revokeSuccessful()
-//			} else if (data.validSession && data.revokedCertificate === false) {
-//				revokeUnsuccessful("ERR_CERT_REVOKE", "messagebar_revoke")
-//			} else {
-//				window.setTimeout(function() {
-//					location.href = '../home.jsp';
-//				}, 1000);
-//			}
-//		},
-//		ERROR : FUNCTION() {
-//			REVOKEUNSUCCESSFUL("ERR_CONNECTION", "MESSAGEBAR_REVOKE")
-//		}
-//	})
+	$.ajax({
+		url : '../RevokeCertificateServlet',
+		type : 'POST',
+		dataType : 'json',
+		data : $("#textfield_revoke").serialize(), 
+		timeout : 8000,
+		success : function(data) {
+			if (data.validSession && data.revokedCertificate) {
+				revokeSuccessful()
+			} else if (data.validSession && data.revokedCertificate === false) {
+				revokeUnsuccessful("ERR_CERT_REVOKE", "messagebar_revoke")
+			} else {
+				window.setTimeout(function() {
+					location.href = '../home.jsp';
+				}, 1000);
+			}
+		},
+		error : function() {
+			revokeUnsuccessful("ERR_CONNECTION", "messagebar_revoke")
+		}
+	})
 }
 
 // ====================================================================================//
