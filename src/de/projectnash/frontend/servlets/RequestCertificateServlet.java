@@ -39,7 +39,7 @@ public class RequestCertificateServlet extends HttpServlet {
 			boolean createdRequest = RequestLogic.createRequest(user);
 			
 			// only for testing
-			RequestLogic.confirmRequest(RequestLogic.loadRequest(user));			
+//			RequestLogic.confirmRequest(RequestLogic.loadRequest(user));			
 			//..
 			
 				if (createdRequest) {
