@@ -39,53 +39,58 @@ public class AdminUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		int id = Integer.parseInt(request.getParameter("personalId"));
-		int columnPosition = Integer.parseInt(request
-				.getParameter("columnPosition"));
+		int columnPosition = Integer.parseInt(request.getParameter("columnPosition"));
 		String value = request.getParameter("value");
-
-		List<Request> requestList = RequestLogic.loadAllRequests();
-
-		for (Request Request : requestList) {
+		
+		
+		List<Request> requestList = RequestLogic.loadAllRequests();		
+		
+		
+		for(Request Request : requestList){
 			Request requestObject = Request;
-			if (requestObject.getUser().getPersonalId() == id) {
-
-				switch (columnPosition) {
-				case 0:
-					requestObject.getUser().setFirstName(value);
-					break;
-
-				case 1:
-					requestObject.getUser().setLastName(value);
-					break;
-
-				case 2:
-					requestObject.getUser().setDepartment(value);
-					break;
-
-				case 3:
-					requestObject.getUser().setEmailAddress(value);
-					break;
-
-				case 4:
-					if (value == "WAITING") {
-						requestObject.setRequestStatus(RequestStatus.WAITING);
-						break;
-					} else if (value == "DENIED") {
-						requestObject.setRequestStatus(RequestStatus.DENIED);
-						break;
-					} else if (value == "ACCEPTED") {
-						requestObject.setRequestStatus(RequestStatus.ACCEPTED);
-						break;
-					} else
-						break;
-				}
-
-			}
-			response.getWriter().print(value);
-		}
-	}
-}
+			if (requestObject.getUser().getPersonalId() == id){
+			
+			switch(columnPosition)
+			{			case 0:
+							requestObject.getUser().setFirstName(value);
+							break;
+						
+						case 1:
+							requestObject.getUser().setLastName(value);
+							break;
+							
+						case 2:
+							requestObject.getUser().setDepartment(value);
+							break;
+						
+						case 3:
+							break;
+							
+						case 4:
+							requestObject.getUser().setEmailAddress(value);
+							break;
+							
+						case 5:
+							break;
+							
+						case 6:
+							if(value == "WAITING"){
+							requestObject.setRequestStatus(RequestStatus.WAITING);
+							break;}
+							else if(value == "DENIED"){
+								requestObject.setRequestStatus(RequestStatus.DENIED);
+								break;}
+							else if(value == "ACCEPTED"){
+								requestObject.setRequestStatus(RequestStatus.ACCEPTED);
+								break;}
+							else
+							break;}
+					
+		} response.getWriter().print(value);
+			}}}
+			
+			
+		
