@@ -249,7 +249,7 @@
 	</div>
 	<%
 		} else {
-				response.sendRedirect("app_frame.jsp");
+				response.sendRedirect("home.jsp");
 			}
 		}
 	%>

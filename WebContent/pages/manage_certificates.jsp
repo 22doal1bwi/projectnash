@@ -85,7 +85,7 @@
 
 				case "-1" :
 				case "0" :
-					response.sendRedirect("../login.jsp");
+					response.sendRedirect("login.jsp");
 					break;
 				default :
 					UserController uc = new UserController(sessionId);
@@ -193,7 +193,7 @@
 		</div>
 		<%
 			} else {
-					response.sendRedirect("app_frame.jsp");
+					response.sendRedirect("home.jsp"); // TODO
 				}
 			}
 		%>
