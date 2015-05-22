@@ -63,9 +63,16 @@ public class UserLogic {
 				//	CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
 				user.setCertificate(null);
 				UserLogic.updateUser(user);
-			}		
-			CertificateLogic.createCertificate(user, password);
-			RequestLogic.removeRequest(user);
+			}
+			
+			boolean createdCertificateSuccessful = CertificateLogic.createCertificate(user, password);
+			boolean removedUserSuccessful = RequestLogic.removeRequest(user);
+			
+			if (!createdCertificateSuccessful || !removedUserSuccessful) {
+				LogLogic.createLog("Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen", user.getEmailAddress());
+				return false;
+			}
+			
 			LogLogic.createLog("Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen", user.getEmailAddress());
 			return true;	
 		} catch (Exception e) {
