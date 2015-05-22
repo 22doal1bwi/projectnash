@@ -73,16 +73,11 @@
 			default :
 				UserController uc = new UserController(sessionId);
 				boolean hasValidCertificate = uc.hasValidCertificate();
-
+				boolean hasAcceptedRequest = uc.hasAcceptedRequest();
 				int remainingDays = 0;
-
-				try {
-					remainingDays = uc
-							.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+				
+				remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+				
 				if (hasValidCertificate) {
 	%>
 	<div id="page-wrapper">
@@ -153,7 +148,7 @@
 				}
 			%>
 			<%
-				if (uc.hasRequest()) {
+				if (hasAcceptedRequest) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">

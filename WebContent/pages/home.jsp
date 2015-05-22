@@ -136,20 +136,14 @@
 		<div class="row">
 
 			<div class="col-lg-4 col-md-6">
-				
+
 				<%
 					if (!hasValidCertificate) {
 				%>
-				
-				<a href="request_certificate.jsp">
-				
-				<%
+
+				<a href="request_certificate.jsp"> <%
  					} else {
- 				%>
- 				
- 				<a href="show_certificate.jsp">
- 				
- 				<%
+ 				%> <a href="show_certificate.jsp"> <%
  					}
  				%>
 						<div class="panel panel-green functiontile">
@@ -193,9 +187,17 @@
 									<i class="fa fa-history fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-
-									<div class="text-top te" style="font-size: 24px">Zertifikat
-										verlängern</div>
+			<%
+					if (hasAcceptedRequest) {
+			%>
+									<div class="text-top te" style="font-size: 24px">Verlängerung aktivieren</div>
+			<%
+					} else {				
+			%>
+									<div class="text-top te" style="font-size: 24px">Zertifikat	verlängern</div>			
+			<%
+					}
+			%>
 									<div class="text-top te" style="font-size: 16px"><%=remainingTimeOfCert%>
 										verbleibend
 									</div>

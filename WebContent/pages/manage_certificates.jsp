@@ -89,9 +89,9 @@
 					break;
 				default :
 					UserController uc = new UserController(sessionId);
-					boolean hasValidCertificate = uc.hasValidCertificate();
+					boolean isAdmin = uc.isAdmin();
 
-					if (hasValidCertificate) {
+					if (isAdmin) {
 
 						CertificateController cc = new CertificateController(
 								sessionId);

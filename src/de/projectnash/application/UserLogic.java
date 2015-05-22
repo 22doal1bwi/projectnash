@@ -60,7 +60,9 @@ public class UserLogic {
 	public static boolean activateCertificateForRequest(User user, String password) {
 		try {
 			if(hasCertificate(user)){
-				//	CertificateUtility.revokeCRT(user.getCertificate().getCertificateFile(), CertificateUtility.extractPrivateKey(user.getCertificate().getCertificateFile()));
+				if (UserLogic.hasValidCertificate(user)) {
+					CertificateLogic.revokeCertificate(user, "Verlängerung - Zertifikat wurde durch neues ersetzt");
+				}
 				user.setCertificate(null);
 				UserLogic.updateUser(user);
 			}

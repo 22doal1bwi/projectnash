@@ -104,7 +104,6 @@ public class CertificateLogic {
 		try {
 			Certificate certificate = user.getCertificate();
 			CertificateUtility.revokeCRT(certificate.getCertificateCRT());
-			//  CertificateUtility.revokeCRT(certificate.getCertificateFile(), CertificateUtility.extractPrivateKey(certificate.getCertificateFile()));
 			certificate.setCertificateStatus(CertificateStatus.REVOKED);
 			certificate.setRevokeReason(revokeReason);
 			CertificatePersistenceService.updateCertificate(certificate);
