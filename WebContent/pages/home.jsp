@@ -1,3 +1,4 @@
+<%@page import="de.projectnash.application.RequestLogic"%>
 <%@page import="de.projectnash.frontend.controllers.RequestController"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="de.projectnash.application.UserLogic"%>
@@ -71,34 +72,17 @@
 				break;
 			default :
 				UserController uc = new UserController(sessionId);
+				RequestController rc = new RequestController(sessionId);
 
-				//certificate status
-				boolean hasCertificate = false;
-				boolean hasValidCertificate = false;
-				boolean isAdmin = false;
-				String remainingTimeOfCert = null;
-				int remainingDays = 0;
 				final int MIN_TIME_VALID = 90;
-
-				//request status
-				boolean hasAcceptedRequest = false;
-
-				//setting status
-				hasCertificate = uc.hasCertificate();
-				hasValidCertificate = uc.hasValidCertificate();
-				remainingTimeOfCert = uc.getRemainingTimeOfCertificate();
-				remainingDays = uc
-						.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-				hasAcceptedRequest = uc.hasAcceptedRequest();
-				isAdmin = uc.isAdmin();
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_home"
 			class="alert messagebar_intern messagebar_hidden"></div>
 		<!-------------------------------<BEGIN> INITIALIZE MESSAGEBAR---------------------------------->
 		<%
-			if (hasValidCertificate) {
-						if (remainingDays > MIN_TIME_VALID) {
+			if (uc.hasValidCertificate()) {
+						if (uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > MIN_TIME_VALID) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -124,7 +108,7 @@
 		</script>
 		<%
 			} // close of if (hasCertificate && hasValidCertificate)
-					} else if (hasCertificate && !hasValidCertificate) {
+					} else if (uc.hasCertificate() && !uc.hasValidCertificate()) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(
@@ -138,7 +122,7 @@
 					});
 		</script>
 		<%
-			} else if (!hasCertificate) {
+			} else if (!uc.hasCertificate()) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(
@@ -160,7 +144,7 @@
 				<div class="col-lg-3 col-md-6">
 					<!-------------------------------<BEGIN> SET LINK FOR THE FIRST TILE--------------------------------->
 					<%
-						if (!hasValidCertificate) {
+						if (!uc.hasValidCertificate()) {
 					%>
 
 					<a href="request_certificate.jsp"> <%
@@ -179,7 +163,7 @@
 											<div class="huge">
 												<!-------------------------------<BEGIN> SET MAIN TEXT FOR THE 'REQUEST'/'SHOW'-TILE------------------------------->
 												<%
-													if (!hasValidCertificate) {
+													if (!uc.hasValidCertificate()) {
 															out.print("Zertifikat beantragen");
 														} else {
 															out.print("Zertifikat anzeigen");
@@ -189,12 +173,16 @@
 											</div>
 											<!-------------------------------<BEGIN> SET ACTION TEXT FOR THE 'REQUEST'-TILE-------------------------------->
 											<%
-												if (!hasValidCertificate && hasAcceptedRequest) {
+												if (!uc.hasValidCertificate() && uc.hasAcceptedRequest()) {
 											%>
 											<div class="action_info">
 												<i class="fa fa-play action_arrow bounce"></i>Jetzt
 												aktivieren
 											</div>
+											<%
+												} else if (!uc.hasValidCertificate() && uc.hasRequest()) {
+											%>
+											<div class="action_info">Ihr Antrag wird bearbeitet</div>
 											<%
 												}
 											%>
@@ -208,12 +196,12 @@
 				<!-------------------------------<BEGIN> SET ACTION TEXT FOR THE FIRST TILE-------------------------------->
 				<!-----Close the row to place the admin-tiles in a new row if user is admin and has no valid certificate----->
 				<%
-					if (isAdmin && !hasValidCertificate) {
-				%>				
+					if (uc.isAdmin() && !uc.hasValidCertificate()) {
+				%>
 			</div>
 			<%
 				}
-					if (hasValidCertificate) {
+					if (uc.hasValidCertificate()) {
 			%>
 			<div class="col-lg-3 col-md-6">
 				<a href="extend_certificate.jsp">
@@ -227,26 +215,31 @@
 									<div class="huge">Zertifikat verlängern</div>
 									<!-------------------------------<BEGIN> SET ACTION TEXT FOR THE 'EXTEND'-TILE------------------------------->
 									<%
-										if (!hasAcceptedRequest && remainingDays > MIN_TIME_VALID) {
+										if (!uc.hasAcceptedRequest() && uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > MIN_TIME_VALID) {
 									%>
-									<div class="action_info"><%=remainingTimeOfCert%>
+									<div class="action_info"><%=uc.getRemainingTimeOfCertificate()%>
 										verbleibend
 									</div>
 									<%
-										} else if (!hasAcceptedRequest
-														&& remainingDays <= MIN_TIME_VALID) {
+										} else if (!uc.hasAcceptedRequest()
+														&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) <= MIN_TIME_VALID && !uc.hasRequest()) {
 									%>
 									<div class="action_info">
 										<i class="fa fa-play action_arrow bounce"></i>Nur noch
-										<%=remainingTimeOfCert%>
+										<%=uc.getRemainingTimeOfCertificate()%>
 										verbleibend
 									</div>
 									<%
-										} else if (hasAcceptedRequest) {
+										} else if (uc.hasAcceptedRequest()) {
 									%>
 									<div class="action_info">
 										<i class="fa fa-play action_arrow bounce"></i>Jetzt aktivieren
 									</div>
+									<%
+										} else if (!uc.hasAcceptedRequest()
+														&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) <= MIN_TIME_VALID && uc.hasRequest()) {
+									%>
+									<div class="action_info">Ihr Antrag wird bearbeitet</div>
 									<%
 										}
 									%>
@@ -279,7 +272,7 @@
 			} // close of if(hasValidCertificate)
 		%>
 		<%
-			if (isAdmin) {
+			if (uc.isAdmin()) {
 		%>
 		<hr class="horizontal_divider">
 		<div class="row">
@@ -293,7 +286,27 @@
 								</div>
 								<div class="col-xs-9 text-right">
 									<div class="huge">Anträge verwalten</div>
-									<div class="action_info"></div>
+									<%
+										if (rc.getNumberOfWaitingRequests() > 1) {
+									%>
+									<div class="action_info">
+										<i class="fa fa-play action_arrow bounce"></i><%=rc.getNumberOfWaitingRequests()%>
+										Anträge zu bearbeiten
+									</div>
+									<%
+										} else if (rc.getNumberOfWaitingRequests() == 1) {
+									%>
+									<div class="action_info">
+										<i class="fa fa-play action_arrow bounce"></i><%=rc.getNumberOfWaitingRequests()%>
+										Antrag zu bearbeiten
+									</div>
+									<%
+										} else {
+									%>
+									<div class="action_info">Keine neuen Anträge</div>
+									<%
+										}
+									%>
 								</div>
 							</div>
 						</div>

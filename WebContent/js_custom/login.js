@@ -23,8 +23,7 @@ $(document).ready(function() {
 });
 
 // ====================================================================================//
-// ================================== AJAX FUNCTION
-// ===================================//
+// ================================== AJAX FUNCTION ===================================//
 // ====================================================================================//
 // Method which submits the 'emailAddress' and 'password' from the input fields
 function submitLoginForm() {
@@ -58,23 +57,13 @@ function requestNewPassword() {
 		dataType : 'json',
 		data : $('#emailAddressForNewPassword').serialize(),
 		success : function(data) {
-			if (data.resetSuccessful) {
-				$("#resetModal").modal("hide")
-				unsetLoading()
-				window.setTimeout(function() {
-					buildAndShowMessageBar("SCS_PASSWORD_RESET",
-							"messagebar_login")
-				}, 500);
-			} else {
-				$("#resetModal").modal("hide")
-				unsetLoading()
-				window.setTimeout(function() {
-					buildAndShowMessageBar("ERR_PASSWORD_RESET",
-							"messagebar_login")
-				}, 500);
-			}
+			$("#resetModal").modal("hide")
+			unsetLoading()
+			window.setTimeout(function() {
+				buildAndShowMessageBar("SCS_PASSWORD_REQUEST",
+						"messagebar_login")
+			}, 500);
 			hideMessageBar()
-			$("#emailAddressForNewPassword").val("")
 		},
 		error : function() {
 			$("#resetModal").modal("hide")
@@ -83,14 +72,12 @@ function requestNewPassword() {
 				buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
 			}, 500);
 			hideMessageBar()
-			$("#emailAddressForNewPassword").val("")
 		}
 	})
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS
-// ==================================//
+// ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
 // Method which checks all field values before submitting them to the backend
 function checkFormBeforeSubmit() {

@@ -192,8 +192,7 @@ function compareInputField(type) {
 }
 
 //====================================================================================//
-//================================= Certificate Password check
-//=================================//
+//================================= Certificate Password check=================================//
 //====================================================================================//
 
 function validateInput(type) {
@@ -218,40 +217,6 @@ function validateInput(type) {
 			getMessagesFromRegistry()
 			cleanInputField(type)
 		}
-	}
-
-}
-
-//====================================================================================//
-//================================= MESSAGE REGISTRY (modified copy from register.js)
-//=================================//
-//====================================================================================//
-
-messageRegistry = [];
-
-function addMessageToRegistry(messageId) {
-	messageRegistry.push(messageId)
-	buildAndShowMessageBar(messageId, "messagebar_request")
-}
-
-function removeMessageTypeFromRegistry(messageId) {
-	var length = messageRegistry.length, i = 0
-	while (i < length) {
-		if (messageRegistry[i] === messageId) {
-			messageRegistry.splice(i, 1)
-			length--
-		} else {
-			i++
-		}
-	}
-}
-
-function getMessagesFromRegistry() {
-	if (messageRegistry.length > 0) {
-		var messageId = messageRegistry[messageRegistry.length - 1]
-		buildAndShowMessageBar(messageId, "messagebar_request")
-	} else {
-		$("#messagebar_request").addClass("messagebar_hidden")
 	}
 }
 
@@ -282,21 +247,3 @@ function checkFormBeforeSubmit() {
 		addMessageToRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
 	}
 }
-
-//====================================================================================//
-
-//====================================================================================//
-//============================= LITTLE HELPER FUNCTIONS
-//==============================//
-//====================================================================================//
-
-//Method which removes any style classes from an inputfield
-function cleanInputField(type) {
-	if ($("#" + type).hasClass("has-warning")) {
-		$("#" + type).removeClass("has-warning")
-	}
-	if ($("#" + type).hasClass("has-error")) {
-		$("#" + type).removeClass("has-error")
-	}
-}
-//====================================================================================//

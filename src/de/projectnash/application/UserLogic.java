@@ -106,10 +106,10 @@ public class UserLogic {
 		if (user.getPassword().equals(oldPassword)) {
 			user.setPassword(newPassword);
 			UserPersistenceService.updateUser(user);
-			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich geï¿½ndert", user.getEmailAddress());
+			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
 			return true;
 		}	
-		LogLogic.createLog("Das Passwort des Benutzers konnte nicht geï¿½ndert werden", user.getEmailAddress());
+		LogLogic.createLog("Das Passwort des Benutzers konnte nicht geändert werden", user.getEmailAddress());
 		return false;
 	}
 

@@ -22,24 +22,22 @@ $(document).ready(
 // ===================================//
 // ====================================================================================//
 function updatePassword() {
-	$.ajax({
-		url : '../UpdateServlet',
-		type : 'POST',
-		dataType : 'json',
-		data : $('#password_current, #password_new').serialize(),
-		timeout : 8000,
-		success : function(data) {
-			if (data.pwChangeSuccessful) {
-				unsetLoading()
-				window.setTimeout(function() {
-					cleanPage()
-					buildAndShowMessageBar("SCS_PWD_CHANGE",
-							"messagebar_settings")
-					$("#page_content_settings").addClass(
-							"page_content_move_down")
-					hideMessageBarDelayed()
-				}, 1000);
-			} else {
+	 $.ajax({
+	 url : '../UpdateServlet',
+	 type : 'POST',
+	 dataType : 'json',
+	 data : $('#password_current, #password_new').serialize(),
+	 timeout : 8000,
+	 success : function(data) {
+	 if (data.pwChangeSuccessful) {
+	unsetLoading()
+	window.setTimeout(function() {
+		cleanPage()
+		buildAndShowMessageBar("SCS_PWD_CHANGE", "messagebar_settings")
+		$("#page_content_settings").addClass("page_content_move_down")
+		hideMessageBarDelayed()
+	}, 1000);
+	 } else {
 				unsetLoading()
 				buildAndShowMessageBar("ERR_PWD_CHANGE", "messagebar_settings")
 				$("#page_content_settings").addClass("page_content_move_down")
@@ -130,16 +128,15 @@ function confirmPasswordChange() {
 
 function setLoading() {
 	$("#loading_gif_settings").fadeIn()
-	$("#button_confirm_password").addClass("disabled")
-	$("#button_confirm_password").removeAttr("onclick")
-	$("#button_cancel_password").addClass("disabled")
-	$("#button_cancel_password").removeAttr("onclick")
+	$("#button_confirm_password, #button_cancel_password").attr("disabled", "")
+	$("#button_confirm_password, #button_cancel_password")
+			.removeAttr("onclick")
 }
 
 function unsetLoading() {
 	$("#loading_gif_settings").fadeOut()
-	$("#button_confirm_password").removeClass("disabled")
+	$("#button_confirm_password, #button_cancel_password").removeAttr(
+			"disabled")
 	$("#button_confirm_password").attr("onclick", "confirmPasswordChange()")
-	$("#button_cancel_password").removeClass("disabled")
 	$("#button_cancel_password").attr("onclick", "cleanPage('password')")
 }
