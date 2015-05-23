@@ -286,7 +286,9 @@ table.dataTable thead .sorting:after {
 }
 
 .huge {
-	font-size: 40px;
+/* 	font-size: 40px; */
+	font-size: 24px;
+	overflow: hidden;
 }
 
 .panel-green {
@@ -314,7 +316,8 @@ table.dataTable thead .sorting:after {
 
 .panel-red .panel-heading {
 	/*     border-color: #d9534f; */
-	border-color: #C03A2A; color : #fff;
+	border-color: #C03A2A;
+	color: #fff;
 	/*     background-color: #d9534f; */
 	background-color: #C03A2A;
 	color: #fff;

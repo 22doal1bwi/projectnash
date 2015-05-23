@@ -3,6 +3,47 @@ html, body {
 	font-family: Roboto-Regular;
 }
 
+.first_element_upper_margin {
+	margin-top: 0;
+}
+
+.panel_primary_heading {
+	color: #fff;
+	background-color: #607D8B;
+}
+
+.action_info {
+	font-size: 16px;
+}
+
+.action_arrow {	
+	font-size: 16px;
+	margin-right: 7px;
+	position: relative;
+}
+
+.bounce {
+	-webkit-animation: bounce 1.5s infinite;
+	animation: bounce 1.5s infinite;
+	-moz-animation: bounce 1.5s infinite;
+}
+
+@-webkit-keyframes bounce {
+	0% { left:0px; }
+	50% { left:-10px; }
+	100% { left:0; }
+}
+@-moz-keyframes bounce {
+ 0% { left:0px; }
+	50% { left:-10px; }
+	100% { left:0; }
+}
+@keyframes bounce {
+   0% { left:0px; }
+	50% { left:-10px; }
+	100% { left:0; }
+}
+
 .panelicon {
 	background-color: #fff !important;
 	border-color: #333;
@@ -40,10 +81,6 @@ html, body {
 	color: #3c763d !important;
 	background-color: #dff0d8 !important;
 	border-color: #d6e9c6 !important;
-}
-
-.functiontile {
-	margin-top: 30px;
 }
 
 .page_content {
@@ -155,6 +192,34 @@ html, body {
 .horizontal_divider {
 	margin-top: 7px;
 }
+
 .passwort_field_request_extend {
 	width: 50%;
+}
+
+.admin_flag {
+	color: #fff;
+	text-align: center;
+	line-height: 14px;
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+	font-size: 9px;
+	background-color: #607D8B;
+	width: 40px;
+	height: 14px;
+	position: relative;
+}
+
+.admin_flag_nav {
+	left: 180px;
+	top: -41px;
+	margin-bottom: -14px;
+}
+
+.admin_flag_name {
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+	top: -7px;
+	margin-left: 20px;
+	cursor: context-menu;
 }

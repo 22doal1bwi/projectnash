@@ -12,6 +12,7 @@
 	content="width=device-width, height=device-height, initial-scale=1">
 
 <script type="text/javascript" src="../js_custom/frame.js"></script>
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
@@ -83,6 +84,12 @@
 		</div>
 		<ul class="nav navbar-top-links navbar-right">
 
+			<%
+				if (isAdmin) {
+			%><li><div class="admin_flag admin_flag_name">ADMIN</div></li>
+			<%
+				}
+			%>
 			<li><div class="name"><%=uc.getFullName()%></div></li>
 			<li><a href="settings.jsp" target="app_content"><i
 					class="fa fa-gear fa-2x"></i></a></li>
@@ -108,21 +115,13 @@
 					<li><a href="home.jsp" target="app_content"><i
 							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<%
-						if (!hasValidCertificate) {
-								if (hasAcceptedRequest) {
-					%>
-					<li><a href="request_certificate.jsp" target="app_content"><i
-							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
-							aktivieren</a></li>
-					<%
-						} else {
-					%>
+						if (!hasValidCertificate) {							
+					%>							
 					<li><a href="request_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
 							beantragen</a></li>
 					<%
-						}
-							} else {
+						} else {
 					%>
 					<li><a href="show_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
@@ -150,9 +149,13 @@
 						}
 							if (isAdmin) {
 					%>
-						<br>				
-					<li><a href="manage_certificates.jsp" target="app_content"><i
-							class="fa fa-files-o fa-fw navbaricon"></i>Anträge verwalten</a></li>
+					<br>
+					<li><a href="manage_requests.jsp" target="app_content"><i
+							class="fa fa-files-o fa-fw navbaricon"></i>Anträge verwalten
+							<div class="admin_flag admin_flag_nav">ADMIN</div></a></li>
+					<li><a href="manage_users.jsp" target="app_content"><i
+							class="fa fa-users fa-fw navbaricon"></i>Anträge verwalten
+							<div class="admin_flag admin_flag_nav">ADMIN</div></a></li>
 					<%
 						}
 					%>

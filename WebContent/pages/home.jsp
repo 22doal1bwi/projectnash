@@ -1,3 +1,4 @@
+<%@page import="de.projectnash.frontend.controllers.RequestController"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="de.projectnash.application.UserLogic"%>
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
@@ -11,7 +12,6 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
-<!-- jQuery -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
@@ -75,8 +75,10 @@
 				//certificate status
 				boolean hasCertificate = false;
 				boolean hasValidCertificate = false;
+				boolean isAdmin = false;
 				String remainingTimeOfCert = null;
 				int remainingDays = 0;
+				final int MIN_TIME_VALID = 90;
 
 				//request status
 				boolean hasAcceptedRequest = false;
@@ -85,37 +87,55 @@
 				hasCertificate = uc.hasCertificate();
 				hasValidCertificate = uc.hasValidCertificate();
 				remainingTimeOfCert = uc.getRemainingTimeOfCertificate();
-				remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+				remainingDays = uc
+						.getRemainingTimeOfCertificate(TimeUnit.DAYS);
 				hasAcceptedRequest = uc.hasAcceptedRequest();
+				isAdmin = uc.isAdmin();
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_home"
 			class="alert messagebar_intern messagebar_hidden"></div>
+		<!-------------------------------<BEGIN> INITIALIZE MESSAGEBAR---------------------------------->
 		<%
 			if (hasValidCertificate) {
-				if (remainingDays > 90) {
+						if (remainingDays > MIN_TIME_VALID) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")
+				window.setTimeout(function() {
+					$("#page_content_home").addClass("page_content_move_down")
+					buildAndShowMessageBar("SCS_CERT_VALID", "messagebar_home")
+				}, 250);
 			});
 		</script>
 		<%
 			} else {
 		%>
 		<script type="text/javascript">
-			$(document).ready(function() {
-				buildAndShowMessageBar("WRN_CERT_EXPIRING", "messagebar_home")
-			});
+			$(document).ready(
+					function() {
+						window.setTimeout(function() {
+							$("#page_content_home").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("WRN_CERT_EXPIRING",
+									"messagebar_home")
+						}, 250);
+					});
 		</script>
 		<%
-				} // close of if (hasCertificate && hasValidCertificate)
-			} else if (hasCertificate && !hasValidCertificate) {
+			} // close of if (hasCertificate && hasValidCertificate)
+					} else if (hasCertificate && !hasValidCertificate) {
 		%>
 		<script type="text/javascript">
-			$(document).ready(function() {
-				buildAndShowMessageBar("ERR_CERT_NOT_VALID", "messagebar_home")
-			});
+			$(document).ready(
+					function() {
+						window.setTimeout(function() {
+							$("#page_content_home").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("ERR_CERT_NOT_VALID",
+									"messagebar_home")
+						}, 250);
+					});
 		</script>
 		<%
 			} else if (!hasCertificate) {
@@ -123,92 +143,122 @@
 		<script type="text/javascript">
 			$(document).ready(
 					function() {
-						window.buildAndShowMessageBar("ERR_CERT_NOT_EXISTING",
-								"messagebar_home")
+						window.setTimeout(function() {
+							$("#page_content_home").addClass(
+									"page_content_move_down")
+							window.buildAndShowMessageBar(
+									"ERR_CERT_NOT_EXISTING", "messagebar_home")
+						}, 250);
 					});
 		</script>
 		<%
 			} // close of last 'else if'
 		%>
-		<div class="row">
-			<div class="col-lg-12"></div>
-		</div>
-		<div class="row">
+		<!-------------------------------<END> INITIALIZE MESSAGEBAR---------------------------------->
+		<div id="page_content_home" class="page_content">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<!-------------------------------<BEGIN> SET LINK FOR THE FIRST TILE--------------------------------->
+					<%
+						if (!hasValidCertificate) {
+					%>
 
-			<div class="col-lg-4 col-md-6">
+					<a href="request_certificate.jsp"> <%
+ 	} else {
+ %> <a href="show_certificate.jsp"> <%
+ 	}
+ %> <!-------------------------------<END> SET LINK FOR THE FIRST TILE--------------------------------->
+							<div class="panel panel-green">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-xs-3">
+											<i class="fa fa-file-text-o fa-5x"></i>
+										</div>
+										<div class="col-xs-9 text-right">
 
-				<%
-					if (!hasValidCertificate) {
-				%>
-
-				<a href="request_certificate.jsp"> <%
- 					} else {
- 				%> <a href="show_certificate.jsp"> <%
- 					}
- 				%>
-						<div class="panel panel-green functiontile">
-							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-3">
-										<i class="fa fa-file-text-o fa-5x"></i>
-									</div>
-									<div class="col-xs-9 text-right">
-
-										<div class="text-top te" style="font-size: 24px">
+											<div class="huge">
+												<!-------------------------------<BEGIN> SET MAIN TEXT FOR THE 'REQUEST'/'SHOW'-TILE------------------------------->
+												<%
+													if (!hasValidCertificate) {
+															out.print("Zertifikat beantragen");
+														} else {
+															out.print("Zertifikat anzeigen");
+														}
+												%>
+												<!-------------------------------<END> SET MAIN TEXT FOR THE 'REQUEST'/'SHOW'-TILE------------------------------->
+											</div>
+											<!-------------------------------<BEGIN> SET ACTION TEXT FOR THE 'REQUEST'-TILE-------------------------------->
 											<%
-												if (!hasValidCertificate) {
-													if (hasAcceptedRequest) {
-														out.print("Zertifikat aktivieren");
-													} else {
-														out.print("Zertifikat beantragen");
-													}
-												} else {
-													out.print("Zertifikat anzeigen");
-												}
-												
+												if (!hasValidCertificate && hasAcceptedRequest) {
 											%>
-
+											<div class="action_info">
+												<i class="fa fa-play action_arrow bounce"></i>Jetzt
+												aktivieren
+											</div>
+											<%
+												}
+											%>
+											<!-------------------------------<END> SET ACTION TEXT FOR THE 'REQUEST'-TILE-------------------------------->
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-				</a>
+					</a>
+				</div>
+				<!-------------------------------<BEGIN> SET ACTION TEXT FOR THE FIRST TILE-------------------------------->
+				<!-----Close the row to place the admin-tiles in a new row if user is admin and has no valid certificate----->
+				<%
+					if (isAdmin && !hasValidCertificate) {
+				%>				
 			</div>
 			<%
-				if (hasValidCertificate) {
+				}
+					if (hasValidCertificate) {
 			%>
-			<div class="col-lg-4 col-md-6">
+			<div class="col-lg-3 col-md-6">
 				<a href="extend_certificate.jsp">
-					<div class="panel panel-yellow functiontile">
+					<div class="panel panel-yellow">
 						<div class="panel-heading">
 							<div class="row">
 								<div class="col-xs-3">
 									<i class="fa fa-history fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-			<%
-					if (hasAcceptedRequest) {
-			%>
-									<div class="text-top te" style="font-size: 24px">Verlängerung aktivieren</div>
-			<%
-					} else {				
-			%>
-									<div class="text-top te" style="font-size: 24px">Zertifikat	verlängern</div>			
-			<%
-					}
-			%>
-									<div class="text-top te" style="font-size: 16px"><%=remainingTimeOfCert%>
+									<div class="huge">Zertifikat verlängern</div>
+									<!-------------------------------<BEGIN> SET ACTION TEXT FOR THE 'EXTEND'-TILE------------------------------->
+									<%
+										if (!hasAcceptedRequest && remainingDays > MIN_TIME_VALID) {
+									%>
+									<div class="action_info"><%=remainingTimeOfCert%>
 										verbleibend
 									</div>
+									<%
+										} else if (!hasAcceptedRequest
+														&& remainingDays <= MIN_TIME_VALID) {
+									%>
+									<div class="action_info">
+										<i class="fa fa-play action_arrow bounce"></i>Nur noch
+										<%=remainingTimeOfCert%>
+										verbleibend
+									</div>
+									<%
+										} else if (hasAcceptedRequest) {
+									%>
+									<div class="action_info">
+										<i class="fa fa-play action_arrow bounce"></i>Jetzt aktivieren
+									</div>
+									<%
+										}
+									%>
+									<!-------------------------------<END> SET ACTION TEXT FOR THE 'EXTEND'-TILE-------------------------------->
 								</div>
 							</div>
 						</div>
 					</div>
 				</a>
 			</div>
-			<div class="col-lg-4 col-md-6">
-				<div class="panel panel-red functiontile">
+			<div class="col-lg-3 col-md-6">
+				<div class="panel panel-red">
 					<a href="revoke_certificate.jsp">
 						<div class="panel-heading">
 							<div class="row">
@@ -216,21 +266,61 @@
 									<i class="fa fa-ban fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-
-									<div class="text-top te" style="font-size: 24px">Zertifikat
-										widerrufen</div>
-									<div class="text-top te" style="font-size: 16px">Missbrauch
-										melden</div>
+									<div class="huge">Zertifikat widerrufen</div>
+									<div class="action_info">Missbrauch melden</div>
 								</div>
 							</div>
 						</div>
 					</a>
 				</div>
 			</div>
-			<%
-				} // close of if(hasCertificate)
-			%>
 		</div>
+		<%
+			} // close of if(hasValidCertificate)
+		%>
+		<%
+			if (isAdmin) {
+		%>
+		<hr class="horizontal_divider">
+		<div class="row">
+			<div class="col-lg-3 col-md-6">
+				<div class="panel panel-primary">
+					<a href="manage_requests.jsp">
+						<div class="panel-heading panel_primary_heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-files-o fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div class="huge">Anträge verwalten</div>
+									<div class="action_info"></div>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6">
+				<div class="panel panel-primary">
+					<a href="manage_users.jsp">
+						<div class="panel-heading panel_primary_heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-users fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div class="huge">Benutzer verwalten</div>
+									<div class="action_info"></div>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<%
+			}
+		%>
 	</div>
 	<%
 		} // switch (sessionId)

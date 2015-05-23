@@ -11,6 +11,7 @@
 	border-radius: 0px;
 	cursor: context-menu;
 	padding: 0;
+	z-index: 999;
 }
 
 .messagebar_intern {
@@ -20,12 +21,13 @@
 	padding: 0;
 	margin-left: -30px;
 	margin-right: -30px;
-	margin-bottom: 0;
+	margin-bottom: 30px;
 	border: 0;
 	transition: top .4s ease;
 	line-height: 55px;
 	border-radius: 0px;
 	cursor: context-menu;
+	z-index: 999;
 }
 
 .messagebar_icon {
@@ -46,23 +48,26 @@
 	top: -55px;
 	transition: top .4s ease;
 }
+
 .messageicon_border_error {
-	border-color: #843534 !important;
+	border-color: #a94442 !important;
 	cursor: context-menu;
 }
 
 .messageicon_error {
-	color: #d9534f;
+	/* 	color: #d9534f; */
+	color: #a94442;
 	line-height: 17px;
 }
 
 .messageicon_border_warning {
-	border-color: #66512c !important;
+	border-color: #8a6d3b !important;
 	cursor: context-menu;
 }
 
 .messageicon_warning {
-	color: #f0ad4e;
+/* 	color: #f0ad4e; */
+	color: #8a6d3b;
 	line-height: 17px;
 }
 
@@ -72,6 +77,7 @@
 }
 
 .messageicon_success {
-	color: #5cb85c;
+/* 	color: #5cb85c; */
+	color: #3c763d;
 	line-height: 17px;
 }

@@ -72,39 +72,94 @@
 				break;
 			default :
 				UserController uc = new UserController(sessionId);
+
+				//certificate status
 				boolean hasValidCertificate = uc.hasValidCertificate();
-				boolean hasAcceptedRequest = uc.hasAcceptedRequest();
 				int remainingDays = 0;
-				
-				remainingDays = uc.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-				
+				final int MIN_TIME_VALID = 90;
+
+				//user status
+				boolean hasRequest = uc.hasRequest();
+				boolean hasAcceptedRequest = uc.hasAcceptedRequest();
+
+				//setting status
+				remainingDays = uc
+						.getRemainingTimeOfCertificate(TimeUnit.DAYS);
+
 				if (hasValidCertificate) {
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_extend"
 			class="alert messagebar_intern messagebar_hidden"></div>
+		<!-------------------------------<BEGIN> INITIALIZE MESSAGEBAR---------------------------------->
 		<%
-			if (remainingDays > 90) {
+			if (remainingDays > MIN_TIME_VALID) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(
 					function() {
-						$("#page_content_extend").addClass(
-						"page_content_move_down")
-						buildAndShowMessageBar("WRN_CERT_EXTENSION_IMPOSSIBLE",
-								"messagebar_extend")
+						window.setTimeout(function() {
+							$("#page_content_extend").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar(
+									"WRN_CERT_EXTENSION_IMPOSSIBLE",
+									"messagebar_extend")
+						}, 250);
+					});
+		</script>
+		<%
+			} else if (uc.hasWaitingRequest()) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+						window.setTimeout(function() {
+							$("#page_content_extend").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("WRN_CERT_REQUEST_WAITING",
+									"messagebar_extend")
+						}, 250);
+					});
+		</script>
+		<%
+			} else if (uc.hasAcceptedRequest()) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+						window.setTimeout(function() {
+							$("#page_content_extend").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("SCS_CERT_REQUEST_ACCEPTED",
+									"messagebar_extend")
+						}, 250);
+					});
+		</script>
+		<%
+			} else if (uc.hasDeniedRequest()) {
+		%>
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+						window.setTimeout(function() {
+							$("#page_content_extend").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("ERR_CERT_REQUEST_DENIED",
+									"messagebar_extend")
+						}, 250);
 					});
 		</script>
 		<%
 			}
 		%>
+		<!-------------------------------<END> INITIALIZE MESSAGEBAR---------------------------------->
 		<div id="page_content_extend" class="page_content">
 			<%
-				if (!uc.hasRequest() && remainingDays <= 90) {
+				if (!hasRequest && remainingDays <= MIN_TIME_VALID) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
-					<div class="panel panel-default functiontile">
+					<div class="panel panel-default">
 						<div id="step1_header_extend" class="panel-heading panelheader">
 							<button id="step1_icon_extend" type="button"
 								class="btn btn-default btn-circle panelicon">
@@ -120,7 +175,7 @@
 									herunterladen.</p>
 							</div>
 							<div class="panel-footer">
-								<button id="button_extend" onclick="extendCertificate()"
+								<button id="step1_button_extend" onclick="requestCertificate()"
 									type="button" class="btn simplecert_btn">Beantragen</button>
 							</div>
 						</div>
@@ -128,11 +183,11 @@
 				</div>
 			</div>
 			<%
-				} else if (!uc.hasRequest() && remainingDays > 90) {
+				} else if (!hasRequest && remainingDays > MIN_TIME_VALID) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
-					<div class="panel panel-default functiontile">
+					<div class="panel panel-default">
 						<div id="step1_header_extend"
 							class="panel-heading panelheader panel_next_step_or_loading">
 							<button id="step1_icon_extend" type="button"
@@ -152,12 +207,13 @@
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
-					<div class="panel panel-default functiontile">
+					<div class="panel panel-default">
 						<div id="step1_header_extend"
 							class="panel-heading panelheader panelheader_completed">
 							<button id="step1_icon_extend" type="button"
 								class="btn btn-default btn-circle panelicon messageicon_border_success">
-								<i id="step1_iconfont_extend" class="fa fa-check messageicon_success"></i>
+								<i id="step1_iconfont_extend"
+									class="fa fa-check messageicon_success"></i>
 							</button>
 							Schritt 1: Zertifikatsverlängerung beantragen
 						</div>
@@ -180,10 +236,11 @@
 									gesichert werden soll und aktivieren Sie anschließend Ihr
 									Zertifikat.</p>
 								<input type="password" id="password" name="password"
-									class="form-control passwort_field_request_extend" placeholder="Passwort" required>
+									class="form-control passwort_field_request_extend"
+									placeholder="Passwort" required>
 							</div>
 							<div class="panel-footer">
-								<button id="step2_button_extend" onclick="activateCertificate()"
+								<button id="step2_button_extend" onclick="onActivateClick()"
 									type="button" class="btn simplecert_btn">Aktivieren</button>
 							</div>
 						</div>

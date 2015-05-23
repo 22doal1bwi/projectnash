@@ -57,60 +57,61 @@
 </head>
 
 <body>
-		<%
-			// Allow access only if session exists - if not, redirect to login
-			String sessionId = SessionController.checkForSessionId(request,
-					response);
+	<%
+		// Allow access only if session exists - if not, redirect to login
+		String sessionId = SessionController.checkForSessionId(request,
+				response);
 
-			switch (sessionId) {
+		switch (sessionId) {
 
-			case "-1":
-			case "0":
-				response.sendRedirect("login.jsp");
-				break;
-			default:
-				UserController uc = new UserController(sessionId);
-				boolean hasValidCertificate = uc.hasValidCertificate();
+		case "-1":
+		case "0":
+			response.sendRedirect("login.jsp");
+			break;
+		default:
+			UserController uc = new UserController(sessionId);
+			boolean hasValidCertificate = uc.hasValidCertificate();
 
-				if (hasValidCertificate) {
-		%>
-		<div id="page-wrapper">
-			<div id="messagebar_revoke"
-				class="alert messagebar_intern messagebar_hidden"></div>
-			<div id="page_content_revoke" class="page_content">
-				<div class="row">
-					<div class="col-lg-5 col-md-8">
-						<div class="panel panel-red functiontile">
-							<div id="header_revoke" class="panel-heading">Zertifikat
-								widerrufen</div>
-							<div id="content_revoke">
-								<div id="panel_body_revoke" class="panel-body panel_revoke">
-									<div class="form-group">
-										<label>Grund des Widerrufs</label>
-										<textarea id="textfield_revoke" name="textfield_revoke" class="form-control"
-											placeholder="Bitte geben Sie hier den Grund Ihres Widerrufs an. Nach dem Klick auf 'Widerrufen' müssen Sie den Widerruf noch bestätigen."
-											rows="4"></textarea>
-									</div>
-								</div>
-								<div id="footer_revoke" class="panel-footer">
-									<button id="button_revoke" onclick="revokeOnClick()"
-										type="button" class="btn simplecert_btn">Widerrufen</button>
+			if (hasValidCertificate) {
+	%>
+	<div id="page-wrapper">
+		<div id="messagebar_revoke"
+			class="alert messagebar_intern messagebar_hidden"></div>
+		<div id="page_content_revoke" class="page_content">
+			<div class="row">
+				<div class="col-lg-5 col-md-8">
+					<div class="panel panel-red">
+						<div id="header_revoke" class="panel-heading">Zertifikat
+							widerrufen</div>
+						<div id="content_revoke">
+							<div id="panel_body_revoke" class="panel-body panel_revoke">
+								<div class="form-group">
+									<label>Grund des Widerrufs</label>
+									<textarea id="textfield_revoke" name="textfield_revoke"
+										class="form-control"
+										placeholder="Bitte geben Sie hier den Grund Ihres Widerrufs an. Nach dem Klick auf 'Widerrufen' müssen Sie den Widerruf noch bestätigen."
+										rows="4"></textarea>
 								</div>
 							</div>
+							<div id="footer_revoke" class="panel-footer">
+								<button id="button_revoke" onclick="onRevokeClick()"
+									type="button" class="btn simplecert_btn">Widerrufen</button>
+							</div>
 						</div>
-						<div id="loading_gif_revoke" class="loading_gif loading_gif_revoke">
-							<img src="../img/general/loading.gif">
-						</div>
+					</div>
+					<div id="loading_gif_revoke" class="loading_gif loading_gif_revoke">
+						<img src="../img/general/loading.gif">
 					</div>
 				</div>
 			</div>
 		</div>
-		<%
-			} else {
-					response.sendRedirect("home.jsp");
-				}
+	</div>
+	<%
+		} else {
+				response.sendRedirect("home.jsp");
 			}
-		%>
-	
+		}
+	%>
+
 </body>
 </html>

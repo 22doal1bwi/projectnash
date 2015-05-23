@@ -77,16 +77,19 @@
 	<div id="page-wrapper">
 		<div id="messagebar_request"
 			class="alert messagebar_intern messagebar_hidden"></div>
+		<!-------------------------------<BEGIN> INITIALIZE MESSAGEBAR---------------------------------->
 		<%
 			if (uc.hasWaitingRequest()) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(
 					function() {
+						window.setTimeout(function() {
 						$("#page_content_request").addClass(
 								"page_content_move_down")
 						buildAndShowMessageBar("WRN_CERT_REQUEST_WAITING",
 								"messagebar_request")
+						}, 250);	
 					});
 		</script>
 		<%
@@ -95,10 +98,12 @@
 		<script type="text/javascript">
 			$(document).ready(
 					function() {
+						window.setTimeout(function() {
 						$("#page_content_request").addClass(
 								"page_content_move_down")
 						buildAndShowMessageBar("SCS_CERT_REQUEST_ACCEPTED",
 								"messagebar_request")
+						}, 250);	
 					});
 		</script>
 		<%
@@ -107,22 +112,25 @@
 		<script type="text/javascript">
 			$(document).ready(
 					function() {
+						window.setTimeout(function() {
 						$("#page_content_request").addClass(
 								"page_content_move_down")
-						buildAndShowMessageBar("WRN_CERT_REQUEST_DENIED",
+						buildAndShowMessageBar("ERR_CERT_REQUEST_DENIED",
 								"messagebar_request")
+						}, 250);	
 					});
 		</script>
 		<%
 			}
 		%>
+		<!-------------------------------<END> INITIALIZE MESSAGEBAR---------------------------------->
 		<div id="page_content_request" class="page_content">
 			<%
 				if (!uc.hasRequest()) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
-					<div class="panel panel-default functiontile">
+					<div class="panel panel-default">
 						<div id="step1_header_request" class="panel-heading panelheader">
 							<button id="step1_icon_request" type="button"
 								class="btn btn-default btn-circle panelicon">
@@ -149,7 +157,7 @@
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
-					<div class="panel panel-default functiontile">
+					<div class="panel panel-default">
 						<div id="step1_header_request"
 							class="panel-heading panelheader panelheader_completed">
 							<button id="step1_icon_request" type="button"
@@ -189,7 +197,7 @@
 							</div>
 							<div class="panel-footer">
 								<button id="step2_button_request"
-									onclick="activateCertificate()" type="button"
+									onclick="onActivateClick()" type="button"
 									class="btn simplecert_btn">Aktivieren</button>
 							</div>
 						</div>

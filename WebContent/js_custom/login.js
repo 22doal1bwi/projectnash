@@ -51,6 +51,7 @@ function submitLoginForm() {
 }
 
 function requestNewPassword() {
+	setLoading()
 	$.ajax({
 		url : '../ResetPasswordServlet',
 		type : 'POST',
@@ -59,12 +60,14 @@ function requestNewPassword() {
 		success : function(data) {
 			if (data.resetSuccessful) {
 				$("#resetModal").modal("hide")
+				unsetLoading()
 				window.setTimeout(function() {
 					buildAndShowMessageBar("SCS_PASSWORD_RESET",
 							"messagebar_login")
 				}, 500);
 			} else {
 				$("#resetModal").modal("hide")
+				unsetLoading()
 				window.setTimeout(function() {
 					buildAndShowMessageBar("ERR_PASSWORD_RESET",
 							"messagebar_login")
@@ -75,8 +78,9 @@ function requestNewPassword() {
 		},
 		error : function() {
 			$("#resetModal").modal("hide")
+			unsetLoading()
 			window.setTimeout(function() {
-			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
+				buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
 			}, 500);
 			hideMessageBar()
 			$("#emailAddressForNewPassword").val("")
@@ -85,8 +89,8 @@ function requestNewPassword() {
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTION
-// ===================================//
+// ================================== MAIN FUNCTIONS
+// ==================================//
 // ====================================================================================//
 // Method which checks all field values before submitting them to the backend
 function checkFormBeforeSubmit() {
@@ -103,4 +107,20 @@ function hideMessageBar() {
 	window.setTimeout(function() {
 		$("#messagebar_login").addClass("messagebar_hidden")
 	}, 3000);
+}
+
+function clearField() {
+	$("#emailAddressForNewPassword").val("")
+}
+function setLoading() {
+	$("#loading_gif_login").fadeIn()
+	$("#cancelButton, #resetButton").attr("disabled", "");
+	$("#cancelButton, #resetButton").removeAttr("onclick")
+}
+function unsetLoading() {
+	$("#loading_gif_login").fadeOut()
+	$("#cancelButton, #resetButton").removeAttr("disabled");
+	$("#resetButton").attr("onclick", "requestNewPassword()")
+	$("#cancelButton").attr("onclick", "clearField()")
+	clearField()
 }

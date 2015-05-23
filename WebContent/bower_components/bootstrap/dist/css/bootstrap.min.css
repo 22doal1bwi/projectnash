@@ -6336,7 +6336,8 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus,
 }
 
 .panel-primary {
-	border-color: #337ab7
+/* 	border-color: #337ab7; */
+	border-color: #607D8B;
 }
 
 .panel-primary>.panel-heading {

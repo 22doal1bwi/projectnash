@@ -46,7 +46,7 @@ function logout() {
 	document.form_logout.submit()
 }
 
-function revokeOnClick() {
+function onRevokeClick() {
 	if ($("#textfield_revoke").val() !== "") {
 		$("#textfield_revoke").attr("disabled", "")
 		$("#messagebar_revoke").addClass("messagebar_hidden")
@@ -64,7 +64,7 @@ function revokeOnClick() {
 
 function cancelRevoke() {
 	$("#footer_revoke").html(
-			'<button id="button_revoke" onclick="revokeOnClick()" type="button"'
+			'<button id="button_revoke" onclick="onRevokeClick()" type="button"'
 					+ 'class="btn simplecert_btn">Widerrufen</button>')
 	$("#textfield_revoke").removeAttr("disabled")
 }

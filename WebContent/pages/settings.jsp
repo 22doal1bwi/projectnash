@@ -86,7 +86,7 @@
 			<div id="page_content_settings" class="page_content">
 				<div class="row">
 					<div class="col-lg-4 col-md-8">
-						<h1 class="page-header">Account</h1>
+						<h1 class="page-header first_element_upper_margin">Account</h1>
 					</div>
 				</div>
 				<div class="row">

@@ -103,7 +103,7 @@
 			<div id="page_content_settings" class="page_content">
 				<div class="row">
 					<div class="col-lg-4 col-md-8">
-						<h1 class="page-header">Anträge verwalten [GEEKMODE]</h1>
+						<h1 class="page-header first_element_upper_margin">Anträge verwalten</h1>
 					</div>
 				</div>
 				<div class="row">

@@ -129,3 +129,10 @@
 	font-size: 16px;
 	height: auto;
 }
+
+.loading_gif {
+	position: relative;
+	right: 132px;
+	bottom: 15px;
+	display: none;
+}

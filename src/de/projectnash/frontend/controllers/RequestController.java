@@ -26,7 +26,7 @@ public class RequestController {
 	public List<Request> getAllRequests(){
 		return RequestLogic.loadAllRequests();
 	}
-	
+
 	public String getRequestStatus() {
 		return RequestLogic.getRequestStatus(user);
 	}
