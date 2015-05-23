@@ -163,3 +163,140 @@ function unsuccessful(stepNumber, message) {
 		$("#page_content_request").removeClass("page_content_move_down")
 	}, 1500);
 }
+
+//Method which compares double password input
+function compareInputField(type) {
+	// Compare field values and add style classes according to the result
+	if ($("#" + type).val() !== "" && $("#" + type + "_confirm").val() !== "") {
+		if ($("#" + type).val() !== $("#" + type + "_confirm").val()) {
+			cleanInputField(type + "_confirm")
+			$("#" + type + "_confirm").addClass("has-error")
+			addMessageToRegistry("ERR_INPUT_" + type.toUpperCase() + "_COMP")
+			return false;
+		} else {
+			cleanInputField(type + "_confirm")
+			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
+					+ "_COMP")
+			if (type === "password") {
+				validateInput("password_confirm")
+			}
+			getMessagesFromRegistry()
+			return true;
+		}
+	} else {
+		cleanInputField(type + "_confirm")
+		removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
+				+ "_COMP")
+		getMessagesFromRegistry()
+	}
+}
+
+//====================================================================================//
+//================================= Certificate Password check
+//=================================//
+//====================================================================================//
+
+function validateInput(type) {
+	var regEx
+
+	switch (type) {
+
+		case "password":
+		case "password_confirm":
+			regEx = /.{6}/;
+			break
+		}
+	
+
+	if (type === "password" || type === "password_confirm") {
+		if ($("#" + type).val() !== "" && !regEx.test($("#" + type).val())) {
+			addMessageToRegistry("WRN_INPUT_PASSWORD")
+			cleanInputField(type)
+			$("#" + type).addClass("has-warning")
+		} else {
+			removeMessageTypeFromRegistry("WRN_INPUT_PASSWORD")
+			getMessagesFromRegistry()
+			cleanInputField(type)
+		}
+	}
+
+}
+
+//====================================================================================//
+//================================= MESSAGE REGISTRY (modified copy from register.js)
+//=================================//
+//====================================================================================//
+
+messageRegistry = [];
+
+function addMessageToRegistry(messageId) {
+	messageRegistry.push(messageId)
+	buildAndShowMessageBar(messageId, "messagebar_request")
+}
+
+function removeMessageTypeFromRegistry(messageId) {
+	var length = messageRegistry.length, i = 0
+	while (i < length) {
+		if (messageRegistry[i] === messageId) {
+			messageRegistry.splice(i, 1)
+			length--
+		} else {
+			i++
+		}
+	}
+}
+
+function getMessagesFromRegistry() {
+	if (messageRegistry.length > 0) {
+		var messageId = messageRegistry[messageRegistry.length - 1]
+		buildAndShowMessageBar(messageId, "messagebar_request")
+	} else {
+		$("#messagebar_request").addClass("messagebar_hidden")
+	}
+}
+
+// Method which checks password values before submitting them
+function checkFormBeforeSubmit() {
+	var emptyField = false
+	var password = document.getElementById('password')
+	var password_confirm = document.getElementById('password_confirm')
+
+	// All fields have to be filled
+	if (password.value === "") {
+		emptyField = true;
+		password.classList.add("has-warning")
+	}
+	if (password_confirm.value === "") {
+		emptyField = true;
+		password_confirm.classList.add("has-warning")
+	}
+	
+	if (!emptyField) {
+		removeMessageTypeFromRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
+		getMessagesFromRegistry()
+		if (compareInputField("password")) {
+			onActivateClick()
+		}
+
+	} else {
+		addMessageToRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
+	}
+}
+
+//====================================================================================//
+
+//====================================================================================//
+//============================= LITTLE HELPER FUNCTIONS
+//==============================//
+//====================================================================================//
+
+//Method which removes any style classes from an inputfield
+function cleanInputField(type) {
+	if ($("#" + type).hasClass("has-warning")) {
+		$("#" + type).removeClass("has-warning")
+	}
+	if ($("#" + type).hasClass("has-error")) {
+		$("#" + type).removeClass("has-error")
+	}
+}
+//====================================================================================//

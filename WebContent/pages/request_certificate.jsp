@@ -188,16 +188,23 @@
 						</div>
 						<div id="step2_content_request">
 							<div id="step2_panel_body_request" class="panel-body">
-								<p>Geben Sie ein Passwort ein, mit welchem das Zertifikat
+								<p>Vergeben Sie ein Passwort, mit welchem das Zertifikat
 									gesichert werden soll und aktivieren Sie anschließend Ihr
 									Zertifikat.</p>
-								<input type="password" id="password" name="password"
-									class="form-control passwort_field_request_extend"
-									placeholder="Passwort" required>
+								<p>
+									<input type="password" id="password" name="password"
+										class="form-control passwort_field_request_extend"
+										placeholder="Passwort" onchange="validateInput('password')" required>
+								</p>
+								<p>
+									<input type="password" class="form-control passwort_field_request_extend" id="password_confirm"
+										placeholder="Passwort wiederholen"
+										onchange="compareInputField('password')" required>
+								</p>
 							</div>
 							<div class="panel-footer">
 								<button id="step2_button_request"
-									onclick="onActivateClick()" type="button"
+									onclick="checkFormBeforeSubmit()" type="button"
 									class="btn simplecert_btn">Aktivieren</button>
 							</div>
 						</div>
