@@ -3,6 +3,8 @@ package de.projectnash.application;
 import java.util.Date;
 import java.util.List;
 
+import de.projectnash.application.util.EmailSubject;
+import de.projectnash.application.util.EmailUtility;
 import de.projectnash.application.util.RequestStatus;
 import de.projectnash.databackend.RequestPersistenceService;
 import de.projectnash.entities.Request;
@@ -29,6 +31,7 @@ public class RequestLogic {
 			RequestPersistenceService.storeRequest(request);
 			LogLogic.createLog("Antrag wurde erfolgreich erstellt",
 					user.getEmailAddress());
+			EmailUtility.sendMail(user, EmailSubject.REQUEST_CREATE);
 			return true;
 
 		} catch (Exception e) {
@@ -115,6 +118,7 @@ public class RequestLogic {
 			RequestPersistenceService.updateRequest(request);
 			LogLogic.createLog("Antrag wurde bestätigt", request.getUser()
 					.getEmailAddress());
+			EmailUtility.sendMail(request.getUser(), EmailSubject.REQUEST_ACCEPT);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,6 +141,7 @@ public class RequestLogic {
 			RequestPersistenceService.updateRequest(request);
 			LogLogic.createLog("Antrag wurde abgelehnt", request.getUser()
 					.getEmailAddress());
+			EmailUtility.sendMail(request.getUser(), EmailSubject.REQUEST_DENY);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
