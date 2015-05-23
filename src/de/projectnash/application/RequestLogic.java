@@ -95,10 +95,15 @@ public class RequestLogic {
 		return RequestPersistenceService.requestExists(user);
 	}
 
-	public static String getRequestStatus(User user) {
+	/**
+	 * Method which returns the {@link RequestStatus} of the {@link Request}.
+	 * @param user The {@link User} of the {@link Request}.
+	 * @return The {@link RequestStatus}.
+	 */
+	public static RequestStatus getRequestStatus(User user) {
 		try {
 			return RequestPersistenceService.loadRequest(user)
-					.getRequestStatus().name();
+					.getRequestStatus();
 		} catch (Exception e) {
 			return null;
 		}
@@ -166,7 +171,7 @@ public class RequestLogic {
 	public static int getNumberOfWaitingRequests(){
 		int counter = 0;
 		for (Request request : RequestPersistenceService.loadAllRequests()) {
-			if (request.getRequestStatus().equals("WAITING")) counter++;
+			if (request.getRequestStatus() == RequestStatus.WAITING) counter++;
 		}
 		return counter;
 	}

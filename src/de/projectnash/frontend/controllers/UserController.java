@@ -6,6 +6,7 @@ import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.RequestStatus;
 import de.projectnash.entities.User;
 import de.projectnash.frontend.interfaces.IUserController;
 
@@ -65,7 +66,7 @@ public class UserController implements IUserController {
 	@Override
 	public boolean hasWaitingRequest() {
 		try {
-			return RequestLogic.getRequestStatus(user).equalsIgnoreCase("waiting");
+			return RequestLogic.getRequestStatus(user) == RequestStatus.WAITING;
 		} catch (Exception e) {
 			return false;
 		}		
@@ -74,7 +75,7 @@ public class UserController implements IUserController {
 	@Override
 	public boolean hasAcceptedRequest() {
 		try {
-			return RequestLogic.getRequestStatus(user).equalsIgnoreCase("accepted");
+			return RequestLogic.getRequestStatus(user) == RequestStatus.ACCEPTED;
 		} catch (Exception e) {
 			return false;
 		}		
@@ -83,7 +84,7 @@ public class UserController implements IUserController {
 	@Override
 	public boolean hasDeniedRequest() {
 		try {
-			return RequestLogic.getRequestStatus(user).equalsIgnoreCase("denied");
+			return RequestLogic.getRequestStatus(user) == RequestStatus.DENIED;
 		} catch (Exception e) {
 			return false;
 		}		
