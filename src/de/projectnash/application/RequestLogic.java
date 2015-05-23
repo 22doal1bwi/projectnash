@@ -150,5 +150,15 @@ public class RequestLogic {
 			return false;
 		}
 	}
+	
+	//TODO: Test
+	public static int getNumberOfRequestsTest(){
+		return RequestPersistenceService.loadAllRequests().size();
+	}
+	
+	//TODO: Test
+	public static int getNumberOfRequests(){
+		return RequestPersistenceService.getumberOfRequests();
+	}
 
 }

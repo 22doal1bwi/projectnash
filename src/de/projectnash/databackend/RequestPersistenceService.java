@@ -74,6 +74,17 @@ public class RequestPersistenceService {
 		}
 	}
 	
+	public static int getumberOfRequests(){
+		try {
+			TypedQuery<Long> query = em.createNamedQuery(
+					"QUERY_NUMBER_OF_REQUESTS", Long.class);
+			return query.getMaxResults();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
 	 /**
      * Updates a {@link Request}.
      * @param requestToUpdate The {@link Request} that will be updated.
