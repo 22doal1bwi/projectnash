@@ -39,5 +39,8 @@ public class RequestController {
 		return RequestLogic.confirmRequest(request);
 	}
 	
+	public int getNumberOfRequests() {
+		return RequestLogic.getNumberOfRequests();
+	}
 	
 }

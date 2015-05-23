@@ -151,14 +151,12 @@ public class RequestLogic {
 		}
 	}
 	
-	//TODO: Test
-	public static int getNumberOfRequestsTest(){
-		return RequestPersistenceService.loadAllRequests().size();
-	}
-	
-	//TODO: Test
+	/**
+	 * Method which returns the overall number of existing {@link Request}s in the database.
+	 * @return Number of requests.
+	 */
 	public static int getNumberOfRequests(){
-		return RequestPersistenceService.getumberOfRequests();
+		return RequestPersistenceService.loadAllRequests().size();
 	}
 
 }
