@@ -51,7 +51,7 @@ public class CertificateLogic {
 		Organization organization = new Organization();
 
 		/** create certificate with utility class. */
-		try {
+		try {			
 			byte[] keyData = CertificateUtility.generatePrivateKey();
 			byte[] csrData = CertificateUtility.generateCSR(
 					organization.getCountry(), organization.getState(),
@@ -77,8 +77,10 @@ public class CertificateLogic {
 							.split("/")[2].split("=")[1], subjectData
 							.split("/")[3].split("=")[1], subjectData
 							.split("/")[4].split("=")[1], subjectData
-							.split("/")[5].split("=")[1], subjectData
-							.split("/")[6].split("=")[1], subjectData
+							.split("/")[5].split("=")[1],
+							UserLogic.getCommonName(user), //utf8 workaround
+							//common name from csr (not utf8): subjectData.split("/")[6].split("=")[1],
+							subjectData
 							.split("/")[7].split("=")[1], formatter
 							.parse(datesData.split("notBefore=")[1]
 									.split("notAfter=")[0]), formatter

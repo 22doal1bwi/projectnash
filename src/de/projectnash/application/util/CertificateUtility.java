@@ -124,8 +124,6 @@ public class CertificateUtility {
 		/** destroy openssl instance */
 		proc.destroy();
 		
-		System.out.println(out.toString());
-		
 		return out.toByteArray();
 	}
 
