@@ -70,14 +70,7 @@
 				response.sendRedirect("login.jsp");
 				break;
 			default:
-				UserController uc = new UserController(sessionId);
-				boolean hasValidCertificate = false;
-
-				String firstName = uc.getFirstName();
-				String lastName = uc.getLastName();
-				String department = uc.getDepartment();
-				String emailAddress = uc.getEmailAddress();
-				hasValidCertificate = uc.hasValidCertificate();				
+				UserController uc = new UserController(sessionId);						
 		%>
 		<div id="page-wrapper">
 			<div id="messagebar_settings"
@@ -93,19 +86,19 @@
 					<div class="col-lg-4 col-md-8">
 						<div class="form-group">
 							<label>Vorname</label>
-							<p class="form-control-static"><%=firstName%></p>
+							<p class="form-control-static"><%=uc.getFirstName()%></p>
 							<label>Nachname</label>
-							<p class="form-control-static"><%=lastName%></p>
+							<p class="form-control-static"><%=uc.getLastName()%></p>
 							<label>Abteilung</label>
-							<p class="form-control-static"><%=department%></p>
+							<p class="form-control-static"><%=uc.getDepartment()%></p>
 							<label>E-Mail-Addresse</label>
-							<p class="form-control-static"><%=emailAddress%></p>
+							<p class="form-control-static"><%=uc.getEmailAddress()%></p>
 							<label>Passwort</label><br> <input type="password"
 								class="form-control password_field_hidden"
 								id="password_current" name="password_current" placeholder="Aktuelles Passwort"
 								onpaste="return false;"> <input type="password"
 								class="form-control password_field_hidden"
-								id="password_new" name="password_new" placeholder="Neues Passwort"
+								id="password_new" name="password_new" onchange="validatePassword()" placeholder="Neues Passwort"
 								onpaste="return false;"> <input type="password"
 								class="form-control password_field_hidden"
 								id="password_new_confirm"

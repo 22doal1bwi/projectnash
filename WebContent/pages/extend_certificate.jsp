@@ -1,4 +1,5 @@
 <%@page import="java.util.concurrent.TimeUnit"%>
+<%@page import="de.projectnash.application.util.Constants"%>
 <%@page import="de.projectnash.application.UserLogic"%>
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.frontend.interfaces.IUserController"%>
@@ -73,27 +74,14 @@
 			default :
 				UserController uc = new UserController(sessionId);
 
-				//certificate status
-				boolean hasValidCertificate = uc.hasValidCertificate();
-				int remainingDays = 0;
-				final int MIN_TIME_VALID = 90;
-
-				//user status
-				boolean hasRequest = uc.hasRequest();
-				boolean hasAcceptedRequest = uc.hasAcceptedRequest();
-
-				//setting status
-				remainingDays = uc
-						.getRemainingTimeOfCertificate(TimeUnit.DAYS);
-
-				if (hasValidCertificate) {
+				if (uc.hasValidCertificate()) {
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_extend"
 			class="alert messagebar_intern messagebar_hidden"></div>
 		<!-------------------------------<BEGIN> INITIALIZE MESSAGEBAR---------------------------------->
 		<%
-			if (remainingDays > MIN_TIME_VALID) {
+			if (uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > Constants.TIMEFRAME_FOR_EXTENSION) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(
@@ -155,7 +143,8 @@
 		<!-------------------------------<END> INITIALIZE MESSAGEBAR---------------------------------->
 		<div id="page_content_extend" class="page_content">
 			<%
-				if (!hasRequest && remainingDays <= MIN_TIME_VALID) {
+				if (!uc.hasRequest()
+								&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) <= Constants.TIMEFRAME_FOR_EXTENSION) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
@@ -183,7 +172,8 @@
 				</div>
 			</div>
 			<%
-				} else if (!hasRequest && remainingDays > MIN_TIME_VALID) {
+				} else if (!uc.hasRequest()
+								&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > Constants.TIMEFRAME_FOR_EXTENSION) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
@@ -203,7 +193,7 @@
 				}
 			%>
 			<%
-				if (hasAcceptedRequest) {
+				if (uc.hasAcceptedRequest()) {
 			%>
 			<div class="row">
 				<div class="col-lg-5 col-md-8">
@@ -235,9 +225,16 @@
 								<p>Geben Sie ein Passwort ein, mit welchem das Zertifikat
 									gesichert werden soll und aktivieren Sie anschließend Ihr
 									Zertifikat.</p>
-								<input type="password" id="password" name="password"
-									class="form-control passwort_field_request_extend"
-									placeholder="Passwort" required>
+								<p>
+									<input type="password" id="password" name="password" onchange="validatePassword()"
+										class="form-control passwort_field_request_extend"
+										placeholder="Passwort" required>
+								</p>
+								<p>
+									<input type="password" id="password_confirm"
+										class="form-control passwort_field_request_extend"
+										placeholder="Passwort wiederholen" required>
+								</p>
 							</div>
 							<div class="panel-footer">
 								<button id="step2_button_extend" onclick="onActivateClick()"

@@ -194,17 +194,16 @@
 								<p>
 									<input type="password" id="password" name="password"
 										class="form-control passwort_field_request_extend"
-										placeholder="Passwort" onchange="validateInput('password')" required>
+										placeholder="Passwort" onchange="validatePassword()" required>
 								</p>
 								<p>
-									<input type="password" class="form-control passwort_field_request_extend" id="password_confirm"
-										placeholder="Passwort wiederholen"
-										onchange="compareInputField('password')" required>
+									<input type="password" id="password_confirm" class="form-control passwort_field_request_extend" 
+										placeholder="Passwort wiederholen" required>
 								</p>
 							</div>
 							<div class="panel-footer">
 								<button id="step2_button_request"
-									onclick="checkFormBeforeSubmit()" type="button"
+									onclick="onActivateClick()" type="button"
 									class="btn simplecert_btn">Aktivieren</button>
 							</div>
 						</div>

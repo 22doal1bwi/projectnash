@@ -1,6 +1,7 @@
 <%@page import="de.projectnash.application.RequestLogic"%>
 <%@page import="de.projectnash.frontend.controllers.RequestController"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
+<%@page import="de.projectnash.application.util.Constants"%>
 <%@page import="de.projectnash.application.UserLogic"%>
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
 <%@page import="de.projectnash.frontend.interfaces.IUserController"%>
@@ -72,9 +73,7 @@
 				break;
 			default :
 				UserController uc = new UserController(sessionId);
-				RequestController rc = new RequestController(sessionId);
-
-				final int MIN_TIME_VALID = 90;
+				RequestController rc = new RequestController();
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_home"
@@ -82,7 +81,7 @@
 		<!-------------------------------<BEGIN> INITIALIZE MESSAGEBAR---------------------------------->
 		<%
 			if (uc.hasValidCertificate()) {
-						if (uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > MIN_TIME_VALID) {
+						if (uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > Constants.TIMEFRAME_FOR_EXTENSION) {
 		%>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -215,14 +214,16 @@
 									<div class="huge">Zertifikat verlängern</div>
 									<!-------------------------------<BEGIN> SET ACTION TEXT FOR THE 'EXTEND'-TILE------------------------------->
 									<%
-										if (!uc.hasAcceptedRequest() && uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > MIN_TIME_VALID) {
+										if (!uc.hasAcceptedRequest()
+														&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > Constants.TIMEFRAME_FOR_EXTENSION) {
 									%>
 									<div class="action_info"><%=uc.getRemainingTimeOfCertificate()%>
 										verbleibend
 									</div>
 									<%
 										} else if (!uc.hasAcceptedRequest()
-														&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) <= MIN_TIME_VALID && !uc.hasRequest()) {
+														&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) <= Constants.TIMEFRAME_FOR_EXTENSION
+														&& !uc.hasRequest()) {
 									%>
 									<div class="action_info">
 										<i class="fa fa-play action_arrow bounce"></i>Nur noch
@@ -237,7 +238,8 @@
 									</div>
 									<%
 										} else if (!uc.hasAcceptedRequest()
-														&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) <= MIN_TIME_VALID && uc.hasRequest()) {
+														&& uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) <= Constants.TIMEFRAME_FOR_EXTENSION
+														&& uc.hasRequest()) {
 									%>
 									<div class="action_info">Ihr Antrag wird bearbeitet</div>
 									<%

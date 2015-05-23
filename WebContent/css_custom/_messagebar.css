@@ -6,7 +6,7 @@
 	padding: 0;
 	margin: 0;
 	border: 0;
-	transition: top .4s ease;
+	transition: top .4s ease, background-color .4s ease;
 	line-height: 55px;
 	border-radius: 0px;
 	cursor: context-menu;
@@ -23,7 +23,7 @@
 	margin-right: -30px;
 	margin-bottom: 30px;
 	border: 0;
-	transition: top .4s ease;
+	transition: top .4s ease, background-color .4s ease;
 	line-height: 55px;
 	border-radius: 0px;
 	cursor: context-menu;
@@ -37,6 +37,7 @@
 	margin-right: 15px;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
+	transition: background-color .4s ease;
 }
 
 .messagebar_hidden {

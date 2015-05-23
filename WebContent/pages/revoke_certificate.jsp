@@ -70,9 +70,8 @@
 			break;
 		default:
 			UserController uc = new UserController(sessionId);
-			boolean hasValidCertificate = uc.hasValidCertificate();
 
-			if (hasValidCertificate) {
+			if (uc.hasValidCertificate()) {
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_revoke"

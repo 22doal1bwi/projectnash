@@ -89,13 +89,9 @@
 					break;
 				default :
 					UserController uc = new UserController(sessionId);
-					boolean isAdmin = uc.isAdmin();
 
-					if (isAdmin) {
-
-						CertificateController cc = new CertificateController(
-								sessionId);
-		%>	
+					if (uc.isAdmin()) {
+		%>
 		<div id="page-wrapper">
 			<div id="messagebar_show"
 				class="alert messagebar_intern messagebar_hidden"></div>
@@ -103,17 +99,18 @@
 			<div id="page_content_settings" class="page_content">
 				<div class="row">
 					<div class="col-lg-4 col-md-8">
-						<h1 class="page-header first_element_upper_margin">Anträge verwalten</h1>
+						<h1 class="page-header first_element_upper_margin">Anträge
+							verwalten</h1>
 					</div>
 				</div>
 				<div class="row">
 					<script type="text/javascript">
 						$(document)
 								.ready(
-									function() {
+										function() {
 											$("#Requests")
 													.dataTable(
-															{														
+															{
 																"sPaginationType" : "full_numbers",
 																"ajax" : {
 																	"type" : "POST",

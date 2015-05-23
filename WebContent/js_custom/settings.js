@@ -18,8 +18,7 @@ $(document).ready(
 		});
 
 // ====================================================================================//
-// ================================== AJAX FUNCTION
-// ===================================//
+// ================================== AJAX FUNCTION ===================================//
 // ====================================================================================//
 function updatePassword() {
 	 $.ajax({
@@ -54,8 +53,7 @@ function updatePassword() {
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS
-// ==================================//
+// ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
 function logout() {
 	document.form_logout.submit()
@@ -70,7 +68,7 @@ function changePassword() {
 function hideMessageBarDelayed() {
 	window.setTimeout(function() {
 		hideMessageBarInstantly()
-	}, 3000);
+	}, 2000);
 }
 
 function hideMessageBarInstantly() {
@@ -88,19 +86,27 @@ function cleanPage() {
 	$("#password_current, #password_new, #password_new_confirm").val("")
 }
 
+function validatePassword() {
+	var regEx = /.{6}/;
+
+	if ($("#password_new").val() !== "" && !regEx.test($("#password_new").val())) {
+		buildAndShowMessageBar("WRN_INPUT_PASSWORD", "messagebar_settings")
+		$("#page_content_settings").addClass("page_content_move_down")
+	} else {
+		hideMessageBarInstantly()
+	}
+}
+
 function confirmPasswordChange() {
 	// All fields have to be filled out
 	if ($("#password_current").val() !== "" && $("#password_new").val() !== ""
 			&& $("#password_new_confirm").val() !== "") {
-		hideMessageBarInstantly()
 
 		// New password has to be different than the current password
 		if ($("#password_current").val() !== $("#password_new").val()) {
-			hideMessageBarInstantly()
 
 			// Repeated new password and password have to be the same
 			if ($("#password_new").val() === $("#password_new_confirm").val()) {
-				hideMessageBarInstantly()
 				setLoading()
 				updatePassword()
 			} else { // If repeated new password and password are not the
@@ -108,21 +114,18 @@ function confirmPasswordChange() {
 				buildAndShowMessageBar("ERR_INPUT_PASSWORD_COMP",
 						"messagebar_settings")
 				$("#page_content_settings").addClass("page_content_move_down")
-				hideMessageBarDelayed()
 			}
 
 		} else { // New and current password are the same
 			buildAndShowMessageBar("ERR_PWD_CURRENT_EQUALS_NEW",
 					"messagebar_settings")
 			$("#page_content_settings").addClass("page_content_move_down")
-			hideMessageBarDelayed()
 		}
 
 	} else { // If at least one field is empty
 		buildAndShowMessageBar("WRN_EMPTY_FIELDS_PWD_CHANGE",
 				"messagebar_settings")
 		$("#page_content_settings").addClass("page_content_move_down")
-		hideMessageBarDelayed()
 	}
 }
 

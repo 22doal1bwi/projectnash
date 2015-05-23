@@ -2,7 +2,7 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {
-	$('#password').keypress(function(e) {
+	$('#password, #password_confirm').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#step2_button_extend').click();
 	});
@@ -16,9 +16,10 @@ $(document).ready(function() {
 	});
 });
 
-//====================================================================================//
-//================================== AJAX FUNCTIONS ==================================//
-//====================================================================================//
+// ====================================================================================//
+// ================================== AJAX FUNCTIONS
+// ==================================//
+// ====================================================================================//
 function requestCertificate() {
 	setLoading(1)
 	$.ajax({
@@ -43,7 +44,7 @@ function requestCertificate() {
 	})
 }
 
-function activateCertificate() {	
+function activateCertificate() {
 	$
 			.ajax({
 				url : '../ActivateCertificateServlet',
@@ -68,24 +69,52 @@ function activateCertificate() {
 				}
 			})
 }
+
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS ==================================//
+// ================================== MAIN FUNCTIONS
+// ==================================//
 // ====================================================================================//
 function logout() {
 	document.form_logout.submit()
 }
 
+function validatePassword() {
+	var regEx = /.{6}/;
+
+	if ($("#password").val() !== "" && !regEx.test($("#password").val())) {
+		buildAndShowMessageBar("WRN_INPUT_PASSWORD", "messagebar_extend")
+		$("#page_content_extend").addClass("page_content_move_down")
+	} else {
+		hideMessageBar()
+	}
+}
+
+function checkPassword() {
+	// Both fields have to be filled out
+	if ($("#password").val() !== "" && $("#password_confirm").val() !== "") {
+
+		// Repeated new password and password have to be the same
+		if ($("#password").val() === $("#password_confirm").val()) {
+			return true;
+
+		} else { // If repeated new password and password are not the
+			// same
+			buildAndShowMessageBar("ERR_INPUT_PASSWORD_COMP",
+					"messagebar_extend")
+			$("#page_content_extend").addClass("page_content_move_down")
+		}
+
+	} else { // If one field is empty
+		buildAndShowMessageBar("WRN_EMPTY_CERT_PWD", "messagebar_extend")
+		$("#page_content_extend").addClass("page_content_move_down")
+	}
+	return false;
+}
+
 function onActivateClick() {
-	if ($('#password').val() !== "") {
+	if (checkPassword()) {
 		setLoading(2)
 		activateCertificate()
-	} else {
-			buildAndShowMessageBar("WRN_EMPTY_CERT_PWD", "messagebar_extend")
-			$("#page_content_extend").addClass("page_content_move_down")
-		window.setTimeout(function() {
-			$("#messagebar_extend").addClass("messagebar_hidden")
-			$("#page_content_extend").removeClass("page_content_move_down")
-		}, 3000);
 	}
 }
 
@@ -105,8 +134,7 @@ function successful(stepNumber, message) {
 	$("#page_content_extend").addClass("page_content_move_down")
 	if (stepNumber > 1) {
 		window.setTimeout(function() {
-			$("#messagebar_extend").addClass("messagebar_hidden")
-			$("#page_content_extend").removeClass("page_content_move_down")
+			hideMessageBar()
 			$("#step" + stepNumber + "_content_extend").slideUp()
 			$("#step" + stepNumber + "_icon_extend").addClass(
 					"messageicon_border_success")
@@ -143,18 +171,25 @@ function unsuccessful(stepNumber, message) {
 	$("#page_content_extend").addClass("page_content_move_down")
 
 	window.setTimeout(function() {
-		$("#messagebar_extend").addClass("messagebar_hidden")
-		$("#page_content_extend").removeClass("page_content_move_down")
+		hideMessageBar()
 	}, 1500);
 }
+
 function unsetLoadingUnsuccessful(stepNumber) {
 	$("#step" + stepNumber + "_panel_body_extend").removeClass(
 			"panel_next_step_or_loading")
 	$("#loading_gif_extend").fadeOut()
-	$("#step" + stepNumber + "_button_extend").removeAttr("disabled")	
+	$("#step" + stepNumber + "_button_extend").removeAttr("disabled")
 	if (stepNumber === 1) {
-		$("#step" + stepNumber + "_button_extend").attr("onclick","requestCertificate()")
+		$("#step" + stepNumber + "_button_extend").attr("onclick",
+				"requestCertificate()")
 	} else if (stepNumber === 2) {
-		$("#step" + stepNumber + "_button_extend").attr("onclick","onActivateClick()")
-	}			
+		$("#step" + stepNumber + "_button_extend").attr("onclick",
+				"onActivateClick()")
+	}
+}
+
+function hideMessageBar() {
+	$("#messagebar_extend").addClass("messagebar_hidden")
+	$("#page_content_extend").removeClass("page_content_move_down")
 }

@@ -2,7 +2,7 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {
-	$('#password').keypress(function(e) {
+	$('#password, #password_confirm').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#step2_button_request').click();
 	});
@@ -17,7 +17,8 @@ $(document).ready(function() {
 });
 
 // ====================================================================================//
-// ================================== AJAX FUNCTIONS ==================================//
+// ================================== AJAX FUNCTIONS
+// ==================================//
 // ====================================================================================//
 function requestCertificate() {
 	setLoading(1)
@@ -44,7 +45,6 @@ function requestCertificate() {
 }
 
 function activateCertificate() {
-	setLoading(2)
 	$
 			.ajax({
 				url : '../ActivateCertificateServlet',
@@ -71,24 +71,51 @@ function activateCertificate() {
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS ==================================//
+// ================================== MAIN FUNCTIONS
+// ==================================//
 // ====================================================================================//
 function logout() {
 	document.form_logout.submit()
 }
 
+function validatePassword() {
+	var regEx = /.{6}/;
+
+	if ($("#password").val() !== "" && !regEx.test($("#password").val())) {
+		buildAndShowMessageBar("WRN_INPUT_PASSWORD", "messagebar_request")
+		$("#page_content_request").addClass("page_content_move_down")
+	} else {
+		hideMessageBar()
+	}
+}
+
 function onActivateClick() {
-	if ($('#password').val() !== "") {
+	if (checkPassword()) {
 		setLoading(2)
 		activateCertificate()
-	} else {
+	}
+}
+
+function checkPassword() {
+	// Both fields have to be filled out
+	if ($("#password").val() !== "" && $("#password_confirm").val() !== "") {
+
+		// Repeated new password and password have to be the same
+		if ($("#password").val() === $("#password_confirm").val()) {
+			return true;
+
+		} else { // If repeated new password and password are not the
+			// same
+			buildAndShowMessageBar("ERR_INPUT_PASSWORD_COMP",
+					"messagebar_request")
+			$("#page_content_request").addClass("page_content_move_down")
+		}
+
+	} else { // If one field is empty
 		buildAndShowMessageBar("WRN_EMPTY_CERT_PWD", "messagebar_request")
 		$("#page_content_request").addClass("page_content_move_down")
-		window.setTimeout(function() {
-			$("#messagebar_request").addClass("messagebar_hidden")
-			$("#page_content_request").removeClass("page_content_move_down")
-		}, 3000);
 	}
+	return false;
 }
 
 function setLoading(stepNumber) {
@@ -100,24 +127,6 @@ function setLoading(stepNumber) {
 	$("#step" + stepNumber + "_button_request").removeAttr("onclick")
 }
 
-function unsetLoadingUnsuccessful(stepNumber) {
-	$("#step" + stepNumber + "_panel_body_request").removeClass(
-			"panel_next_step_or_loading")
-	$("#loading_gif_request").fadeOut()
-	$("#step" + stepNumber + "_button_request").removeAttr("disabled")
-	if (stepNumber === 1) {
-		$("#step" + stepNumber + "_button_request").attr("onclick",
-				"requestCertificate()")
-	} else if (stepNumber === 2) {
-		$("#step" + stepNumber + "_button_request").attr("onclick",
-				"onActivateClick()")
-	}
-}
-
-function unsetLoadingSuccessful() {
-	$("#loading_gif_request").fadeOut()
-}
-
 function successful(stepNumber, message) {
 	var stepNumberNextStep = stepNumber + 1
 	unsetLoadingSuccessful()
@@ -125,8 +134,7 @@ function successful(stepNumber, message) {
 	$("#page_content_request").addClass("page_content_move_down")
 	if (stepNumber > 1) {
 		window.setTimeout(function() {
-			$("#messagebar_request").addClass("messagebar_hidden")
-			$("#page_content_request").removeClass("page_content_move_down")
+			hideMessageBar()
 			$("#step" + stepNumber + "_content_request").slideUp()
 			$("#step" + stepNumber + "_icon_request").addClass(
 					"messageicon_border_success")
@@ -153,97 +161,35 @@ function successful(stepNumber, message) {
 	}
 }
 
+function unsetLoadingSuccessful() {
+	$("#loading_gif_request").fadeOut()
+}
+
 function unsuccessful(stepNumber, message) {
 	unsetLoadingUnsuccessful(stepNumber)
 	buildAndShowMessageBar(message, "messagebar_request")
 	$("#page_content_request").addClass("page_content_move_down")
 
 	window.setTimeout(function() {
-		$("#messagebar_request").addClass("messagebar_hidden")
-		$("#page_content_request").removeClass("page_content_move_down")
+		hideMessageBar()
 	}, 1500);
 }
 
-//Method which compares double password input
-function compareInputField(type) {
-	// Compare field values and add style classes according to the result
-	if ($("#" + type).val() !== "" && $("#" + type + "_confirm").val() !== "") {
-		if ($("#" + type).val() !== $("#" + type + "_confirm").val()) {
-			cleanInputField(type + "_confirm")
-			$("#" + type + "_confirm").addClass("has-error")
-			addMessageToRegistry("ERR_INPUT_" + type.toUpperCase() + "_COMP")
-			return false;
-		} else {
-			cleanInputField(type + "_confirm")
-			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-					+ "_COMP")
-			if (type === "password") {
-				validateInput("password_confirm")
-			}
-			getMessagesFromRegistry()
-			return true;
-		}
-	} else {
-		cleanInputField(type + "_confirm")
-		removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-				+ "_COMP")
-		getMessagesFromRegistry()
+function unsetLoadingUnsuccessful(stepNumber) {
+	$("#step" + stepNumber + "_panel_body_request").removeClass(
+			"panel_next_step_or_loading")
+	$("#loading_gif_request").fadeOut()
+	$("#step" + stepNumber + "_button_request").removeAttr("disabled")
+	if (stepNumber === 1) {
+		$("#step" + stepNumber + "_button_request").attr("onclick",
+				"requestCertificate()")
+	} else if (stepNumber === 2) {
+		$("#step" + stepNumber + "_button_request").attr("onclick",
+				"onActivateClick()")
 	}
 }
 
-//====================================================================================//
-//================================= Certificate Password check=================================//
-//====================================================================================//
-
-function validateInput(type) {
-	var regEx
-
-	switch (type) {
-
-		case "password":
-		case "password_confirm":
-			regEx = /.{6}/;
-			break
-		}
-	
-
-	if (type === "password" || type === "password_confirm") {
-		if ($("#" + type).val() !== "" && !regEx.test($("#" + type).val())) {
-			addMessageToRegistry("WRN_INPUT_PASSWORD")
-			cleanInputField(type)
-			$("#" + type).addClass("has-warning")
-		} else {
-			removeMessageTypeFromRegistry("WRN_INPUT_PASSWORD")
-			getMessagesFromRegistry()
-			cleanInputField(type)
-		}
-	}
-}
-
-// Method which checks password values before submitting them
-function checkFormBeforeSubmit() {
-	var emptyField = false
-	var password = document.getElementById('password')
-	var password_confirm = document.getElementById('password_confirm')
-
-	// All fields have to be filled
-	if (password.value === "") {
-		emptyField = true;
-		password.classList.add("has-warning")
-	}
-	if (password_confirm.value === "") {
-		emptyField = true;
-		password_confirm.classList.add("has-warning")
-	}
-	
-	if (!emptyField) {
-		removeMessageTypeFromRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
-		getMessagesFromRegistry()
-		if (compareInputField("password")) {
-			onActivateClick()
-		}
-
-	} else {
-		addMessageToRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
-	}
+function hideMessageBar() {
+	$("#messagebar_request").addClass("messagebar_hidden")
+	$("#page_content_request").removeClass("page_content_move_down")
 }
