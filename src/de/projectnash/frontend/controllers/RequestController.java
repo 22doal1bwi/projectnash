@@ -43,4 +43,8 @@ public class RequestController {
 		return RequestLogic.getNumberOfRequests();
 	}
 	
+	public int getNumberOfWaitingRequests() {
+		return RequestLogic.getNumberOfWaitingRequests();
+	}
+	
 }

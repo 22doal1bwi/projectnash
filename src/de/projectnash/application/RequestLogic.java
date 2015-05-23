@@ -153,10 +153,22 @@ public class RequestLogic {
 	
 	/**
 	 * Method which returns the overall number of existing {@link Request}s in the database.
-	 * @return Number of requests.
+	 * @return Number of {@link Request}s.
 	 */
 	public static int getNumberOfRequests(){
 		return RequestPersistenceService.loadAllRequests().size();
+	}
+	
+	/**
+	 * Method which returns the number of waiting {@link Request}s.
+	 * @return Number of waiting {@link Request}s.
+	 */
+	public static int getNumberOfWaitingRequests(){
+		int counter = 0;
+		for (Request request : RequestPersistenceService.loadAllRequests()) {
+			if (request.getRequestStatus().equals("WAITING")) counter++;
+		}
+		return counter;
 	}
 
 }
