@@ -16,7 +16,7 @@ html, body {
 	font-size: 16px;
 }
 
-.action_arrow {	
+.action_arrow {
 	font-size: 16px;
 	margin-right: 7px;
 	position: relative;
@@ -29,21 +29,22 @@ html, body {
 }
 
 @-webkit-keyframes bounce {
-	0% { left:0px; }
-	50% { left:-10px; }
-	100% { left:0; }
-}
-@-moz-keyframes bounce {
- 0% { left:0px; }
-	50% { left:-10px; }
-	100% { left:0; }
-}
-@keyframes bounce {
-   0% { left:0px; }
-	50% { left:-10px; }
-	100% { left:0; }
+	0% {left:0px;}
+	50% {left:-10px;}
+	100%{left:0;}
 }
 
+@-moz-keyframes bounce {
+	0% {left: 0px;}
+	50%{left:-10px;}
+	100%{left:0;}
+}
+
+@keyframes bounce {
+	0% {left: 0px;}
+	50%{left:-10px;}
+	100%{left:0;}
+}
 .panelicon {
 	background-color: #fff !important;
 	border-color: #333;
@@ -222,4 +223,23 @@ html, body {
 	top: -7px;
 	margin-left: 20px;
 	cursor: context-menu;
+}
+
+.table_icon_waiting {
+	font-size: 20px;
+	color: #337ab7;
+}
+.table_icon_accepted {
+	font-size: 20px;
+	color: #5cb85c;
+}
+.table_icon_denied {
+	font-size: 20px;
+	color: #C03A2A;
+}
+.status_column {
+	text-align: center;
+}
+.loading_gif_table {
+	height: 20px;
 }

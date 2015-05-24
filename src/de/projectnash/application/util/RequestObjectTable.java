@@ -36,13 +36,13 @@ public class RequestObjectTable {
 	 * @param requestCreationDate
 	 * @param status
 	 */
-	public RequestObjectTable (String firstName, String lastName, String department, int personalId, String emailAddress, Date requestCreationDate, RequestStatus status){
+	public RequestObjectTable (Date requestCreationDate, String firstName, String lastName, String department, int personalId, String emailAddress, RequestStatus status){
+		this.requestCreationDate = requestCreationDate;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.department = department;
 		this.personalId = personalId;
-		this.emailAddress = emailAddress;
-		this.requestCreationDate = requestCreationDate;
+		this.emailAddress = emailAddress;		
 		this.status = status;
 	
 	}

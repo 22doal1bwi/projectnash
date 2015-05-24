@@ -12,6 +12,8 @@
 
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script
 	src="../bower_components/datatables/media/js/jquery.dataTables.min.js"
 	type="text/javascript"></script>
@@ -27,8 +29,7 @@
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="../js_custom/show_certificate.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js_custom/manage_requests.js"></script>
 
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
@@ -57,7 +58,6 @@
 <link
 	href="../bower_components/datatables-responsive/css/dataTables.responsive.css"
 	rel="stylesheet">
-
 <!-- Custom Fonts -->
 <link href="../bower_components/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
@@ -78,19 +78,18 @@
 	<div id="wrapper">
 		<%
 			// Allow access only if session exists - if not, redirect to login
-			String sessionId = SessionController.checkForSessionId(request,
-					response);
+			String sessionId = SessionController.checkForSessionId(request, response);
 
 			switch (sessionId) {
 
-				case "-1" :
-				case "0" :
-					response.sendRedirect("login.jsp");
-					break;
-				default :
-					UserController uc = new UserController(sessionId);
+			case "-1":
+			case "0":
+				response.sendRedirect("login.jsp");
+				break;
+			default:
+				UserController uc = new UserController(sessionId);
 
-					if (uc.isAdmin()) {
+				if (uc.isAdmin()) {
 		%>
 		<div id="page-wrapper">
 			<div id="messagebar_show"
@@ -104,86 +103,25 @@
 					</div>
 				</div>
 				<div class="row">
-					<script type="text/javascript">
-						$(document)
-								.ready(
-										function() {
-											$("#Requests")
-													.dataTable(
-															{
-																"sPaginationType" : "full_numbers",
-																"ajax" : {
-																	"type" : "POST",
-																	"url" : "../AdminRequestServlet"
-																},
-																"columns" : [
-																		{
-																			"data" : "firstName"
-																		},
-																		{
-																			"data" : "lastName"
-																		},
-																		{
-																			"data" : "department"
-																		},
-																		{
-																			"data" : "personalId"
-																		},
-																		{
-																			"data" : "emailAddress"
-																		},
-																		{
-																			"data" : "requestCreationDate"
-																		},
-																		{
-																			"data" : "status"
-																		} ],
-																"fnDrawCallback" : function() {
-																	/* Init DataTable */
-																	var oTable = $(
-																			'#Requests')
-																			.dataTable();
-																	$(
-																			'#Requests tbody td:nth-child(7)')
-																			.editable(
-																					"../AdminUpdateServlet",
-																					{
-																						indicator : '<img src="../img/general/loading.gif">',
-																						data : "{'WAITING':'Warten','ACCEPTED':'Genehmigen','DENIED':'Ablehnen'}",
-																						tooltip : "Wählen Sie den Status...",
-																						loadtext : "lädt...",
-																						type : "select",
-																						onblur : 'submit',
-																						submitdata : function() {
-																							var updatedUser = {}, aPos = oTable
-																									.fnGetPosition(this);
-																							return {
-																								emailAddress : oTable
-																										.fnGetData(aPos[0]).emailAddress
-																							}
-																						}
-																					})
-																}
-															});
-										});
-					</script>
-					<div class="dataTable_wrapper">
-						<table class="table table-striped table-bordered table-hover"
-							id="Requests">
-							<thead>
-								<tr>
-									<th>Vorname</th>
-									<th>Nachname</th>
-									<th>Abteilung</th>
-									<th>Personalnummer</th>
-									<th>E-Mail-Adresse</th>
-									<th>Beantragunsdatum</th>
-									<th>Status</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
+					<div class="col-lg-12">
+						<div class="dataTable_wrapper">
+							<table class="table table-striped table-bordered table-hover"
+								id="requests">
+								<thead>
+									<tr>
+										<th>Beantragunsdatum</th>
+										<th>Vorname</th>
+										<th>Nachname</th>
+										<th>Abteilung</th>
+										<th>Personalnummer</th>
+										<th>E-Mail-Adresse</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

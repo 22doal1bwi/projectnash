@@ -43,12 +43,12 @@ public class AdminRequestServlet extends HttpServlet {
 		
 		requestList.forEach(requestObject -> {
 			RequestObjectTable rot = new RequestObjectTable(
+					requestObject.getCreationDate(),
 					requestObject.getUser().getFirstName(), 
 					requestObject.getUser().getLastName(), 
 					requestObject.getUser().getDepartment(), 
 					requestObject.getUser().getPersonalId(), 
-					requestObject.getUser().getEmailAddress(), 
-					requestObject.getCreationDate(), 
+					requestObject.getUser().getEmailAddress(),					
 					requestObject.getRequestStatus());
 			JsonObject jsonrot = (JsonObject) new Gson().toJsonTree(rot);
 			requestObjects.add(jsonrot);
