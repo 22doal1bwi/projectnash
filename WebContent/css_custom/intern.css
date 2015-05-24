@@ -198,28 +198,29 @@ html, body {
 	width: 50%;
 }
 
-.admin_flag {
-	color: #fff;
-	text-align: center;
-	line-height: 14px;
-	border-bottom-right-radius: 2px;
-	border-bottom-left-radius: 2px;
-	font-size: 9px;
-	background-color: #607D8B;
-	width: 40px;
-	height: 14px;
-	position: relative;
-}
-
 .admin_flag_nav {
-	left: 180px;
-	top: -41px;
-	margin-bottom: -14px;
+	background-color: #607D8B;
+  	position: relative;
+  	left: -15px;
+ 	 top: -40px;
+  	height: 50px;
+  	width: 10px;
+  	margin-bottom: -50px;
 }
 
 .admin_flag_name {
+	background-color: #607D8B;	
+	position: relative;
+	color: #fff;
+	text-align: center;
+	line-height: 14px;	
+	font-size: 9px;
 	border-top-right-radius: 2px;
 	border-top-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+	width: 40px;
+	height: 14px;
 	top: -7px;
 	margin-left: 20px;
 	cursor: context-menu;

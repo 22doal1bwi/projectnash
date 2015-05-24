@@ -86,7 +86,7 @@
 
 			<%
 				if (isAdmin) {
-			%><li><div class="admin_flag admin_flag_name">ADMIN</div></li>
+			%><li><div class="admin_flag_name">ADMIN</div></li>
 			<%
 				}
 			%>
@@ -152,10 +152,10 @@
 					<br>
 					<li><a href="manage_requests.jsp" target="app_content"><i
 							class="fa fa-files-o fa-fw navbaricon"></i>Anträge verwalten
-							<div class="admin_flag admin_flag_nav">ADMIN</div></a></li>
+							<div class="admin_flag_nav"></div></a></li>
 					<li><a href="manage_users.jsp" target="app_content"><i
 							class="fa fa-users fa-fw navbaricon"></i>Benutzer verwalten
-							<div class="admin_flag admin_flag_nav">ADMIN</div></a></li>
+							<div class="admin_flag_nav"></div></a></li>
 					<%
 						}
 					%>
