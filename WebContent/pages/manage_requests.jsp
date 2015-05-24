@@ -115,11 +115,9 @@
 										<th>Abteilung</th>
 										<th>Personalnummer</th>
 										<th>E-Mail-Adresse</th>
-										<th>Status</th>
+										<th style="min-width: 125px;">Status</th>
 									</tr>
-								</thead>
-								<tbody>
-								</tbody>
+								</thead>							
 							</table>
 						</div>
 					</div>

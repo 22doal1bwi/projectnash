@@ -5,7 +5,7 @@ $(document)
 		.ready(
 				function() {
 					$("#requests")
-							.dataTable(
+							.DataTable(
 									{										
 										"sPaginationType" : "full_numbers",
 										"ajax" : {
@@ -13,6 +13,7 @@ $(document)
 											"url" : "../AdminRequestServlet"
 										},
 										"order": [[ 0, "desc" ]],
+										responsive: true,
 										"columns" : [ {
 											"data" : "requestCreationDate"
 										}, {
@@ -27,7 +28,7 @@ $(document)
 											"data" : "emailAddress"
 										}, {
 											"data" : "status"
-										} ],										
+										} ],	
 										"createdRow" : function(row, data,
 												index) {
 											row.cells[6].classList
@@ -44,7 +45,7 @@ $(document)
 												break
 											}
 										},
-										"fnDrawCallback" : function() {
+										"fnDrawCallback" : function() {											
 											var oTable = $('#requests')
 													.dataTable();
 											$('#requests tbody td:nth-child(7)')
@@ -56,7 +57,9 @@ $(document)
 																tooltip : "Wählen Sie den Status...",
 																loadtext : "lädt...",
 																type : "select",
-																onblur : 'submit',
+																onblur : 'ignore',
+																submit: '<i class="fa fa-check table_edit_icon_confirm">',
+																cancel: '<i class="fa fa-times table_edit_icon_deny">',
 																submitdata : function() {
 																	var updatedUser = {}, aPos = oTable
 																			.fnGetPosition(this);
@@ -82,6 +85,9 @@ $(document)
 																	}
 																}
 															})
+										},
+										"fnInitComplete": function() {
+											$("#requests").removeAttr("style")
 										}
-									});
+									});					
 				});

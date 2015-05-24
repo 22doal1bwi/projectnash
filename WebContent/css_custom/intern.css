@@ -227,15 +227,15 @@ html, body {
 }
 
 .table_icon_waiting {
-	font-size: 20px;
+	font-size: 23px;
 	color: #337ab7;
 }
 .table_icon_accepted {
-	font-size: 20px;
+	font-size: 23px;
 	color: #5cb85c;
 }
 .table_icon_denied {
-	font-size: 20px;
+	font-size: 23px;
 	color: #C03A2A;
 }
 .status_column {
@@ -243,4 +243,23 @@ html, body {
 }
 .loading_gif_table {
 	height: 20px;
+}
+.table_edit_icon_confirm {
+	font-size: 15px;
+  	height: 23px;
+ 	width: 23px;
+  	line-height: 23px;
+  	cursor: pointer;
+  	color: #5cb85c; 
+}
+.table_edit_icon_deny {
+	font-size: 15px;
+  	height: 23px;
+ 	width: 23px;
+  	line-height: 23px;
+  	cursor: pointer;
+  	color: #C03A2A; 
+}
+.table_edit_icon_confirm:hover, .table_edit_icon_deny:hover {
+	background-color: #eee;
 }
