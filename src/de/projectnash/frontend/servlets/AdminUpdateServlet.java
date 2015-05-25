@@ -42,6 +42,7 @@ public class AdminUpdateServlet extends HttpServlet {
 
 		switch (status) {
 		case "WAITING":
+			RequestLogic.postponeRequest(requestObject);
 			break;
 		case "ACCEPTED":
 			RequestLogic.confirmRequest(requestObject);

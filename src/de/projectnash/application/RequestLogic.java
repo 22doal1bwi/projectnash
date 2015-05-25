@@ -97,7 +97,9 @@ public class RequestLogic {
 
 	/**
 	 * Method which returns the {@link RequestStatus} of the {@link Request}.
-	 * @param user The {@link User} of the {@link Request}.
+	 * 
+	 * @param user
+	 *            The {@link User} of the {@link Request}.
 	 * @return The {@link RequestStatus}.
 	 */
 	public static RequestStatus getRequestStatus(User user) {
@@ -123,7 +125,8 @@ public class RequestLogic {
 			RequestPersistenceService.updateRequest(request);
 			LogLogic.createLog("Antrag wurde bestätigt", request.getUser()
 					.getEmailAddress());
-			EmailUtility.sendMail(request.getUser(), EmailSubject.REQUEST_ACCEPT);
+			EmailUtility.sendMail(request.getUser(),
+					EmailSubject.REQUEST_ACCEPT);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -155,23 +158,53 @@ public class RequestLogic {
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Method which returns the overall number of existing {@link Request}s in the database.
+	 * Sets the {@link Request}s {@link RequestStatus} on 'waiting'.
+	 * 
+	 * @param request
+	 *            The {@link Request} that should be changed.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
+	public static boolean postponeRequest(Request request) {
+		if (request.getRequestStatus() != RequestStatus.WAITING) {
+			try {
+				request.setRequestStatus(RequestStatus.WAITING);
+				RequestPersistenceService.updateRequest(request);
+				LogLogic.createLog("Antrag wurde auf 'wartend' gesetzt",
+						request.getUser().getEmailAddress());
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				LogLogic.createLog(
+						"Antrag konnte nicht auf 'wartend'gesetzt werden",
+						request.getUser().getEmailAddress());
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Method which returns the overall number of existing {@link Request}s in
+	 * the database.
+	 * 
 	 * @return Number of {@link Request}s.
 	 */
-	public static int getNumberOfRequests(){
+	public static int getNumberOfRequests() {
 		return RequestPersistenceService.loadAllRequests().size();
 	}
-	
+
 	/**
 	 * Method which returns the number of waiting {@link Request}s.
+	 * 
 	 * @return Number of waiting {@link Request}s.
 	 */
-	public static int getNumberOfWaitingRequests(){
+	public static int getNumberOfWaitingRequests() {
 		int counter = 0;
 		for (Request request : RequestPersistenceService.loadAllRequests()) {
-			if (request.getRequestStatus() == RequestStatus.WAITING) counter++;
+			if (request.getRequestStatus() == RequestStatus.WAITING)
+				counter++;
 		}
 		return counter;
 	}
