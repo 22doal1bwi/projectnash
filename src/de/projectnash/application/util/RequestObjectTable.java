@@ -1,6 +1,10 @@
 package de.projectnash.application.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import de.projectnash.entities.Request;
 
@@ -21,7 +25,7 @@ public class RequestObjectTable {
 	
 	private String emailAddress;
 	
-	private Date requestCreationDate;
+	private String requestCreationDate;
 	
 	private RequestStatus status;
 	
@@ -35,9 +39,14 @@ public class RequestObjectTable {
 	 * @param emailAddress
 	 * @param requestCreationDate
 	 * @param status
+	 * @throws ParseException 
 	 */
-	public RequestObjectTable (Date requestCreationDate, String firstName, String lastName, String department, int personalId, String emailAddress, RequestStatus status){
-		this.requestCreationDate = requestCreationDate;
+	public RequestObjectTable (Date requestCreationDate, String firstName, String lastName, String department, int personalId, String emailAddress, RequestStatus status) {
+		
+		DateFormat formatter = new SimpleDateFormat(
+				"dd.MM.yyyy, HH:mm", Locale.GERMANY);
+		
+		this.requestCreationDate = formatter.format(requestCreationDate) + " Uhr";
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.department = department;
