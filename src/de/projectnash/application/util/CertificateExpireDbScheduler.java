@@ -26,7 +26,7 @@ public class CertificateExpireDbScheduler implements Job {
 		
 			/** Loads all certificates that belong to a user. */
 			List<Certificate> allCertificates = UserPersistenceService
-					.loadAllUsers().stream().map(User::getCertificate)
+					.loadAllUsers().stream().map(User::getCertificate).filter(cert -> cert != null)
 					.collect(Collectors.toList());
 
 			allCertificates.forEach(certificate -> {
