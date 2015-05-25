@@ -59,18 +59,13 @@ public class LoginServlet extends HttpServlet {
 			response.addCookie(userName);
 			map.put("loginFailed", false);
 			write(response, map);
-//			response.sendRedirect("intern/index.html");
 
 		} else {
 			/** user not present or password wrong */
 			map.put("loginFailed", true);
 			write(response, map);
-			// RequestDispatcher rd =
-			// getServletContext().getRequestDispatcher("/login.html");
-			// PrintWriter out= response.getWriter();
-			// out.println("<font color=red>Your E-Mail-Address or password is incorrect.</font>");
-			// rd.include(request, response);
 		}
+
 	}
 
 	private void write(HttpServletResponse resp, Map<String, Object> map)

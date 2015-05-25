@@ -15,7 +15,6 @@ import com.google.gson.Gson;
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
-import de.projectnash.frontend.controllers.RequestController;
 import de.projectnash.frontend.controllers.SessionController;
 
 /**

@@ -29,12 +29,6 @@ public class CertificateLogic {
 
 		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
 				"artur.ermisch@simpleCert.com", "Eierkuchen2");
-		try {
-			createCertificate(tempUser, "");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
