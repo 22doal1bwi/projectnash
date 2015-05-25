@@ -56,7 +56,13 @@ public class UserLogic {
 		}		
 	}
 		
-	//TODO: see comment
+	/**
+	 * Activates the {@link Certificate} after the {@link Request} was accepted.
+	 * 
+	 * @param user The {@link User} whose {@link Request} was accepted.
+	 * @param password The {@link String} that is typed by the {@link User}.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
 	public static boolean activateCertificateForRequest(User user, String password) {
 		try {
 			if(hasCertificate(user)){

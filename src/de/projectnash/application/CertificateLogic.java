@@ -27,8 +27,8 @@ public class CertificateLogic {
 
 	public static void main(String[] args) {
 
-		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
-				"artur.ermisch@simpleCert.com", "Eierkuchen2");
+//		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
+//				"artur.ermisch@simpleCert.com", "Eierkuchen2");
 	}
 
 	/**

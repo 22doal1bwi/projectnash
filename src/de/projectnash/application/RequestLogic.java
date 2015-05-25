@@ -201,12 +201,7 @@ public class RequestLogic {
 	 * @return Number of waiting {@link Request}s.
 	 */
 	public static int getNumberOfWaitingRequests() {
-		int counter = 0;
-		for (Request request : RequestPersistenceService.loadAllRequests()) {
-			if (request.getRequestStatus() == RequestStatus.WAITING)
-				counter++;
-		}
-		return counter;
+		return (int) RequestPersistenceService.loadAllRequests().stream().filter(request -> request.getRequestStatus() == RequestStatus.WAITING).count();
 	}
 
 }
