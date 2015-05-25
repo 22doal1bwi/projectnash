@@ -39,7 +39,6 @@ public class RequestObjectTable {
 	 * @param emailAddress
 	 * @param requestCreationDate
 	 * @param status
-	 * @throws ParseException 
 	 */
 	public RequestObjectTable (Date requestCreationDate, String firstName, String lastName, String department, int personalId, String emailAddress, RequestStatus status) {
 		

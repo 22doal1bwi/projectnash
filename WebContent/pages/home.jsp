@@ -151,8 +151,8 @@
  %> <a href="show_certificate.jsp"> <%
  	}
  %> <!-------------------------------<END> SET LINK FOR THE FIRST TILE--------------------------------->
-							<div class="panel panel-green">
-								<div class="panel-heading">
+							<div id="panel1_h" class="panel panel-green">
+								<div id="panel1" class="panel-heading">
 									<div class="row">
 										<div class="col-xs-3">
 											<i class="fa fa-file-text-o fa-5x"></i>
@@ -204,8 +204,8 @@
 			%>
 			<div class="col-lg-3 col-md-6">
 				<a href="extend_certificate.jsp">
-					<div class="panel panel-yellow">
-						<div class="panel-heading">
+					<div id="panel2_h" class="panel panel-yellow">
+						<div id="panel2" class="panel-heading">
 							<div class="row">
 								<div class="col-xs-3">
 									<i class="fa fa-history fa-5x"></i>
@@ -253,9 +253,9 @@
 				</a>
 			</div>
 			<div class="col-lg-3 col-md-6">
-				<div class="panel panel-red">
+				<div id="panel3_h" class="panel panel-red">
 					<a href="revoke_certificate.jsp">
-						<div class="panel-heading">
+						<div id="panel3" class="panel-heading">
 							<div class="row">
 								<div class="col-xs-3">
 									<i class="fa fa-ban fa-5x"></i>
@@ -279,9 +279,9 @@
 		<hr class="horizontal_divider">
 		<div class="row">
 			<div class="col-lg-3 col-md-6">
-				<div class="panel panel-primary">
+				<div id="panel4_h" class="panel panel-primary">
 					<a href="manage_requests.jsp">
-						<div class="panel-heading panel_primary_heading">
+						<div id="panel4" class="panel-heading panel_primary_heading">
 							<div class="row">
 								<div class="col-xs-3">
 									<i class="fa fa-files-o fa-5x"></i>
@@ -316,9 +316,9 @@
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-6">
-				<div class="panel panel-primary">
+				<div id="panel5_h" class="panel panel-primary">
 					<a href="manage_users.jsp">
-						<div class="panel-heading panel_primary_heading">
+						<div id="panel5" class="panel-heading panel_primary_heading">
 							<div class="row">
 								<div class="col-xs-3">
 									<i class="fa fa-users fa-5x"></i>

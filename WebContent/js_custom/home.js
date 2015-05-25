@@ -2,6 +2,8 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {
+	setSameHeight()
+	
 	jQuery.i18n.properties({
 		name : 'messages',
 		path : '../i18n/',
@@ -10,3 +12,21 @@ $(document).ready(function() {
 		encoding : 'UTF-8'
 	});
 });
+
+//====================================================================================//
+//================================ RESIZE FUNCTION ===================================//
+//====================================================================================//
+$(window).resize(function () {
+	setSameHeight()
+})
+
+function setSameHeight() {
+	var height
+	$("#panel1, #panel2, #panel3, #panel4, #panel5").removeAttr("style")
+	height = Math.max($("#panel1_h").height(), $("#panel2_h").height(), $(
+			"#panel3_h").height(), $("#panel4_h").height(), $("#panel5_h")
+			.height())
+	height = height + "px"
+	$("#panel1, #panel2, #panel3, #panel4, #panel5").attr("style",
+			"height:" + height)
+}

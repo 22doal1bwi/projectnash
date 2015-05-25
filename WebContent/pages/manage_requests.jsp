@@ -105,9 +105,9 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="dataTable_wrapper">
-							<table class="table table-striped table-bordered table-hover"
+							<table class="table table-striped table-hover"
 								id="requests">
-								<thead>
+								<thead class="table_head">
 									<tr>
 										<th>Beantragunsdatum</th>
 										<th>Vorname</th>

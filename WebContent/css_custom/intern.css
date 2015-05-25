@@ -228,7 +228,7 @@ html, body {
 
 .table_icon_waiting {
 	font-size: 23px;
-	color: #337ab7;
+	color: #607D8B;
 }
 .table_icon_accepted {
 	font-size: 23px;
@@ -242,7 +242,7 @@ html, body {
 	text-align: center;
 }
 .loading_gif_table {
-	height: 20px;
+	height: 23px;
 }
 .table_edit_icon_confirm {
 	font-size: 15px;
@@ -262,4 +262,8 @@ html, body {
 }
 .table_edit_icon_confirm:hover, .table_edit_icon_deny:hover {
 	background-color: #eee;
+}
+.table_head {
+	background-color: #607D8B;
+  	color: #fff;
 }

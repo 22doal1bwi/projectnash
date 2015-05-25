@@ -1,7 +1,6 @@
 package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -58,6 +57,8 @@ public class AdminRequestServlet extends HttpServlet {
 		JsonResponse.addProperty("sEcho", 1);
 		JsonResponse.addProperty("iTotalRecords", requestList.size());
 		JsonResponse.addProperty("iTotalDisplayRecords", requestList.size());
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().print(JsonResponse.toString());
 	}
 }
