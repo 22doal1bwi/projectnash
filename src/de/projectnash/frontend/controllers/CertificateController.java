@@ -1,5 +1,9 @@
 package de.projectnash.frontend.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.entities.Certificate;
@@ -11,6 +15,15 @@ public class CertificateController implements ICertificateController{
 	
 	public CertificateController(String sessionId) {
 		certificate = SessionLogic.loadSession(sessionId).getUser().getCertificate();
+	}
+	
+	public String getExpirationDateForUI(){
+		
+		DateFormat formatter = new SimpleDateFormat(
+				"dd.MM.yyyy, HH:mm", Locale.GERMANY);
+		
+		return formatter.format(CertificateLogic.getExpirationDate(certificate)) + " Uhr";
+		
 	}
 
 	@Override

@@ -103,7 +103,7 @@
 							<label>Standort</label>
 							<p class="form-control-static"><%=cc.getLocalityName()%></p>
 							<label>Gültig bis</label>
-							<p class="form-control-static"><%=cc.getExpirationDate()%></p>
+							<p class="form-control-static"><%=cc.getExpirationDateForUI()%></p>
 							<hr class="horizontal_divider">
 							<form action="../CrtDownload" method="get">
 								<button type="submit" class="btn simplecert_btn">Herunterladen</button>
