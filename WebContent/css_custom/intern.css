@@ -130,6 +130,10 @@ html, body {
 	cursor: context-menu !important;
 }
 
+.nav_items_distance {
+	height: 25px;
+}
+
 .simplecert_inv_btn {
 	border: 1px solid #C03A2A;
 	background-color: #fff;

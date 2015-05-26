@@ -2,7 +2,7 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {
-	setSameHeight()
+	setSameHeight()	
 	
 	jQuery.i18n.properties({
 		name : 'messages',

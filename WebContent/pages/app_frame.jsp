@@ -10,10 +10,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, height=device-height, initial-scale=1">
-
-<script type="text/javascript" src="../js_custom/frame.js"></script>
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js_custom/frame.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
 <link rel="icon" type="image/png" sizes="96x96"
@@ -100,7 +101,7 @@
 					<script type="text/javascript">
 						function logout() {
 							document.form_logout.submit()
-						}
+						}						
 					</script>
 				</form>
 			</li>
@@ -112,18 +113,19 @@
 					<li><img class="displayed"
 						src="../img/simplecert/simplecert_logo_text_128x128.png"
 						style="margin-top: 10px; margin-bottom: 15px" /></li>
-					<li><a href="home.jsp" target="app_content"><i
-							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
+					<li><a id="a_home" class="active"
+						onclick="location.reload(true)" href="home.jsp"
+						target="app_content"><i class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
 					<%
-						if (!hasValidCertificate) {							
-					%>							
-					<li><a href="request_certificate.jsp" target="app_content"><i
+						if (!hasValidCertificate) {
+					%>
+					<li><a id="a_req_show_certificate" onclick="setFrameSrc('request_certificate')" href="request_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
 							beantragen</a></li>
 					<%
 						} else {
 					%>
-					<li><a href="show_certificate.jsp" target="app_content"><i
+					<li><a id="a_req_show_certificate" onclick="setFrameSrc('show_certificate')" href="show_certificate.jsp" target="app_content"><i
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
 					<%
 						}
@@ -131,41 +133,38 @@
 					<%
 						if (hasValidCertificate) {
 					%>
-					<li><a href="extend_certificate.jsp" target="app_content"><i
+					<li><a id="a_extend_certificate" onclick="setFrameSrc('extend_certificate')" href="extend_certificate.jsp" target="app_content"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
-					<li><a href="revoke_certificate.jsp" target="app_content"><i
-							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
-					<li>
+					<li><a id="a_revoke_certificate" onclick="setFrameSrc('revoke_certificate')" href="revoke_certificate.jsp" target="app_content"><i
+							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>					
 						<%
 							} else {
 						%>
 					
-					<li class="disabled"><a class="navitem_disabled"><i
+					<li class="disabled"><a id="a_extend" class="navitem_disabled"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
-					<li class="disabled"><a class="navitem_disabled"><i
+					<li class="disabled"><a id="a_revoke" class="navitem_disabled"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
-
 					<%
 						}
 							if (isAdmin) {
 					%>
-					<br>
-					<li><a href="manage_requests.jsp" target="app_content"><i
+					<li style="height:25px;"></li>
+					<li><a id="a_manage_requests" onclick="setFrameSrc('manage_requests')" href="manage_requests.jsp" target="app_content"><i
 							class="fa fa-files-o fa-fw navbaricon"></i>Anträge verwalten
 							<div class="admin_flag_nav"></div></a></li>
-					<li><a href="manage_users.jsp" target="app_content"><i
+					<li><a id="a_manage_users" onclick="setFrameSrc('manage_users')" href="manage_users.jsp" target="app_content"><i
 							class="fa fa-users fa-fw navbaricon"></i>Benutzer verwalten
 							<div class="admin_flag_nav"></div></a></li>
 					<%
 						}
-					%>
-
+					%>					
 				</ul>
 			</div>
 		</div>
 		</nav>
 	</div>
-	<iframe onload="document.title=this.contentWindow.document.title"
+	<iframe id="app_content" onload="document.title=this.contentWindow.document.title; setNavItemActive()"
 		name="app_content" style="height: 100%; border: none;" src="home.jsp"
 		width="100%">
 		<p>Your browser does not support iframes.</p>
