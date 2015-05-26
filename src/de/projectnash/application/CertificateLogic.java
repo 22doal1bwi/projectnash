@@ -4,7 +4,9 @@ import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -94,6 +96,14 @@ public class CertificateLogic {
 				"Zertifikat wurde erfolgreich in der Datenbank gespeichert", user.getEmailAddress());
 		return true;
 	}
+	
+	/**
+	 * Updates an {@link Certificate}.
+	 * @param certificate
+	 */
+	public static void updateCertificate(Certificate certificate){
+		CertificatePersistenceService.updateCertificate(certificate);
+	}
 
 	// TODO: implement revokeCertificate method
 	public static boolean revokeCertificate(User user, String revokeReason) {
@@ -102,7 +112,7 @@ public class CertificateLogic {
 			CertificateUtility.revokeCRT(certificate.getCertificateCRT());
 			certificate.setCertificateStatus(CertificateStatus.REVOKED);
 			certificate.setRevokeReason(revokeReason);
-			CertificatePersistenceService.updateCertificate(certificate);
+			updateCertificate(certificate);
 			
 			user.setCertificate(null);
 			UserLogic.updateUser(user);
@@ -175,6 +185,30 @@ public class CertificateLogic {
 			return (int) timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		}
 		throw new FileNotFoundException("Noch kein Zertifikat vorhanden");
+	}
+	
+	/**
+	 * Method which returns a {@link List} of all {@link Certificate}s.
+	 * @return A {@link List} of all {@link Certificate}s in the database.
+	 */
+	public static List<Certificate> getAllCertificates(){
+		return CertificatePersistenceService.loadAllCertificates();
+	}
+	
+	/**
+	 * Method which returns a {@link List} of all {@link Certificate}s with {@link CertificateStatus}.
+	 * @param CertificateStatus {@link CertificateStatus}.
+	 * @return A {@link List} of all {@link Certificate}s with this {@link CertificateStatus} in the database.
+	 */
+	public static List<Certificate> getAllCertificates(CertificateStatus CertificateStatus){
+		List<Certificate> allCertificates = getAllCertificates();
+		List<Certificate> certificates = new ArrayList<Certificate>();
+		for (Certificate c : allCertificates) {
+			if (c.getCertificateStatus().equals(CertificateStatus)) {
+			certificates.add(c);
+			}
+		}
+		return certificates;
 	}
 
 	/* G E T T E R */

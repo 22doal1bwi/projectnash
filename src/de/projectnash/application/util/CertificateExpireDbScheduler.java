@@ -2,7 +2,6 @@ package de.projectnash.application.util;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -15,28 +14,38 @@ import de.projectnash.entities.User;
 import de.projectnash.application.util.Constants;
 
 /**
- * This class contains the logic to send an email to an {@link User} when his {@link Certificate} will shortly expire.
- * @author Silvio D'Alessandro
+ * This class contains the logic to send an email to an {@link User} when his
+ * {@link Certificate} will shortly expire.
+ * 
+ * @author Silvio D'Alessandro, Marius Boepple
  *
  */
 public class CertificateExpireDbScheduler implements Job {
 
 	@Override
-	public void execute(JobExecutionContext jobToExecute) throws JobExecutionException {
-		
-			/** Loads all certificates that belong to a user. */
-			List<Certificate> allCertificates = UserPersistenceService
-					.loadAllUsers().stream().map(User::getCertificate).filter(cert -> cert != null)
-					.collect(Collectors.toList());
+	public void execute(JobExecutionContext jobToExecute)
+			throws JobExecutionException {
 
-			allCertificates.forEach(certificate -> {
-				try{
-						if (CertificateLogic.getTimeLeftForCertificate(certificate, TimeUnit.DAYS) < Constants.TIMEFRAME_FOR_REMINDER) {
+		List<Certificate> allActiveCertificates = CertificateLogic
+				.getAllCertificates(CertificateStatus.ACTIVE);
 
-							EmailUtility.sendMail(UserPersistenceService.loadUser(certificate.getEmailAddress()), EmailSubject.CERTIFICATE_EXPIRE);
-						}
-				} catch (Exception e) {
-					e.printStackTrace();
+		/* set certificates to outdated & send reminding eMail */
+		allActiveCertificates.forEach(certificate -> {
+			try {
+				if (!CertificateLogic.certificateIsValid(certificate)) {
+					certificate.setCertificateStatus(CertificateStatus.OUTDATED);
+					CertificateLogic.updateCertificate(certificate);
+				}				
+				
+				if (CertificateLogic.getTimeLeftForCertificate(certificate,
+						TimeUnit.DAYS) < Constants.TIMEFRAME_FOR_REMINDER) {
+
+					EmailUtility.sendMail(UserPersistenceService
+							.loadUser(certificate.getEmailAddress()),
+							EmailSubject.CERTIFICATE_EXPIRE);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 	}

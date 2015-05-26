@@ -1,5 +1,7 @@
 package de.projectnash.databackend;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -37,6 +39,15 @@ public class CertificatePersistenceService {
     	TypedQuery<Certificate> query = em.createNamedQuery("QUERY_FIND_CERTIFICATE_BY_CERTIFICATE_ID", Certificate.class);
     	query.setParameter("certificateId", certificateId);
     	return query.getSingleResult();
+    }
+    
+    /**
+     * Loads all {@link Certificate}s from the database.
+     * @return A {@link List} of all {@link Certificate}s in the database.
+     */
+    public static List<Certificate> loadAllCertificates(){
+    	TypedQuery<Certificate> query = em.createNamedQuery("QUERY_FIND_ALL_CERTIFICATES", Certificate.class);
+    	return query.getResultList();
     }
     
     /**

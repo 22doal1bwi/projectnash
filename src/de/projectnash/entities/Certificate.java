@@ -28,6 +28,7 @@ import de.projectnash.application.util.CertificateStatus;
 @Table(name = "certificates")
 @NamedQueries({
 	@NamedQuery(name = "QUERY_FIND_CERTIFICATE_BY_CERTIFICATE_ID", query = "SELECT c FROM Certificate c WHERE c.certificateId = :certificateId"),
+	@NamedQuery(name = "QUERY_FIND_ALL_CERTIFICATES", query = "SELECT c FROM Certificate c"),
 	@NamedQuery(name = "QUERY_REMOVE_CERTIFICATE_BY_CERTIFICATE", query = "DELETE FROM Certificate c WHERE c = :Certificate")
 })
 public class Certificate implements Serializable {
@@ -115,14 +116,16 @@ public class Certificate implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Certificate [certificateId=" + certificateId + ", certificateFile="
-				+ certificateFileP12 + ", countryName=" + countryName
-				+ ", state=" + state + ", localityName=" + localityName
-				+ ", organizationName=" + organizationName
-				+ ", organizationalUnit=" + organizationalUnit
-				+ ", commonName=" + commonName + ", emailAddress="
-				+ emailAddress + ", initializationDate=" + initializationDate.toString()
-				+ ", expirationDate=" + expirationDate.toString() + "]";
+		return "Certificate [certificateId=" + certificateId
+				+ ", countryName=" + countryName + ", state=" + state
+				+ ", localityName=" + localityName + ", organizationName="
+				+ organizationName + ", organizationalUnit="
+				+ organizationalUnit + ", commonName=" + commonName
+				+ ", emailAddress=" + emailAddress + ", initializationDate="
+				+ initializationDate + ", expirationDate=" + expirationDate
+				+ ", certificateStatus=" + certificateStatus
+				+ ", revokeReason=" + revokeReason + ", creationDate="
+				+ creationDate + ", modificationDate=" + modificationDate + "]";
 	}
 
 	public int getCertificateId() {
