@@ -33,14 +33,11 @@ public class CertificateExpireDbScheduler implements Job {
 				try{
 						if (CertificateLogic.getTimeLeftForCertificate(certificate, TimeUnit.DAYS) < Constants.TIMEFRAME_FOR_REMINDER) {
 
-							/** Needed because the email address always contains '\n' as its last index. */
-							String mailAddress = certificate.getEmailAddress().substring(0,certificate.getEmailAddress().length() - 1);
-
-							EmailUtility.sendMail(UserPersistenceService.loadUser(mailAddress), EmailSubject.CERTIFICATE_EXPIRE);
+							EmailUtility.sendMail(UserPersistenceService.loadUser(certificate.getEmailAddress()), EmailSubject.CERTIFICATE_EXPIRE);
 						}
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-		   });
+			}
+		});
 	}
 }

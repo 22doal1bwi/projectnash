@@ -75,7 +75,7 @@ public class CertificateLogic {
 							UserLogic.getCommonName(user), //utf8 workaround
 							//common name from csr (not utf8): subjectData.split("/")[6].split("=")[1],
 							subjectData
-							.split("/")[7].split("=")[1], formatter
+							.split("/")[7].split("=")[1].replace("\n", ""), formatter
 							.parse(datesData.split("notBefore=")[1]
 									.split("notAfter=")[0]), formatter
 							.parse(datesData.split("notBefore=")[1]
@@ -84,7 +84,7 @@ public class CertificateLogic {
 
 			/** save certificate to database. */
 			UserLogic.updateUser(user);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogLogic.createLog("Zertifikat konnte nicht in der Datenbank gespeichert werden", user.getEmailAddress());
