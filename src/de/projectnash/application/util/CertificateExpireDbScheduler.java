@@ -30,23 +30,29 @@ public class CertificateExpireDbScheduler implements Job {
 				.getAllCertificates(CertificateStatus.ACTIVE);
 
 		/* set certificates to outdated & send reminding eMail */
-		allActiveCertificates.forEach(certificate -> {
-			try {
-				if (!CertificateLogic.certificateIsValid(certificate)) {
-					certificate.setCertificateStatus(CertificateStatus.OUTDATED);
-					CertificateLogic.updateCertificate(certificate);
-				}				
-				
-				if (CertificateLogic.getTimeLeftForCertificate(certificate,
-						TimeUnit.DAYS) < Constants.TIMEFRAME_FOR_REMINDER) {
+		allActiveCertificates
+				.forEach(certificate -> {
+					try {
+						if (!CertificateLogic.certificateIsValid(certificate)) {
+							certificate
+									.setCertificateStatus(CertificateStatus.OUTDATED);
+							CertificateLogic.updateCertificate(certificate);
+						}
 
-					EmailUtility.sendMail(UserPersistenceService
-							.loadUser(certificate.getEmailAddress()),
-							EmailSubject.CERTIFICATE_EXPIRE);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
+						if (!certificate.isReminded()
+								&& CertificateLogic.getTimeLeftForCertificate(
+										certificate, TimeUnit.DAYS) < Constants.TIMEFRAME_FOR_REMINDER) {
+
+							EmailUtility.sendMail(UserPersistenceService
+									.loadUser(certificate.getEmailAddress()),
+									EmailSubject.CERTIFICATE_EXPIRE);
+							certificate.setReminded(true);
+							CertificateLogic.updateCertificate(certificate);
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
 	}
 }
