@@ -47,7 +47,7 @@ public class LogoutServlet extends HttpServlet {
 		}
 		
 		SessionLogic.removeSession(actualCookie);
-		response.sendRedirect("pages/login.jsp");
+		response.sendRedirect("certificates/login.jsp");
 	}
 
 }
