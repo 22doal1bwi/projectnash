@@ -19,6 +19,7 @@
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
 <script type="text/javascript" src="../js_custom/home.js"></script>
+<script type="text/javascript" src="../js_custom/frame.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <link rel="icon" type="image/png" sizes="32x32"
 	href="../img/simplecert/simplecert_favicon_32x32.png">
@@ -146,9 +147,9 @@
 						if (!uc.hasValidCertificate()) {
 					%>
 
-					<a href="request_certificate.jsp"> <%
+					<a href="request_certificate.jsp" onclick="setFrameSrc('request_certificate')"> <%
  	} else {
- %> <a href="show_certificate.jsp"> <%
+ %> <a href="show_certificate.jsp" onclick="setFrameSrc('show_certificate')"> <%
  	}
  %> <!-------------------------------<END> SET LINK FOR THE FIRST TILE--------------------------------->
 							<div id="panel1_h" class="panel panel-green">
@@ -203,7 +204,7 @@
 					if (uc.hasValidCertificate()) {
 			%>
 			<div class="col-lg-3 col-md-6">
-				<a href="extend_certificate.jsp">
+				<a href="extend_certificate.jsp" onclick="setFrameSrc('extend_certificate')">
 					<div id="panel2_h" class="panel panel-yellow">
 						<div id="panel2" class="panel-heading">
 							<div class="row">
@@ -254,7 +255,7 @@
 			</div>
 			<div class="col-lg-3 col-md-6">
 				<div id="panel3_h" class="panel panel-red">
-					<a href="revoke_certificate.jsp">
+					<a href="revoke_certificate.jsp" onclick="setFrameSrc('revoke_certificate')">
 						<div id="panel3" class="panel-heading">
 							<div class="row">
 								<div class="col-xs-3">
@@ -280,7 +281,7 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-6">
 				<div id="panel4_h" class="panel panel-primary">
-					<a href="manage_requests.jsp">
+					<a href="manage_requests.jsp" onclick="setFrameSrc('manage_requests')">
 						<div id="panel4" class="panel-heading panel_primary_heading">
 							<div class="row">
 								<div class="col-xs-3">
@@ -317,7 +318,7 @@
 			</div>
 			<div class="col-lg-3 col-md-6">
 				<div id="panel5_h" class="panel panel-primary">
-					<a href="manage_users.jsp">
+					<a href="manage_users.jsp" onclick="setFrameSrc('manage_users')">
 						<div id="panel5" class="panel-heading panel_primary_heading">
 							<div class="row">
 								<div class="col-xs-3">

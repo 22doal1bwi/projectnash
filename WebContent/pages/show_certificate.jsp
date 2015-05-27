@@ -61,8 +61,7 @@
 	<div id="wrapper">
 		<%
 			// Allow access only if session exists - if not, redirect to login
-			String sessionId = SessionController.checkForSessionId(request,
-					response);
+			String sessionId = SessionController.checkForSessionId(request, response);
 
 			switch (sessionId) {
 
@@ -76,8 +75,7 @@
 
 				if (hasValidCertificate) {
 
-					CertificateController cc = new CertificateController(
-							sessionId);
+					CertificateController cc = new CertificateController(sessionId);
 		%>
 		<div id="page-wrapper">
 			<div id="messagebar_show"

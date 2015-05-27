@@ -19,6 +19,7 @@
 	src="../bower_components/jquery/dist/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="../js_custom/extend_certificate.js"></script>
 <script type="text/javascript" src="../js_custom/_messagebar.js"></script>
+<script type="text/javascript" src="../js_custom/frame.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -226,7 +227,8 @@
 									gesichert werden soll und aktivieren Sie anschließend Ihr
 									Zertifikat.</p>
 								<p>
-									<input type="password" id="password" name="password" onchange="validatePassword()"
+									<input type="password" id="password" name="password"
+										onchange="validatePassword()"
 										class="form-control passwort_field_request_extend"
 										placeholder="Passwort" required>
 								</p>

@@ -264,9 +264,6 @@ html, body {
   	cursor: pointer;
   	color: #C03A2A; 
 }
-.table_edit_icon_confirm:hover, .table_edit_icon_deny:hover {
-	background-color: #eee;
-}
 .table_head {
 	background-color: #607D8B;
   	color: #fff;

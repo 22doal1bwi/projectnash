@@ -1,7 +1,7 @@
 // ====================================================================================//
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
-$(document).ready(function() {
+$(document).ready(function() {		
 	$('#password, #password_confirm').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#step2_button_extend').click();
@@ -15,6 +15,12 @@ $(document).ready(function() {
 		encoding : 'UTF-8'
 	});
 });
+
+$('#app_content').ready(function() {
+	$("a").removeClass('active')
+	$("a_extend_certificate").addClass('active')
+})
+
 
 // ====================================================================================//
 // ================================== AJAX FUNCTIONS

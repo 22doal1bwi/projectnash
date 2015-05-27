@@ -125,11 +125,10 @@
 			</div>
 		</div>
 		<%
-			} else {
-					response.sendRedirect("home.jsp"); // TODO
-				}
+		} else {
+				response.sendRedirect("home.jsp");
 			}
-		%>
-	
+		}
+	%>
 </body>
 </html>

@@ -2,7 +2,7 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(
-		function() {
+		function() {			
 			$('#password_current, #password_new, #password_new_confirm')
 					.keypress(function(e) {
 						if (e.keyCode == 13)

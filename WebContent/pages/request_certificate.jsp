@@ -261,7 +261,7 @@
 			</div>
 		</div>
 	</div>
-	<%
+<%
 		} else {
 				response.sendRedirect("home.jsp");
 			}
