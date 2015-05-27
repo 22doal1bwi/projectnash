@@ -1,6 +1,7 @@
 package de.projectnash.entities;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -81,6 +82,9 @@ public class Certificate implements Serializable {
 	@Column(name = "crt_revoke_reason", nullable = true)
 	private String revokeReason;
 	
+	@Column(name="crt_is_reminded", columnDefinition="BOOLEAN default 0", nullable = false)
+	private boolean isReminded;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "crt_created_on", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable= true, updatable= false)
 	private Date creationDate;
@@ -98,7 +102,8 @@ public class Certificate implements Serializable {
 			String countryName, String state, String localityName,
 			String organizationName, String organizationalUnit,
 			String commonName, String emailAddress, Date initializationDate,
-			Date expirationDate, CertificateStatus certificateStatus) {
+			Date expirationDate, CertificateStatus certificateStatus,
+			boolean isReminded) {
 		super();
 		this.certificateFileCRT = certificateFileCRT;
 		this.certificateFileP12 = certificateFileP12;
@@ -112,11 +117,14 @@ public class Certificate implements Serializable {
 		this.initializationDate = initializationDate;
 		this.expirationDate = expirationDate;
 		this.certificateStatus = certificateStatus;
+		this.isReminded = isReminded;
 	}
 
 	@Override
 	public String toString() {
 		return "Certificate [certificateId=" + certificateId
+				+ ", certificateFileP12=" + Arrays.toString(certificateFileP12)
+				+ ", certificateFileCRT=" + Arrays.toString(certificateFileCRT)
 				+ ", countryName=" + countryName + ", state=" + state
 				+ ", localityName=" + localityName + ", organizationName="
 				+ organizationName + ", organizationalUnit="
@@ -124,8 +132,9 @@ public class Certificate implements Serializable {
 				+ ", emailAddress=" + emailAddress + ", initializationDate="
 				+ initializationDate + ", expirationDate=" + expirationDate
 				+ ", certificateStatus=" + certificateStatus
-				+ ", revokeReason=" + revokeReason + ", creationDate="
-				+ creationDate + ", modificationDate=" + modificationDate + "]";
+				+ ", revokeReason=" + revokeReason + ", isReminded="
+				+ isReminded + ", creationDate=" + creationDate
+				+ ", modificationDate=" + modificationDate + "]";
 	}
 
 	public int getCertificateId() {
@@ -246,6 +255,14 @@ public class Certificate implements Serializable {
 
 	public void setRevokeReason(String revokeReason) {
 		this.revokeReason = revokeReason;
+	}
+
+	public boolean isReminded() {
+		return isReminded;
+	}
+
+	public void setReminded(boolean isReminded) {
+		this.isReminded = isReminded;
 	}
 
 }

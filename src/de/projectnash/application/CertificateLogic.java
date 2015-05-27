@@ -82,7 +82,7 @@ public class CertificateLogic {
 									.split("notAfter=")[0]), formatter
 							.parse(datesData.split("notBefore=")[1]
 									.split("notAfter=")[1]),
-							CertificateStatus.ACTIVE));
+							CertificateStatus.ACTIVE, false));
 
 			/** save certificate to database. */
 			UserLogic.updateUser(user);
