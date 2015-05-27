@@ -56,7 +56,8 @@ public class EmailUtility {
 					+ user.getLastName()
 					+ ",\n\nIhr neues Passwort, mit dem Sie sich in Ihrer Zertifikatsverwaltung anmelden können, lautet: "
 					+ user.getPassword()
-					+ ",\n\nMit freundlichen Grüßen\n\nIhr simpleCert Team";
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case CERTIFICATE_EXPIRE:
 			subject = SUBJECT_CERTIFICATE_EXPIRES;
@@ -65,7 +66,8 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nIhr Zertifikat läuft in Kürze ab. Bitte verlängern Sie es schnellstmöglich."
-					+ "\n\nMit freundlichen Grüßen\n\nIhr simpleCert Team";
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case REQUEST_CREATE:
 			subject = SUBJECT_REQUEST_CREATE;
@@ -74,7 +76,8 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nEs wurde ein Antrag für ein Zertifikat für Sie erstellt. Ein Administrator wird ihn in Kürze bearbeiten."
-					+ "\n\nMit freundlichen Grüßen\n\nIhr simpleCert Team";
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case REQUEST_ACCEPT:
 			subject = SUBJECT_REQUEST_ACCEPT;
@@ -83,7 +86,8 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nIhr Antrag für ein Zertifikat wurde genehmigt. Sie können es nun in Ihrer Zertifikatsverwaltung aktivieren und herunterladen."
-					+ "\n\nMit freundlichen Grüßen\n\nIhr simpleCert Team";
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case REQUEST_DENY:
 			subject = SUBJECT_REQUEST_DENY;
@@ -92,7 +96,8 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nIhr Antrag für ein Zertifikat wurde abgelehnt. Bitte wenden Sie sich an Ihren Administrator."
-					+ "\n\nMit freundlichen Grüßen\n\nIhr simpleCert Team";
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		default:
 			subject = SUBJECT_ERROR;
@@ -101,7 +106,8 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nEs ist etwas in der Email-Verarbeitung schief gelaufen, wenden Sie sich bitte an Ihren Administrator."
-					+ "\n\nMit freundlichen Grüßen\n\nIhr simpleCert Team";
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		}
 
