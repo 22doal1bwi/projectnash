@@ -52,7 +52,7 @@ html, body {
 	margin-right: 13px;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	cursor: context-menu;
+	cursor: default;
 	transition: border-color 750ms ease;
 }
 
@@ -127,7 +127,7 @@ html, body {
 }
 
 .navitem_disabled {
-	cursor: context-menu !important;
+	cursor: default !important;
 }
 
 .nav_items_distance {
@@ -164,7 +164,7 @@ html, body {
 	top: -5px;
 	margin-right: 20px;
 	margin-left: 20px;
-	cursor: context-menu;
+	cursor: default;
 }
 
 .logout {
@@ -227,7 +227,7 @@ html, body {
 	height: 14px;
 	top: -7px;
 	margin-left: 20px;
-	cursor: context-menu;
+	cursor: default;
 }
 
 .table_icon_waiting {

@@ -9,7 +9,7 @@
 	transition: top .4s ease, background-color .4s ease;
 	line-height: 55px;
 	border-radius: 0px;
-	cursor: context-menu;
+	cursor: default;
 	padding: 0;
 	z-index: 999;
 }
@@ -26,7 +26,7 @@
 	transition: top .4s ease, background-color .4s ease;
 	line-height: 55px;
 	border-radius: 0px;
-	cursor: context-menu;
+	cursor: default;
 	z-index: 999;
 }
 
@@ -52,7 +52,7 @@
 
 .messageicon_border_error {
 	border-color: #a94442 !important;
-	cursor: context-menu;
+	cursor: default;
 }
 
 .messageicon_error {
@@ -63,7 +63,7 @@
 
 .messageicon_border_warning {
 	border-color: #8a6d3b !important;
-	cursor: context-menu;
+	cursor: default;
 }
 
 .messageicon_warning {
@@ -74,7 +74,7 @@
 
 .messageicon_border_success {
 	border-color: #3c763d !important;
-	cursor: context-menu;
+	cursor: default;
 }
 
 .messageicon_success {
