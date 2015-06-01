@@ -30,7 +30,7 @@ function requestCertificate() {
 			if (data.validSession && data.createdRequest) {
 				successful(1, "SCS_CERT_REQUEST")
 			} else if (data.validSession && data.createdRequest === false) {
-				unsuccessful("ERR_CERT_REQUEST")
+				unsuccessful(1, "ERR_CERT_REQUEST")
 			} else {
 				window.setTimeout(function() {
 					location.href = 'login.jsp';
@@ -38,7 +38,7 @@ function requestCertificate() {
 			}
 		},
 		error : function() {
-			unsuccessful("ERR_CONNECTION")
+			unsuccessful(1, "ERR_CONNECTION")
 		}
 	})
 }

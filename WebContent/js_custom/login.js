@@ -23,7 +23,8 @@ $(document).ready(function() {
 });
 
 // ====================================================================================//
-// ================================== AJAX FUNCTION ===================================//
+// ================================== AJAX FUNCTION
+// ===================================//
 // ====================================================================================//
 // Method which submits the 'emailAddress' and 'password' from the input fields
 function submitLoginForm() {
@@ -50,6 +51,7 @@ function submitLoginForm() {
 }
 
 function requestNewPassword() {
+	if  ($('#emailAddressForNewPassword').val() !== "") {
 	setLoading()
 	$.ajax({
 		url : '../ResetPasswordServlet',
@@ -75,9 +77,11 @@ function requestNewPassword() {
 		}
 	})
 }
+}
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS ==================================//
+// ================================== MAIN FUNCTIONS
+// ==================================//
 // ====================================================================================//
 // Method which checks all field values before submitting them to the backend
 function checkFormBeforeSubmit() {
