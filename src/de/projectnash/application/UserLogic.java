@@ -2,6 +2,7 @@ package de.projectnash.application;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
@@ -152,6 +153,10 @@ public class UserLogic {
 	 */
 	public static User loadUser(String eMailAddress){
 		return UserPersistenceService.loadUser(eMailAddress);	
+	}
+	
+	public static List<User> loadAllUsers(){
+		return UserPersistenceService.loadAllUsers();
 	}
 	
 	/**
