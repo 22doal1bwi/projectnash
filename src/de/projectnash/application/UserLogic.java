@@ -155,6 +155,11 @@ public class UserLogic {
 		return UserPersistenceService.loadUser(eMailAddress);	
 	}
 	
+	/**
+	 * Loads all {@link User}s from the database via {@link UserPersistenceService}.
+	 * 
+	 * @return A {@link List} with all {@link User}s in the database.
+	 */
 	public static List<User> loadAllUsers(){
 		return UserPersistenceService.loadAllUsers();
 	}

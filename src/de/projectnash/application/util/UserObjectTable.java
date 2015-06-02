@@ -5,6 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * This class provides a container that concatenates incoming data in order to build a clean JSON-Object and send it to the frontend.
+ * 
+ * @author Silvio D'Alessandro
+ *
+ */
 public class UserObjectTable {
 
 private String firstName;
