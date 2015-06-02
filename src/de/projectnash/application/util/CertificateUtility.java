@@ -16,7 +16,6 @@ import de.projectnash.application.util.OpenSSLException;
  * {@link Certificate} context.
  * 
  * @author Silvio D'Alessandro, Alexander Dobler
- * TODO: implement revokeCRT method
  *
  */
 public class CertificateUtility {
@@ -167,17 +166,24 @@ public class CertificateUtility {
 
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
+		
 		/** get output of key generation command as input stream */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
+		/** check if problem occurred */
 		if (out.toString().isEmpty()) throw new OpenSSLException("Problem in CSR generation method!");
 		
 		/** destroy openssl instance */
 		proc.destroy();
+		
+		/** delete temporary files from disk */
+		System.out.println(tmpKeyFile.delete() ? "Key file deleted" : "Key file delete failed ");
 		
 		return out.toByteArray();
 	}
@@ -214,6 +220,9 @@ public class CertificateUtility {
 		
 		/** destroy openssl instance */
 		proc.destroy();
+		
+		
+		
 		return out.toString();
 	}
 
@@ -228,9 +237,9 @@ public class CertificateUtility {
 	 */
 	public static byte[] generateCRT(byte[] csrData) throws IOException, OpenSSLException {
 
-		/** get simpleCert root files */
-
+		/** get temporary csr file */
 		File tmpCsrFile = writeBytesToTempFile(csrData, FilePattern.CSR);
+		
 		// openssl x509 -req -in userRequest.csr -CA rootCert.pem -CAkey
 		// rootKey.pem -CAcreateserial -days 730 -sha512
 		String[] command = {
@@ -255,10 +264,14 @@ public class CertificateUtility {
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
-		if (out.toString().isEmpty()) throw new OpenSSLException("Root files not found.");
+		/** check if errors occurred during crt generation */
+		if (out.toString().isEmpty()) throw new OpenSSLException("Error during CRT generation.");
 		
 		/** destroy openssl instance */
 		proc.destroy();
+		
+		/** delete temporary files from disk */
+		System.out.println(tmpCsrFile.delete() ? "CSR file deleted" : "CSR file delete failed ");
 		
 		return out.toByteArray();
 	}
@@ -276,6 +289,7 @@ public class CertificateUtility {
 	 */
 	public static byte[] generatePKCS12(byte[] crtData, byte[] privateKey, String password) throws IOException, InterruptedException, OpenSSLException{
 		
+		/** get temporary crt + key files */
 		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
 		File tmpKeyFile = writeBytesToTempFile(privateKey, FilePattern.KEY);
 		
@@ -299,10 +313,15 @@ public class CertificateUtility {
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
-		if (out.toString().isEmpty()) throw new OpenSSLException("Could not read input stream.");
+		/** check if error occurred during PKCS12 generation */
+		if (out.toString().isEmpty()) throw new OpenSSLException("Error during PKCS12 generation.");
 		
 		/** destroy openssl instance */
 		proc.destroy();
+		
+		/** delete temporary files from disk */
+		System.out.println(tmpCrtFile.delete() ? "CRT file deleted" : "CRT file delete failed ");
+		System.out.println(tmpKeyFile.delete() ? "Key file deleted" : "Key file delete failed ");
 		
 		return out.toByteArray();
 	}
@@ -319,10 +338,13 @@ public class CertificateUtility {
 	 */
 	public static String getCRTdata(byte[] crtData, String kindOfData) throws IOException{
 		
+		/** get temporary crt file */
+		File tmpCrtFile = writeBytesToTempFile(crtData, FilePattern.CRT);
+		
 		String[] command = {
 				"openssl",
 				"x509",
-				"-in", writeBytesToTempFile(crtData, FilePattern.CRT).getAbsolutePath(),
+				"-in", tmpCrtFile.getAbsolutePath(),
 				"-noout",
 				kindOfData			
 				};
@@ -342,6 +364,9 @@ public class CertificateUtility {
 		/** destroy openssl instance */
 		proc.destroy();
 		
+		/** delete temporary files from disk */
+		System.out.println(tmpCrtFile.delete() ? "CRT file deleted" : "CRT file delete failed ");
+		
 		return out.toString();
 	}
 	
@@ -356,7 +381,7 @@ public class CertificateUtility {
 	 */
 	public static boolean revokeCRT(byte[] crtData) throws IOException, InterruptedException, OpenSSLException{
 		
-		// check if certindex exists and create it if not
+		/** check if certindex exists and create it if not */
 		if(!CERTINDEX_FILE.exists()){
 			CERTINDEX_FILE.createNewFile();
 		}
@@ -382,7 +407,9 @@ public class CertificateUtility {
 		/** update the signed crl list */
 		updateCRL();
 		
-		/** TODO: */
+		/** delete temporary files from disk */
+		System.out.println(tmpCrtFile.delete() ? "CRT file deleted" : "CRT file delete failed ");
+		
 		return true;
 	}
 	
@@ -409,10 +436,10 @@ public class CertificateUtility {
 				"-out", ROOT_CRL_FILE.getAbsolutePath()				
 				};
 		
-		/** execute command */
+		/** execute command, wait for end of execution and destroy the process*/
 		Process proc = Runtime.getRuntime().exec(command);
 		proc.waitFor();
-		
+		proc.destroy();
 	}
 	
 	/**
@@ -454,7 +481,7 @@ public class CertificateUtility {
 		/** destroy openssl instance */
 		proc.destroy();
 		
-		System.out.println("private Key: " + out.toString());
+		//System.out.println("private Key: " + out.toString());
 		
 		return out.toByteArray();
 		
@@ -470,6 +497,8 @@ public class CertificateUtility {
 	 * @throws OpenSSLException
 	 */
 	public static String getP12data(byte[] p12Data, String password) throws IOException, InterruptedException, OpenSSLException{ 
+		
+		/** get temporary PKCS12 file */
 		File tmpP12File = writeBytesToTempFile(p12Data, FilePattern.P12);
 		
 		String[] command = {
@@ -497,6 +526,9 @@ public class CertificateUtility {
 		
 		/** destroy openssl instance */
 		proc.destroy();
+		
+		/** delete temporary files from disk */
+		System.out.println(tmpP12File.delete() ? "P12 file deleted" : "P12 file delete failed ");
 		
 		return out.toString();		
 	}
