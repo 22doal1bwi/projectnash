@@ -13,11 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
-import de.projectnash.application.util.RequestObjectTable;
 import de.projectnash.application.util.UserObjectTable;
-import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
 
 /**
