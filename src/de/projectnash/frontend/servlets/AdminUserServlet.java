@@ -49,8 +49,8 @@ public class AdminUserServlet extends HttpServlet {
 					userObject.getPersonalId(), 
 					userObject.getEmailAddress(),					
 					userObject.getCertificate().getCertificateStatus());
-			JsonObject jsonrot = (JsonObject) new Gson().toJsonTree(uot);
-			userObjects.add(jsonrot);
+			JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
+			userObjects.add(jsonUot);
 		});
 		
 		JsonResponse.add("data", userObjects);

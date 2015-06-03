@@ -50,8 +50,8 @@ public class AdminRequestServlet extends HttpServlet {
 					requestObject.getUser().getPersonalId(), 
 					requestObject.getUser().getEmailAddress(),					
 					requestObject.getRequestStatus());
-			JsonObject jsonrot = (JsonObject) new Gson().toJsonTree(rot);
-			requestObjects.add(jsonrot);
+			JsonObject jsonRot = (JsonObject) new Gson().toJsonTree(rot);
+			requestObjects.add(jsonRot);
 		});
 		JsonResponse.add("data", requestObjects);
 		JsonResponse.addProperty("sEcho", 1);
