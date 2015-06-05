@@ -205,17 +205,18 @@ public class RequestLogic {
 	public static int getNumberOfRequests() {
 		return RequestPersistenceService.loadAllRequests().size();
 	}
-
+	
 	/**
-	 * Method which returns the overall number of {@link Request}s in the
-	 * database with a certain {@link CertificateStatus}.
+	 * Method which returns the overall number of {@link Request}s in
+	 * the database with a certain {@link CertificateStatus}.
 	 * 
 	 * @param RequestStatus
-	 * @return Number of {@link Request}s with certain {@link CertificateStatus}
-	 *         .
+	 * @return Number of {@link Request}s with certain {@link CertificateStatus}.
 	 */
 	public static int getNumberOfRequests(RequestStatus RequestStatus) {
-		return (int) RequestPersistenceService.loadAllRequests().stream()
+		return (int) RequestPersistenceService
+				.loadAllRequests()
+				.stream()
 				.filter(request -> request.getRequestStatus() == RequestStatus)
 				.count();
 	}

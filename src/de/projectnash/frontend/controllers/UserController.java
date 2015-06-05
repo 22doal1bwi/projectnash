@@ -1,5 +1,6 @@
 package de.projectnash.frontend.controllers;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import de.projectnash.application.CertificateLogic;
@@ -17,6 +18,10 @@ public class UserController implements IUserController {
 	
 	public UserController(String sessionId) {
 		user = SessionLogic.loadSession(sessionId).getUser();
+	}
+	
+	public List<User> getAllUsers(){
+		return UserLogic.getAllUsers();
 	}
 
 	@Override

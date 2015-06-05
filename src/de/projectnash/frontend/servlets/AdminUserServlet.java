@@ -37,7 +37,7 @@ public class AdminUserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		JsonArray userObjects = new JsonArray();		
-		List<User> userList = UserLogic.loadAllUsers();			
+		List<User> userList = UserLogic.getAllUsers();			
 		JsonObject JsonResponse = new JsonObject();		
 		
 		userList.forEach(userObject -> {

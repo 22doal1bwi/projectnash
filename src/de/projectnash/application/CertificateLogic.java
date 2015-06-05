@@ -98,6 +98,17 @@ public class CertificateLogic {
 	}
 
 	/**
+	 * Loads a {@link Certificate} of a {@link User} over {@link Session}ID.
+	 * 
+	 * @param ssnId
+	 *            {@link Session}ID
+	 * @return The {@link Certificate}.
+	 */
+	public static Certificate loadCertificate(String ssnId) {
+		return SessionLogic.loadSession(ssnId).getUser().getCertificate();
+	}
+
+	/**
 	 * Updates an {@link Certificate} via {@link CertificatePersistenceService}.
 	 * 
 	 * @param certificate
@@ -198,6 +209,23 @@ public class CertificateLogic {
 			return (int) timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		}
 		throw new FileNotFoundException("Noch kein Zertifikat vorhanden");
+	}
+
+	/**
+	 * Method which returns the expiration date in appropriate format.
+	 * 
+	 * @param certificate
+	 *            The {@link Certificate} which expiration date should be
+	 *            displayed.
+	 * @return The expiration date in appropriate format.
+	 */
+	public static String getExpirationDateForUI(Certificate certificate) {
+		DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy, HH:mm",
+				Locale.GERMANY);
+
+		return formatter
+				.format(CertificateLogic.getExpirationDate(certificate))
+				+ " Uhr";
 	}
 
 	/**

@@ -200,7 +200,7 @@ public class UserLogic {
 	 * 
 	 * @return A {@link List} with all {@link User}s in the database.
 	 */
-	public static List<User> loadAllUsers() {
+	public static List<User> getAllUsers() {
 		return UserPersistenceService.loadAllUsers();
 	}
 
