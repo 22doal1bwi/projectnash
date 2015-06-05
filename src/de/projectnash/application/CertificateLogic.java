@@ -29,15 +29,15 @@ public class CertificateLogic {
 
 	public static void main(String[] args) {
 
-//		User tempUser = new User(0002, "Artur", "Ermisch", "CI",
-//				"artur.ermisch@simpleCert.com", "Eierkuchen2");
 	}
 
 	/**
 	 * Creates a {@link Certificate} for the specified {@link User}.
 	 * 
-	 * @param user The {@link User} the {@link Certificate} is created for.
-	 * @return The {@link Boolean} that describes if the process was successful.
+	 * @param user
+	 *            The {@link User} the {@link Certificate} is created for.
+	 * @return The {@link Boolean} which describes if the process was
+	 *         successful.
 	 * @throws ParseException
 	 * @throws OpenSSLException
 	 * @throws InterruptedException
@@ -47,7 +47,7 @@ public class CertificateLogic {
 		Organization organization = new Organization();
 
 		/** create certificate with utility class. */
-		try {			
+		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
 			byte[] csrData = CertificateUtility.generateCSR(
 					organization.getCountry(), organization.getState(),
@@ -55,8 +55,9 @@ public class CertificateLogic {
 					user.getDepartment(), UserLogic.getCommonName(user),
 					user.getEmailAddress(), keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
-			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData, password);
-			
+			byte[] p12Data = CertificateUtility.generatePKCS12(crtData,
+					keyData, password);
+
 			String subjectData = CertificateUtility.getCRTdata(crtData,
 					"-subject");
 			String datesData = CertificateUtility.getCRTdata(crtData, "-dates");
@@ -65,47 +66,57 @@ public class CertificateLogic {
 			DateFormat formatter = new SimpleDateFormat(
 					"MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);
 
-			user.setCertificate(
-					new Certificate(
-					p12Data,
-					crtData,
-					subjectData.split("/")[1].split("=")[1], subjectData
-							.split("/")[2].split("=")[1], subjectData
-							.split("/")[3].split("=")[1], subjectData
-							.split("/")[4].split("=")[1], subjectData
-							.split("/")[5].split("=")[1],
-							UserLogic.getCommonName(user), //utf8 workaround
-							//common name from csr (not utf8): subjectData.split("/")[6].split("=")[1],
-							subjectData
-							.split("/")[7].split("=")[1].replace("\n", ""), formatter
-							.parse(datesData.split("notBefore=")[1]
-									.split("notAfter=")[0]), formatter
-							.parse(datesData.split("notBefore=")[1]
-									.split("notAfter=")[1]),
-							CertificateStatus.ACTIVE, false));
+			user.setCertificate(new Certificate(p12Data, crtData,
+					subjectData.split("/")[1].split("=")[1],
+					subjectData.split("/")[2].split("=")[1],
+					subjectData.split("/")[3].split("=")[1],
+					subjectData.split("/")[4].split("=")[1],
+					subjectData.split("/")[5].split("=")[1],
+					UserLogic.getCommonName(user), // utf8 workaround
+					// common name from csr (not utf8):
+					// subjectData.split("/")[6].split("=")[1],
+					subjectData.split("/")[7].split("=")[1].replace("\n", ""),
+					formatter.parse(datesData.split("notBefore=")[1]
+							.split("notAfter=")[0]), formatter.parse(datesData
+							.split("notBefore=")[1].split("notAfter=")[1]),
+					CertificateStatus.ACTIVE, false));
 
 			/** save certificate to database. */
 			UserLogic.updateUser(user);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogLogic.createLog("Zertifikat konnte nicht in der Datenbank gespeichert werden", user.getEmailAddress());
+			LogLogic.createLog(
+					"Zertifikat konnte nicht in der Datenbank gespeichert werden",
+					user.getEmailAddress());
 			return false;
 		}
 		LogLogic.createLog(
-				"Zertifikat wurde erfolgreich in der Datenbank gespeichert", user.getEmailAddress());
+				"Zertifikat wurde erfolgreich in der Datenbank gespeichert",
+				user.getEmailAddress());
 		return true;
 	}
-	
+
 	/**
-	 * Updates an {@link Certificate}.
+	 * Updates an {@link Certificate} via {@link CertificatePersistenceService}.
+	 * 
 	 * @param certificate
+	 *            The {@link Certificate} which should be updated.
 	 */
-	public static void updateCertificate(Certificate certificate){
+	public static void updateCertificate(Certificate certificate) {
 		CertificatePersistenceService.updateCertificate(certificate);
 	}
 
-	// TODO: implement revokeCertificate method
+	/**
+	 * Revokes a {@link Certificate}.
+	 * 
+	 * @param user
+	 *            The {@link User} whose {@link Certificate} should be revoked.
+	 * @param revokeReason
+	 *            The reason of the revokation.
+	 * @return The {@link Boolean} which describes if the process was
+	 *         successful.
+	 */
 	public static boolean revokeCertificate(User user, String revokeReason) {
 		try {
 			Certificate certificate = user.getCertificate();
@@ -113,24 +124,26 @@ public class CertificateLogic {
 			certificate.setCertificateStatus(CertificateStatus.REVOKED);
 			certificate.setRevokeReason(revokeReason);
 			updateCertificate(certificate);
-			
+
 			user.setCertificate(null);
 			UserLogic.updateUser(user);
-			LogLogic.createLog("Das Zertifikat wurde widerrufen", user.getEmailAddress());
+			LogLogic.createLog("Das Zertifikat wurde widerrufen",
+					user.getEmailAddress());
 			return true;
 		} catch (Exception e) {
-			LogLogic.createLog("Das Zertifikat konnte nicht widerrufen werden", user.getEmailAddress());
+			LogLogic.createLog("Das Zertifikat konnte nicht widerrufen werden",
+					user.getEmailAddress());
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Method which returns true if {@link Certificate} is valid.
+	 * Method which checks if the {@link Certificate} is valid.
 	 * 
 	 * @param certificate
-	 * @return boolean
-	 * @author Marius Boepple
+	 *            The {@link Certificate} which should be checked.
+	 * @return boolean True if the {@link Certificate} is valid.
 	 */
 	public static boolean certificateIsValid(Certificate certificate) {
 		if (certificate != null) {
@@ -146,9 +159,9 @@ public class CertificateLogic {
 	 * time unit.
 	 * 
 	 * @param certificate
-	 * @return String
-	 * @author Marius Boepple, Jonathan Schlotz
-	 * @throws FileNotFoundException 
+	 *            The {@link Certificate} which should be checked.
+	 * @return String The Time which is left in appropriate time unit.
+	 * @throws FileNotFoundException
 	 */
 	public static String getAppropriateTimeLeftForCertificate(
 			Certificate certificate) throws FileNotFoundException {
@@ -171,11 +184,11 @@ public class CertificateLogic {
 	 * Method which returns time left for {@link Certificate}.
 	 * 
 	 * @param certificate
+	 *            The {@link Certificate} which should be checked.
 	 * @param timeUnit
 	 *            TimeUnit.DAYS, TimeUnit.HOURS or TimeUnit.MINUTES
 	 * @return number of days, hours or minutes
-	 * @author Marius Boepple, Jonathan Schlotz
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public static int getTimeLeftForCertificate(Certificate certificate,
 			TimeUnit timeUnit) throws FileNotFoundException {
@@ -186,26 +199,32 @@ public class CertificateLogic {
 		}
 		throw new FileNotFoundException("Noch kein Zertifikat vorhanden");
 	}
-	
+
 	/**
 	 * Method which returns a {@link List} of all {@link Certificate}s.
-	 * @return A {@link List} of all {@link Certificate}s in the database.
+	 * 
+	 * @return A {@link List} of all {@link Certificate}s.
 	 */
-	public static List<Certificate> getAllCertificates(){
+	public static List<Certificate> getAllCertificates() {
 		return CertificatePersistenceService.loadAllCertificates();
 	}
-	
+
 	/**
-	 * Method which returns a {@link List} of all {@link Certificate}s with {@link CertificateStatus}.
-	 * @param CertificateStatus {@link CertificateStatus}.
-	 * @return A {@link List} of all {@link Certificate}s with this {@link CertificateStatus} in the database.
+	 * Method which returns a {@link List} of all {@link Certificate}s with
+	 * certain {@link CertificateStatus}.
+	 * 
+	 * @param CertificateStatus
+	 *            {@link CertificateStatus}.
+	 * @return A {@link List} of all {@link Certificate}s with this
+	 *         {@link CertificateStatus} in the database.
 	 */
-	public static List<Certificate> getAllCertificates(CertificateStatus CertificateStatus){
+	public static List<Certificate> getAllCertificates(
+			CertificateStatus CertificateStatus) {
 		List<Certificate> allCertificates = getAllCertificates();
 		List<Certificate> certificates = new ArrayList<Certificate>();
 		for (Certificate c : allCertificates) {
 			if (c.getCertificateStatus().equals(CertificateStatus)) {
-			certificates.add(c);
+				certificates.add(c);
 			}
 		}
 		return certificates;

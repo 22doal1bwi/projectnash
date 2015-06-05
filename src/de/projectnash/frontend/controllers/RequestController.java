@@ -3,6 +3,7 @@ package de.projectnash.frontend.controllers;
 import java.util.List;
 
 import de.projectnash.application.RequestLogic;
+import de.projectnash.application.util.RequestStatus;
 import de.projectnash.entities.Request;
 
 /**
@@ -25,7 +26,7 @@ public class RequestController {
 	}
 	
 	public int getNumberOfWaitingRequests() {
-		return RequestLogic.getNumberOfWaitingRequests();
+		return RequestLogic.getNumberOfRequests(RequestStatus.WAITING);
 	}
 	
 }

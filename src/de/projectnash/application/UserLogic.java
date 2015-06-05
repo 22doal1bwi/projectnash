@@ -22,200 +22,287 @@ import de.projectnash.entities.User;
 public class UserLogic {
 
 	/**
-	 * Creates an {@link User} and stores it to the database via {@link UserPersistenceService}.
+	 * Creates an {@link User} and stores it to the database via
+	 * {@link UserPersistenceService}.
 	 * 
-	 * @param personalId The {@link String} that represents the personalId of the {@link User}.
-	 * @param firstName The {@link String} that represents the first name of the {@link User}.
-	 * @param lastName The {@link String} that represents the last name of the {@link User}.
-	 * @param emailAddress The {@link String} that represents the email address of the {@link User}.
-	 * @param organizationunit The {@link String} that represents the organization unit of the {@link User}.
-	 * @param password The {@link String} that represents the password of the {@link User}.
+	 * @param personalId
+	 *            The {@link String} that represents the personalId of the
+	 *            {@link User}.
+	 * @param firstName
+	 *            The {@link String} that represents the first name of the
+	 *            {@link User}.
+	 * @param lastName
+	 *            The {@link String} that represents the last name of the
+	 *            {@link User}.
+	 * @param emailAddress
+	 *            The {@link String} that represents the email address of the
+	 *            {@link User}.
+	 * @param organizationunit
+	 *            The {@link String} that represents the organization unit of
+	 *            the {@link User}.
+	 * @param password
+	 *            The {@link String} that represents the password of the
+	 *            {@link User}.
 	 * @return The {@link Boolean} that describes if the process was successful.
 	 */
 	public static boolean createUser(String personalId, String firstName,
 			String lastName, String emailAddress, String organizationunit,
 			String password) {
-		
-		try {
-			User tempUser = new User(
-				Integer.parseInt(personalId),
-				firstName,
-				lastName,
-				organizationunit,
-				emailAddress,
-				password);
 
-		/** save the user to the database. */
-		UserPersistenceService.storeUser(tempUser);
-		LogLogic.createLog("Der Benutzer wurde erfolgreich in der Datenbank gespeichert", emailAddress);
-		return true;
-		
+		try {
+			User tempUser = new User(Integer.parseInt(personalId), firstName,
+					lastName, organizationunit, emailAddress, password);
+
+			/** save the user to the database. */
+			UserPersistenceService.storeUser(tempUser);
+			LogLogic.createLog(
+					"Der Benutzer wurde erfolgreich in der Datenbank gespeichert",
+					emailAddress);
+			return true;
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogLogic.createLog("Der Benutzer konnte nicht in der Datenbank gespeichert werden", emailAddress);
+			LogLogic.createLog(
+					"Der Benutzer konnte nicht in der Datenbank gespeichert werden",
+					emailAddress);
 			return false;
-		}		
+		}
 	}
-		
+
 	/**
 	 * Activates the {@link Certificate} after the {@link Request} was accepted.
 	 * 
-	 * @param user The {@link User} whose {@link Request} was accepted.
-	 * @param password The {@link String} that is typed by the {@link User}.
+	 * @param user
+	 *            The {@link User} whose {@link Request} was accepted.
+	 * @param password
+	 *            The {@link String} that is typed by the {@link User}.
 	 * @return The {@link Boolean} that describes if the process was successful.
 	 */
-	public static boolean activateCertificateForRequest(User user, String password) {
+	public static boolean activateCertificateForRequest(User user,
+			String password) {
 		try {
-			if(hasCertificate(user)){
+			if (hasCertificate(user)) {
 				if (UserLogic.hasValidCertificate(user)) {
-					CertificateLogic.revokeCertificate(user, "Verlängerung - Zertifikat wurde durch neues ersetzt");
+					CertificateLogic
+							.revokeCertificate(user,
+									"Verlängerung - Zertifikat wurde durch neues ersetzt");
 				}
 				user.setCertificate(null);
 				UserLogic.updateUser(user);
 			}
-			
-			boolean createdCertificateSuccessful = CertificateLogic.createCertificate(user, password);
+
+			boolean createdCertificateSuccessful = CertificateLogic
+					.createCertificate(user, password);
 			boolean removedUserSuccessful = RequestLogic.removeRequest(user);
-			
+
 			if (!createdCertificateSuccessful || !removedUserSuccessful) {
-				LogLogic.createLog("Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen", user.getEmailAddress());
+				LogLogic.createLog(
+						"Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen",
+						user.getEmailAddress());
 				return false;
 			}
-			
-			LogLogic.createLog("Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen", user.getEmailAddress());
-			return true;	
+
+			LogLogic.createLog(
+					"Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen",
+					user.getEmailAddress());
+			return true;
 		} catch (Exception e) {
-			LogLogic.createLog("Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen", user.getEmailAddress());
+			LogLogic.createLog(
+					"Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen",
+					user.getEmailAddress());
 			e.printStackTrace();
 			return false;
-		}		
+		}
 	}
-	
+
 	/**
 	 * Checks if the {@link User} already has a {@link Request}.
 	 * 
-	 * @param user The {@link User} whose {@link Request} will be checked.
-	 * @return The {@link Boolean} that describes if the process was successful.
+	 * @param user
+	 *            The {@link User} whose {@link Request} will be checked.
+	 * @return True if the {@link User} has a {@link Request}.
 	 */
 	public static boolean hasRequest(User user) {
 		return RequestLogic.requestExists(user);
 	}
-	
+
 	/**
 	 * Changes the password of an {@link User}.
 	 * 
-	 * @param user The {@link User} whose password will be changed.
-	 * @param oldPassword The {@link String} that represents the old password.
-	 * @param newPassword The {@link String} that represents the new password.
-	 * @return The {@link Boolean} that describes if the password has been changed.
+	 * @param user
+	 *            The {@link User} whose password will be changed.
+	 * @param oldPassword
+	 *            The {@link String} that represents the old password.
+	 * @param newPassword
+	 *            The {@link String} that represents the new password.
+	 * @return The {@link Boolean} that describes if the password has been
+	 *         changed.
 	 */
-	public static boolean changePassword(User user, String oldPassword, String newPassword) {
+	public static boolean changePassword(User user, String oldPassword,
+			String newPassword) {
 		if (user.getPassword().equals(oldPassword)) {
 			user.setPassword(newPassword);
 			UserPersistenceService.updateUser(user);
-			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich geändert", user.getEmailAddress());
+			LogLogic.createLog(
+					"Das Passwort des Benutzers wurde erfolgreich geändert",
+					user.getEmailAddress());
 			return true;
-		}	
-		LogLogic.createLog("Das Passwort des Benutzers konnte nicht geändert werden", user.getEmailAddress());
+		}
+		LogLogic.createLog(
+				"Das Passwort des Benutzers konnte nicht geändert werden",
+				user.getEmailAddress());
 		return false;
 	}
 
 	/**
 	 * Resets the password of the specified {@link User}.
 	 * 
-	 * @param user The {@link User} whose password will be reseted.
+	 * @param user
+	 *            The {@link User} whose password will be reseted.
 	 */
-	public static void resetPasswort(User user) throws MessagingException{
+	public static void resetPasswort(User user) throws MessagingException {
 		SecureRandom random = new SecureRandom();
-		String newPassword = new BigInteger(130, random).toString(32).substring(0, 10);
-		
+		String newPassword = new BigInteger(130, random).toString(32)
+				.substring(0, 10);
+
 		user.setPassword(newPassword);
 		UserPersistenceService.updateUser(user);
 
 		EmailUtility.sendMail(user, EmailSubject.PASSWORD_RESET);
 	}
-	
+
 	/**
-	 * Loads an {@link User} specified by the entered ssnId.
+	 * Loads an {@link User} specified by the entered {@link Session}s ssnId.
 	 * 
-	 * @param ssnId The {@link String} that represents the ssnId of the {@link Session}.
+	 * @param ssnId
+	 *            The {@link String} that represents the ssnId of the
+	 *            {@link Session}.
 	 * @return The {@link User} specified by the ssnId.
 	 */
-	public static User loadUserBySession(String ssnId){
+	public static User loadUserBySession(String ssnId) {
 		return SessionLogic.loadSession(ssnId).getUser();
 	}
-	
+
 	/**
 	 * Loads an {@link User} specified by the entered email address.
 	 * 
-	 * @param eMailAddress The {@link String} that represents the email address of the {@link User}.
+	 * @param eMailAddress
+	 *            The {@link String} that represents the email address of the
+	 *            {@link User}.
 	 * @return The {@link User} specified by the email address.
 	 */
-	public static User loadUser(String eMailAddress){
-		return UserPersistenceService.loadUser(eMailAddress);	
+	public static User loadUser(String eMailAddress) {
+		return UserPersistenceService.loadUser(eMailAddress);
 	}
-	
+
 	/**
-	 * Loads all {@link User}s from the database via {@link UserPersistenceService}.
+	 * Loads all {@link User}s via {@link UserPersistenceService}.
 	 * 
 	 * @return A {@link List} with all {@link User}s in the database.
 	 */
-	public static List<User> loadAllUsers(){
+	public static List<User> loadAllUsers() {
 		return UserPersistenceService.loadAllUsers();
 	}
-	
+
 	/**
-	 * Updates an {@link User} specified by the entered {@link User}.
+	 * Updates an {@link User} via {@link UserPersistenceService}.
 	 * 
 	 * @param user
+	 *            The {@link User} which should be updated.
 	 */
 	public static void updateUser(User user) {
 		UserPersistenceService.updateUser(user);
 	}
-	
+
 	/**
-	 * Method which checks if a user with a specific email address already exists
+	 * Removes a {@link User} via {@link UserPersistenceService}.
 	 * 
-	 * @param emailAddress the email address of the user you want to check for existence
-	 * @return true if the user exists
+	 * @param user
+	 *            The {@link User} which should be removed.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
+	public static boolean removeUser(User user) {
+		try {
+			UserPersistenceService.removeUser(user);
+			LogLogic.createLog(
+					"User wurde erfolgreich aus der Datenbank entfernt",
+					user.getEmailAddress());
+			return true;
+		} catch (Exception e) {
+			LogLogic.createLog(
+					"User konnte nicht aus der Datenbank entfernt werden",
+					user.getEmailAddress());
+			return false;
+		}
+	}
+
+	/**
+	 * Method which checks if a {@link User} with a specific email address
+	 * already exists.
+	 * 
+	 * @param emailAddress
+	 *            The email address of the {@link User} you want to check for
+	 *            existence.
+	 * @return True if the {@link User}/email address already exists.
 	 */
 	public static boolean emailAlreadyExists(String emailAddress) {
 		return UserPersistenceService.userExists(emailAddress);
 	}
 
 	/**
-	 * Method which checks if a user with a specific personal id already exists
+	 * Method which checks if a {@link User} with a specific personal id already
+	 * exists.
 	 * 
-	 * @param personalId the personal id of the user you want to check for existence
-	 * @return true if the user exists
+	 * @param personalId
+	 *            The personal id of the {@link User} you want to check for
+	 *            existence.
+	 * @return True if the {@link User}/personal id already exists.
 	 */
 	public static boolean personalIdAlreadyExists(String personalId) {
-		if (personalId != null){
-			if (!personalId.isEmpty()){
-				return UserPersistenceService.userExists(Integer.parseInt(personalId));	
+		if (personalId != null) {
+			if (!personalId.isEmpty()) {
+				return UserPersistenceService.userExists(Integer
+						.parseInt(personalId));
 			}
-		}			
-	return false;
-	}	
-		
-	public static boolean hasCertificate(User user){
+		}
+		return false;
+	}
+
+	/**
+	 * Method which checks if a {@link User} has a {@link Certificate} (no
+	 * matter which {@link CertificateStatus}).
+	 * 
+	 * @param user
+	 *            The {@link User} which should be checked.
+	 * @return True if the {@link User} has a {@link Certificate} (no matter
+	 *         which {@link CertificateStatus}).
+	 */
+	public static boolean hasCertificate(User user) {
 		return user.getCertificate() != null;
 	}
-	
-	public static boolean hasValidCertificate(User user){
+
+	/**
+	 * Method which checks if a {@link User} has a valid {@link Certificate}.
+	 * 
+	 * @param user
+	 *            The {@link User} which should be checked.
+	 * @return True if the {@link User} has a valid {@link Certificate}.
+	 */
+	public static boolean hasValidCertificate(User user) {
 		return CertificateLogic.certificateIsValid(user.getCertificate());
 	}
-	
+
 	/* G E T T E R */
-	
-	public static String getCommonName(User user){
-		return (user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonalId() + ")");
+
+	public static String getCommonName(User user) {
+		return (user.getFirstName() + " " + user.getLastName() + " ("
+				+ user.getPersonalId() + ")");
 	}
-	
-	public static String getFullName(User user){
+
+	public static String getFullName(User user) {
 		return (user.getFirstName() + " " + user.getLastName());
 	}
-	
+
 	public static String getFirstName(User user) {
 		return user.getFirstName();
 	}
@@ -235,9 +322,9 @@ public class UserLogic {
 	public static int getPersonalId(User user) {
 		return user.getPersonalId();
 	}
-	
+
 	public static boolean isAdmin(User user) {
 		return user.isAdmin();
 	}
-	
+
 }

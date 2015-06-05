@@ -19,7 +19,7 @@ import de.projectnash.entities.User;
 public class RequestLogic {
 
 	/**
-	 * Creates an {@link User} via {@link RequestPersistenceService}.
+	 * Creates an {@link Request} via {@link RequestPersistenceService}.
 	 * 
 	 * @param user
 	 *            The {@link User} that the {@link Request} belongs to.
@@ -47,7 +47,7 @@ public class RequestLogic {
 	 * 
 	 * @param user
 	 *            The {@link User} that the {@link Request} belongs to.
-	 * @return The {@link Boolean} that describes if the process was succesful.
+	 * @return The {@link Boolean} that describes if the process was successful.
 	 */
 	public static boolean removeRequest(User user) {
 		try {
@@ -66,8 +66,7 @@ public class RequestLogic {
 	}
 
 	/**
-	 * Loads a {@link Request} via {@link RequestPersistenceService} from the
-	 * database.
+	 * Loads a {@link Request} via {@link RequestPersistenceService}.
 	 * 
 	 * @param user
 	 *            The {@link User} that belongs to the {@link Request}.
@@ -77,13 +76,18 @@ public class RequestLogic {
 		return RequestPersistenceService.loadRequest(user);
 	}
 
+	/**
+	 * Updates a {@link Request} via {@link RequestPersistenceService}.
+	 * 
+	 * @param request
+	 *            The {@link Request} that should be updated.
+	 */
 	public static void updateRequest(Request request) {
 		RequestPersistenceService.updateRequest(request);
 	}
 
 	/**
-	 * Loads all {@link Request}s via {@link RequestPersistenceService} from the
-	 * database.
+	 * Loads all {@link Request}s via {@link RequestPersistenceService}.
 	 * 
 	 * @return A {@link List} that contains all {@link Request}s.
 	 */
@@ -91,6 +95,13 @@ public class RequestLogic {
 		return RequestPersistenceService.loadAllRequests();
 	}
 
+	/**
+	 * Method which checks if a {@link User} has a {@link Request}.
+	 * 
+	 * @param user
+	 *            The {@link User} whose {@link Request} will be checked.
+	 * @return True if the {@link User} has a {@link Request}.
+	 */
 	public static boolean requestExists(User user) {
 		return RequestPersistenceService.requestExists(user);
 	}
@@ -99,7 +110,7 @@ public class RequestLogic {
 	 * Method which returns the {@link RequestStatus} of the {@link Request}.
 	 * 
 	 * @param user
-	 *            The {@link User} of the {@link Request}.
+	 *            The {@link User} that belongs to the {@link Request}.
 	 * @return The {@link RequestStatus}.
 	 */
 	public static RequestStatus getRequestStatus(User user) {
@@ -137,7 +148,7 @@ public class RequestLogic {
 	}
 
 	/**
-	 * Denies the {@link Request} ask by the {@link User}.
+	 * Denies the {@link Request} asked by the {@link User}.
 	 * 
 	 * @param request
 	 *            The {@link Request} that should be denied.
@@ -196,12 +207,17 @@ public class RequestLogic {
 	}
 
 	/**
-	 * Method which returns the number of waiting {@link Request}s.
+	 * Method which returns the overall number of {@link Request}s in the
+	 * database with a certain {@link CertificateStatus}.
 	 * 
-	 * @return Number of waiting {@link Request}s.
+	 * @param RequestStatus
+	 * @return Number of {@link Request}s with certain {@link CertificateStatus}
+	 *         .
 	 */
-	public static int getNumberOfWaitingRequests() {
-		return (int) RequestPersistenceService.loadAllRequests().stream().filter(request -> request.getRequestStatus() == RequestStatus.WAITING).count();
+	public static int getNumberOfRequests(RequestStatus RequestStatus) {
+		return (int) RequestPersistenceService.loadAllRequests().stream()
+				.filter(request -> request.getRequestStatus() == RequestStatus)
+				.count();
 	}
 
 }

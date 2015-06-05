@@ -44,7 +44,7 @@ public class SessionLogic {
 	}
 
 	/**
-	 * Loads a {@link Session} specified by the ssnId
+	 * Loads a {@link Session} specified by the ssnId.
 	 * 
 	 * @param ssnId The {@link String} on basis which the {@link Session} will be loaded.
 	 * @return The {@link Session} specified by the ssnId.
