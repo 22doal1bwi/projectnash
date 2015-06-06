@@ -71,16 +71,16 @@ public class UserLogic {
 	}
 
 	/**
-	 * Activates the {@link Certificate} after the {@link Request} was accepted.
+	 * Creates a {@link Certificate} for the {@link User} which has an accepted
+	 * {@link Request} revoking the old {@link Certificate} and removing the {@link Request}.
 	 * 
 	 * @param user
 	 *            The {@link User} whose {@link Request} was accepted.
 	 * @param password
-	 *            The {@link String} that is typed by the {@link User}.
+	 *            The password for the {@link Certificate}.
 	 * @return The {@link Boolean} that describes if the process was successful.
 	 */
-	public static boolean activateCertificateForRequest(User user,
-			String password) {
+	public static boolean assignCertificate(User user, String password) {
 		try {
 			if (hasCertificate(user)) {
 				if (UserLogic.hasValidCertificate(user)) {
@@ -92,23 +92,23 @@ public class UserLogic {
 
 			boolean createdCertificateSuccessful = CertificateLogic
 					.createCertificate(user, password);
-			boolean removedUserSuccessful = RequestLogic.removeRequest(user);
+			boolean removedRequestSuccessful = RequestLogic.removeRequest(user);
 
-			if (!createdCertificateSuccessful || !removedUserSuccessful) {
+			if (!createdCertificateSuccessful || !removedRequestSuccessful) {
 				LogLogic.createLog(
-						"Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen",
+						"Dem Benutzer konnte kein Zertifikat erstellt und zugewiesen werden",
 						user.getEmailAddress());
 				return false;
 			}
 
 			LogLogic.createLog(
-					"Der Benutzer ist dazu berechtigt das Zertifikat herunterzuladen",
+					"Dem Benutzer wurde ein Zertifikat erstellt und zugewiesen ",
 					user.getEmailAddress());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogLogic.createLog(
-					"Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen",
+					"Dem Benutzer konnte kein Zertifikat erstellt und zugewiesen werden",
 					user.getEmailAddress());
 			return false;
 		}
@@ -124,11 +124,12 @@ public class UserLogic {
 	public static boolean hasRequest(User user) {
 		return RequestLogic.requestExists(user);
 	}
-	
+
 	/**
 	 * Checks if the {@link User} has a {@link Session}.
 	 * 
-	 * @param user The {@link User} which will be checked.
+	 * @param user
+	 *            The {@link User} which will be checked.
 	 * @return True if the {@link User} has a {@link Session}.
 	 */
 	public static boolean hasSession(User user) {
@@ -238,9 +239,9 @@ public class UserLogic {
 			if (UserLogic.hasRequest(user)) {
 				removeRequestSuccessful = RequestLogic.removeRequest(user);
 			}
-			
+
 			UserPersistenceService.removeUser(user);
-			
+
 			if (UserLogic.hasCertificate(user)) {
 				removeUsersCertificatesSuccessful = removeUsersCertificates(user);
 			}
