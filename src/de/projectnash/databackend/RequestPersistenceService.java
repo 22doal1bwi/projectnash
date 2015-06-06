@@ -24,8 +24,7 @@ public class RequestPersistenceService {
 	private static EntityManager em = emf.createEntityManager();
 
 	/**
-	 * Stores the {@link Request} in the database.
-	 * 
+	 * Stores the {@link Request} in the database. 
 	 * @param requestToStore The {@link Request} that will be stored.
 	 */
 	public static void storeRequest(Request requestToStore) {
@@ -35,8 +34,7 @@ public class RequestPersistenceService {
 	}
 
 	/**
-	 * Loads a {@link Request} from the database.
-	 * 
+	 * Loads a {@link Request} from the database. 
 	 * @param reqId The {@link Request}'s id on basis which the {@link Request} will be loaded.
 	 * @return The specific {@link Request}.
 	 */
@@ -57,8 +55,7 @@ public class RequestPersistenceService {
     }
 
 	/**
-	 * Checks if the {@link Request} exists in the database.
-	 * 
+	 * Checks if the {@link Request} exists in the database. 
 	 * @param personalId The {@link Integer} on basis which the {@link User} will be checked.
 	 * @return A flag that describes if the {@link User} exists.
 	 */
@@ -75,7 +72,7 @@ public class RequestPersistenceService {
 	}
 	
 	 /**
-     * Updates a {@link Request}.
+     * Updates a {@link Request} in the database.
      * @param requestToUpdate The {@link Request} that will be updated.
      */
     public static void updateRequest(Request requestToUpdate){
@@ -85,8 +82,7 @@ public class RequestPersistenceService {
     }
 
 	/**
-	 * Removes a {@link Request} from the database.
-	 * 
+	 * Removes a {@link Request} from the database. 
 	 * @param request The {@link Request} that will be removed.
 	 */
 	public static void removeRequest(Request request) {		

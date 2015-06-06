@@ -51,7 +51,7 @@ public class CertificatePersistenceService {
     }
     
     /**
-     * Removes all {@link Certificate}s of {@link User}. 
+     * Removes all {@link Certificate}s of {@link User} from the database. 
      * @param emailAddress E-Mail address of the {@link User}.
      */
     public static void removeAllCertificatesOfUser(String emailAddress){
@@ -63,7 +63,7 @@ public class CertificatePersistenceService {
     }
     
     /**
-     * Updates a {@link Certificate}.
+     * Updates a {@link Certificate} in the database.
      * @param certificateToUpdate The {@link Certificate} that will be updated.
      */
     public static void updateCertificate(Certificate certificateToUpdate){

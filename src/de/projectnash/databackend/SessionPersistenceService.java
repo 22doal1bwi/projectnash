@@ -21,7 +21,7 @@ public class SessionPersistenceService {
 	
 	/**
 	 * Stores the {@link Session} in the database.
-	 * @param sessionToStore The {@link Session} that will be stored.
+	 * @param sessionToStore The {@link Session} which will be stored.
 	 */
 	public static void storeSession(Session sessionToStore){
 		em.getTransaction().begin();
@@ -31,7 +31,7 @@ public class SessionPersistenceService {
 	
 	/**
 	 * Loads a {@link Session} from the database.
-	 * @param ssnId The {@link Session}'s id on basis which the {@link Session} will be loaded.
+	 * @param ssnId The {@link Session}ID.
 	 * @return The specific {@link Session}.
 	 */
 	public static Session loadSession(String ssnId){
@@ -40,11 +40,11 @@ public class SessionPersistenceService {
 		return query.getSingleResult();
 	}
 	
-	 /**
-     * Checks if the {@link Session} exists in the database.
-     * @param personalId The {@link Integer} on basis which the {@link User} will be checked.
-     * @return A flag that describes if the {@link User} exists.
-     */
+	/**
+	 * Checks if the {@link Session} exists in the database.
+	 * @param ssnId The {@link Session}ID.
+	 * @return True if the {@link Session} exists.
+	 */
     public static boolean sessionExists(String ssnId){
     	try{
     		TypedQuery<Long> query = em.createNamedQuery("CHECK_SESSION_EXISTS_BY_ID", Long.class);
@@ -55,10 +55,26 @@ public class SessionPersistenceService {
     		return false;
     	}
     }
+    
+    /**
+     * Checks if the {@link Session} exists in the database.
+     * @param user The {@link User} which will be checked.
+     * @return True if the {@link Session} exists.
+     */
+    public static boolean sessionExists(User user){
+    	try{
+    		TypedQuery<Long> query = em.createNamedQuery("CHECK_SESSION_EXISTS_BY_USER", Long.class);
+        	query.setParameter("user", user);
+        	return query.getSingleResult() != 0;	
+    	}catch (Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
 	
 	/**
      * Removes a {@link Session} from the database.
-     * @param sessionToRemove The {@link Session} that will be removed.
+     * @param sessionToRemove The {@link Session} which will be removed.
      */
 	public static void removeSession(Session sessionToRemove){
 		em.getTransaction().begin();

@@ -124,6 +124,16 @@ public class UserLogic {
 	public static boolean hasRequest(User user) {
 		return RequestLogic.requestExists(user);
 	}
+	
+	/**
+	 * Checks if the {@link User} has a {@link Session}.
+	 * 
+	 * @param user The {@link User} which will be checked.
+	 * @return True if the {@link User} has a {@link Session}.
+	 */
+	public static boolean hasSession(User user) {
+		return SessionLogic.hasSession(user);
+	}
 
 	/**
 	 * Changes the password of an {@link User}.

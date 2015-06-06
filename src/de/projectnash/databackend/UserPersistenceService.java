@@ -110,7 +110,7 @@ public final class UserPersistenceService {
     }
     
     /**
-     * Updates a {@link User}.
+     * Updates a {@link User} in the database.
      * @param userToUpdate The {@link User} that will be updated.
      */
     public static void updateUser(User userToUpdate){

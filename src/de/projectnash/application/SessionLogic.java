@@ -56,11 +56,21 @@ public class SessionLogic {
 	/**
 	 * Checks if the {@link Session} already exists in the database via {@link SessionPersistenceService}.
 	 * 
-	 * @param ssnId The {@link String} that represents the ssnId of the {@link Session}.
-	 * @return The {@link Boolean} that describes if the process was successful.
+	 * @param ssnId The {@link Session}ID.
+	 * @return True if the {@link Session} exists.
 	 */
 	public static boolean checkSession(String ssnId) {
 		return SessionPersistenceService.sessionExists(ssnId);
+	}
+
+	/**
+	 * Checks if a {@link Session} for a specific {@link User} exists in the database via {@link SessionPersistenceService}.
+	 * 
+	 * @param user The {@link User} which will be checked.
+	 * @return True if the {@link Session} exists.
+	 */
+	public static boolean hasSession(User user) {
+		return SessionPersistenceService.sessionExists(user);
 	}
 
 }
