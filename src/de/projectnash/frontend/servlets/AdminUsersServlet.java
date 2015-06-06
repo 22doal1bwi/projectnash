@@ -20,14 +20,14 @@ import de.projectnash.entities.User;
 /**
  * Servlet implementation class AdminUserServlet
  */
-@WebServlet("/AdminUserServlet")
-public class AdminUserServlet extends HttpServlet {
+@WebServlet("/AdminUsersServlet")
+public class AdminUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminUserServlet() {
+    public AdminUsersServlet() {
     }
 
     /**
@@ -37,10 +37,11 @@ public class AdminUserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		JsonArray userObjects = new JsonArray();		
-		List<User> userList = UserLogic.getAllUsers();			
+		List<User> userList = UserLogic.getAllUsers();	
 		JsonObject JsonResponse = new JsonObject();		
 		
 		userList.forEach(userObject -> {
+			if(userObject.getCertificate() != null) {
 			UserObjectTable uot = new UserObjectTable(
 					userObject.getCertificate().getExpirationDate(),
 					userObject.getFirstName(), 
@@ -51,6 +52,16 @@ public class AdminUserServlet extends HttpServlet {
 					userObject.getCertificate().getCertificateStatus());
 			JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
 			userObjects.add(jsonUot);
+			} else {
+				UserObjectTable uot = new UserObjectTable(
+						userObject.getFirstName(), 
+						userObject.getLastName(), 
+						userObject.getDepartment(), 
+						userObject.getPersonalId(), 
+						userObject.getEmailAddress());
+				JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
+				userObjects.add(jsonUot);
+			}			
 		});
 		
 		JsonResponse.add("data", userObjects);

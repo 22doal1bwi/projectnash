@@ -33,7 +33,7 @@ $(document)
 										"sPaginationType" : "full_numbers",
 										"ajax" : {
 											"type" : "POST",
-											"url" : "../AdminRequestServlet"
+											"url" : "../AdminRequestsServlet"
 										},
 										"order" : [ [ 0, "desc" ] ],
 										responsive : true,
@@ -73,7 +73,7 @@ $(document)
 													.dataTable();
 											$('#requests tbody td:nth-child(7)')
 													.editable(
-															"../AdminUpdateServlet",
+															"../AdminUpdateRequestsServlet",
 															{
 																indicator : '<img class="loading_gif_table" src="../img/general/loading.gif">',
 																data : "{'WAITING':'wartet','ACCEPTED':'genehmigt','DENIED':'abgelehnt'}",

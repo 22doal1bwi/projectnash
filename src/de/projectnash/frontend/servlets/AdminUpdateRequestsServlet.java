@@ -16,14 +16,14 @@ import de.projectnash.entities.Request;
 /**
  * Servlet implementation class AdminRequestServlet
  */
-@WebServlet("/AdminUpdateServlet")
-public class AdminUpdateServlet extends HttpServlet {
+@WebServlet("/AdminUpdateRequestsServlet")
+public class AdminUpdateRequestsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AdminUpdateServlet() {
+	public AdminUpdateRequestsServlet() {
 
 	}
 

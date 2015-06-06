@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.quartz.impl.matchers.StringMatcher.StringOperatorName;
+
 /**
  * This class provides a container that concatenates incoming data in order to build a clean JSON-Object and send it to the frontend.
  * 
@@ -51,6 +53,17 @@ private String firstName;
 		this.emailAddress = emailAddress;		
 		this.status = status;
 	
+	}
+	
+	public UserObjectTable (String firstName, String lastName, String department, int personalId, String emailAddress) {
+			
+		this.certificateDate = "-";
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.department = department;
+		this.personalId = personalId;
+		this.emailAddress = emailAddress;		
+		this.status = CertificateStatus.NONE;	
 	}
 
 	@Override

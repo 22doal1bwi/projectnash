@@ -8,5 +8,6 @@ package de.projectnash.application.util;
 public enum CertificateStatus {
 	ACTIVE,
 	OUTDATED,
-	REVOKED
+	REVOKED,
+	NONE
 }

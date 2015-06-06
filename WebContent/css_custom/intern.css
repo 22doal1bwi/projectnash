@@ -233,14 +233,29 @@ html, body {
 .table_icon_waiting {
 	font-size: 23px;
 	color: #607D8B;
+	cursor: pointer;
 }
 .table_icon_accepted {
 	font-size: 23px;
 	color: #5cb85c;
+	cursor: pointer;
 }
 .table_icon_denied {
 	font-size: 23px;
 	color: #C03A2A;
+	cursor: pointer;
+}
+
+.table_icon_outdated {
+	font-size: 23px;
+	color: #f0ad4e;
+	cursor: pointer;
+}
+
+.table_icon_trash {
+	font-size: 23px;
+	color: #607D8B;
+	cursor: pointer;
 }
 .status_column {
 	text-align: center;
