@@ -58,6 +58,7 @@ public class RequestLogic {
 					user.getEmailAddress());
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			LogLogic.createLog(
 					"Antrag konnte nicht aus der Datenbank entfernt werden",
 					user.getEmailAddress());
@@ -118,6 +119,7 @@ public class RequestLogic {
 			return RequestPersistenceService.loadRequest(user)
 					.getRequestStatus();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

@@ -83,7 +83,10 @@ public class CertificateLogic {
 
 			/** save certificate to database. */
 			UserLogic.updateUser(user);
-
+			LogLogic.createLog(
+					"Zertifikat wurde erfolgreich in der Datenbank gespeichert",
+					user.getEmailAddress());
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogLogic.createLog(
@@ -91,10 +94,6 @@ public class CertificateLogic {
 					user.getEmailAddress());
 			return false;
 		}
-		LogLogic.createLog(
-				"Zertifikat wurde erfolgreich in der Datenbank gespeichert",
-				user.getEmailAddress());
-		return true;
 	}
 
 	/**
@@ -136,15 +135,13 @@ public class CertificateLogic {
 			certificate.setRevokeReason(revokeReason);
 			updateCertificate(certificate);
 
-			user.setCertificate(null);
-			UserLogic.updateUser(user);
 			LogLogic.createLog("Das Zertifikat wurde widerrufen",
 					user.getEmailAddress());
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			LogLogic.createLog("Das Zertifikat konnte nicht widerrufen werden",
 					user.getEmailAddress());
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -158,7 +155,8 @@ public class CertificateLogic {
 	 */
 	public static boolean certificateIsValid(Certificate certificate) {
 		if (certificate != null) {
-			if (certificate.getCertificateStatus() != CertificateStatus.REVOKED && certificate.getExpirationDate().compareTo(new Date()) >= 0) {
+			if (certificate.getCertificateStatus() != CertificateStatus.REVOKED
+					&& certificate.getExpirationDate().compareTo(new Date()) >= 0) {
 				return true;
 			}
 		}

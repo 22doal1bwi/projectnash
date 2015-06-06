@@ -87,8 +87,6 @@ public class UserLogic {
 							.revokeCertificate(user,
 									"Verlängerung - Zertifikat wurde durch neues ersetzt");
 				}
-				user.setCertificate(null);
-				UserLogic.updateUser(user);
 			}
 
 			boolean createdCertificateSuccessful = CertificateLogic
@@ -107,10 +105,10 @@ public class UserLogic {
 					user.getEmailAddress());
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			LogLogic.createLog(
 					"Der Benutzer konnte nicht berechtigt werden, das Zertifikat herunterzuladen",
 					user.getEmailAddress());
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -229,6 +227,7 @@ public class UserLogic {
 					user.getEmailAddress());
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			LogLogic.createLog(
 					"User konnte nicht aus der Datenbank entfernt werden",
 					user.getEmailAddress());
