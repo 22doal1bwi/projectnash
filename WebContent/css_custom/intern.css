@@ -261,6 +261,12 @@ html, body {
 	color: #607D8B;
 	cursor: pointer;
 }
+
+.table_icon_session {
+	font-size: 23px;
+	color: #5cb85c;
+}
+
 .status_column {
 	text-align: center;
 }

@@ -27,18 +27,21 @@ private String firstName;
 	
 	private CertificateStatus status;
 	
+	private boolean hasSession;
+	
 	/**
 	 * Only used to send {@link User} data to the frontend. Used when a {@link User} has a certificate.
 	 * 
+	 * @param certificateDate
 	 * @param firstName
 	 * @param lastName
 	 * @param department
 	 * @param personalId
 	 * @param emailAddress
-	 * @param requestCreationDate
 	 * @param status
+	 * @param hasSession
 	 */
-	public UserObjectTable (Date certificateDate, String firstName, String lastName, String department, int personalId, String emailAddress, CertificateStatus status) {
+	public UserObjectTable (Date certificateDate, String firstName, String lastName, String department, int personalId, String emailAddress, CertificateStatus status, boolean hasSession) {
 		
 		DateFormat formatter = new SimpleDateFormat(
 				"dd.MM.yyyy, HH:mm", Locale.GERMANY);
@@ -50,6 +53,7 @@ private String firstName;
 		this.personalId = personalId;
 		this.emailAddress = emailAddress;		
 		this.status = status;
+		this.hasSession = hasSession;
 	
 	}
 	
@@ -61,8 +65,9 @@ private String firstName;
 	 * @param department
 	 * @param personalId
 	 * @param emailAddress
+	 * @param hasSession
 	 */
-	public UserObjectTable (String firstName, String lastName, String department, int personalId, String emailAddress) {
+	public UserObjectTable (String firstName, String lastName, String department, int personalId, String emailAddress, boolean hasSession) {
 			
 		this.certificateDate = "-";
 		this.firstName = firstName;
@@ -70,7 +75,8 @@ private String firstName;
 		this.department = department;
 		this.personalId = personalId;
 		this.emailAddress = emailAddress;		
-		this.status = CertificateStatus.NONE;	
+		this.status = CertificateStatus.NONE;
+		this.hasSession = hasSession;	
 		
 	}
 
@@ -82,7 +88,8 @@ private String firstName;
 			   " Personal-ID: " + this.personalId + 
 			   " Email-Address: " + this.emailAddress + 
 			   " Certificate-Creation-Date: " + this.certificateDate + 
-			   " Certificate-Status: " + this.status;
+			   " Certificate-Status: " + this.status +
+			   " Open Session" + this.hasSession;	
 	}	
 	
 }

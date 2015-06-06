@@ -58,13 +58,13 @@ $(document)
 													.add("status_column")
 											switch (data.status) {
 											case "WAITING":
-												row.cells[6].innerHTML = '<i class="fa fa-question-circle table_icon_waiting">'
+												row.cells[6].innerHTML = '<i class="fa fa-question-circle table_icon_waiting" title="Status: wartet - Zum Ändern klicken">'
 												break
 											case "ACCEPTED":
-												row.cells[6].innerHTML = '<i class="fa fa-check-circle table_icon_accepted">'
+												row.cells[6].innerHTML = '<i class="fa fa-check-circle table_icon_accepted" title="Status: genehmigt - Zum Ändern klicken">'
 												break
 											case "DENIED":
-												row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_denied">'
+												row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_denied" title="Status: abgelehnt - Zum Ändern klicken">'
 												break
 											}
 										},
@@ -75,14 +75,14 @@ $(document)
 													.editable(
 															"../AdminUpdateRequestsServlet",
 															{
-																indicator : '<img class="loading_gif_table" src="../img/general/loading.gif">',
+																indicator : '<img class="loading_gif_table" src="../img/general/loading.gif" title="lädt...">',
 																data : "{'WAITING':'wartet','ACCEPTED':'genehmigt','DENIED':'abgelehnt'}",
 																tooltip : "Wählen Sie den Status...",
 																loadtext : "lädt...",
 																type : "select",
 																onblur : 'ignore',
-																submit : '<i class="fa fa-check table_edit_icon_confirm">',
-																cancel : '<i class="fa fa-times table_edit_icon_deny">',
+																submit : '<i class="fa fa-check table_edit_icon_confirm" title="Auswahl bestätigen">',
+																cancel : '<i class="fa fa-times table_edit_icon_deny" title="Abbrechen">',
 																submitdata : function() {
 																	var updatedUser = {}, aPos = oTable
 																			.fnGetPosition(this);
@@ -97,13 +97,13 @@ $(document)
 																			.add("status_column")
 																	switch (data) {
 																	case "WAITING":
-																		this.innerHTML = '<i class="fa fa-question-circle table_icon_waiting">'
+																		this.innerHTML = '<i class="fa fa-question-circle table_icon_waiting" title="Status: wartet - Zum Ändern klicken">'
 																		break
 																	case "ACCEPTED":
-																		this.innerHTML = '<i class="fa fa-check-circle table_icon_accepted">'
+																		this.innerHTML = '<i class="fa fa-check-circle table_icon_accepted" title="Status: genehmigt - Zum Ändern klicken">'
 																		break
 																	case "DENIED":
-																		this.innerHTML = '<i class="fa fa-times-circle table_icon_denied">'
+																		this.innerHTML = '<i class="fa fa-times-circle table_icon_denied" title="Status: abgelehnt - Zum Ändern klicken">'
 																		break
 																	}
 																}

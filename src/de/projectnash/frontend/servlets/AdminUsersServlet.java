@@ -50,7 +50,9 @@ public class AdminUsersServlet extends HttpServlet {
 					userObject.getDepartment(), 
 					userObject.getPersonalId(), 
 					userObject.getEmailAddress(),					
-					userObject.getCertificate().getCertificateStatus());
+					userObject.getCertificate().getCertificateStatus(),
+//					userObject.hasSession());
+					false);
 					JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
 					userObjects.add(jsonUot);
 				} else {
@@ -59,7 +61,9 @@ public class AdminUsersServlet extends HttpServlet {
 					userObject.getLastName(), 
 					userObject.getDepartment(), 
 					userObject.getPersonalId(), 
-					userObject.getEmailAddress());
+					userObject.getEmailAddress(),
+//					userObject.hasSession());
+					false);
 					JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
 					userObjects.add(jsonUot);
 				}

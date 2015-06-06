@@ -4,7 +4,9 @@
 $(document).ready(function() {
 	createTable()
 });
-
+//====================================================================================//
+//================================= MAIN FUNCTIONS ===================================//
+//====================================================================================//
 function createTable() {
 	$("#users")
 			.DataTable(
@@ -54,30 +56,34 @@ function createTable() {
 						}, {
 							"data" : "status"
 						}, {
-							"data" : "status"
+							"data" : "hasSession"
 						} ],
 						"createdRow" : function(row, data, index) {
 							row.cells[6].classList.add("status_column")
 							switch (data.status) {
 							case "ACTIVE":
-								row.cells[6].innerHTML = '<i class="fa fa-check-circle table_icon_accepted">'
+								row.cells[6].innerHTML = '<i class="fa fa-check-circle table_icon_accepted" title="Status: aktiv - Zum Ändern klicken">'
 								row.cells[6].classList
 										.add("editable_certificate_status")
 								break
 							case "REVOKED":
-								row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_revoked">'
+								row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_revoked" title="Status: ungültig - Ändern des Status nicht möglich">'
 								break
 							case "OUTDATED":
-								row.cells[6].innerHTML = '<i class="fa fa-history table_icon_outdated">'
+								row.cells[6].innerHTML = '<i class="fa fa-history table_icon_outdated" title="Status: abgelaufen - Ändern des Status nicht möglich">'
 								break
 							case "NONE":
-								row.cells[6].innerHTML = '-'
+								row.cells[6].innerHTML = '<div title="Benutzer besitzt kein Zertifikat">-</div>'
 								break
 							}
 							row.cells[7].classList.add("status_column")
+							if (!data.hasSession) {
 							row.cells[7].innerHTML = '<i class="fa fa-trash-o table_icon_trash" id='
 									+ data.emailAddress
-									+ ' onclick="confirmDelete(this)">'
+									+ ' onclick="confirmDelete(this)" title="Benutzer löschen">'
+							} else {
+								row.cells[7].innerHTML = '<i class="fa fa-laptop table_icon_session" title="Benutzer ist momentan eingeloggt...">'
+							}
 						},
 						"fnInitComplete" : function() {
 							var oTable = $('#users').dataTable();
@@ -86,15 +92,15 @@ function createTable() {
 									.editable(
 											"../AdminUpdateUsersServlet",
 											{
-												indicator : '<img class="loading_gif_table" src="../img/general/loading.gif">',
+												indicator : '<img class="loading_gif_table" src="../img/general/loading.gif" title="lädt...">',
 												data : "{'ACTIVE':'aktiv','REVOKED':'ungültig'}",
 												tooltip : "Wählen Sie den Status...",
 												loadtext : "lädt...",
 												type : "select",
 												placeholder : "",
 												onblur : 'ignore',
-												submit : '<i class="fa fa-check table_edit_icon_confirm">',
-												cancel : '<i class="fa fa-times table_edit_icon_deny">',
+												submit : '<i class="fa fa-check table_edit_icon_confirm" title="Auswahl bestätigen">',
+												cancel : '<i class="fa fa-times table_edit_icon_deny" title="Abbrechen">',
 												submitdata : function() {
 													if (this.firstChild.firstChild.value !== "ACTIVE") {
 														var aPos = oTable
@@ -119,9 +125,9 @@ function confirmDelete(element) {
 	var elementId = element.id
 	element.parentElement.innerHTML = '<div><i id="'
 			+ elementId
-			+ '_confirm" class="fa fa-check table_edit_icon_confirm" style="display: inline"></i><i id="'
+			+ '_confirm" class="fa fa-check table_edit_icon_confirm" style="display: inline" title="Bestätigen"></i><i id="'
 			+ elementId
-			+ '_deny"class="fa fa-times table_edit_icon_deny" style="display: inline"></i>'
+			+ '_deny"class="fa fa-times table_edit_icon_deny" style="display: inline" title="Abbrechen"></i>'
 	document.getElementById(elementId + "_confirm").onclick = function() {
 		deleteUser(this, elementId)
 	}
@@ -132,13 +138,13 @@ function confirmDelete(element) {
 
 function resetRowColumn(element, id) {
 	element.parentElement.innerHTML = '<i class="fa fa-trash-o table_icon_trash" id='
-			+ id + ' onclick="confirmDelete(this)">'
+			+ id + ' onclick="confirmDelete(this)" title="Benutzer löschen">'
 }
 
 function setLoading(element, id) {
 	element.parentElement.innerHTML = '<img id="'
 			+ id
-			+ '_loading" class="loading_gif_table" src="../img/general/loading.gif">'
+			+ '_loading" class="loading_gif_table" src="../img/general/loading.gif" title="lädt...">'
 	return document.getElementById(id + "_loading")
 }
 
