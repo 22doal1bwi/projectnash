@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import de.projectnash.application.util.EmailSubject;
 import de.projectnash.application.util.EmailUtility;
 import de.projectnash.databackend.UserPersistenceService;
+import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Request;
 import de.projectnash.entities.User;
 
@@ -221,11 +222,31 @@ public class UserLogic {
 	 */
 	public static boolean removeUser(User user) {
 		try {
+			boolean removeRequestSuccessful = false;
+			boolean removeUsersCertificatesSuccessful = false;
+
+			if (UserLogic.hasRequest(user)) {
+				removeRequestSuccessful = RequestLogic.removeRequest(user);
+			}
+			
 			UserPersistenceService.removeUser(user);
+			
+			if (UserLogic.hasCertificate(user)) {
+				removeUsersCertificatesSuccessful = removeUsersCertificates(user);
+			}
+
+			if (!removeRequestSuccessful || !removeUsersCertificatesSuccessful) {
+				LogLogic.createLog(
+						"User konnte nicht aus der Datenbank entfernt werden",
+						user.getEmailAddress());
+				return false;
+			}
+
 			LogLogic.createLog(
 					"User wurde erfolgreich aus der Datenbank entfernt",
 					user.getEmailAddress());
 			return true;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogLogic.createLog(
@@ -233,6 +254,18 @@ public class UserLogic {
 					user.getEmailAddress());
 			return false;
 		}
+	}
+
+	/**
+	 * Removes all {@link Certificate}s of {@link User}.
+	 * 
+	 * @param user
+	 *            {@link User} which {@link Certificate}s should be removed.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
+	public static boolean removeUsersCertificates(User user) {
+		return CertificateLogic.removeAllCertificatesOfUser(user
+				.getEmailAddress());
 	}
 
 	/**

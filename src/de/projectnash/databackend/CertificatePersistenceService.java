@@ -51,6 +51,18 @@ public class CertificatePersistenceService {
     }
     
     /**
+     * Removes all {@link Certificate}s of {@link User}. 
+     * @param emailAddress E-Mail address of the {@link User}.
+     */
+    public static void removeAllCertificatesOfUser(String emailAddress){
+    	em.getTransaction().begin();
+    	TypedQuery<Certificate> query = em.createNamedQuery("QUERY_REMOVE_ALL_CERTIFICATES_BY_USER", Certificate.class);
+    	query.setParameter("emailAddress", emailAddress);
+    	query.executeUpdate();
+    	em.getTransaction().commit();
+    }
+    
+    /**
      * Updates a {@link Certificate}.
      * @param certificateToUpdate The {@link Certificate} that will be updated.
      */

@@ -118,6 +118,50 @@ public class CertificateLogic {
 	}
 
 	/**
+	 * Removes an {@link Certificate} via {@link CertificatePersistenceService}.
+	 * 
+	 * @param certificate The {@link Certificate} which should be deleted.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
+	public static boolean removeCertificate(Certificate certificate) {
+		try {
+			CertificatePersistenceService.removeCertificate(certificate);
+			LogLogic.createLog(
+					"Zertifikat wurde erfolgreich aus der Datenbank entfernt",
+					certificate.getEmailAddress());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogLogic.createLog(
+					"Zertifikat konnte nicht aus der Datenbank entfernt werden",
+					certificate.getEmailAddress());
+			return false;
+		}
+	}
+	
+	/**
+	 * Removes all {@link Certificate}s of {@link User}.
+	 * 
+	 * @param emailAddress E-Mail address of {@link User}.
+	 * @return The {@link Boolean} that describes if the process was successful.
+	 */
+	public static boolean removeAllCertificatesOfUser(String emailAddress){
+		try {
+			CertificatePersistenceService.removeAllCertificatesOfUser(emailAddress);
+			LogLogic.createLog(
+					"Zertifikate des Users wurden erfolgreich aus der Datenbank entfernt",
+					emailAddress);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogLogic.createLog(
+					"Zertifikate des Users konnten nicht aus der Datenbank entfernt werden",
+					emailAddress);
+			return false;
+		}
+	}
+
+	/**
 	 * Revokes a {@link Certificate}.
 	 * 
 	 * @param user
