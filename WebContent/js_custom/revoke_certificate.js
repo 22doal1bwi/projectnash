@@ -1,7 +1,7 @@
 // ====================================================================================//
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
-$(document).ready(function() {	
+$(document).ready(function() {
 	jQuery.i18n.properties({
 		name : 'messages',
 		path : '../i18n/',
@@ -10,16 +10,17 @@ $(document).ready(function() {
 		encoding : 'UTF-8'
 	});
 });
-//====================================================================================//
-//================================== AJAX FUNCTION ===================================//
-//====================================================================================//
+// ====================================================================================//
+// ================================== AJAX FUNCTION
+// ===================================//
+// ====================================================================================//
 function revokeCertificate() {
 	setLoading()
 	$.ajax({
 		url : '../RevokeCertificateServlet',
 		type : 'POST',
 		dataType : 'json',
-		data : $("#textfield_revoke").serialize(), 
+		data : $("#textfield_revoke").serialize(),
 		timeout : 8000,
 		success : function(data) {
 			if (data.validSession && data.revokedCertificate) {
@@ -39,7 +40,8 @@ function revokeCertificate() {
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS ==================================//
+// ================================== MAIN FUNCTIONS
+// ==================================//
 // ====================================================================================//
 function logout() {
 	document.form_logout.submit()
@@ -53,8 +55,8 @@ function onRevokeClick() {
 		$("#footer_revoke")
 				.html(
 						'<button id="button_cancel_revoke" onclick="cancelRevoke()" type="button"'
-								+ 'class="btn simplecert_inv_btn">Abbrechen</button><button id="button_confirm_revoke" onclick="revokeCertificate()"'
-								+ 'type="button" class="btn simplecert_btn">Bestätigen</button>')
+								+ 'class="btn simplecert_inv_btn" style="display: inline">Abbrechen</button><button id="button_confirm_revoke" onclick="revokeCertificate()"'
+								+ 'type="button" class="btn simplecert_btn" style="display: inline">Bestätigen</button><img id="loading_gif_revoke" src="../img/general/loading.gif" class="loading_gif">')
 	} else {
 		buildAndShowMessageBar("WRN_EMPTY_FIELD_REASON", "messagebar_revoke")
 		$("#page_content_revoke").addClass("page_content_move_down")

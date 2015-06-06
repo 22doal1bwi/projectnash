@@ -28,10 +28,10 @@ function buildAndShowMessageBar(message, messageBarId) {
 		styleMessagebar = "alert-success"
 		break
 	}
-	messagebarContent = '<div class="btn btn-default btn-circle messagebar_icon '
+	messagebarContent = '<table><tr><td><div class="btn btn-default btn-circle messagebar_icon '
 			+ iconBorderColor + '"> <i class="fa ' + iconType + ' ' + iconColor
-			+ '"></i></div>' + jQuery.i18n.prop(message)
-
+			+ '"></i></div></td><td>' + jQuery.i18n.prop(message) + '</td></tr></table>'
+			
 	// Remove any style classes
 	$("#" + messageBarId).html(messagebarContent)
 	if ($("#" + messageBarId).hasClass("alert-success")) {

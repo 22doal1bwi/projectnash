@@ -59,8 +59,7 @@
 <body>
 	<%
 		// Allow access only if session exists - if not, redirect to login
-		String sessionId = SessionController.checkForSessionId(request,
-				response);
+		String sessionId = SessionController.checkForSessionId(request, response);
 
 		switch (sessionId) {
 
@@ -94,13 +93,10 @@
 							</div>
 							<div id="footer_revoke" class="panel-footer">
 								<button id="button_revoke" onclick="onRevokeClick()"
-									type="button" class="btn simplecert_btn">Widerrufen</button>
+									type="button" class="btn simplecert_btn">Widerrufen</button>								
 							</div>
 						</div>
-					</div>
-					<div id="loading_gif_revoke" class="loading_gif loading_gif_revoke">
-						<img src="../img/general/loading.gif">
-					</div>
+					</div>					
 				</div>
 			</div>
 		</div>

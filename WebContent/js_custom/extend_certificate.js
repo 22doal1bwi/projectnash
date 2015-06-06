@@ -127,7 +127,6 @@ function onActivateClick() {
 function setLoading(stepNumber) {
 	$("#step" + stepNumber + "_panel_body_extend").addClass(
 			"panel_next_step_or_loading")
-	$("#loading_gif_extend").addClass("loading_gif_request_step" + stepNumber)
 	$("#loading_gif_extend").fadeIn()
 	$("#step" + stepNumber + "_button_extend").attr("disabled", "");
 	$("#step" + stepNumber + "_button_extend").removeAttr("onclick")

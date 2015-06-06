@@ -61,8 +61,8 @@ html, body {
 }
 
 .panelheader {
-	height: 65px;
-	line-height: 45px;
+	min-height: 65px;
+	padding: 17px 15px 16px 15px;
 }
 
 .panel_content_next_step_or_loading {
@@ -102,28 +102,8 @@ html, body {
 }
 
 .loading_gif {
-	position: relative;
+	margin-left: 2px;
 	display: none;
-}
-
-.loading_gif_request_step1 {
-	bottom: 239px;
-	left: 122px;
-}
-
-.loading_gif_request_step2 {
-	bottom: 152px;
-	left: 112px;
-}
-
-.loading_gif_settings {
-	bottom: 49px;
-	left: 151px;
-}
-
-.loading_gif_revoke {
-	bottom: 65px;
-	left: 216px;
 }
 
 .navitem_disabled {

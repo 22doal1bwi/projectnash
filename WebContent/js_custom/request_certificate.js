@@ -120,7 +120,6 @@ function checkPassword() {
 function setLoading(stepNumber) {
 	$("#step" + stepNumber + "_panel_body_request").addClass(
 			"panel_next_step_or_loading")
-	$("#loading_gif_request").addClass("loading_gif_request_step" + stepNumber)
 	$("#loading_gif_request").fadeIn()
 	$("#step" + stepNumber + "_button_request").attr("disabled", "");
 	$("#step" + stepNumber + "_button_request").removeAttr("onclick")

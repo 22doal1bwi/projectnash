@@ -151,11 +151,15 @@
 				<div class="col-lg-5 col-md-8">
 					<div class="panel panel-default">
 						<div id="step1_header_extend" class="panel-heading panelheader">
-							<button id="step1_icon_extend" type="button"
-								class="btn btn-default btn-circle panelicon">
-								<i id="step1_iconfont_extend" class="fa fa-check"></i>
-							</button>
-							Schritt 1: Zertifikatsverlängerung beantragen
+							<table>
+								<tr>
+									<td><div id="step1_icon_extend"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step1_iconfont_extend" class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 1: Zertifikatsverlängerung beantragen</td>
+								</tr>
+							</table>
 						</div>
 						<div id="step1_content_extend">
 							<div id="step1_panel_body_extend" class="panel-body">
@@ -166,7 +170,9 @@
 							</div>
 							<div class="panel-footer">
 								<button id="step1_button_extend" onclick="requestCertificate()"
-									type="button" class="btn simplecert_btn">Beantragen</button>
+									type="button" class="btn simplecert_btn" style="display: inline">Beantragen</button>
+									<img id="loading_gif_extend" class="loading_gif"
+									src="../img/general/loading.gif">
 							</div>
 						</div>
 					</div>
@@ -181,11 +187,15 @@
 					<div class="panel panel-default">
 						<div id="step1_header_extend"
 							class="panel-heading panelheader panel_next_step_or_loading">
-							<button id="step1_icon_extend" type="button"
-								class="btn btn-default btn-circle panelicon">
-								<i id="step1_iconfont_extend" class="fa fa-check"></i>
-							</button>
-							Schritt 1: Zertifikatsverlängerung beantragen
+							<table>
+								<tr>
+									<td><div id="step1_icon_extend"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step1_iconfont_extend" class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 1: Zertifikatsverlängerung beantragen</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -201,12 +211,15 @@
 					<div class="panel panel-default">
 						<div id="step1_header_extend"
 							class="panel-heading panelheader panelheader_completed">
-							<button id="step1_icon_extend" type="button"
-								class="btn btn-default btn-circle panelicon messageicon_border_success">
-								<i id="step1_iconfont_extend"
-									class="fa fa-check messageicon_success"></i>
-							</button>
-							Schritt 1: Zertifikatsverlängerung beantragen
+							<table>
+								<tr>
+									<td><div id="step1_icon_extend"
+											class="btn btn-default btn-circle panelicon messageicon_border_success">
+											<i id="step1_iconfont_extend" class="fa fa-check messageicon_success"></i>
+										</div></td>
+									<td>Schritt 1: Zertifikatsverlängerung beantragen</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -215,11 +228,15 @@
 				<div class="col-lg-5 col-md-8">
 					<div class="panel panel-default">
 						<div id="step2_header_extend" class="panel-heading panelheader">
-							<button id="step2_icon_extend" type="button"
-								class="btn btn-default btn-circle panelicon">
-								<i id="step2_iconfont_extend" class="fa fa-check"></i>
-							</button>
-							Schritt 2: Zertifikat aktivieren
+							<table>
+								<tr>
+									<td><div id="step2_icon_extend"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step2_iconfont_extend" class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 2: Zertifikat aktivieren</td>
+								</tr>
+							</table>
 						</div>
 						<div id="step2_content_extend">
 							<div id="step2_panel_body_extend" class="panel-body">
@@ -240,7 +257,9 @@
 							</div>
 							<div class="panel-footer">
 								<button id="step2_button_extend" onclick="onActivateClick()"
-									type="button" class="btn simplecert_btn">Aktivieren</button>
+									type="button" class="btn simplecert_btn" style="display: inline">Aktivieren</button>
+									<img id="loading_gif_extend" class="loading_gif"
+									src="../img/general/loading.gif">
 							</div>
 						</div>
 					</div>
@@ -253,12 +272,16 @@
 				<div class="col-lg-5 col-md-8">
 					<div class="panel panel-default">
 						<div id="step2_header_extend"
-							class="panel-heading panelheader panel_next_step_or_loading">
-							<button id="step2_icon_extend" type="button"
-								class="btn btn-default btn-circle panelicon">
-								<i id="step2_iconfont_extend" class="fa fa-check"></i>
-							</button>
-							Schritt 2: Zertifikat aktivieren
+							class="panel-heading panelheader panel_next_step_or_loading">							
+							<table>
+								<tr>
+									<td><div id="step2_icon_extend"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step2_iconfont_extend" class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 2: Zertifikat aktivieren</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -270,12 +293,16 @@
 				<div class="col-lg-5 col-md-8">
 					<div class="panel panel-default">
 						<div id="step3_header_extend"
-							class="panel-heading panelheader panel_next_step_or_loading">
-							<button type="submit"
-								class="btn btn-default btn-circle panelicon">
-								<i class="fa fa-check"></i>
-							</button>
-							Schritt 3: Zertifikat herunterladen
+							class="panel-heading panelheader panel_next_step_or_loading">							
+							<table>
+								<tr>
+									<td><div id="step3_icon_extend"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step3_iconfont_extend" class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 3: Zertifikat herunterladen</td>
+								</tr>
+							</table>
 						</div>
 						<div id="step3_content_extend"
 							class="panel_content_next_step_or_loading">
@@ -289,10 +316,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-					<div id="loading_gif_extend" class="loading_gif">
-						<img src="../img/general/loading.gif">
-					</div>
+					</div>				
 				</div>
 			</div>
 		</div>

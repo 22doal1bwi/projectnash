@@ -85,11 +85,11 @@
 			$(document).ready(
 					function() {
 						window.setTimeout(function() {
-						$("#page_content_request").addClass(
-								"page_content_move_down")
-						buildAndShowMessageBar("WRN_CERT_REQUEST_WAITING",
-								"messagebar_request")
-						}, 250);	
+							$("#page_content_request").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("WRN_CERT_REQUEST_WAITING",
+									"messagebar_request")
+						}, 250);
 					});
 		</script>
 		<%
@@ -99,11 +99,11 @@
 			$(document).ready(
 					function() {
 						window.setTimeout(function() {
-						$("#page_content_request").addClass(
-								"page_content_move_down")
-						buildAndShowMessageBar("SCS_CERT_REQUEST_ACCEPTED",
-								"messagebar_request")
-						}, 250);	
+							$("#page_content_request").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("SCS_CERT_REQUEST_ACCEPTED",
+									"messagebar_request")
+						}, 250);
 					});
 		</script>
 		<%
@@ -113,11 +113,11 @@
 			$(document).ready(
 					function() {
 						window.setTimeout(function() {
-						$("#page_content_request").addClass(
-								"page_content_move_down")
-						buildAndShowMessageBar("ERR_CERT_REQUEST_DENIED",
-								"messagebar_request")
-						}, 250);	
+							$("#page_content_request").addClass(
+									"page_content_move_down")
+							buildAndShowMessageBar("ERR_CERT_REQUEST_DENIED",
+									"messagebar_request")
+						}, 250);
 					});
 		</script>
 		<%
@@ -132,11 +132,15 @@
 				<div class="col-lg-5 col-md-8">
 					<div class="panel panel-default">
 						<div id="step1_header_request" class="panel-heading panelheader">
-							<button id="step1_icon_request" type="button"
-								class="btn btn-default btn-circle panelicon">
-								<i id="step1_iconfont_request" class="fa fa-check"></i>
-							</button>
-							Schritt 1: Zertifikat beantragen
+							<table>
+								<tr>
+									<td><div id="step1_icon_request"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step1_iconfont_request" class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 1: Zertifikat beantragen</td>
+								</tr>
+							</table>
 						</div>
 						<div id="step1_content_request">
 							<div id="step1_panel_body_request" class="panel-body">
@@ -146,7 +150,10 @@
 							</div>
 							<div class="panel-footer">
 								<button id="step1_button_request" onclick="requestCertificate()"
-									type="button" class="btn simplecert_btn">Beantragen</button>
+									type="button" class="btn simplecert_btn"
+									style="display: inline">Beantragen</button>
+								<img id="loading_gif_request" class="loading_gif"
+									src="../img/general/loading.gif">
 							</div>
 						</div>
 					</div>
@@ -160,12 +167,16 @@
 					<div class="panel panel-default">
 						<div id="step1_header_request"
 							class="panel-heading panelheader panelheader_completed">
-							<button id="step1_icon_request" type="button"
-								class="btn btn-default btn-circle panelicon messageicon_border_success">
-								<i id="step1_iconfont_request"
-									class="fa fa-check messageicon_success"></i>
-							</button>
-							Schritt 1: Zertifikat beantragen
+							<table>
+								<tr>
+									<td><div id="step1_icon_request"
+											class="btn btn-default btn-circle panelicon messageicon_border_success">
+											<i id="step1_iconfont_request"
+												class="fa fa-check messageicon_success"></i>
+										</div></td>
+									<td>Schritt 1: Zertifikat beantragen</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -180,11 +191,16 @@
 				<div class="col-lg-5 col-md-8">
 					<div class="panel panel-default">
 						<div id="step2_header_request" class="panel-heading panelheader">
-							<button id="step2_icon_request" type="button"
-								class="btn btn-default btn-circle panelicon">
-								<i id="step2_iconfont_request" class="fa fa-check"></i>
-							</button>
-							Schritt 2: Zertifikat aktivieren
+							<table>
+								<tr>
+									<td><div id="step2_icon_request"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step2_iconfont_request"
+												class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 2: Zertifikat aktivieren</td>
+								</tr>
+							</table>
 						</div>
 						<div id="step2_content_request">
 							<div id="step2_panel_body_request" class="panel-body">
@@ -197,14 +213,17 @@
 										placeholder="Passwort" onchange="validatePassword()" required>
 								</p>
 								<p>
-									<input type="password" id="password_confirm" class="form-control passwort_field_request_extend" 
+									<input type="password" id="password_confirm"
+										class="form-control passwort_field_request_extend"
 										placeholder="Passwort wiederholen" required>
 								</p>
 							</div>
 							<div class="panel-footer">
-								<button id="step2_button_request"
-									onclick="onActivateClick()" type="button"
-									class="btn simplecert_btn">Aktivieren</button>
+								<button id="step2_button_request" onclick="onActivateClick()"
+									type="button" class="btn simplecert_btn"
+									style="display: inline">Aktivieren</button>
+								<img id="loading_gif_request" class="loading_gif"
+									src="../img/general/loading.gif">
 							</div>
 						</div>
 					</div>
@@ -218,11 +237,16 @@
 					<div class="panel panel-default">
 						<div id="step2_header_request"
 							class="panel-heading panelheader panel_next_step_or_loading">
-							<button id="step2_icon_request" type="button"
-								class="btn btn-default btn-circle panelicon">
-								<i id="step2_iconfont_request" class="fa fa-check"></i>
-							</button>
-							Schritt 2: Zertifikat aktivieren
+							<table>
+								<tr>
+									<td><div id="step2_icon_request"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step2_iconfont_request"
+												class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 2: Zertifikat aktivieren</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -235,11 +259,16 @@
 					<div class="panel panel-default">
 						<div id="step3_header_request"
 							class="panel-heading panelheader panel_next_step_or_loading">
-							<button type="submit"
-								class="btn btn-default btn-circle panelicon">
-								<i class="fa fa-check"></i>
-							</button>
-							Schritt 3: Zertifikat herunterladen
+							<table>
+								<tr>
+									<td><div id="step3_icon_request"
+											class="btn btn-default btn-circle panelicon">
+											<i id="step3_iconfont_request"
+												class="fa fa-check messageicon_default"></i>
+										</div></td>
+									<td>Schritt 3: Zertifikat herunterladen</td>
+								</tr>
+							</table>
 						</div>
 						<div id="step3_content_request"
 							class="panel_content_next_step_or_loading">
@@ -254,14 +283,12 @@
 							</div>
 						</div>
 					</div>
-					<div id="loading_gif_request" class="loading_gif">
-						<img src="../img/general/loading.gif">
-					</div>
+					<!-- 					---------------------- -->
 				</div>
 			</div>
 		</div>
 	</div>
-<%
+	<%
 		} else {
 				response.sendRedirect("home.jsp");
 			}

@@ -11,7 +11,7 @@ public class Organization {
 	
 	private String Country = "DE";
 	
-	private String State = "Baden-Wuertemberg";
+	private String State = "Baden-Wuerttemberg";
 	
 	private String Locality = "Stuttgart";
 	
