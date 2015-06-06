@@ -114,7 +114,7 @@
 										<th>Abteilung</th>
 										<th>Personalnummer</th>
 										<th>E-Mail-Adresse</th>
-										<th style="min-width: 125px;">Zert.-Status</th>										
+										<th style="min-width: 125px;">Zertifikatsstatus</th>										
 										<th style="min-width: 125px;">Benutzer löschen</th>
 									</tr>
 								</thead>

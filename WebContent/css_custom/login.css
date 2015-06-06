@@ -44,7 +44,7 @@
 
 #login_container {
 	margin: 80px auto;
-	width: 420px;
+	max-width: 420px;
 	height: auto;
 	background-color: #F9F9F9;
 	text-align: center;

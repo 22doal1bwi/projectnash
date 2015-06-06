@@ -23,14 +23,14 @@ import de.projectnash.entities.User;
 @WebServlet("/AdminUsersServlet")
 public class AdminUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AdminUsersServlet() {
-    }
 
-    /**
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public AdminUsersServlet() {
+	}
+
+	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -41,8 +41,9 @@ public class AdminUsersServlet extends HttpServlet {
 		JsonObject JsonResponse = new JsonObject();		
 		
 		userList.forEach(userObject -> {
-			if(userObject.getCertificate() != null) {
-			UserObjectTable uot = new UserObjectTable(
+			if (!userObject.isAdmin()) {
+				if(userObject.getCertificate() != null) {
+					UserObjectTable uot = new UserObjectTable(
 					userObject.getCertificate().getExpirationDate(),
 					userObject.getFirstName(), 
 					userObject.getLastName(), 
@@ -50,18 +51,19 @@ public class AdminUsersServlet extends HttpServlet {
 					userObject.getPersonalId(), 
 					userObject.getEmailAddress(),					
 					userObject.getCertificate().getCertificateStatus());
-			JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
-			userObjects.add(jsonUot);
-			} else {
-				UserObjectTable uot = new UserObjectTable(
-						userObject.getFirstName(), 
-						userObject.getLastName(), 
-						userObject.getDepartment(), 
-						userObject.getPersonalId(), 
-						userObject.getEmailAddress());
-				JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
-				userObjects.add(jsonUot);
-			}			
+					JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
+					userObjects.add(jsonUot);
+				} else {
+					UserObjectTable uot = new UserObjectTable(
+					userObject.getFirstName(), 
+					userObject.getLastName(), 
+					userObject.getDepartment(), 
+					userObject.getPersonalId(), 
+					userObject.getEmailAddress());
+					JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
+					userObjects.add(jsonUot);
+				}
+			}
 		});
 		
 		JsonResponse.add("data", userObjects);

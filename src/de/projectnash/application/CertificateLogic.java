@@ -158,7 +158,7 @@ public class CertificateLogic {
 	 */
 	public static boolean certificateIsValid(Certificate certificate) {
 		if (certificate != null) {
-			if (certificate.getExpirationDate().compareTo(new Date()) >= 0) {
+			if (certificate.getCertificateStatus() != CertificateStatus.REVOKED && certificate.getExpirationDate().compareTo(new Date()) >= 0) {
 				return true;
 			}
 		}

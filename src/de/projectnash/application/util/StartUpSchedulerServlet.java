@@ -38,10 +38,10 @@ public class StartUpSchedulerServlet extends HttpServlet{
     	    @SuppressWarnings("deprecation")
 			JobDetail certificateExpireJob = new JobDetailImpl("CertificateExpireJob", Scheduler.DEFAULT_GROUP, CertificateExpireDbScheduler.class);
     	    
-    	    /** Only for test purposes every 30 seconds. */
+    	    /** Only for test purposes every 5 minutes. */
     	    @SuppressWarnings("deprecation")
 			SimpleTrigger everyDayCheckTrigger = new SimpleTriggerImpl("CheckDbEveryDay", Scheduler.DEFAULT_GROUP, new Date(),
-    		                  null, SimpleTrigger.REPEAT_INDEFINITELY, 30000);
+    		                  null, SimpleTrigger.REPEAT_INDEFINITELY, 300000);
     	    
     	    scheduler.scheduleJob(certificateExpireJob, everyDayCheckTrigger);  
     	   

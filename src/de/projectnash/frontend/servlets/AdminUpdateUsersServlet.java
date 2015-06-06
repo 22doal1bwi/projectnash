@@ -11,13 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import de.projectnash.application.CertificateLogic;
-import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.entities.User;
-import de.projectnash.entities.Request;
 
 /**
  * Servlet implementation class AdminRequestServlet
@@ -39,8 +36,7 @@ public class AdminUpdateUsersServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
-
-		Map<String, Object> map = new HashMap<String, Object>();		
+			
 		String action = request.getParameter("action");
 		String emailAddress = request.getParameter("emailAddress");
 
@@ -48,15 +44,17 @@ public class AdminUpdateUsersServlet extends HttpServlet {
 
 		switch (action) {
 		case "deleteUser":
+			Map<String, Object> map = new HashMap<String, Object>();	
 			boolean deletedUser = UserLogic.removeUser(user);
 			map.put("deletedUser", deletedUser);
+			write(response, map);
 			break;
 		case "revokeCertificate":
 			boolean revokedCertificate = CertificateLogic.revokeCertificate(user, "revoked_by_admin");			
-			map.put("revokedCertificate", revokedCertificate);
+			response.getWriter().print(revokedCertificate);
 			break;
 		}
-		write(response, map);
+		
 	}
 
 	private void write(HttpServletResponse resp, Map<String, Object> map) throws IOException {

@@ -246,10 +246,14 @@ html, body {
 	cursor: pointer;
 }
 
+.table_icon_revoked {
+	font-size: 23px;
+	color: #C03A2A;
+}
+
 .table_icon_outdated {
 	font-size: 23px;
 	color: #f0ad4e;
-	cursor: pointer;
 }
 
 .table_icon_trash {
@@ -265,16 +269,14 @@ html, body {
 }
 .table_edit_icon_confirm {
 	font-size: 15px;
-  	height: 23px;
- 	width: 23px;
+  	padding: 0 5px 0 5px;
   	line-height: 23px;
   	cursor: pointer;
   	color: #5cb85c; 
 }
 .table_edit_icon_deny {
 	font-size: 15px;
-  	height: 23px;
- 	width: 23px;
+  	padding: 0 5px 0 5px;
   	line-height: 23px;
   	cursor: pointer;
   	color: #C03A2A; 

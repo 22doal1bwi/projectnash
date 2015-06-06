@@ -72,7 +72,7 @@
 			default :
 				UserController uc = new UserController(sessionId);
 
-				if (!uc.hasCertificate()) {
+				if (!uc.hasValidCertificate()) {
 	%>
 	<div id="page-wrapper">
 		<div id="messagebar_request"

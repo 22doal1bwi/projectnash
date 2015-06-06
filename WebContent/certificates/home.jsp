@@ -107,7 +107,7 @@
 					});
 		</script>
 		<%
-			} // close of if (hasCertificate && hasValidCertificate)
+			}
 					} else if (uc.hasCertificate() && !uc.hasValidCertificate()) {
 		%>
 		<script type="text/javascript">
