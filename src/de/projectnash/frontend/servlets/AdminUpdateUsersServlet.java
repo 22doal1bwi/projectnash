@@ -34,9 +34,9 @@ public class AdminUpdateUsersServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
-			
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		String action = request.getParameter("action");
 		String emailAddress = request.getParameter("emailAddress");
 
@@ -44,20 +44,23 @@ public class AdminUpdateUsersServlet extends HttpServlet {
 
 		switch (action) {
 		case "deleteUser":
-			Map<String, Object> map = new HashMap<String, Object>();	
+			Map<String, Object> map = new HashMap<String, Object>();
 			boolean deletedUser = UserLogic.removeUser(user);
 			map.put("deletedUser", deletedUser);
 			write(response, map);
 			break;
 		case "revokeCertificate":
-			boolean revokedCertificate = CertificateLogic.revokeCertificate(user, "revoked_by_admin");			
+			boolean revokedCertificate = CertificateLogic
+					.revokeCertificate(user,
+							"Administrator - Zertifikat wurde von Administrator widerrufen");
 			response.getWriter().print(revokedCertificate);
 			break;
 		}
-		
+
 	}
 
-	private void write(HttpServletResponse resp, Map<String, Object> map) throws IOException {
+	private void write(HttpServletResponse resp, Map<String, Object> map)
+			throws IOException {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().write(new Gson().toJson(map));
