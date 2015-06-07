@@ -81,7 +81,7 @@
 			class="alert messagebar_intern messagebar_hidden"></div>
 		<!-------------------------------<BEGIN> INITIALIZE MESSAGEBAR---------------------------------->
 		<%
-			if (uc.hasValidCertificate()) {
+			if (uc.hasValidCertificate()) {				
 						if (uc.getRemainingTimeOfCertificate(TimeUnit.DAYS) > Constants.TIMEFRAME_FOR_EXTENSION) {
 		%>
 		<script type="text/javascript">

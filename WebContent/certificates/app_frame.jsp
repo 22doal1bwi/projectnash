@@ -92,7 +92,7 @@
 				}
 			%>
 			<li><div class="name"><%=uc.getFullName()%></div></li>
-			<li><a href="settings.jsp" target="app_content"><i
+			<li><a id="a_settings" onclick="setFrameSrc('settings')" href="settings.jsp" target="app_content"><i
 					class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">

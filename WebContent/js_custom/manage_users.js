@@ -67,11 +67,9 @@ function createTable() {
 										.add("editable_certificate_status")
 								break
 							case "REVOKED":
-								row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_revoked" title="Status: ungültig - Ändern des Status nicht möglich">'
-								break
 							case "OUTDATED":
-								row.cells[6].innerHTML = '<i class="fa fa-history table_icon_outdated" title="Status: abgelaufen - Ändern des Status nicht möglich">'
-								break
+								row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_revoked" title="Status: ungültig - Ändern des Status nicht möglich">'
+								break							
 							case "NONE":
 								row.cells[6].innerHTML = '<div title="Benutzer besitzt kein Zertifikat">-</div>'
 								break

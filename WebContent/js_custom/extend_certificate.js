@@ -15,13 +15,6 @@ $(document).ready(function() {
 		encoding : 'UTF-8'
 	});
 });
-
-$('#app_content').ready(function() {
-	$("a").removeClass('active')
-	$("a_extend_certificate").addClass('active')
-})
-
-
 // ====================================================================================//
 // ================================== AJAX FUNCTIONS
 // ==================================//
