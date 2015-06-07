@@ -164,7 +164,7 @@
 						<div id="step1_content_extend">
 							<div id="step1_panel_body_extend" class="panel-body">
 								<p>Beantragen Sie eine Verlängerung für Ihr Zertifikat. Im
-									nächsten Schritt können Sie anschließend - nach erfolgreicher
+									nächsten Schritt können Sie - nach erfolgreicher
 									Genehmigung Ihres Antrags - das länger gültige Zertifikat
 									herunterladen.</p>
 							</div>
@@ -308,7 +308,7 @@
 							class="panel_content_next_step_or_loading">
 							<div class="panel-body">
 								<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
-									es, um es anschließend in ihren Browser importieren zu können.</p>
+									es, um es anschließend in Ihren Browser importieren zu können.</p>
 							</div>
 							<div class="panel-footer">
 								<form action="../CrtDownload" method="get">

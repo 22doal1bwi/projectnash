@@ -274,7 +274,7 @@
 							class="panel_content_next_step_or_loading">
 							<div class="panel-body">
 								<p>Laden Sie nun ihr Zertifikat herunter und speichern Sie
-									es, um es anschließend in ihren Browser importieren zu können.</p>
+									es, um es anschließend in Ihren Browser importieren zu können.</p>
 							</div>
 							<div class="panel-footer">
 								<form action="../CrtDownload" method="get">
