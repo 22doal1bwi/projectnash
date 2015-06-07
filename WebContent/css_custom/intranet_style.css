@@ -37,9 +37,20 @@ a {
 }
 
 /*Farbe für Navbar Dropdown Links*/
-.dropdown-menu a {
+.dropdown-menu>li>a {
+	background-color: #fff;
 	color: #58733D !important;
 }
+
+
+/* Kleine Geräte Fix für schlechte Lesbarkeit */ 
+@media only screen and (max-width : 720px) {
+	.dropdown-menu>li>a {
+	background-color: #8bc34a;
+	color: #fff !important;
+	}
+}
+
 
 .nash_logo {
 	margin: -4px 0px 10px 15px;
