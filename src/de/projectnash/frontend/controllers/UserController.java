@@ -80,7 +80,11 @@ public class UserController implements IUserController {
 	@Override
 	public boolean hasAcceptedRequest() {
 		try {
-			return RequestLogic.getRequestStatus(user) == RequestStatus.ACCEPTED;
+			if(!RequestLogic.requestExists(user)){
+				return false;
+			}else {
+				return RequestLogic.getRequestStatus(user) == RequestStatus.ACCEPTED;
+			}
 		} catch (Exception e) {
 			return false;
 		}		

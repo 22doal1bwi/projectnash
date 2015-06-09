@@ -2,6 +2,7 @@ package de.projectnash.frontend.servlets;
 
 import java.io.IOException;
 
+import javax.persistence.NoResultException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -40,13 +41,17 @@ public class LogoutServlet extends HttpServlet {
 		
 		// invalidate the session if exists
 		HttpSession session = request.getSession(false);
-		System.out.println("User=" + session.getAttribute("emailAddress"));
 		
 		if (session != null) {
 			session.invalidate();
 		}
 		
-		SessionLogic.removeSession(actualCookie);
+		try{
+			SessionLogic.removeSession(actualCookie);
+		}catch (NoResultException e){
+			e.printStackTrace();
+		}
+		
 		response.sendRedirect("certificates/login.jsp");
 	}
 

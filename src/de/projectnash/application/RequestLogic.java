@@ -115,13 +115,8 @@ public class RequestLogic {
 	 * @return The {@link RequestStatus}.
 	 */
 	public static RequestStatus getRequestStatus(User user) {
-		try {
-			return RequestPersistenceService.loadRequest(user)
-					.getRequestStatus();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return RequestPersistenceService.loadRequest(user)
+				.getRequestStatus();
 	}
 
 	/**
