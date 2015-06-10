@@ -141,7 +141,7 @@
 		<!-------------------------------<END> INITIALIZE MESSAGEBAR---------------------------------->
 		<div id="page_content_home" class="page_content">
 			<div class="row">
-				<div class="col-lg-3 col-md-6">
+				<div class="col-lg-4 col-md-6">
 					<!-------------------------------<BEGIN> SET LINK FOR THE FIRST TILE--------------------------------->
 					<%
 						if (!uc.hasValidCertificate()) {
@@ -203,7 +203,7 @@
 				}
 					if (uc.hasValidCertificate()) {
 			%>
-			<div class="col-lg-3 col-md-6">
+			<div class="col-lg-4 col-md-6">
 				<a href="extend_certificate.jsp" onclick="setFrameSrc('extend_certificate')">
 					<div id="panel2_h" class="panel panel-yellow">
 						<div id="panel2" class="panel-heading">
@@ -253,7 +253,7 @@
 					</div>
 				</a>
 			</div>
-			<div class="col-lg-3 col-md-6">
+			<div class="col-lg-4 col-md-6">
 				<div id="panel3_h" class="panel panel-red">
 					<a href="revoke_certificate.jsp" onclick="setFrameSrc('revoke_certificate')">
 						<div id="panel3" class="panel-heading">
@@ -279,7 +279,7 @@
 		%>
 		<hr class="horizontal_divider">
 		<div class="row">
-			<div class="col-lg-3 col-md-6">
+			<div class="col-lg-4 col-md-6">
 				<div id="panel4_h" class="panel panel-primary">
 					<a href="manage_requests.jsp" onclick="setFrameSrc('manage_requests')">
 						<div id="panel4" class="panel-heading panel_primary_heading">
@@ -316,7 +316,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-lg-3 col-md-6">
+			<div class="col-lg-4 col-md-6">
 				<div id="panel5_h" class="panel panel-primary">
 					<a href="manage_users.jsp" onclick="setFrameSrc('manage_users')">
 						<div id="panel5" class="panel-heading panel_primary_heading">

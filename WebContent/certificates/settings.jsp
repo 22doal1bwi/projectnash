@@ -91,6 +91,8 @@
 							<p class="form-control-static"><%=uc.getLastName()%></p>
 							<label>Abteilung</label>
 							<p class="form-control-static"><%=uc.getDepartment()%></p>
+							<label>Personalnummer</label>
+							<p class="form-control-static"><%=uc.getPersonalId()%></p>
 							<label>E-Mail-Addresse</label>
 							<p class="form-control-static"><%=uc.getEmailAddress()%></p>
 							<label>Passwort</label><br> <input type="password"
@@ -110,11 +112,9 @@
 								type="button" class="btn simplecert_btn" style="display: none;">OK</button>
 							<button id="button_change_password" onclick="changePassword()"
 								type="button" class="btn simplecert_btn password_change_btn">Passwort
-								ändern</button>
-						</div>
-						<div id="loading_gif_settings" class="loading_gif loading_gif_settings" style="display: none;">
-							<img src="../img/general/loading.gif">
-						</div>
+								ändern</button>								  
+							<img id="loading_gif_settings" class="loading_gif" style="display: none" src="../img/general/loading.gif">						
+						</div>						
 					</div>
 				</div>
 			</div>
