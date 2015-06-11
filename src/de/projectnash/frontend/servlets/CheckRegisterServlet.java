@@ -3,7 +3,6 @@ package de.projectnash.frontend.servlets;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,23 +27,19 @@ public class CheckRegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean inputAlreadyExists = false;
-		String keyInput = "";
-		String valueInput = "";
 		
-		for (Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-			keyInput = entry.getKey();
-			valueInput = entry.getValue()[0].toString();
+		String personalId = request.getParameter("personalId");
+		String emailAddress = request.getParameter("emailAddress");
+
+		if (personalId != null && !personalId.isEmpty()) {
+			inputAlreadyExists = UserLogic.personalIdAlreadyExists(personalId);
+		} else if (emailAddress != null && !emailAddress.isEmpty()) {
+			inputAlreadyExists = UserLogic.emailAlreadyExists(emailAddress);
 		}
-		
-		if (keyInput.equals("personalId")) {
-			inputAlreadyExists = UserLogic.personalIdAlreadyExists(valueInput);	
-		} else {
-			inputAlreadyExists = UserLogic.emailAlreadyExists(valueInput);
-		}
-		
+
 		map.put("alreadyExists", inputAlreadyExists);
 		write(response, map);
 	};

@@ -301,13 +301,7 @@ public class UserLogic {
 	 * @return True if the {@link User}/personal id already exists.
 	 */
 	public static boolean personalIdAlreadyExists(String personalId) {
-		if (personalId != null) {
-			if (!personalId.isEmpty()) {
-				return UserPersistenceService.userExists(Integer
-						.parseInt(personalId));
-			}
-		}
-		return false;
+		return UserPersistenceService.userExists(Integer.parseInt(personalId));
 	}
 
 	/**
