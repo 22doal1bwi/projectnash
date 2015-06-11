@@ -69,7 +69,7 @@ function inputDbCheck(type) {
 		dataType : 'json',
 		data : $('#' + type).serialize(),
 		success : function(data) {
-			if (data.alreadyExists === false) {
+			if (!data.alreadyExists) {
 				cleanInputField(type)
 				removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
 						+ "_DB")
@@ -83,7 +83,10 @@ function inputDbCheck(type) {
 				notExists = false
 				return notExists
 			}
-		}
+		},
+		error : function() {
+			addMessageToRegistry("ERR_CONNECTION")
+		}	
 	})
 }
 
@@ -106,10 +109,14 @@ function submitRegisterForm() {
 
 					} else {
 						addMessageToRegistry("ERR_REGISTRATION")
+						$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
+						$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
 					}
 				},
 				error : function() {
 					addMessageToRegistry("ERR_CONNECTION")
+					$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
+					$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
 				}
 			})
 }
@@ -271,9 +278,8 @@ function checkFormBeforeSubmit() {
 	if (!emptyField) {
 		removeMessageTypeFromRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
 		getMessagesFromRegistry()
-		if (compareInputField("emailAddress") && compareInputField("password")
-				&& validateInput("personalId", "ui_and_db")
-				&& validateInput("emailAddress", "ui_and_db")) {
+		if (compareInputField("emailAddress") && compareInputField("password")) {
+			$("#emailAddress, #personalId").removeAttr("onchange")
 			submitRegisterForm()
 		}
 
