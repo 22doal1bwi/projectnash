@@ -51,11 +51,9 @@ public class UserLogic {
 			String password) {
 
 		try {
-			User tempUser = new User(Integer.parseInt(personalId), firstName,
-					lastName, organizationunit, emailAddress, password);
-
-			/** save the user to the database. */
-			UserPersistenceService.storeUser(tempUser);
+			UserPersistenceService.storeUser(new User(Integer
+					.parseInt(personalId), firstName, lastName,
+					organizationunit, emailAddress, password));
 			LogLogic.createLog(
 					"Der Benutzer wurde erfolgreich in der Datenbank gespeichert",
 					emailAddress);
@@ -72,7 +70,8 @@ public class UserLogic {
 
 	/**
 	 * Creates a {@link Certificate} for the {@link User} which has an accepted
-	 * {@link Request} revoking the old {@link Certificate} and removing the {@link Request}.
+	 * {@link Request} revoking the old {@link Certificate} and removing the
+	 * {@link Request}.
 	 * 
 	 * @param user
 	 *            The {@link User} whose {@link Request} was accepted.
@@ -244,7 +243,7 @@ public class UserLogic {
 
 			if (UserLogic.hasCertificate(user)) {
 				removeUsersCertificatesSuccessful = removeUsersCertificates(user);
-			} 
+			}
 
 			if (!removeRequestSuccessful || !removeUsersCertificatesSuccessful) {
 				LogLogic.createLog(
