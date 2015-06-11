@@ -233,8 +233,8 @@ public class UserLogic {
 	 */
 	public static boolean removeUser(User user) {
 		try {
-			boolean removeRequestSuccessful = false;
-			boolean removeUsersCertificatesSuccessful = false;
+			boolean removeRequestSuccessful = true;
+			boolean removeUsersCertificatesSuccessful = true;
 
 			if (UserLogic.hasRequest(user)) {
 				removeRequestSuccessful = RequestLogic.removeRequest(user);
@@ -244,7 +244,7 @@ public class UserLogic {
 
 			if (UserLogic.hasCertificate(user)) {
 				removeUsersCertificatesSuccessful = removeUsersCertificates(user);
-			}
+			} 
 
 			if (!removeRequestSuccessful || !removeUsersCertificatesSuccessful) {
 				LogLogic.createLog(
