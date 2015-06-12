@@ -29,9 +29,10 @@ public class RegisterServlet extends HttpServlet {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		boolean userCreated = false;
+		boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(req.getParameter("personalId"));
+		boolean emailAddressAlreadyExists = UserLogic.emailAlreadyExists(req.getParameter("emailAddress"));
 		
-		if (!UserLogic.personalIdAlreadyExists(req.getParameter("personalId"))
-				&& !UserLogic.emailAlreadyExists(req.getParameter("emailAddress"))) {
+		if (!personalIdAlreadyExists && !emailAddressAlreadyExists) {
 			
 			/**
 			 * Creates a user and saves the result of the operation into a variable.
@@ -43,13 +44,16 @@ public class RegisterServlet extends HttpServlet {
 					req.getParameter("organizationalUnit"),
 					req.getParameter("password"));
 
+		} else if (personalIdAlreadyExists) {
+			map.put("personalIdAlreadyExists", true);						
+		} else if (emailAddressAlreadyExists){
+			map.put("emailAddressAlreadyExists", true);	
 		}
 		map.put("created", userCreated);
 		write(resp, map);
 	};
 
-	private void write(HttpServletResponse resp, Map<String, Object> map)
-			throws IOException {
+	private void write(HttpServletResponse resp, Map<String, Object> map) throws IOException {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().write(new Gson().toJson(map));

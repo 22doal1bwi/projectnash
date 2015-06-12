@@ -3,24 +3,20 @@
 //====================================================================================//
 
 // Method that triggers the login button when the 'enter'-key is pressed
-$(document)
-		.ready(
-				function() {
-					$(
-							'#firstName, #lastName, #organizationalUnit, #personalId, #emailAddress, #emailAddress_confirm, #password, #password_confirm')
-							.keypress(function(e) {
-								if (e.keyCode == 13)
-									$('#registerButton').click();
-							});
+$(document).ready(function() {
+	$('#firstName, #lastName, #organizationalUnit, #personalId, #emailAddress, #emailAddress_confirm, #password, #password_confirm').keypress(function(e) {
+		if (e.keyCode == 13)
+			$('#registerButton').click();
+	});
 
-					jQuery.i18n.properties({
-						name : 'messages',
-						path : '../i18n/',
-						language : 'de',
-						mode : 'map',
-						encoding : 'UTF-8'
-					});
-				});
+	jQuery.i18n.properties({
+		name : 'messages',
+		path : '../i18n/',
+		language : 'de',
+		mode : 'map',
+		encoding : 'UTF-8'
+	});
+});
 
 // ====================================================================================//
 // ================================= MESSAGE REGISTRY
@@ -61,12 +57,12 @@ function getMessagesFromRegistry() {
 }
 
 function isMessageRegistryEmpty() {
-	for (var i = 0; i < messageRegistry.length; i++) {
-		if (messageRegistry[i] !== "WRN_INPUT_PASSWORD") {
-			return false
-		} else {
-			return true
-		}
+	if (messageRegistry.length === 1 && messageRegistry[0] === "WRN_INPUT_PASSWORD") {
+		return true
+	} else if (messageRegistry.length === 0) {
+		return true
+	} else {
+		return false
 	}
 }
 
@@ -88,8 +84,7 @@ function inputDbCheck(type) {
 		success : function(data) {
 			if (!data.alreadyExists) {
 				cleanInputField(type)
-				removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-						+ "_DB")
+				removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase() + "_DB")
 				getMessagesFromRegistry()
 				notExists = true
 				return notExists
@@ -109,37 +104,47 @@ function inputDbCheck(type) {
 
 // Method which submits all data from the input fields
 function submitRegisterForm() {
-	$
-			.ajax({
-				url : '../RegisterServlet',
-				type : 'POST',
-				dataType : 'json',
-				data : $(
-						'#firstName, #lastName, #organizationalUnit, #personalId, #emailAddress, #password')
-						.serialize(),
-				success : function(data) {
-					if (data.created) {
-						addMessageToRegistry("SCS_REGISTRATION")
-						window.setTimeout(function() {
-							location.href = 'login.jsp';
-						}, 3000);
-
-					} else {
-						addMessageToRegistry("ERR_REGISTRATION")
-						$("#emailAddress").attr("onchange",
-								"validateInput('emailAddress', 'ui_and_db')")
-						$("#personalId").attr("onchange",
-								"validateInput('personalId', 'ui_and_db')")
-					}
-				},
-				error : function() {
-					addMessageToRegistry("ERR_CONNECTION")
-					$("#emailAddress").attr("onchange",
-							"validateInput('emailAddress', 'ui_and_db')")
-					$("#personalId").attr("onchange",
-							"validateInput('personalId', 'ui_and_db')")
-				}
-			})
+	$.ajax({
+		url : '../RegisterServlet',
+		type : 'POST',
+		dataType : 'json',
+		data : $('#firstName, #lastName, #organizationalUnit, #personalId, #emailAddress, #password').serialize(),
+		success : function(data) {
+			if (data.created) {
+				addMessageToRegistry("SCS_REGISTRATION")
+				window.setTimeout(function() {
+					location.href = 'login.jsp';
+				}, 3000);
+			} else if (!data.created && data.personalIdAlreadyExists) {
+				addMessageToRegistry("ERR_INPUT_PERSONALID_DB")
+				$("#personalId").addClass("has-error")
+				$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
+				$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
+			} else if (!data.created && data.emailAddressAlreadyExists) {
+				addMessageToRegistry("ERR_INPUT_EMAILADDRESS_DB")
+				$("#emailAddress").addClass("has-error")
+				$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
+				$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
+			} else {
+				addMessageToRegistry("ERR_REGISTRATION")
+				removeMessageTypeFromRegistry("ERR_REGISTRATION")
+				window.setTimeout(function() {
+					getMessagesFromRegistry()
+				}, 3000);
+				$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
+				$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
+			}
+		},
+		error : function() {
+			addMessageToRegistry("ERR_CONNECTION")
+			removeMessageTypeFromRegistry("ERR_CONNECTION")
+			window.setTimeout(function() {
+				getMessagesFromRegistry()
+			}, 3000);
+			$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
+			$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
+		}
+	})
 }
 
 // ====================================================================================//
@@ -170,33 +175,30 @@ function validateInput(type, kindOfCheck) {
 			addMessageToRegistry("ERR_INPUT_" + type.toUpperCase() + "_UI")
 			$("#" + type).addClass("has-error")
 			return false
-		} else if ($("#" + type).val() !== ""
-				&& regEx.test($("#" + type).val())) {
+		} else if ($("#" + type).val() !== "" && regEx.test($("#" + type).val())) {
 			if (type === "emailAddress") {
 				compareInputField(type)
 			}
 			cleanInputField(type)
-			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-					+ "_UI")
+			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase() + "_UI")
 			getMessagesFromRegistry()
 			if (inputDbCheck(type).success(function(notExists) {
 				return notExists
-			})) {				
+			})) {
 				cleanInputField(type)
-				removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-						+ "_DB")
+				removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase() + "_DB")
 				getMessagesFromRegistry()
+				return true
 			} else {
 				addMessageToRegistry("ERR_INPUT_" + type.toUpperCase() + "_DB")
 			}
 
 		} else if ($("#" + type).val() === "") {
-			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-					+ "_UI")
-			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-					+ "_DB")
+			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase() + "_UI")
+			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase() + "_DB")
 			getMessagesFromRegistry()
 			cleanInputField(type)
+			return false
 		}
 		break
 
@@ -211,11 +213,11 @@ function validateInput(type, kindOfCheck) {
 			break
 
 		case "firstName":
-			regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+$/;
+			regEx = /^[A-Za-zßÄÖÜäöüé\'\-\ ]+$/;
 			break
 
 		case "lastName":
-			regEx = /^[A-Za-zßÄÖÜäöü\'\-\ ]+$/;
+			regEx = /^[A-Za-zßÄÖÜäöüé\'\-\ ]+$/;
 			break
 
 		case "password":
@@ -230,10 +232,12 @@ function validateInput(type, kindOfCheck) {
 			addMessageToRegistry("ERR_INPUT_" + type.toUpperCase())
 			cleanInputField(type)
 			$("#" + type).addClass("has-error")
+			return false
 		} else {
 			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase())
 			getMessagesFromRegistry()
 			cleanInputField(type)
+			return true
 		}
 	} else if (type === "password" || type === "password_confirm") {
 		if ($("#" + type).val() !== "" && !regEx.test($("#" + type).val())) {
@@ -260,8 +264,7 @@ function compareInputField(type) {
 			return false;
 		} else {
 			cleanInputField(type + "_confirm")
-			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-					+ "_COMP")
+			removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase() + "_COMP")
 			if (type === "password") {
 				validateInput("password_confirm", "ui_only")
 			}
@@ -270,8 +273,7 @@ function compareInputField(type) {
 		}
 	} else {
 		cleanInputField(type + "_confirm")
-		removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
-				+ "_COMP")
+		removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase() + "_COMP")
 		getMessagesFromRegistry()
 	}
 }
@@ -298,9 +300,13 @@ function checkFormBeforeSubmit() {
 	}
 	if (!emptyField) {
 		removeMessageTypeFromRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
-		if (compareInputField("emailAddress") && compareInputField("password") && isMessageRegistryEmpty()) {
+		if (compareInputField("emailAddress") && compareInputField("password") && isMessageRegistryEmpty() && validateInput("firstName", "ui_only")
+				&& validateInput("lastName", "ui_only")) {
 			$("#emailAddress, #personalId").removeAttr("onchange")
 			submitRegisterForm()
+		} else {
+			$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
+			$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
 		}
 
 	} else {
