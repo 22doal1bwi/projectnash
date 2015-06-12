@@ -14,4 +14,7 @@
     <servlet-class>de.projectnash.application.util.StartUpSchedulerServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
 </servlet>
+<listener>
+		<listener-class>de.projectnash.application.util.SessionListener</listener-class>
+</listener>
 </web-app>

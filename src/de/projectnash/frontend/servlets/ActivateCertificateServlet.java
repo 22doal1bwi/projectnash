@@ -35,13 +35,12 @@ public class ActivateCertificateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		String sessionIdStatus = SessionController.checkForSessionId(request,
-				response);
+		String sessionIdStatus = SessionController.checkForSessionId(request, response);
 		
 		/** get request parameters for userID and password */
 		String password = request.getParameter(PASSWORD);
-		
 		User user = UserLogic.loadUserBySession(sessionIdStatus);
+		
 		switch (sessionIdStatus) {
 		default:
 			try {

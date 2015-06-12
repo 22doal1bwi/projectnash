@@ -3,7 +3,6 @@ package de.projectnash.frontend.controllers;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -35,27 +34,14 @@ public class SessionController {
 		HttpSession session = request.getSession();
 	
 		/** check if session contains a simplecert attribute. */
-		if (session.getAttribute("emailAddress") == null) {
+		if (session.getAttribute("emailAddress") == null || request.getCookies() == null) {
 			return "-1";
 		} else {
+		
+			String ssnId = session.getId();
 			
-			Cookie[] cookies = request.getCookies();
-			if (cookies == null) {
-				
-				/** cookies empty. */
-				return "-1";
-			} else {
-				
-				/** get ssnId from cookie. */ 
-				String ssnId = null;
-				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals("JSESSIONID")){
-						ssnId = cookie.getValue();
-					}
-				}
 			/** check if session is available in DB if true return ssnId else 0. */
 			return SessionLogic.checkSession(ssnId) ? ssnId : "0";
 			}
 		}
 	}
-}

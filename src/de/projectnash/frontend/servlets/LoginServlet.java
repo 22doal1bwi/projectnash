@@ -44,15 +44,13 @@ public class LoginServlet extends HttpServlet {
 		/** check if a user was received and password is correct */
 		if (loadedUser != null && loadedUser.getPassword().equals(password)) {
 
-			HttpSession httpSession = request.getSession();
-			httpSession
-					.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());
+			HttpSession session = request.getSession();
+			session.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());
 
 			/** setting session to expire in 30 minutes */
-			httpSession.setMaxInactiveInterval(30 * 60);
-			httpSession.getId();
-
-			SessionLogic.createSession(loadedUser, httpSession.getId());
+			session.setMaxInactiveInterval(30 * 60);
+			
+			SessionLogic.createSession(loadedUser, session.getId());
 
 			Cookie userName = new Cookie(MAIL_ADDRESS, emailAddress);
 			userName.setMaxAge(30 * 60);

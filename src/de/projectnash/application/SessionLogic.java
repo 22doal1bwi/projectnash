@@ -39,8 +39,7 @@ public class SessionLogic {
 	 * @param ssnId The {@link String} that represents the ssnId of the {@link Session}.
 	 */
 	public static void removeSession(String ssnId) {
-		SessionPersistenceService.removeSession(SessionPersistenceService
-				.loadSession(ssnId));
+		SessionPersistenceService.removeSession(SessionPersistenceService.loadSession(ssnId));
 	}
 
 	/**
