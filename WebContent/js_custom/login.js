@@ -2,6 +2,10 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {
+	if ($(window).width() <= "420") {
+		$("#login_container").css("margin", "-40px auto")
+	}
+	
 	// Method that triggers the login button when the 'enter'-key is pressed
 	$('#password, #emailAddress').keypress(function(e) {
 		if (e.keyCode == 13)
