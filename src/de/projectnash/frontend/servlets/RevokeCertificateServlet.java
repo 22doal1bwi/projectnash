@@ -26,7 +26,7 @@ public class RevokeCertificateServlet extends HttpServlet {
     
 	public RevokeCertificateServlet() {}
 	
-	private static final String REASON = "textfield_revoke";
+	private static final String REASON = "revokeReason";
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

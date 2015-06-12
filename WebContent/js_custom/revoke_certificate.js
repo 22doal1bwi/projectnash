@@ -20,7 +20,7 @@ function revokeCertificate() {
 		url : '../RevokeCertificateServlet',
 		type : 'POST',
 		dataType : 'json',
-		data : $("#textfield_revoke").serialize(),
+		data : "revokeReason=" + revokeReason,
 		timeout : 8000,
 		success : function(data) {
 			if (data.validSession && data.revokedCertificate) {
@@ -48,7 +48,9 @@ function logout() {
 }
 
 function onRevokeClick() {
+	revokeReason = ""
 	if ($("#textfield_revoke").val() !== "") {
+		revokeReason = $("#textfield_revoke").val()
 		$("#textfield_revoke").attr("disabled", "")
 		$("#messagebar_revoke").addClass("messagebar_hidden")
 		$("#page_content_revoke").removeClass("page_content_move_down")

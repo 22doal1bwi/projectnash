@@ -23,24 +23,30 @@ $(document)
 				});
 
 // ====================================================================================//
-// ================================= MESSAGE REGISTRY =================================//
+// ================================= MESSAGE REGISTRY
+// =================================//
 // ====================================================================================//
 
 messageRegistry = [];
 
 function addMessageToRegistry(messageId) {
-	messageRegistry.push(messageId)
-	buildAndShowMessageBar(messageId, "messagebar_register")
+	var found = false
+	for (var i = 0; i < messageRegistry.length; i++) {
+		if (messageRegistry[i] === messageId) {
+			found = true
+			break
+		}
+	}
+	if (!found) {
+		messageRegistry.push(messageId)
+		buildAndShowMessageBar(messageId, "messagebar_register")
+	}
 }
 
 function removeMessageTypeFromRegistry(messageId) {
-	var length = messageRegistry.length, i = 0
-	while (i < length) {
+	for (var i = 0; i < messageRegistry.length; i++) {
 		if (messageRegistry[i] === messageId) {
 			messageRegistry.splice(i, 1)
-			length--
-		} else {
-			i++
 		}
 	}
 }
@@ -54,8 +60,19 @@ function getMessagesFromRegistry() {
 	}
 }
 
+function isMessageRegistryEmpty() {
+	for (var i = 0; i < messageRegistry.length; i++) {
+		if (messageRegistry[i] !== "WRN_INPUT_PASSWORD") {
+			return false
+		} else {
+			return true
+		}
+	}
+}
+
 // ====================================================================================//
-// ================================== AJAX FUNCTIONS ==================================//
+// ================================== AJAX FUNCTIONS
+// ==================================//
 // ====================================================================================//
 
 // Method which checks whether the entered value for 'personalId' or
@@ -86,7 +103,7 @@ function inputDbCheck(type) {
 		},
 		error : function() {
 			addMessageToRegistry("ERR_CONNECTION")
-		}	
+		}
 	})
 }
 
@@ -109,20 +126,25 @@ function submitRegisterForm() {
 
 					} else {
 						addMessageToRegistry("ERR_REGISTRATION")
-						$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
-						$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
+						$("#emailAddress").attr("onchange",
+								"validateInput('emailAddress', 'ui_and_db')")
+						$("#personalId").attr("onchange",
+								"validateInput('personalId', 'ui_and_db')")
 					}
 				},
 				error : function() {
 					addMessageToRegistry("ERR_CONNECTION")
-					$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
-					$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
+					$("#emailAddress").attr("onchange",
+							"validateInput('emailAddress', 'ui_and_db')")
+					$("#personalId").attr("onchange",
+							"validateInput('personalId', 'ui_and_db')")
 				}
 			})
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS ==================================//
+// ================================== MAIN FUNCTIONS
+// ==================================//
 // ====================================================================================//
 
 // Method which checks input value for all fields
@@ -159,8 +181,7 @@ function validateInput(type, kindOfCheck) {
 			getMessagesFromRegistry()
 			if (inputDbCheck(type).success(function(notExists) {
 				return notExists
-			})) {
-				return true;
+			})) {				
 				cleanInputField(type)
 				removeMessageTypeFromRegistry("ERR_INPUT_" + type.toUpperCase()
 						+ "_DB")
@@ -277,8 +298,7 @@ function checkFormBeforeSubmit() {
 	}
 	if (!emptyField) {
 		removeMessageTypeFromRegistry("WRN_EMPTY_FIELDS_REGISTRATION")
-		getMessagesFromRegistry()
-		if (compareInputField("emailAddress") && compareInputField("password")) {
+		if (compareInputField("emailAddress") && compareInputField("password") && isMessageRegistryEmpty()) {
 			$("#emailAddress, #personalId").removeAttr("onchange")
 			submitRegisterForm()
 		}
@@ -289,7 +309,8 @@ function checkFormBeforeSubmit() {
 }
 
 // ====================================================================================//
-// ============================= LITTLE HELPER FUNCTIONS ==============================//
+// ============================= LITTLE HELPER FUNCTIONS
+// ==============================//
 // ====================================================================================//
 
 // Method which removes any style classes from an inputfield
