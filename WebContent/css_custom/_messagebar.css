@@ -38,7 +38,7 @@
 }
 
 .messagebar_hidden {
-	top: -70px;
+	top: -110px;
 	transition: top .4s ease;
 }
 

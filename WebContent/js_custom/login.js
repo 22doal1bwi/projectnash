@@ -2,10 +2,12 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {
-	if ($(window).width() <= "420") {
-		$("#login_container").css("margin", "-40px auto")
-	}
-	
+	determineContainerStyle()
+
+	$(window).resize(function() {
+		determineContainerStyle()
+	})
+
 	// Method that triggers the login button when the 'enter'-key is pressed
 	$('#password, #emailAddress').keypress(function(e) {
 		if (e.keyCode == 13)
@@ -55,38 +57,53 @@ function submitLoginForm() {
 }
 
 function requestNewPassword() {
-	if  ($('#emailAddressForNewPassword').val() !== "") {
-	setLoading()
-	$.ajax({
-		url : '../ResetPasswordServlet',
-		type : 'POST',
-		dataType : 'json',
-		data : $('#emailAddressForNewPassword').serialize(),
-		success : function(data) {
-			$("#resetModal").modal("hide")
-			unsetLoading()
-			window.setTimeout(function() {
-				buildAndShowMessageBar("SCS_PASSWORD_REQUEST",
-						"messagebar_login")
-			}, 500);
-			hideMessageBar()
-		},
-		error : function() {
-			$("#resetModal").modal("hide")
-			unsetLoading()
-			window.setTimeout(function() {
-				buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
-			}, 500);
-			hideMessageBar()
-		}
-	})
-}
+	if ($('#emailAddressForNewPassword').val() !== "") {
+		setLoading()
+		$.ajax({
+			url : '../ResetPasswordServlet',
+			type : 'POST',
+			dataType : 'json',
+			data : $('#emailAddressForNewPassword').serialize(),
+			success : function(data) {
+				$("#resetModal").modal("hide")
+				unsetLoading()
+				window.setTimeout(function() {
+					buildAndShowMessageBar("SCS_PASSWORD_REQUEST", "messagebar_login")
+				}, 500);
+				hideMessageBar()
+			},
+			error : function() {
+				$("#resetModal").modal("hide")
+				unsetLoading()
+				window.setTimeout(function() {
+					buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
+				}, 500);
+				hideMessageBar()
+			}
+		})
+	}
 }
 
 // ====================================================================================//
 // ================================== MAIN FUNCTIONS
 // ==================================//
 // ====================================================================================//
+
+// Function to determine the container style based on the window height
+function determineContainerStyle() {
+	if ($(window).height() < "505") {
+		if ($("#login_container").hasClass("container_free")) {
+			$("#login_container").removeClass("container_free")
+		}
+		$("#login_container").addClass("container_fitting")
+	} else {
+		if ($("#login_container").hasClass("container_fitting")) {
+			$("#login_container").removeClass("container_fitting")
+		}
+		$("#login_container").addClass("container_free")
+	}
+}
+
 // Method which checks all field values before submitting them to the backend
 function checkFormBeforeSubmit() {
 	if ($("#emailAddress").val() !== "" && $("#password").val() !== "") {

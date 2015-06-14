@@ -3,7 +3,6 @@
 // ====================================================================================//
 $(document).ready(function() {	
 	setSameHeight()	
-	
 	jQuery.i18n.properties({
 		name : 'messages',
 		path : '../i18n/',

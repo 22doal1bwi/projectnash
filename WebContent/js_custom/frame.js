@@ -17,5 +17,5 @@ function setFrameSrc(src) {
 	}
 	if(window.frameElement !== null) {
 		window.frameElement.src = src + '.jsp'
-	}	
+	}
 }

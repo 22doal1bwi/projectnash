@@ -4,6 +4,12 @@
 
 // Method that triggers the login button when the 'enter'-key is pressed
 $(document).ready(function() {
+	determineContainerStyle()
+
+	$(window).resize(function() {
+		determineContainerStyle()
+	})
+
 	$('#firstName, #lastName, #organizationalUnit, #personalId, #emailAddress, #emailAddress_confirm, #password, #password_confirm').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#registerButton').click();
@@ -151,6 +157,33 @@ function submitRegisterForm() {
 // ================================== MAIN FUNCTIONS
 // ==================================//
 // ====================================================================================//
+
+// Function to determine the container style based on the window height
+function determineContainerStyle() {
+	if ($(window).height() < "555") {
+		if ($("#register_container").hasClass("container_free")) {
+			$("#register_container").removeClass("container_free")
+		}
+		$("#register_container").addClass("container_fitting")
+	} else if ($(window).height() >= "555" && $(window).height() < "835") {
+		if ($(window).width() < "1200") {
+			if ($("#register_container").hasClass("container_free")) {
+				$("#register_container").removeClass("container_free")
+			}
+			$("#register_container").addClass("container_fitting")
+		} else if ($(window).width() >= "1200") {
+			if ($("#register_container").hasClass("container_fitting")) {
+				$("#register_container").removeClass("container_fitting")
+			}
+			$("#register_container").addClass("container_free")
+		}
+	} else if ($(window).height() >= "835") {
+		if ($("#register_container").hasClass("container_fitting")) {
+			$("#register_container").removeClass("container_fitting")
+		}
+		$("#register_container").addClass("container_free")
+	}
+}
 
 // Method which checks input value for all fields
 function validateInput(type, kindOfCheck) {

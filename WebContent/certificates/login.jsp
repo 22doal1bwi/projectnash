@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" class="document">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,8 +65,8 @@
 	<div class="messagebar_placeholder">
 		<div id="messagebar_login" class="alert messagebar messagebar_hidden"></div>
 	</div>
-	<div class="container">
-		<div id="login_container">
+	<div id="login_container">
+		<div class="login_area">
 			<form class="form-signin">
 				<img src="../img/simplecert/simplecert_logo_text_128x128.png"
 					style="margin-bottom: 20px; margin-top: 5px" /> <br /> <label

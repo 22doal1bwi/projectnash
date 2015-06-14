@@ -29,7 +29,7 @@ function revokeCertificate() {
 				revokeUnsuccessful("ERR_CERT_REVOKE", "messagebar_revoke")
 			} else {
 				window.setTimeout(function() {
-					location.href = '../home.jsp';
+					location.reload(true)
 				}, 1000);
 			}
 		},

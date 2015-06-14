@@ -1,6 +1,33 @@
+.document {
+	height: 100%;
+}
+
 .body_login {
 	background-color: #fff;
 	font-family: Roboto-Regular;
+	height: inherit;
+}
+
+.container_free {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.container_fitting {
+	position: absolute;
+	top: 10px;
+	width: 100%;
+}
+
+.login_area {
+	margin: auto;
+	max-width: 420px;
+	background-color: #F9F9F9;
+	text-align: center;
 }
 
 .form-signin {
@@ -42,33 +69,11 @@
 	background-color: #fcf8e3;
 }
 
-#login_container {
-	margin: 80px auto;
-	max-width: 420px;
-	height: auto;
-	background-color: #F9F9F9;
-	text-align: center;
-}
-
-.btn-red {
-	color: #fff;
-	background-color: #C03A2A;
-	outline: none;
-}
-
-.btn-red:hover, .btn-red:focus {
-	color: #fff;
-	background-color: #DC483C;
-	outline: none;
-	transition: background-color .4s ease;
-}
-
 .link {
 	color: #898989;
 }
 
 .horizontal_divider {
-	height: 1px;
 	background: #C6C6C6;
 	width: 70%
 }
