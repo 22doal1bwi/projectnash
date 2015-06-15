@@ -35,7 +35,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#">Urlaubsbeantragung</a></li>
-                <li><a href="zeiterfassung.html">Zeiterfassung</a></li>
+                <li><a href="zeiterfassung.php">Zeiterfassung</a></li>
                 <li class="divider"></li>
                 <li><a href="../certificates/app_frame.jsp">Zertifikatsverwaltung</a></li>
                 <li class="divider"></li>
