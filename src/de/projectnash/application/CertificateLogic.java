@@ -50,9 +50,9 @@ public class CertificateLogic {
 		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
 			byte[] csrData = CertificateUtility.generateCSR(
-					organization.getCountry(), organization.getState(),
-					organization.getLocality(), organization.getOrganization(),
-					user.getDepartment(), UserLogic.getCommonName(user),
+					replaceUmlaute(organization.getCountry()), replaceUmlaute(organization.getState()),
+					replaceUmlaute(organization.getLocality()), replaceUmlaute(organization.getOrganization()),
+					replaceUmlaute(user.getDepartment()), replaceUmlaute(UserLogic.getCommonName(user)),
 					user.getEmailAddress(), keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			byte[] p12Data = CertificateUtility.generatePKCS12(crtData,
@@ -94,6 +94,10 @@ public class CertificateLogic {
 					user.getEmailAddress());
 			return false;
 		}
+	}
+	
+	private static String replaceUmlaute(String uString){
+		return uString.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae");
 	}
 
 	/**
