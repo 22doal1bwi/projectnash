@@ -91,7 +91,7 @@
   <div class="col-sm-6">
     <div class="row">
       <div class="col-xs-12">
-        <h2>Ihre Zeiterfassung</h2>
+        <h2>Zeiterfassung von <?= $_SERVER[SSL_CLIENT_S_DN_CN] ?></h2>
 
         <p>Hier sehen Sie Ihre Arbeitszeiten des aktuellen Monats. Bei Fragen oder Anmerkungen
         bitte an die Durchwahl -66821 wenden.</p>
