@@ -39,7 +39,7 @@ public class DownloadServlet extends HttpServlet{
 					String filename = user.getFirstName()+"_"+user.getLastName()+"_"+user.getPersonalId()+".p12";
 					response.setContentType("text/plain");
 					response.setHeader("Content-Disposition",
-				                     "attachment;filename="+filename);		 
+				                     "attachment;filename="+filename.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae").replace("ß", "ss"));		 
 					
 					Certificate cert = user.getCertificate();
 					byte[] crtBytes = cert.getCertificateFile();

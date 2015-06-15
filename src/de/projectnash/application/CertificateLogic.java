@@ -96,8 +96,14 @@ public class CertificateLogic {
 		}
 	}
 	
+	/**
+	 * Replaces Umlaute and sz 
+	 * 
+	 * @param uString
+	 * @return
+	 */
 	private static String replaceUmlaute(String uString){
-		return uString.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae");
+		return uString.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae").replace("ß", "ss");
 	}
 
 	/**
