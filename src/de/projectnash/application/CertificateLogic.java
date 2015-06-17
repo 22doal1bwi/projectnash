@@ -58,28 +58,10 @@ public class CertificateLogic {
 			byte[] p12Data = CertificateUtility.generatePKCS12(crtData,
 					keyData, password);
 
-			String subjectData = CertificateUtility.getCRTdata(crtData,
-					"-subject");
+			String subjectData = CertificateUtility.getCRTdata(crtData, "-subject");
 			String datesData = CertificateUtility.getCRTdata(crtData, "-dates");
 
-			/** Format date String to Date() object. */
-			DateFormat formatter = new SimpleDateFormat(
-					"MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);
-
-			user.setCertificate(new Certificate(p12Data, crtData,
-					subjectData.split("/")[1].split("=")[1],
-					subjectData.split("/")[2].split("=")[1],
-					subjectData.split("/")[3].split("=")[1],
-					subjectData.split("/")[4].split("=")[1],
-					subjectData.split("/")[5].split("=")[1],
-					UserLogic.getCommonName(user), // utf8 workaround
-					// common name from csr (not utf8):
-					// subjectData.split("/")[6].split("=")[1],
-					subjectData.split("/")[7].split("=")[1].replace("\n", ""),
-					formatter.parse(datesData.split("notBefore=")[1]
-							.split("notAfter=")[0]), formatter.parse(datesData
-							.split("notBefore=")[1].split("notAfter=")[1]),
-					CertificateStatus.ACTIVE, false));
+			user.setCertificate(concatenateCertificateData(p12Data, crtData, subjectData, user, datesData));
 
 			/** save certificate to database. */
 			UserLogic.updateUser(user);
@@ -94,6 +76,35 @@ public class CertificateLogic {
 					user.getEmailAddress());
 			return false;
 		}
+	}
+	
+	/**
+	 * Concatenates the {@link Certificate} with the specified data and for the specified {@link User}.
+	 * 
+	 * @param p12Data
+	 * @param crtData
+	 * @param subjectData
+	 * @param user
+	 * @param datesData
+	 * @return A new {@link Certificate} that belongs to the specified {@link User}.
+	 * @throws ParseException
+	 */
+	private static Certificate concatenateCertificateData (byte[] p12Data, byte[] crtData, String subjectData, User user, String datesData) throws ParseException{
+		/** Format date String to Date() object. */
+		DateFormat formatter = new SimpleDateFormat(
+				"MMM dd HH:mm:ss yyyy z", Locale.ENGLISH);
+		
+		return new Certificate(p12Data, crtData, 
+				subjectData.split("/")[1].split("=")[1], 
+				subjectData.split("/")[2].split("=")[1], 
+				subjectData.split("/")[3].split("=")[1],
+				subjectData.split("/")[4].split("=")[1],
+				subjectData.split("/")[5].split("=")[1], 
+				UserLogic.getCommonName(user), 
+				subjectData.split("/")[7].split("=")[1].replace("\n", ""),
+				formatter.parse(datesData.split("notBefore=")[1].split("notAfter=")[0]), 
+				formatter.parse(datesData.split("notBefore=")[1].split("notAfter=")[1]),
+				CertificateStatus.ACTIVE, false);	
 	}
 	
 	/**
