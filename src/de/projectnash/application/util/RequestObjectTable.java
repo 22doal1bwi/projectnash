@@ -9,6 +9,7 @@ import de.projectnash.entities.Request;
 
 /**
  * This class provides a container that concatenates incoming data in order to build a clean JSON-Object and send it to the frontend.
+ * 
  * @author Silvio D'Alessandro
  *
  */
@@ -31,13 +32,13 @@ public class RequestObjectTable {
 	/**
 	 * Only used to send {@link Request} data to the frontend.
 	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param department
-	 * @param personalId
-	 * @param emailAddress
-	 * @param requestCreationDate
-	 * @param status
+	 * @param firstName The {@link String} that represents the first name of the {@link User}.
+	 * @param lastName The {@link String} that represents the last name of the {@link User}.
+	 * @param department The {@link String} that represents the department of the {@link User}.
+	 * @param personalId The {@link Integer} that represents the personal id of the {@link User}.
+	 * @param emailAddress The {@link String} that represents the e-mail address of the {@link User}.
+	 * @param requestCreationDate The {@link Date} that represents the creation date of the {@link Request}.
+	 * @param status The {@link RequestStatus} that represents the request status of the {@link Request}.
 	 */
 	public RequestObjectTable (Date requestCreationDate, String firstName, String lastName, String department, int personalId, String emailAddress, RequestStatus status) {
 		

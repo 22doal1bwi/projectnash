@@ -1,9 +1,9 @@
 package de.projectnash.application.util;
 
 /**
- * This class provides all necessary constants
+ * This class provides all necessary constants.
  * 
- * @author Marius Boepple, Jonathan Schlotz
+ * @author Marius Boepple, Jonathan Schlotz, Silvio D'Alessandro
  *
  */
 public class Constants {

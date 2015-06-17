@@ -12,15 +12,14 @@ import de.projectnash.entities.Certificate;
 import de.projectnash.application.util.OpenSSLException;
 
 /**
- * This class provides all methods that represents standardized mechanisms in
- * {@link Certificate} context.
+ * This class provides all methods that represents standardized mechanisms in {@link Certificate} context.
  * 
  * @author Silvio D'Alessandro, Alexander Dobler
  *
  */
 public class CertificateUtility {
 	
-	// File constants
+	/* File constants. */
 	private static final File ROOT_CONF_FILE = new File("pki/root_conf.cnf");
 	private static final File ROOT_CERT_FILE = new File("pki/root_cert.pem");
 	private static final File ROOT_KEY_FILE = new File("pki/root_key.pem");
@@ -39,8 +38,7 @@ public class CertificateUtility {
 		KEY("key_", ".pem"),
 		CSR("csr_", ".csr"),
 		CRT("crt_", ".crt"),
-		P12("pkcs12_", ".p12")
-		;
+		P12("pkcs12_", ".p12");
 
 		final String prefix;
 		final String suffix;
@@ -49,7 +47,6 @@ public class CertificateUtility {
 			this.prefix = prefix;
 			this.suffix = suffix;
 		}
-
 	}
 
 	/**
@@ -60,8 +57,7 @@ public class CertificateUtility {
 	 * @throws IOException
 	 * @author Alexander Dobler
 	 */
-	private static void writeInputToOutput(InputStream in, OutputStream out)
-			throws IOException {
+	private static void writeInputToOutput(InputStream in, OutputStream out) throws IOException {
 		int b;
 		while ((b = in.read()) != -1) {
 			out.write(b);
@@ -81,10 +77,10 @@ public class CertificateUtility {
 	 */
 	private static File writeBytesToTempFile(byte[] binaryFileObject, FilePattern pattern) throws IOException {
 		
-		/** create a empty file matching the pattern in the default temporary directory*/
+		/** create a empty file matching the pattern in the default temporary directory. */
 		File tmp_file = File.createTempFile(pattern.prefix, pattern.suffix);
 		
-		/** write into file using fos in try with resources */
+		/** write into file using fos in try with resources. */
 		try (FileOutputStream fos = new FileOutputStream(tmp_file)) {
 			fos.write(binaryFileObject);
 		}
@@ -142,8 +138,7 @@ public class CertificateUtility {
 	 * @author Alexander Dobler, Silvio D'Alessandro
 	 * @throws OpenSSLException 
 	 */
-	public static byte[] generateCSR(String countryName, String state,
-			String localityName, String organizationName, String organizationalUnit,
+	public static byte[] generateCSR(String countryName, String state, String localityName, String organizationName, String organizationalUnit,
 			String commonName, String emailAddress, byte[] privateKey) throws IOException, OpenSSLException {
 
 		/** get a temporary key file */
@@ -220,9 +215,7 @@ public class CertificateUtility {
 		
 		/** destroy openssl instance */
 		proc.destroy();
-		
-		
-		
+
 		return out.toString();
 	}
 
@@ -239,9 +232,7 @@ public class CertificateUtility {
 
 		/** get temporary csr file */
 		File tmpCsrFile = writeBytesToTempFile(csrData, FilePattern.CSR);
-		
-		// openssl x509 -req -in userRequest.csr -CA rootCert.pem -CAkey
-		// rootKey.pem -CAcreateserial -days 730 -sha512
+
 		String[] command = {
 				"openssl",
 				"x509",
@@ -257,10 +248,13 @@ public class CertificateUtility {
 
 		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
+		
 		/** get output of crt generation command as input stream */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
@@ -278,6 +272,7 @@ public class CertificateUtility {
 	
 	/**
 	 * Method which generates a certificate (.p12 file)
+	 * 
 	 * @param crtData
 	 * @param privateKey
 	 * @param password password which protects pkcs12
@@ -303,13 +298,16 @@ public class CertificateUtility {
 				"-password", "pass:"+password
 				};
 		
+		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
 		proc.waitFor();
 		
 		/** get output of pkcs12 generation command as input stream */
 		InputStream in = proc.getInputStream();
+		
 		/** prepare collection of output into a byte array */
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		/** write command output into byte stream */
 		writeInputToOutput(in, out);
 		
@@ -444,6 +442,7 @@ public class CertificateUtility {
 	
 	/**
 	 * Extracts the private key data.
+	 * 
 	 * @param p12Data
 	 * @return
 	 * @throws IOException
@@ -481,14 +480,12 @@ public class CertificateUtility {
 		/** destroy openssl instance */
 		proc.destroy();
 		
-		//System.out.println("private Key: " + out.toString());
-		
 		return out.toByteArray();
-		
 	}
 	
 	/**
 	 * Loads .p12 {@link File} data
+	 * 
 	 * @param p12Data pkcs12 byte array
 	 * @param password password which protects pkcs12
 	 * @return
@@ -510,6 +507,7 @@ public class CertificateUtility {
 				"-password", "pass:"+password
 				};
 
+		/** execute command */
 		Process proc = Runtime.getRuntime().exec(command);
 		proc.waitFor();
 		
@@ -531,6 +529,5 @@ public class CertificateUtility {
 		System.out.println(tmpP12File.delete() ? "P12 file deleted" : "P12 file delete failed ");
 		
 		return out.toString();		
-	}
-	
+	}	
 }

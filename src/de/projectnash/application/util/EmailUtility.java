@@ -11,8 +11,7 @@ import org.apache.tomcat.util.codec.binary.StringUtils;
 import de.projectnash.entities.User;
 
 /**
- * This class provides all necessary methods in order to send an email to the
- * specified {@link User}.
+ * This class provides all necessary methods in order to send an email to the specified {@link User}.
  * 
  * @author Silvio D'Alessandro
  *
@@ -37,15 +36,11 @@ public class EmailUtility {
 	/**
 	 * Sends an email to the specified {@link User} with the entered subject.
 	 * 
-	 * @param user
-	 *            The {@link User} who will receive the email.
-	 * @param subjectOfeMail
-	 *            The {@link EmailSubject} that represents the subject of the
-	 *            email.
+	 * @param user The {@link User} who will receive the email.
+	 * @param subjectOfeMail The {@link EmailSubject} that represents the subject of the email.
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static void sendMail(User user, EmailSubject subjectOfeMail)
-			throws MessagingException, UnsupportedEncodingException {
+	public static void sendMail(User user, EmailSubject subjectOfeMail) throws MessagingException, UnsupportedEncodingException {
 		String sender = USER_NAME;
 		String senderPassword = PASSWORD;
 		String recipient = user.getEmailAddress();
@@ -126,7 +121,6 @@ public class EmailUtility {
 					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		}
-
 		setupGMailConnection(sender, senderPassword, recipient, subject, body);
 	}
 
@@ -134,21 +128,14 @@ public class EmailUtility {
 	 * Sets up the connection for GMail-Account and sends the email with the
 	 * specified data.
 	 * 
-	 * @param sender
-	 *            The {@link String} that represents the email address of the
-	 *            sender.
-	 * @param senderPassword
-	 *            The {@link String} that represents the password of the sender.
-	 * @param recipient
-	 *            The {@link String} that represents the recipient of the email.
-	 * @param subject
-	 *            The {@link String} that represents the subject of the email.
-	 * @param body
-	 *            The {@link String} that represents the content of the email.
+	 * @param sender The {@link String} that represents the email address of the sender.
+	 * @param senderPassword The {@link String} that represents the password of the sender.
+	 * @param recipient The {@link String} that represents the recipient of the email.
+	 * @param subject The {@link String} that represents the subject of the email.
+	 * @param body The {@link String} that represents the content of the email.
 	 * @throws UnsupportedEncodingException 
 	 */
-	private static void setupGMailConnection(String sender, String senderPassword, String recipient, String subject, String body)
-			throws MessagingException, UnsupportedEncodingException {
+	private static void setupGMailConnection(String sender, String senderPassword, String recipient, String subject, String body) throws MessagingException, UnsupportedEncodingException {
 		Properties props = System.getProperties();
 		String host = "smtp.gmail.com";
 		props.put("mail.smtp.starttls.enable", "true");

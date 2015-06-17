@@ -1,7 +1,8 @@
 package de.projectnash.application.util;
 
 /**
- * This enum provides different certificate status values.
+ * This enum class provides different certificate status values.
+ * 
  * @author Marius Boepple
  *
  */

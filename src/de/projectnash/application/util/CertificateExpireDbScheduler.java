@@ -14,8 +14,7 @@ import de.projectnash.entities.User;
 import de.projectnash.application.util.Constants;
 
 /**
- * This class contains the logic to send an email to an {@link User} when his
- * {@link Certificate} will shortly expire.
+ * This class contains the logic to send an email to an {@link User} when his {@link Certificate} will shortly expire.
  * 
  * @author Silvio D'Alessandro, Marius Boepple
  *
@@ -23,33 +22,22 @@ import de.projectnash.application.util.Constants;
 public class CertificateExpireDbScheduler implements Job {
 
 	@Override
-	public void execute(JobExecutionContext jobToExecute)
-			throws JobExecutionException {
+	public void execute(JobExecutionContext jobToExecute) throws JobExecutionException {
 
-		List<Certificate> allActiveCertificates = CertificateLogic
-				.getAllCertificates(CertificateStatus.ACTIVE);
+		List<Certificate> allActiveCertificates = CertificateLogic.getAllCertificates(CertificateStatus.ACTIVE);
 
 		/* set certificates to outdated & send reminding eMail */
-		allActiveCertificates
-				.forEach(certificate -> {
+		allActiveCertificates.forEach(certificate -> {
 					try {
 						if (!CertificateLogic.certificateIsValid(certificate)) {
-							certificate
-									.setCertificateStatus(CertificateStatus.OUTDATED);
+							certificate.setCertificateStatus(CertificateStatus.OUTDATED);
 							CertificateLogic.updateCertificate(certificate);
 						}
-
-						if (!certificate.isReminded()
-								&& CertificateLogic.getTimeLeftForCertificate(
-										certificate, TimeUnit.DAYS) < Constants.TIMEFRAME_FOR_REMINDER) {
-
-							EmailUtility.sendMail(UserPersistenceService
-									.loadUser(certificate.getEmailAddress()),
-									EmailSubject.CERTIFICATE_EXPIRE);
+						if (!certificate.isReminded()&& CertificateLogic.getTimeLeftForCertificate(certificate, TimeUnit.DAYS) < Constants.TIMEFRAME_FOR_REMINDER) {
+							EmailUtility.sendMail(UserPersistenceService.loadUser(certificate.getEmailAddress()),EmailSubject.CERTIFICATE_EXPIRE);
 							certificate.setReminded(true);
 							CertificateLogic.updateCertificate(certificate);
 						}
-
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

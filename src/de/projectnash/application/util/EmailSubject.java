@@ -1,5 +1,11 @@
 package de.projectnash.application.util;
 
+/**
+ * This enum class provides different email subjects.
+ * 
+ * @author Silvio D'Alessandro, Marius Boepple
+ *
+ */
 public enum EmailSubject {
 
 	USER_REGISTERED,
