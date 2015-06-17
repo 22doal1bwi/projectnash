@@ -51,12 +51,13 @@ public class UserLogic {
 			String password) {
 
 		try {
-			UserPersistenceService.storeUser(new User(Integer
-					.parseInt(personalId), firstName, lastName,
-					organizationunit, emailAddress, password));
-			LogLogic.createLog(
-					"Der Benutzer wurde erfolgreich in der Datenbank gespeichert",
+			
+			User user = new User(Integer.parseInt(personalId), firstName, lastName,
+					organizationunit, emailAddress, password);
+			UserPersistenceService.storeUser(user);
+			LogLogic.createLog("Der Benutzer wurde erfolgreich in der Datenbank gespeichert",
 					emailAddress);
+			EmailUtility.sendMail(user, EmailSubject.USER_REGISTERED);
 			return true;
 
 		} catch (Exception e) {

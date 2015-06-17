@@ -24,6 +24,7 @@ public class EmailUtility {
 
 	/** The different subject cases. */
 	private static final String SUBJECT_ERROR = "Fehler in Email-Verarbeitung";
+	private static final String SUBJECT_USER_REGISTERED = "Registrierung bei simpleCert";
 	private static final String SUBJECT_PASSWORD_RESET = "Ihr Passwort wurde zurückgesetzt";
 	private static final String SUBJECT_CERTIFICATE_EXPIRES = "Erinnerung: Verlängern Sie jetzt Ihr Zertifikat";
 	private static final String SUBJECT_REQUEST_CREATE = "Ihr Antrag für ein Zertifikat wurde erstellt";
@@ -48,6 +49,17 @@ public class EmailUtility {
 		String body = null;
 
 		switch (subjectOfeMail) {
+		case USER_REGISTERED:
+			subject = SUBJECT_USER_REGISTERED;
+			body = "Hallo "
+					+ user.getFirstName()
+					+ " "
+					+ user.getLastName()
+					+ ",\n\nSie haben sich erfolgreich bei simpleCert registriert."
+					+ "\n\nLoggen Sie sich einfach mit Ihrer E-Mail-Adresse und Passwort ein."
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: https://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
+			break;
 		case PASSWORD_RESET:
 			subject = SUBJECT_PASSWORD_RESET;
 			body = "Hallo "
@@ -66,7 +78,7 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nIhr Zertifikat läuft in Kürze ab. Bitte verlängern Sie es schnellstmöglich."
-					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: https://simplecert.de/projectnash/certificates/login.jsp"
 					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case REQUEST_CREATE:
@@ -76,7 +88,7 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nEs wurde ein Antrag für ein Zertifikat für Sie erstellt. Ein Administrator wird ihn in Kürze bearbeiten."
-					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: https://simplecert.de/projectnash/certificates/login.jsp"
 					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case REQUEST_ACCEPT:
@@ -86,7 +98,7 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nIhr Antrag für ein Zertifikat wurde genehmigt. Sie können es nun in Ihrer Zertifikatsverwaltung aktivieren und herunterladen."
-					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: https://simplecert.de/projectnash/certificates/login.jsp"
 					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case REQUEST_DENY:
@@ -96,7 +108,7 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nIhr Antrag für ein Zertifikat wurde abgelehnt. Bitte wenden Sie sich an Ihren Administrator."
-					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: https://simplecert.de/projectnash/certificates/login.jsp"
 					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		default:
@@ -106,7 +118,7 @@ public class EmailUtility {
 					+ " "
 					+ user.getLastName()
 					+ ",\n\nEs ist etwas in der Email-Verarbeitung schief gelaufen, wenden Sie sich bitte an Ihren Administrator."
-					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: http://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: https://simplecert.de/projectnash/certificates/login.jsp"
 					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		}
