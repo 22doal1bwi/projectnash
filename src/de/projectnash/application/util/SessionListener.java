@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSessionListener;
 import de.projectnash.application.SessionLogic;
 
 /**
- * This class provides a {@link HttpSessionListener} that removes every session if any destruction action is called on it.
+ * This class provides a {@link HttpSessionListener} that removes/creates every/a session if any destruction/creation action is called on it.
  * @author Silvio D'Alessandro
  *
  */
