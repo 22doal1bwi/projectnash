@@ -135,7 +135,7 @@
 					<%
 						if (uc.hasValidCertificate()) {
 					%>
-					<li><a href="extend_certificate.jsp"><i
+					<li><a class="active" href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
 					<li><a href="revoke_certificate.jsp"><i
 							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
