@@ -1,5 +1,6 @@
 package de.projectnash.application;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.List;
@@ -169,8 +170,9 @@ public class UserLogic {
 	 * 
 	 * @param user
 	 *            The {@link User} whose password will be reseted.
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static void resetPasswort(User user) throws MessagingException {
+	public static void resetPasswort(User user) throws MessagingException, UnsupportedEncodingException {
 		SecureRandom random = new SecureRandom();
 		String newPassword = new BigInteger(130, random).toString(32)
 				.substring(0, 10);

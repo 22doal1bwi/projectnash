@@ -1,9 +1,12 @@
 package de.projectnash.application.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import javax.mail.*;
 import javax.mail.internet.*;
+
+import org.apache.tomcat.util.codec.binary.StringUtils;
 
 import de.projectnash.entities.User;
 
@@ -39,9 +42,10 @@ public class EmailUtility {
 	 * @param subjectOfeMail
 	 *            The {@link EmailSubject} that represents the subject of the
 	 *            email.
+	 * @throws UnsupportedEncodingException 
 	 */
 	public static void sendMail(User user, EmailSubject subjectOfeMail)
-			throws MessagingException {
+			throws MessagingException, UnsupportedEncodingException {
 		String sender = USER_NAME;
 		String senderPassword = PASSWORD;
 		String recipient = user.getEmailAddress();
@@ -141,10 +145,10 @@ public class EmailUtility {
 	 *            The {@link String} that represents the subject of the email.
 	 * @param body
 	 *            The {@link String} that represents the content of the email.
+	 * @throws UnsupportedEncodingException 
 	 */
-	private static void setupGMailConnection(String sender,
-			String senderPassword, String recipient, String subject, String body)
-			throws MessagingException {
+	private static void setupGMailConnection(String sender, String senderPassword, String recipient, String subject, String body)
+			throws MessagingException, UnsupportedEncodingException {
 		Properties props = System.getProperties();
 		String host = "smtp.gmail.com";
 		props.put("mail.smtp.starttls.enable", "true");
@@ -161,13 +165,18 @@ public class EmailUtility {
 		InternetAddress toAddress = new InternetAddress(recipient);
 		message.addRecipient(Message.RecipientType.TO, toAddress);
 
-		message.setSubject(subject);
-		message.setContent("CONTENT", "text/html; charset=UTF-8");
-		message.setText(body);
+		byte [] utf8Content = StringUtils.getBytesUtf8(subject);
+		String encodedSubject = new String(utf8Content, "UTF-8");
+		
+		utf8Content = StringUtils.getBytesUtf8(body);
+		String encodedBody = new String(utf8Content, "UTF-8");
+			
+		message.setSubject(encodedSubject);
+		message.setText(encodedBody);
+		
 		Transport transport = session.getTransport("smtp");
 		transport.connect(host, sender, senderPassword);
 		transport.sendMessage(message, message.getAllRecipients());
 		transport.close();
-
 	}
 }
