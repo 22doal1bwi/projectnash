@@ -231,9 +231,9 @@ html, body {
 	color: #C03A2A;
 }
 
-.table_icon_outdated {
+.table_icon_none {
 	font-size: 23px;
-	color: #f0ad4e;
+	color: #607D8B;
 }
 
 .table_icon_trash {

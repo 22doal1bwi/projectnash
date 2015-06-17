@@ -69,7 +69,7 @@ private String firstName;
 	 */
 	public UserObjectTable (String firstName, String lastName, String department, int personalId, String emailAddress, boolean hasSession) {
 			
-		this.certificateDate = "-";
+		this.certificateDate = "- kein Zertifikat -";
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.department = department;

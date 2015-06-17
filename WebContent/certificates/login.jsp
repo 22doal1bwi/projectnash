@@ -52,12 +52,11 @@
 
 <body class="body_login">
 	<%
-		String sessionIdStatus = SessionController.checkForSessionId(
-				request, response);
+		String sessionIdStatus = SessionController.checkForSessionId(request, response);
 
 		switch (sessionIdStatus) {
 		default:
-			response.sendRedirect("app_frame.jsp");
+			response.sendRedirect("home.jsp");
 			break;
 		case "0":
 		case "-1":
@@ -82,42 +81,41 @@
 			</form>
 			<br /> <a class="link" href="" data-toggle="modal"
 				data-target="#resetModal">Passwort vergessen?</a>
-			<div class="modal fade" id="resetModal" tabindex="-1" role="dialog"
-				aria-labelledby="resetModalLabel" aria-hidden="true"
-				style="display: none;">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"
-								aria-hidden="true">×</button>
-							<h4 class="modal-title">Passwort vergessen?</h4>
-						</div>
-						<div class="modal-body">
-							<p class="modal-text">Geben Sie Ihre E-Mail-Adresse ein und
-								wir helfen Ihnen, Ihr Passwort zurückzusetzen.</p>
-							<input type="email" id="emailAddressForNewPassword"
-								name="emailAddressForNewPassword" class="form-control"
-								placeholder="E-Mail-Adresse" onchange="" required>
-						</div>
-						<div class="modal-footer">
-							<div id="loading_gif_login"
-								class="loading_gif">
-								<img src="../img/general/loading.gif">
-							</div>
-							<button id="cancelButton" onclick="clearField()" type="button"
-								class="btn simplecert_inv_btn" data-dismiss="modal">Abbrechen</button>
-							<button id="resetButton" type="button"
-								onclick="requestNewPassword()" class="btn simplecert_btn">Absenden</button>
-						</div>
-					</div>
-				</div>
-			</div>
 			<hr class="horizontal_divider">
 			<form class="form-signin">
 				<a class="btn btn-lg simplecert_inv_btn btn-block btn-small"
 					href="register.jsp" role="button">Neu anmelden</a>
 			</form>
 			<br />
+		</div>
+	</div>
+	<div class="modal fade" id="resetModal" tabindex="-1"
+		role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true"
+		style="display: none;">
+		<div id="modalDialog" class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title">Passwort vergessen?</h4>
+				</div>
+				<div class="modal-body">
+					<p class="modal-text">Geben Sie Ihre E-Mail-Adresse ein und wir
+						helfen Ihnen, Ihr Passwort zurückzusetzen.</p>
+					<input type="email" id="emailAddressForNewPassword"
+						name="emailAddressForNewPassword" class="form-control"
+						placeholder="E-Mail-Adresse" onchange="" required>
+				</div>
+				<div class="modal-footer">
+					<div id="loading_gif_login" class="loading_gif">
+						<img src="../img/general/loading.gif">
+					</div>
+					<button id="cancelButton" onclick="clearField()" type="button"
+						class="btn simplecert_inv_btn" data-dismiss="modal">Abbrechen</button>
+					<button id="resetButton" type="button"
+						onclick="requestNewPassword()" class="btn simplecert_btn">Absenden</button>
+				</div>
+			</div>
 		</div>
 	</div>
 	<%

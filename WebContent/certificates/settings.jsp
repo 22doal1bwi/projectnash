@@ -58,20 +58,109 @@
 </head>
 
 <body>
-		<%
-			// Allow access only if session exists - if not, redirect to login
-			String sessionId = SessionController.checkForSessionId(request,
-					response);
+	<%
+		// Allow access only if session exists - if not, redirect to login
+		String sessionId = SessionController.checkForSessionId(request,
+				response);
 
-			switch (sessionId) {
+		switch (sessionId) {
 
-			case "-1":
-			case "0":
+			case "-1" :
+			case "0" :
 				response.sendRedirect("login.jsp");
 				break;
-			default:
-				UserController uc = new UserController(sessionId);						
-		%>
+			default :
+				UserController uc = new UserController(sessionId);
+	%>
+	<div id="wrapper">
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+		</div>
+		<ul class="nav navbar-top-links navbar-right">
+
+			<%
+				if (uc.isAdmin()) {
+			%><li><div class="admin_flag_name">ADMIN</div></li>
+			<%
+				}
+			%>
+			<li><div class="name"><%=uc.getFullName()%></div></li>
+			<li><a class="active" href="settings.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li>
+				<form name="form_logout" action="../LogoutServlet" method="post">
+					<a role="button" class="fa fa-sign-out fa-2x logout"
+						style="text-decoration: none;" onclick="logout()"></a>
+					<script type="text/javascript">
+						function logout() {
+							document.form_logout.submit()
+						}
+					</script>
+				</form>
+			</li>
+
+		</ul>
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-nav navbar-collapse">
+				<ul class="nav" id="side-menu">
+					<li><img class="displayed"
+						src="../img/simplecert/simplecert_logo_text_128x128.png"
+						style="margin-top: 10px; margin-bottom: 15px" /></li>
+					<li><a href="home.jsp"><i
+							class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
+					<%
+						if (!uc.hasValidCertificate()) {
+					%>
+					<li><a href="request_certificate.jsp"><i
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
+							beantragen</a></li>
+					<%
+						} else {
+					%>
+					<li><a href="show_certificate.jsp"><i
+							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
+					<%
+						}
+					%>
+					<%
+						if (uc.hasValidCertificate()) {
+					%>
+					<li><a href="extend_certificate.jsp"><i
+							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
+					<li><a href="revoke_certificate.jsp"><i
+							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
+					<%
+						} else {
+					%>
+
+					<li class="disabled"><a class="navitem_disabled"><i
+							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
+					<li class="disabled"><a class="navitem_disabled"><i
+							class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
+					<%
+						}
+							if (uc.isAdmin()) {
+					%>
+					<li style="height: 25px;"></li>
+					<li><a href="manage_requests.jsp"><i
+							class="fa fa-files-o fa-fw navbaricon"></i>Anträge verwalten
+							<div class="admin_flag_nav"></div></a></li>
+					<li><a href="manage_users.jsp"><i
+							class="fa fa-users fa-fw navbaricon"></i>Benutzer verwalten
+							<div class="admin_flag_nav"></div></a></li>
+					<%
+						}
+					%>
+				</ul>
+			</div>
+		</div>
+		</nav>
 		<div id="page-wrapper">
 			<div id="messagebar_settings"
 				class="alert messagebar_intern messagebar_hidden"></div>
@@ -96,32 +185,35 @@
 							<label>E-Mail-Addresse</label>
 							<p class="form-control-static"><%=uc.getEmailAddress()%></p>
 							<label>Passwort</label><br> <input type="password"
-								class="form-control password_field_hidden"
-								id="password_current" name="password_current" placeholder="Aktuelles Passwort"
+								class="form-control password_field_hidden" id="password_current"
+								name="password_current" placeholder="Aktuelles Passwort"
 								onpaste="return false;"> <input type="password"
-								class="form-control password_field_hidden"
-								id="password_new" name="password_new" onchange="validatePassword()" placeholder="Neues Passwort"
-								onpaste="return false;"> <input type="password"
-								class="form-control password_field_hidden"
+								class="form-control password_field_hidden" id="password_new"
+								name="password_new" onchange="validatePassword()"
+								placeholder="Neues Passwort" onpaste="return false;"> <input
+								type="password" class="form-control password_field_hidden"
 								id="password_new_confirm"
 								placeholder="Neues Passwort wiederholen" onpaste="return false;"><br>
 							<button id="button_cancel_password" onclick="cleanPage()"
 								type="button" class="btn simplecert_inv_btn"
 								style="display: none; margin-right: 2px;">Abbrechen</button>
-							<button id="button_confirm_password" onclick="confirmPasswordChange()"
-								type="button" class="btn simplecert_btn" style="display: none;">OK</button>
+							<button id="button_confirm_password"
+								onclick="confirmPasswordChange()" type="button"
+								class="btn simplecert_btn" style="display: none;">OK</button>
 							<button id="button_change_password" onclick="changePassword()"
 								type="button" class="btn simplecert_btn password_change_btn">Passwort
-								ändern</button>								  
-							<img id="loading_gif_settings" class="loading_gif" style="display: none" src="../img/general/loading.gif">						
-						</div>						
+								ändern</button>
+							<img id="loading_gif_settings" class="loading_gif"
+								style="display: none" src="../img/general/loading.gif">
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<%
-			}
-		%>
-	
+	</div>
+	<%
+		}
+	%>
+
 </body>
 </html>
