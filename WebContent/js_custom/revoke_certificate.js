@@ -25,11 +25,14 @@ function revokeCertificate() {
 		success : function(data) {
 			if (data.validSession && data.revokedCertificate) {
 				revokeSuccessful()
+				window.setTimeout(function() {
+					location.href = 'home.jsp';
+				}, 3000);
 			} else if (data.validSession && data.revokedCertificate === false) {
 				revokeUnsuccessful("ERR_CERT_REVOKE", "messagebar_revoke")
 			} else {
 				window.setTimeout(function() {
-					location.reload(true)
+					location.href = 'login.jsp';
 				}, 1000);
 			}
 		},

@@ -2,7 +2,6 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {	
-	setSameHeight()	
 	jQuery.i18n.properties({
 		name : 'messages',
 		path : '../i18n/',
@@ -11,6 +10,11 @@ $(document).ready(function() {
 		encoding : 'UTF-8'
 	});
 });
+
+// only needed for mozilla firefox (tile heigth bug)
+$(window).load(function() {
+	setSameHeight()	
+})
 
 //====================================================================================//
 //================================ RESIZE FUNCTION ===================================//

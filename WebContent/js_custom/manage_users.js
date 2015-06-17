@@ -71,7 +71,7 @@ function createTable() {
 								row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_revoked" title="Status: ungültig - Ändern des Status nicht möglich">'
 								break							
 							case "NONE":
-								row.cells[6].innerHTML = '<div title="Benutzer besitzt kein Zertifikat">-</div>'
+								row.cells[6].innerHTML = '<i class="fa fa-question-circle table_icon_none" title="Benutzer besitzt noch kein Zertifikat - Ändern des Status nicht möglich">'
 								break
 							}
 							row.cells[7].classList.add("status_column")

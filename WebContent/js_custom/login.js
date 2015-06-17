@@ -45,7 +45,7 @@ function submitLoginForm() {
 				hideMessageBar()
 			} else {
 				window.setTimeout(function() {
-					location.href = 'app_frame.jsp';
+					location.href = 'home.jsp';
 				}, 1000);
 			}
 		},
@@ -96,11 +96,23 @@ function determineContainerStyle() {
 			$("#login_container").removeClass("container_free")
 		}
 		$("#login_container").addClass("container_fitting")
+		if ($("#resetModal").hasClass("modal_free")) {
+			$("#resetModal").removeClass("modal_free")
+		}
+		$("#resetModal").addClass("modal_fitting")
+		$("#modalDialog").addClass("modal_dialog_fitting")
 	} else {
 		if ($("#login_container").hasClass("container_fitting")) {
 			$("#login_container").removeClass("container_fitting")
 		}
 		$("#login_container").addClass("container_free")
+		if ($("#resetModal").hasClass("modal_fitting")) {
+			$("#resetModal").removeClass("modal_fitting")
+		}
+		$("#resetModal").addClass("modal_free")
+		if ($("#modalDialog").hasClass("modal_dialog_fitting")) {
+			$("#modalDialog").removeClass("modal_dialog_fitting")
+		}
 	}
 }
 

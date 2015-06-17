@@ -16,8 +16,7 @@
 	<body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="navbar-header">
-        <a class="navbar-brand"><img src="../img/nash/nash_favicon.ico" /></a>
-        <a style="color: #333" class="navbar-brand" rel="home" href="#">Nash Inc.</a>
+        <a class="navbar-brand" rel="home" href="../index.html"><img src="../img/nash/nash_logo_text_50x185_white_bkg.png" alt="favicon" class="nash_logo"/></a>
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 		<span class="sr-only">Toggle navigation</span>
 		<span class="icon-bar"></span>
@@ -37,7 +36,7 @@
                 <li><a href="#">Urlaubsbeantragung</a></li>
                 <li><a href="zeiterfassung.php">Zeiterfassung</a></li>
                 <li class="divider"></li>
-                <li><a href="../certificates/app_frame.jsp">Zertifikatsverwaltung</a></li>
+                <li><a href="../certificates/home.jsp">Zertifikatsverwaltung</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Fahrtenbücher</a></li>
               </ul>
@@ -63,14 +62,14 @@
         <h2>Termine</h2>
     	<div class="panel panel-default">
          	<div class="panel-heading">Besuch von Steve Nash</div>
-         	<div class="panel-body">Unternehmensleiter Steve Nash wird am <b>26.06</b> die Zentrale besuchen und einen kurzen
+         	<div class="panel-body">Unternehmensleiter Steve Nash wird am <b>19. Juni</b> die Zentrale besuchen und einen kurzen
           Vortrag über aktuelle Themen halten.</div>
         </div>
         <hr>
         <div class="panel panel-default">
           <div class="panel-heading">Sommerfest 2015</div>
-          <div class="panel-body">Am <b>13.07</b> findet wie jedes Jahr das Sommerfest der Nash Inc. statt! Bitte geben Sie
-          rechtzeitig bescheid mit wie vielen Personen Sie teilnehmen.</div>
+          <div class="panel-body">Am <b>13. Juli</b> findet, wie jedes Jahr, das Sommerfest der Nash Inc. statt! Bitte geben Sie
+          rechtzeitig Bescheid mit wie vielen Personen Sie teilnehmen.</div>
         </div>
         <hr>
         <div class="panel panel-default">
@@ -98,14 +97,14 @@
 
         <h4>Aktueller Monat: Juni</h4>
         <p>Nachtrag aus dem Vormonat: <b>+14:37</b></p>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <table class="table table-striped text-center">
             <thead>
               <tr>
-                <th>Tag</th>
-                <th>Kommt</th>
-                <th>Geht</th>
-                <th>Anwesenheit</th>
+                <th style="text-align: center;">Tag</th>
+                <th style="text-align: center;">Kommt</th>
+                <th style="text-align: center;">Geht</th>
+                <th style="text-align: center;">Anwesenheit</th>
               </tr>
             </thead>
             <tbody>
