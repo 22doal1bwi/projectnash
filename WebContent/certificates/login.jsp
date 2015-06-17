@@ -68,7 +68,7 @@
 		<div class="login_area">
 			<form class="form-signin">
 				<img src="../img/simplecert/simplecert_logo_text_128x128.png"
-					style="margin-bottom: 20px; margin-top: 5px" /> <br /> <label
+					style="margin-bottom: 20px; margin-top: 20px;" /><br /> <label
 					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
 					type="email" id="emailAddress" name="emailAddress"
 					class="form-control" placeholder="E-Mail-Adresse" required
@@ -84,7 +84,7 @@
 			<hr class="horizontal_divider">
 			<form class="form-signin">
 				<a class="btn btn-lg simplecert_inv_btn btn-block btn-small"
-					href="register.jsp" role="button">Neu anmelden</a>
+					href="register.jsp" role="button">Neu anmelden</a><img id="loading_gif_login_redirect" src="../img/general/loading.gif" class="loading_gif_redirect">  
 			</form>
 			<br />
 		</div>
@@ -107,7 +107,7 @@
 						placeholder="E-Mail-Adresse" onchange="" required>
 				</div>
 				<div class="modal-footer">
-					<div id="loading_gif_login" class="loading_gif">
+					<div id="loading_gif_login_password" class="loading_gif_password">
 						<img src="../img/general/loading.gif">
 					</div>
 					<button id="cancelButton" onclick="clearField()" type="button"

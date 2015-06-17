@@ -41,15 +41,15 @@ function submitLoginForm() {
 		data : $('#emailAddress, #password').serialize(),
 		success : function(data) {
 			if (data.loginFailed) {
+				unsetLoading("redirect")
 				buildAndShowMessageBar("ERR_CREDENTIALS", "messagebar_login")
-				hideMessageBar()
+				hideMessageBar()			
 			} else {
-				window.setTimeout(function() {
-					location.href = 'home.jsp';
-				}, 1000);
+				location.href = 'home.jsp';
 			}
 		},
 		error : function() {
+			unsetLoading("redirect")
 			buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
 			hideMessageBar()
 		}
@@ -58,7 +58,7 @@ function submitLoginForm() {
 
 function requestNewPassword() {
 	if ($('#emailAddressForNewPassword').val() !== "") {
-		setLoading()
+		setLoading("password")
 		$.ajax({
 			url : '../ResetPasswordServlet',
 			type : 'POST',
@@ -66,7 +66,7 @@ function requestNewPassword() {
 			data : $('#emailAddressForNewPassword').serialize(),
 			success : function(data) {
 				$("#resetModal").modal("hide")
-				unsetLoading()
+				unsetLoading("password")
 				window.setTimeout(function() {
 					buildAndShowMessageBar("SCS_PASSWORD_REQUEST", "messagebar_login")
 				}, 500);
@@ -74,7 +74,7 @@ function requestNewPassword() {
 			},
 			error : function() {
 				$("#resetModal").modal("hide")
-				unsetLoading()
+				unsetLoading("password")
 				window.setTimeout(function() {
 					buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
 				}, 500);
@@ -91,7 +91,7 @@ function requestNewPassword() {
 
 // Function to determine the container style based on the window height
 function determineContainerStyle() {
-	if ($(window).height() < "505") {
+	if ($(window).height() < "546") {
 		if ($("#login_container").hasClass("container_free")) {
 			$("#login_container").removeClass("container_free")
 		}
@@ -120,6 +120,7 @@ function determineContainerStyle() {
 function checkFormBeforeSubmit() {
 	if ($("#emailAddress").val() !== "" && $("#password").val() !== "") {
 		$("#messagebar_login").addClass("messagebar_hidden")
+		setLoading("redirect")
 		submitLoginForm()
 	} else {
 		buildAndShowMessageBar("WRN_EMPTY_FIELDS_LOGIN", "messagebar_login")
@@ -136,15 +137,27 @@ function hideMessageBar() {
 function clearField() {
 	$("#emailAddressForNewPassword").val("")
 }
-function setLoading() {
-	$("#loading_gif_login").fadeIn()
-	$("#cancelButton, #resetButton").attr("disabled", "");
-	$("#cancelButton, #resetButton").removeAttr("onclick")
+function setLoading(type) {
+	$("#loading_gif_login_" + type).fadeIn()
+	if (type === "password") {
+		$("#cancelButton, #resetButton").attr("disabled", "");
+		$("#cancelButton, #resetButton").removeAttr("onclick")
+	} else if (type === "redirect") {
+		$("#loginButton").attr("disabled", "");
+		$("#loginButton").removeAttr("onclick")
+	}
 }
-function unsetLoading() {
-	$("#loading_gif_login").fadeOut()
-	$("#cancelButton, #resetButton").removeAttr("disabled");
-	$("#resetButton").attr("onclick", "requestNewPassword()")
-	$("#cancelButton").attr("onclick", "clearField()")
-	clearField()
+
+function unsetLoading(type) {
+	$("#loading_gif_login_" + type).fadeOut()
+	if (type === "password") {
+		$("#cancelButton, #resetButton").removeAttr("disabled");
+		$("#resetButton").attr("onclick", "requestNewPassword()")
+		$("#cancelButton").attr("onclick", "clearField()")
+		clearField()
+	} else if (type === "redirect") {
+		$("#loginButton").removeAttr("disabled");
+		$("#loginButton").attr("onclick", "checkFormBeforeSubmit()")
+	}
+	
 }

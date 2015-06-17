@@ -34,6 +34,7 @@
 .login_area {
 	margin: auto;
 	max-width: 420px;
+	height: 526px;
 	background-color: #F9F9F9;
 	text-align: center;
 }
@@ -143,7 +144,14 @@
 	height: auto;
 }
 
-.loading_gif {
+.loading_gif_redirect {
+	position: relative;
+	display: none;
+	bottom: 270px;
+ 	width: 50px;
+}
+
+.loading_gif_password {
 	position: relative;
 	right: 132px;
 	bottom: 15px;
