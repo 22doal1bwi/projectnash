@@ -27,6 +27,7 @@ public class EmailUtility {
 	/** The different subject cases. */
 	private static final String SUBJECT_ERROR = "Fehler in Email-Verarbeitung";
 	private static final String SUBJECT_USER_REGISTERED = "Registrierung bei simpleCert";
+	private static final String SUBJECT_USER_REMOVED = "Ihr Account bei simpleCert wurde gelöscht";
 	private static final String SUBJECT_PASSWORD_RESET = "Ihr Passwort wurde zurückgesetzt";
 	private static final String SUBJECT_CERTIFICATE_EXPIRES = "Erinnerung: Verlängern Sie jetzt Ihr Zertifikat";
 	private static final String SUBJECT_REQUEST_CREATE = "Ihr Antrag für ein Zertifikat wurde erstellt";
@@ -57,6 +58,16 @@ public class EmailUtility {
 					+ ",\n\nSie haben sich erfolgreich bei simpleCert registriert."
 					+ "\n\nLoggen Sie sich einfach mit Ihrer E-Mail-Adresse und Passwort ein."
 					+ "\n\nHier kommen Sie direkt zum Login von simpleCert: https://simplecert.de/projectnash/certificates/login.jsp"
+					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
+			break;
+		case USER_REMOVED:
+			subject = SUBJECT_USER_REMOVED;
+			body = "Hallo "
+					+ user.getFirstName()
+					+ " "
+					+ user.getLastName()
+					+ ",\n\nIhr Account bei simpleCert wurde gelöscht."
+					+ "\n\nFalls Sie weitere Fragen haben, wenden Sie sich bitte an Ihren Administrator."
 					+ "\n\nMit freundlichen Grüßen,\n\nIhr simpleCert-Team";
 			break;
 		case PASSWORD_RESET:

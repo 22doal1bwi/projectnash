@@ -200,6 +200,7 @@ public class UserLogic {
 			}
 
 			LogLogic.createLog("User wurde erfolgreich aus der Datenbank entfernt", user.getEmailAddress());
+			EmailUtility.sendMail(user, EmailSubject.USER_REMOVED);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
