@@ -43,12 +43,12 @@ public class CertificateLogic {
 		try {
 			byte[] keyData = CertificateUtility.generatePrivateKey();
 			byte[] csrData = CertificateUtility.generateCSR(
-					replaceUmlaute(organization.getCountry()), 
-					replaceUmlaute(organization.getState()),
-					replaceUmlaute(organization.getLocality()), 
-					replaceUmlaute(organization.getOrganization()),
-					replaceUmlaute(user.getDepartment()),
-					replaceUmlaute(UserLogic.getCommonName(user)),
+					replaceMutatedVowels(organization.getCountry()), 
+					replaceMutatedVowels(organization.getState()),
+					replaceMutatedVowels(organization.getLocality()), 
+					replaceMutatedVowels(organization.getOrganization()),
+					replaceMutatedVowels(user.getDepartment()),
+					replaceMutatedVowels(UserLogic.getCommonName(user)),
 					user.getEmailAddress(), keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
 			byte[] p12Data = CertificateUtility.generatePKCS12(crtData, keyData, password);
@@ -104,7 +104,7 @@ public class CertificateLogic {
 	 * @param stringToReplace The {@link String} that will be replaced.
 	 * @return The {@link String} that has no longer mutated vowels.
 	 */
-	private static String replaceUmlaute(String stringToReplace){
+	private static String replaceMutatedVowels(String stringToReplace){
 		return stringToReplace.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae").replace("ß", "ss");
 	}
 
