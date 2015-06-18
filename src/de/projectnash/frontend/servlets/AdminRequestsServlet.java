@@ -22,43 +22,43 @@ import de.projectnash.entities.Request;
  */
 @WebServlet("/AdminRequestsServlet")
 public class AdminRequestsServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AdminRequestsServlet() {
-
-	}
+	public AdminRequestsServlet() {}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		JsonArray requestObjects = new JsonArray();		
-		List<Request> requestList = RequestLogic.loadAllRequests();				
-		JsonObject JsonResponse = new JsonObject();		
+		JsonArray allRequestsInJson = new JsonArray();		
+		List<Request> allRequests = RequestLogic.loadAllRequests();				
+		JsonObject jsonResponse = new JsonObject();		
 		
-		requestList.forEach(requestObject -> {
-			RequestObjectTable rot = new RequestObjectTable(
-					requestObject.getCreationDate(),
-					requestObject.getUser().getFirstName(), 
-					requestObject.getUser().getLastName(), 
-					requestObject.getUser().getDepartment(), 
-					requestObject.getUser().getPersonalId(), 
-					requestObject.getUser().getEmailAddress(),					
-					requestObject.getRequestStatus());
-			JsonObject jsonRot = (JsonObject) new Gson().toJsonTree(rot);
-			requestObjects.add(jsonRot);
+		allRequests.forEach(certificateRequest -> {
+			RequestObjectTable distinctRequestData = new RequestObjectTable(
+					certificateRequest.getCreationDate(),
+					certificateRequest.getUser().getFirstName(), 
+					certificateRequest.getUser().getLastName(), 
+					certificateRequest.getUser().getDepartment(), 
+					certificateRequest.getUser().getPersonalId(), 
+					certificateRequest.getUser().getEmailAddress(),					
+					certificateRequest.getRequestStatus());
+			JsonObject distinctRequestDataInJson = (JsonObject) new Gson().toJsonTree(distinctRequestData);
+			allRequestsInJson.add(distinctRequestDataInJson);
 		});
-		JsonResponse.add("data", requestObjects);
-		JsonResponse.addProperty("sEcho", 1);
-		JsonResponse.addProperty("iTotalRecords", requestList.size());
-		JsonResponse.addProperty("iTotalDisplayRecords", requestList.size());
+		
+		jsonResponse.add("data", allRequestsInJson);
+		jsonResponse.addProperty("sEcho", 1);
+		jsonResponse.addProperty("iTotalRecords", allRequests.size());
+		jsonResponse.addProperty("iTotalDisplayRecords", allRequests.size());
+		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
-		response.getWriter().print(JsonResponse.toString());
+		response.getWriter().print(jsonResponse.toString());
 	}
 }

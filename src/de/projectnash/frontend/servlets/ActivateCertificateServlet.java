@@ -20,6 +20,7 @@ import de.projectnash.frontend.controllers.SessionController;
  */
 @WebServlet("/ActivateCertificateServlet")
 public class ActivateCertificateServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
     /**
