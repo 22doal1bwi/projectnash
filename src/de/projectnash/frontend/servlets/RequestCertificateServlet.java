@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.ServletResponseHandler;
 import de.projectnash.entities.User;
 import de.projectnash.frontend.controllers.SessionController;
 
@@ -24,47 +23,37 @@ import de.projectnash.frontend.controllers.SessionController;
 public class RequestCertificateServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4192643567772796818L;
+	
+	private static final String CREATED_REQUEST = "createdRequest";
+	
+	private static final String VALID_SESSION = "validSession";
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		String sessionIdStatus = SessionController.checkForSessionId(request,
-				response);
-
+		String sessionIdStatus = SessionController.checkForSessionId(request, response);
 		User user = UserLogic.loadUserBySession(sessionIdStatus);
+		
 		switch (sessionIdStatus) {
 		default:
 			boolean createdRequest = RequestLogic.createRequest(user);
-			
-			// only for testing
-//			RequestLogic.confirmRequest(RequestLogic.loadRequest(user));			
-			//..
-			
 				if (createdRequest) {
-					map.put("createdRequest", true);
-
+					map.put(CREATED_REQUEST, true);
 				} else {
-					map.put("createdRequest", false);
+					map.put(CREATED_REQUEST, false);
 				}
-					map.put("validSession", true);
-		break;
-
+					map.put(VALID_SESSION, true);
+			break;
 		case "0":
-			map.put("validSession", false);
+			map.put(VALID_SESSION, false);
 			break;
 
 		case "-1":
-			map.put("validSession", false);
+			map.put(VALID_SESSION, false);
 			break;
 		}
-		write(response, map);
-	}
-
-	private void write(HttpServletResponse resp, Map<String, Object> map)
-			throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(map));
+		ServletResponseHandler.write(response, map);
 	}
 }
