@@ -9,66 +9,31 @@ import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
 import de.projectnash.application.util.RequestStatus;
 import de.projectnash.entities.User;
-import de.projectnash.frontend.interfaces.IUserController;
 
-public class UserController implements IUserController {
-	
+/**
+ * Controller class for the {@link User}.
+ * 
+ * @author Silvio D'Alessandro
+ *
+ */
+public class UserController {
 		
 	private User user;
 	
+	/**
+	 * Constructor to initialize the {@link UserController}. 
+	 * 
+	 * @param sessionId The {@link String} on basis which the {@link UserController} will be initialized.
+	 */
 	public UserController(String sessionId) {
 		user = SessionLogic.loadSession(sessionId).getUser();
 	}
 	
-	public List<User> getAllUsers(){
-		return UserLogic.getAllUsers();
-	}
-
-	@Override
-	public String getFirstName() {
-		return UserLogic.getFirstName(user);
-	}
-
-	@Override
-	public String getLastName() {
-		return UserLogic.getLastName(user);
-	}
-
-	@Override
-	public String getFullName() {
-		return UserLogic.getFullName(user);
-	}
-
-	@Override
-	public String getCommonName() {
-		return UserLogic.getCommonName(user);
-	}
-	@Override
-	public String getEmailAddress() {
-		return UserLogic.getEmailAddress(user);
-	}
-
-	@Override
-	public String getDepartment() {
-		return UserLogic.getDepartment(user);
-	}
-
-	@Override
-	public int getPersonalId() {
-		return UserLogic.getPersonalId(user);
-	}
-
-	@Override
-	public boolean setPassword(String oldPassword, String newPassword) {
-		return UserLogic.changePassword(user, oldPassword, newPassword);
-	}
-
-	@Override
-	public boolean hasRequest() {
-		return UserLogic.hasRequest(user);
-	}
-
-	@Override
+	/**
+	 * Checks if the {@link User} has a waiting {@link Request}.
+	 * 
+	 * @return The {@link Boolean} that describes if the {@link User} has a waiting {@link Request}s.
+	 */
 	public boolean hasWaitingRequest() {
 		try {
 			return RequestLogic.getRequestStatus(user) == RequestStatus.WAITING;
@@ -76,8 +41,12 @@ public class UserController implements IUserController {
 			return false;
 		}		
 	}
-
-	@Override
+	
+	/**
+	 * Checks if the {@link User} has an accepted {@link Request}.
+	 * 
+	 * @return The {@link Boolean} that describes if the {@link User} has an accepted {@link Request}.
+	 */
 	public boolean hasAcceptedRequest() {
 		try {
 			if(!RequestLogic.requestExists(user)){
@@ -89,8 +58,12 @@ public class UserController implements IUserController {
 			return false;
 		}		
 	}
-
-	@Override
+	
+	/**
+	 * Checks if the {@link User} has a denied {@link Request}.
+	 * 
+	 * @return The {@link Boolean} that describes if the {@link User} has an denied {@link Request}.
+	 */
 	public boolean hasDeniedRequest() {
 		try {
 			return RequestLogic.getRequestStatus(user) == RequestStatus.DENIED;
@@ -98,18 +71,12 @@ public class UserController implements IUserController {
 			return false;
 		}		
 	}
-
-	@Override
-	public boolean hasValidCertificate() {
-		return UserLogic.hasValidCertificate(user);
-	}
-
-	@Override
-	public boolean hasCertificate() {
-		return UserLogic.hasCertificate(user);
-	}
-
-	@Override
+	
+	/**
+	 * Calculates the remaining time of the {@link Certificate} until it expires.
+	 * 
+	 * @return The {@link String} that represents the time left.
+	 */
 	public String getRemainingTimeOfCertificate(){
 		try {
 			return CertificateLogic.getAppropriateTimeLeftForCertificate(user.getCertificate());
@@ -117,8 +84,13 @@ public class UserController implements IUserController {
 			return "[unbekannte Zeit]";
 		}		
 	}
-
-	@Override
+	
+	/**
+	 * Calculates the remaining time of the {@link Certificate} until it expires.
+	 * 
+	 * @param timeUnit The {@link TimeUnit} that represents the format of the time unit result.
+	 * @return The {@link Integer} that represents the time left.
+	 */
 	public int getRemainingTimeOfCertificate(TimeUnit timeUnit){
 		try {
 			return CertificateLogic.getTimeLeftForCertificate(user.getCertificate(), timeUnit);
@@ -126,10 +98,55 @@ public class UserController implements IUserController {
 			return 0;
 		}		
 	}
+	
+	public List<User> getAllUsers(){
+		return UserLogic.getAllUsers();
+	}
 
-	@Override
+	public String getFirstName() {
+		return UserLogic.getFirstName(user);
+	}
+
+	public String getLastName() {
+		return UserLogic.getLastName(user);
+	}
+
+	public String getFullName() {
+		return UserLogic.getFullName(user);
+	}
+
+	public String getCommonName() {
+		return UserLogic.getCommonName(user);
+	}
+	public String getEmailAddress() {
+		return UserLogic.getEmailAddress(user);
+	}
+
+	public String getDepartment() {
+		return UserLogic.getDepartment(user);
+	}
+
+	public int getPersonalId() {
+		return UserLogic.getPersonalId(user);
+	}
+
+	public boolean setPassword(String oldPassword, String newPassword) {
+		return UserLogic.changePassword(user, oldPassword, newPassword);
+	}
+
+	public boolean hasRequest() {
+		return UserLogic.hasRequest(user);
+	}
+
+	public boolean hasValidCertificate() {
+		return UserLogic.hasValidCertificate(user);
+	}
+
+	public boolean hasCertificate() {
+		return UserLogic.hasCertificate(user);
+	}
+
 	public boolean isAdmin() {
 		return UserLogic.isAdmin(user);
 	}
-	
 }

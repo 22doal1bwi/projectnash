@@ -4,12 +4,22 @@ import java.util.List;
 
 import de.projectnash.application.CertificateLogic;
 import de.projectnash.entities.Certificate;
-import de.projectnash.frontend.interfaces.ICertificateController;
 
-public class CertificateController implements ICertificateController{
+/**
+ * The controller for {@link Certificate}.
+ * 
+ * @author Silvio D'Alessandro
+ *
+ */
+public class CertificateController {
 	
 	private Certificate certificate;
 	
+	/**
+	 * Constructor to initialize the {@link CertificateController}. 
+	 * 
+	 * @param ssnId The {@link String} on basis which the {@link CertificateController} will be initialized.
+	 */
 	public CertificateController(String ssnId) {
 		certificate = CertificateLogic.loadCertificate(ssnId);
 	}
@@ -22,42 +32,34 @@ public class CertificateController implements ICertificateController{
 		return CertificateLogic.getExpirationDateForUI(certificate);		
 	}
 
-	@Override
 	public String getCountryName() {
 		return CertificateLogic.getCountryName(certificate);
 	}
 
-	@Override
 	public String getState() {
 		return CertificateLogic.getState(certificate);
 	}
 
-	@Override
 	public String getCommonName() {
 		return CertificateLogic.getCommonName(certificate);
 	}
 
-	@Override
 	public String getExpirationDate() {
 		return CertificateLogic.getExpirationDate(certificate).toString();
 	}
 
-	@Override
 	public String getLocalityName() {
 		return CertificateLogic.getLocalityName(certificate);
 	}
 
-	@Override
 	public String getOrganizationName() {
 		return CertificateLogic.getOrganizationName(certificate);
 	}
 
-	@Override
 	public String getOrganizationalUnit() {
 		return CertificateLogic.getOrganizationalUnit(certificate);
 	}
 
-	@Override
 	public String getEmailAddress() {
 		return CertificateLogic.getEmailAddress(certificate);
 	}

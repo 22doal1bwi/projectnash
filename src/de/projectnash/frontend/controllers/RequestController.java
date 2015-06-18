@@ -14,8 +14,7 @@ import de.projectnash.entities.Request;
  */
 public class RequestController {
 
-	public RequestController() {
-	}
+	public RequestController() {}
 	
 	public List<Request> getAllRequests(){
 		return RequestLogic.loadAllRequests();
@@ -28,5 +27,4 @@ public class RequestController {
 	public int getNumberOfWaitingRequests() {
 		return RequestLogic.getNumberOfRequests(RequestStatus.WAITING);
 	}
-	
 }

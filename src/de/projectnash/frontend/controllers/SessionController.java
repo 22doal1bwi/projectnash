@@ -11,17 +11,18 @@ import de.projectnash.application.SessionLogic;
 
 /**
  * This class represents the controller in {@link Session} context.
+ * 
  * @author Alexander Dobler
  *
  */
 public class SessionController {
 	
 	/**
-	 * Returns a int value depending on session status.
+	 * Checks if the {@link Session} exists.
 	 * 
 	 * @param request a HttpServletRequest
 	 * @param response a HttpServletResponse
-	 * @return 
+	 * @return A {@link Integer} that represents the value depending on {@link Session} status.
 	 * <p>-1: Session does not contain simplecert attributes</p>
 	 * <p>0: Session is not known in database</p>
 	 * <p>other: Session exists and is available in database</p>
@@ -37,7 +38,6 @@ public class SessionController {
 		if (session.getAttribute("emailAddress") == null || request.getCookies() == null) {
 			return "-1";
 		} else {
-		
 			String ssnId = session.getId();
 			
 			/** check if session is available in DB if true return ssnId else 0. */
