@@ -83,7 +83,7 @@
 			<form class="form-signin">
 				<a class="btn btn-lg simplecert_inv_btn btn-block btn-small"
 					href="register.jsp" role="button">Neu anmelden</a><img
-					id="loading_gif_login_redirect" src="../img/general/loading.gif"
+					id="loading_gif_login_redirect" src="../img/general/loading_login.gif"
 					class="loading_gif_redirect">
 			</form>
 			<br />
