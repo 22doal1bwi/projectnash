@@ -68,3 +68,12 @@
 	top: -40px;
 	height: 55px;
 }
+
+.loading_gif_redirect {
+ 	position: fixed;
+  	display: none;
+ 	left: 50%;
+  	margin-left: -25px;
+  	top: 50%;
+  	width: 50px;
+}

@@ -122,16 +122,19 @@ function submitRegisterForm() {
 					location.href = 'login.jsp';
 				}, 3000);
 			} else if (!data.created && data.personalIdAlreadyExists) {
+				unsetLoading()
 				addMessageToRegistry("ERR_INPUT_PERSONALID_DB")
 				$("#personalId").addClass("has-error")
 				$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
 				$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
 			} else if (!data.created && data.emailAddressAlreadyExists) {
+				unsetLoading()
 				addMessageToRegistry("ERR_INPUT_EMAILADDRESS_DB")
 				$("#emailAddress").addClass("has-error")
 				$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
 				$("#personalId").attr("onchange", "validateInput('personalId', 'ui_and_db')")
 			} else {
+				unsetLoading()
 				addMessageToRegistry("ERR_REGISTRATION")
 				removeMessageTypeFromRegistry("ERR_REGISTRATION")
 				window.setTimeout(function() {
@@ -142,6 +145,7 @@ function submitRegisterForm() {
 			}
 		},
 		error : function() {
+			unsetLoading()
 			addMessageToRegistry("ERR_CONNECTION")
 			removeMessageTypeFromRegistry("ERR_CONNECTION")
 			window.setTimeout(function() {
@@ -336,6 +340,7 @@ function checkFormBeforeSubmit() {
 		if (compareInputField("emailAddress") && compareInputField("password") && isMessageRegistryEmpty() && validateInput("firstName", "ui_only")
 				&& validateInput("lastName", "ui_only")) {
 			$("#emailAddress, #personalId").removeAttr("onchange")
+			setLoading()
 			submitRegisterForm()
 		} else {
 			$("#emailAddress").attr("onchange", "validateInput('emailAddress', 'ui_and_db')")
@@ -347,10 +352,17 @@ function checkFormBeforeSubmit() {
 	}
 }
 
-// ====================================================================================//
-// ============================= LITTLE HELPER FUNCTIONS
-// ==============================//
-// ====================================================================================//
+function setLoading() {
+	$("#loading_gif_register").fadeIn()
+	$("#registerButton").attr("disabled", "");
+	$("#registerButton").removeAttr("onclick")
+}
+
+function unsetLoading() {
+	$("#loading_gif_register").fadeOut()
+	$("#registerButton").removeAttr("disabled");
+	$("#registerButton").attr("onclick", "checkFormBeforeSubmit()")
+}
 
 // Method which removes any style classes from an inputfield
 function cleanInputField(type) {

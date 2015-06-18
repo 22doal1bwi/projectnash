@@ -53,7 +53,7 @@
 	<div id="register_container">
 		<div class="register_area">
 			<img src="../img/simplecert/simplecert_logo_text_128x128.png"
-				style="margin-top: 20px;" /><br />
+				style="margin-top: 35px;" /><br />
 			<h3 style="color: #595959">Eröffnen Sie Ihren
 				simpleCert-Account.</h3>
 			<br />
@@ -93,8 +93,7 @@
 				<div class="form-group col-lg-6">
 					<input type="email" class="form-control" id="emailAddress_confirm"
 						placeholder="E-Mail-Adresse wiederholen"
-						onchange="compareInputField('emailAddress')" required>
-					<!-- 					onpaste="return false;" -->
+						onchange="compareInputField('emailAddress')" onpaste="return false;" required>
 				</div>
 
 				<div class="form-group col-lg-6">
@@ -105,15 +104,16 @@
 				<div class="form-group col-lg-6">
 					<input type="password" class="form-control" id="password_confirm"
 						placeholder="Passwort wiederholen"
-						onchange="compareInputField('password')" required>
-					<!-- 					onpaste="return false;" -->
+						onchange="compareInputField('password')" onpaste="return false;" required>
 				</div>
 				<button id="registerButton" type="button"
 					class="btn btn-lg btn_submit simplecert_btn btn-block"
 					onclick="checkFormBeforeSubmit()">Absenden</button>
 			</form>
 			<br />
-		</div>
+		</div>			
 	</div>
+	<img id="loading_gif_register" src="../img/general/loading_big.gif"
+				class="loading_gif_redirect">
 </body>
 </html>
