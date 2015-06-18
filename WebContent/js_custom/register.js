@@ -355,7 +355,7 @@ function setLoading() {
 }
 
 function unsetLoading() {
-	$("#loading_gif_register").fadeOut()
+	$("#loading_gif_register").fadeOut(200)
 	$("#registerButton").removeAttr("disabled");
 	$("#registerButton").attr("onclick", "checkFormBeforeSubmit()")
 }

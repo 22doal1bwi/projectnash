@@ -215,7 +215,7 @@ function setLoading(type) {
 }
 
 function unsetLoading(type) {
-	$("#loading_gif_login_" + type).fadeOut()
+	$("#loading_gif_login_" + type).fadeOut(200)
 	if (type === "password") {
 		$("#cancelButton, #resetButton").removeAttr("disabled");
 		$("#resetButton").attr("onclick", "requestNewPassword()")
