@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.ServletResponseHandler;
 import de.projectnash.entities.User;
 import de.projectnash.frontend.controllers.SessionController;
 
@@ -23,40 +22,36 @@ import de.projectnash.frontend.controllers.SessionController;
  */
 @WebServlet("/UpdateServlet")
 public class UpdateServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
+	private static final String PASSWORD_CHANGE_SUCCESSFUL = "pwChangeSuccessful";
+	
+	private static final String PASSWORD_CURRENT = "password_current";
+	
+	private static final String PASSWORD_NEW = "password_new";
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String sessionIdStatus = SessionController.checkForSessionId(request,
-				response);
-		User user = SessionLogic.loadSession(sessionIdStatus).getUser();
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		boolean changeSuccessful = false;
+		String sessionIdStatus = SessionController.checkForSessionId(request,response);
+		User user = SessionLogic.loadSession(sessionIdStatus).getUser();
 		String passwordCurrent = "";
 		String passwordNew = "";
-		
-		for (Entry<String, String[]> entry : request.getParameterMap()
-				.entrySet()) {				
-			if (entry.getKey().equals("password_current")) {
+		boolean changeSuccessful = false;
+
+		for (Entry<String, String[]> entry : request.getParameterMap().entrySet()) {				
+			if (entry.getKey().equals(PASSWORD_CURRENT)) {
 				passwordCurrent = entry.getValue()[0].toString();
-			} else if (entry.getKey().equals("password_new")) {
+				
+			} else if (entry.getKey().equals(PASSWORD_NEW)) {
 				passwordNew = entry.getValue()[0].toString();
 			}
 		}
-			changeSuccessful = UserLogic.changePassword(user, passwordCurrent, passwordNew);
-			map.put("pwChangeSuccessful", changeSuccessful);
-	
-		write(response, map);
-	};
-
-	private void write(HttpServletResponse resp, Map<String, Object> map)
-			throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(map));
+		changeSuccessful = UserLogic.changePassword(user, passwordCurrent, passwordNew);
+		map.put(PASSWORD_CHANGE_SUCCESSFUL, changeSuccessful);
+		ServletResponseHandler.write(response, map);
 	}
 }
