@@ -4,6 +4,8 @@
 package de.projectnash.entities;
 
 /**
+ * This class provides all constants in organization context. These constants are used in all {@link Certificate}s.
+ * 
  * @author Alexander Dobler
  *
  */
@@ -17,18 +19,14 @@ public class Organization {
 	
 	private String Organization = "Nash Inc.";
 
-	public Organization(String country, String state, String locality,
-			String organization) {
-		super();
+	public Organization(String country, String state, String locality, String organization) {
 		Country = country;
 		State = state;
 		Locality = locality;
 		Organization = organization;
 	}
 
-	public Organization() {
-		// empty use predefined values
-	}
+	public Organization() {}
 
 	public String getCountry() {
 		return Country;
@@ -61,8 +59,4 @@ public class Organization {
 	public void setOrganization(String organization) {
 		Organization = organization;
 	}
-	
-	
-	
-
 }
