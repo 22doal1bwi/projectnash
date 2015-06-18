@@ -68,12 +68,12 @@
 		<div class="login_area">
 			<form class="form-signin">
 				<img src="../img/simplecert/simplecert_logo_text_128x128.png"
-					style="margin-bottom: 20px; margin-top: 20px;" /><br /><input
-					type="email" id="emailAddress" name="emailAddress"
+					style="margin-bottom: 20px; margin-top: 20px;" /><br />
+				<input type="email" id="emailAddress" name="emailAddress"
 					class="form-control" placeholder="E-Mail-Adresse" required
-					autofocus> <br /><input type="password"
-					id="password" name="password" class="form-control"
-					placeholder="Passwort" required>
+					autofocus> <br />
+				<input type="password" id="password" name="password"
+					class="form-control" placeholder="Passwort" required>
 				<button id="loginButton" class="btn btn-lg simplecert_btn btn-block"
 					type="button" onclick="checkFormBeforeSubmit()">Einloggen</button>
 			</form>
@@ -103,17 +103,20 @@
 					<p class="modal-text">Geben Sie Ihre E-Mail-Adresse ein und wir
 						helfen Ihnen, Ihr Passwort zurückzusetzen.</p>
 					<input type="email" id="emailAddressForNewPassword"
-						name="emailAddressForNewPassword" class="form-control email_address_login_modal"
-						placeholder="E-Mail-Adresse" onchange="validateInput('emailAddressForNewPassword')" required> <input
-						type="email" id="emailAddressForNewPasswordConfirm"
+						name="emailAddressForNewPassword"
+						class="form-control email_address_login_modal"
+						placeholder="E-Mail-Adresse"
+						onchange="validateInput('emailAddressForNewPassword')" required>
+					<input type="email" id="emailAddressForNewPasswordConfirm"
 						name="emailAddressForNewPasswordConfirm" class="form-control"
-						placeholder="E-Mail-Adresse wiederholen" onchange="validateInput('emailAddressForNewPasswordConfirm')" required>
+						placeholder="E-Mail-Adresse wiederholen"
+						onchange="validateInput('emailAddressForNewPasswordConfirm')"
+						required>
 				</div>
 				<div class="modal-footer">
-					<div id="loading_gif_login_password" class="loading_gif_password">
-						<img src="../img/general/loading.gif">
-					</div>
-					<button id="cancelButton" onclick="clearField()" type="button"
+					<img id="loading_gif_login_password"
+						src="../img/general/loading.gif" class="loading_gif_password">
+					<button id="cancelButton" onclick="clearFields()" type="button"
 						class="btn simplecert_inv_btn" data-dismiss="modal">Abbrechen</button>
 					<button id="resetButton" type="button"
 						onclick="requestNewPassword()" class="btn simplecert_btn">Absenden</button>

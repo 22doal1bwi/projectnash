@@ -23,14 +23,6 @@
 	width: 100%;
 }
 
-.modal-dialog {
-	margin: auto;	
-}
-
-.modal_dialog_fitting {
-  	top: 10px !important;	
-}
-
 .login_area {
 	margin: auto;
 	max-width: 420px;
@@ -122,10 +114,42 @@
 	height: 55px;
 }
 
+.modal.in .modal-dialog {
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.modal.fade .modal-dialog {
+  -webkit-transition: -webkit-transform .3s ease-out;
+  -o-transition: -o-transform .3s ease-out;
+  transition: transform .3s ease-out;
+  -webkit-transform: translateY(0, -50%);
+  -ms-transform: translateY(0, -50%);
+  -o-transform: translateY(0, -50%);
+  transform: translateY(0, -50%);
+}
+
 .modal-dialog {
 	width: 330px;
-	position: relative;
-	top: 255px;
+	margin: auto auto auto -165px;
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.modal_dialog_free {
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.modal_dialog_fitting {
+  	top: 160px;	
 }
 
 .modal-header {
@@ -160,7 +184,7 @@
 
 .loading_gif_password {
 	position: relative;
-	right: 132px;
-	bottom: 15px;
+ 	right: -63px;
+  	bottom: 96px;
 	display: none;
 }

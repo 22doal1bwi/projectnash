@@ -180,7 +180,7 @@
 			</div>
 		</div>
 		</nav>
-		<div id="page-wrapper">
+		<div id="page-wrapper" class="page_with_table">
 			<div id="messagebar_show"
 				class="alert messagebar_intern messagebar_hidden"></div>
 			<div class="row"></div>

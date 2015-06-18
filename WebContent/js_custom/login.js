@@ -58,8 +58,8 @@ function submitLoginForm() {
 
 function requestNewPassword() {
 	if ($("#emailAddressForNewPassword").val() !== "" && $("#emailAddressForNewPasswordConfirm").val() !== "") {
-		$("#emailAddressForNewPassword").removeClass("has-warning")
-		$("#emailAddressForNewPasswordConfirm").removeClass("has-warning")
+		cleanInputFieldWarnings("emailAddressForNewPassword")
+		cleanInputFieldWarnings("emailAddressForNewPasswordConfirm")
 		if (validateInput("emailAddressForNewPassword") && validateInput("emailAddressForNewPasswordConfirm")) {
 			setLoading("password")
 			$.ajax({
@@ -110,6 +110,9 @@ function determineContainerStyle() {
 			$("#resetModal").removeClass("modal_free")
 		}
 		$("#resetModal").addClass("modal_fitting")
+		if ($("#modalDialog").hasClass("modal_dialog_free")) {
+			$("#modalDialog").removeClass("modal_dialog_free")
+		}		
 		$("#modalDialog").addClass("modal_dialog_fitting")
 	} else {
 		if ($("#login_container").hasClass("container_fitting")) {
@@ -123,6 +126,7 @@ function determineContainerStyle() {
 		if ($("#modalDialog").hasClass("modal_dialog_fitting")) {
 			$("#modalDialog").removeClass("modal_dialog_fitting")
 		}
+		$("#modalDialog").addClass("modal_dialog_free")
 	}
 }
 
@@ -143,12 +147,13 @@ function validateInput(type) {
 
 	// if field IS NOT empty
 	if ($("#" + type).val() !== "") {
+		cleanInputFieldWarnings(type)
 		// if entered value IS NOT a valid email address
 		if (!regEx.test($("#" + type).val())) {
 			$("#" + type).addClass("has-error")
 			// if entered value IS a valid email address
 		} else {
-			cleanInputField(type)
+			cleanInputFieldErrors(type)			
 
 			if (type === "emailAddressForNewPassword") {
 				// if the other field IS NOT empty and value of this field
@@ -158,8 +163,8 @@ function validateInput(type) {
 					// if the other field IS NOT empty and value of this field
 					// EQUALS the value of the current field
 				} else if ($("#emailAddressForNewPasswordConfirm").val() !== "" && $("#" + type).val() === $("#emailAddressForNewPasswordConfirm").val()) {
-					cleanInputField(type)
-					cleanInputField("emailAddressForNewPasswordConfirm")
+					cleanInputFieldErrors(type)
+					cleanInputFieldErrors("emailAddressForNewPasswordConfirm")
 					return true
 					// if the other field IS empty
 				}
@@ -171,15 +176,15 @@ function validateInput(type) {
 					// if the other field IS NOT empty and value of this field
 					// EQUALS the value of the current field
 				} else if ($("#emailAddressForNewPassword").val() !== "" && $("#" + type).val() === $("#emailAddressForNewPassword").val()) {
-					cleanInputField(type)
-					cleanInputField("emailAddressForNewPassword")
+					cleanInputFieldErrors(type)
+					cleanInputFieldErrors("emailAddressForNewPassword")
 					return true
 				}
 			}
 		}
 		// if field IS empty
 	} else {
-		cleanInputField(type)
+		cleanInputFieldErrors(type)
 	}
 	return false
 }
@@ -193,6 +198,10 @@ function hideMessageBar() {
 function clearFields() {
 	$("#emailAddressForNewPassword").val("")
 	$("#emailAddressForNewPasswordConfirm").val("")
+	cleanInputFieldErrors("emailAddressForNewPassword")
+	cleanInputFieldErrors("emailAddressForNewPasswordConfirm")
+	cleanInputFieldWarnings("emailAddressForNewPassword")
+	cleanInputFieldWarnings("emailAddressForNewPasswordConfirm")
 }
 function setLoading(type) {
 	$("#loading_gif_login_" + type).fadeIn()
@@ -212,17 +221,24 @@ function unsetLoading(type) {
 		$("#resetButton").attr("onclick", "requestNewPassword()")
 		$("#cancelButton").attr("onclick", "clearField()")
 		clearFields()
-		cleanInputField("emailAddressForNewPassword")
-		cleanInputField("emailAddressForNewPasswordConfirm")
+		cleanInputFieldErrors("emailAddressForNewPassword")
+		cleanInputFieldErrors("emailAddressForNewPasswordConfirm")
 	} else if (type === "redirect") {
 		$("#loginButton").removeAttr("disabled");
 		$("#loginButton").attr("onclick", "checkFormBeforeSubmit()")
 	}
 }
 
-// Method which removes any style classes from an inputfield
-function cleanInputField(type) {
+// Method which removes the error style classes from an inputfield
+function cleanInputFieldErrors(type) {
 	if ($("#" + type).hasClass("has-error")) {
 		$("#" + type).removeClass("has-error")
+	}
+}
+
+//Method which removes the warning style classes from an inputfield
+function cleanInputFieldWarnings(type) {
+	if ($("#" + type).hasClass("has-warning")) {
+		$("#" + type).removeClass("has-warning")
 	}
 }

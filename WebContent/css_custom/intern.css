@@ -276,3 +276,7 @@ html, body {
 	background-color: #607D8B;
   	color: #fff;
 }
+
+.page_with_table {
+	overflow-x: scroll;
+}
