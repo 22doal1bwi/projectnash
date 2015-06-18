@@ -55,9 +55,7 @@ public class Log implements Serializable {
 	 * The constructor for a {@link Log} with all necessary attributes.
 	 */
 	public Log(String message, String creationUser) {
-		super();
 		this.message = message;
 		this.creationUser = creationUser;
 	}
-	
 }
