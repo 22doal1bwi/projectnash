@@ -105,7 +105,7 @@ public class CertificateLogic {
 	 * @return The {@link String} that has no longer mutated vowels.
 	 */
 	private static String replaceUmlaute(String stringToReplace){
-		return stringToReplace.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae").replace("ß", "ss");
+		return stringToReplace.replace("Ã¶", "oe").replace("Ã¼", "ue").replace("Ã¤", "ae").replace("ÃŸ", "ss");
 	}
 
 	/**

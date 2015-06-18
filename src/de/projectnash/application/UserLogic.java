@@ -59,7 +59,7 @@ public class UserLogic {
 		try {
 			if (hasCertificate(user)) {
 				if (UserLogic.hasValidCertificate(user)) {
-					CertificateLogic.revokeCertificate(user, "Verl‰ngerung - Zertifikat wurde durch neues ersetzt");
+					CertificateLogic.revokeCertificate(user, "Verl√§ngerung - Zertifikat wurde durch neues ersetzt");
 				}
 			}
 
@@ -112,10 +112,10 @@ public class UserLogic {
 		if (user.getPassword().equals(oldPassword)) {
 			user.setPassword(newPassword);
 			UserPersistenceService.updateUser(user);
-			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich ge‰ndert", user.getEmailAddress());
+			LogLogic.createLog("Das Passwort des Benutzers wurde erfolgreich ge√§ndert", user.getEmailAddress());
 			return true;
 		}
-		LogLogic.createLog("Das Passwort des Benutzers konnte nicht ge‰ndert werden", user.getEmailAddress());
+		LogLogic.createLog("Das Passwort des Benutzers konnte nicht ge√§ndert werden", user.getEmailAddress());
 		return false;
 	}
 

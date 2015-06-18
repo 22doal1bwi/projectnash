@@ -115,12 +115,12 @@ public class RequestLogic {
 		try {
 			request.setRequestStatus(RequestStatus.ACCEPTED);
 			RequestPersistenceService.updateRequest(request);
-			LogLogic.createLog("Antrag wurde best‰tigt", request.getUser().getEmailAddress());
+			LogLogic.createLog("Antrag wurde best√§tigt", request.getUser().getEmailAddress());
 			EmailUtility.sendMail(request.getUser(), EmailSubject.REQUEST_ACCEPT);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogLogic.createLog("Antrag konnte nicht best‰tigt werden", request.getUser().getEmailAddress());
+			LogLogic.createLog("Antrag konnte nicht best√§tigt werden", request.getUser().getEmailAddress());
 			return false;
 		}
 	}
