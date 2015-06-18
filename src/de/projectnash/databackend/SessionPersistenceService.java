@@ -10,6 +10,7 @@ import de.projectnash.entities.User;
 
 /**
  * This class provides all methods to store, load, remove and update {@link Session}s.
+ * 
  * @author Silvio D'Alessandro
  *
  */
@@ -21,6 +22,7 @@ public class SessionPersistenceService {
 	
 	/**
 	 * Stores the {@link Session} in the database.
+	 * 
 	 * @param sessionToStore The {@link Session} which will be stored.
 	 */
 	public static void storeSession(Session sessionToStore){
@@ -31,6 +33,7 @@ public class SessionPersistenceService {
 	
 	/**
 	 * Loads a {@link Session} from the database.
+	 * 
 	 * @param ssnId The {@link Session}ID.
 	 * @return The specific {@link Session}.
 	 */
@@ -42,6 +45,7 @@ public class SessionPersistenceService {
 	
 	/**
 	 * Checks if the {@link Session} exists in the database.
+	 * 
 	 * @param ssnId The {@link Session}ID.
 	 * @return True if the {@link Session} exists.
 	 */
@@ -58,6 +62,7 @@ public class SessionPersistenceService {
     
     /**
      * Checks if the {@link Session} exists in the database.
+     * 
      * @param user The {@link User} which will be checked.
      * @return True if the {@link Session} exists.
      */
@@ -74,6 +79,7 @@ public class SessionPersistenceService {
 	
 	/**
      * Removes a {@link Session} from the database.
+     * 
      * @param sessionToRemove The {@link Session} which will be removed.
      */
 	public static void removeSession(Session sessionToRemove){

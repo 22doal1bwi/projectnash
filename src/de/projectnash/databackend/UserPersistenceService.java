@@ -11,6 +11,7 @@ import de.projectnash.entities.User;
 
 /**
  * This class provides all methods to store, load, remove and update {@link User}s.
+ * 
  * @author Silvio D'Alessandro, Artur Ermisch
  *
  */
@@ -22,6 +23,7 @@ public final class UserPersistenceService {
 	
 	/**
 	 * Stores a new {@link User} in the database.
+	 * 
 	 * @param userToStore The {@link User} that will be stored.
 	 */
     public static void storeUser (User userToStore) {
@@ -32,6 +34,7 @@ public final class UserPersistenceService {
     
     /**
      * Loads a {@link User} from the database.
+     * 
      * @param emailAddress The {@link User}'s email address on basis which the {@link User} will be loaded.
      * @return The specific {@link User}.
      */
@@ -48,6 +51,7 @@ public final class UserPersistenceService {
     
     /**
      * Loads a {@link User} from the database.
+     * 
      * @param personalId The {@link User}'s personal id on basis which the {@link User} will be loaded.
      * @return The specific {@link User}.
      */
@@ -62,6 +66,7 @@ public final class UserPersistenceService {
     
     /**
      * Loads all {@link User}s from the database.
+     * 
      * @return A {@link List} of all {@link User}s in the database.
      */
     public static List<User> loadAllUsers(){
@@ -71,6 +76,7 @@ public final class UserPersistenceService {
     
     /**
      * Checks if the {@link User} exists in the database.
+     * 
      * @param personalId The {@link Integer} on basis which the {@link User} will be checked.
      * @return A flag that describes if the {@link User} exists.
      */
@@ -91,6 +97,7 @@ public final class UserPersistenceService {
     
     /**
      * Checks if the {@link User} exists in the database.
+     * 
      * @param eMailAddress The {@link String} on basis which the {@link User} will be checked.
      * @return A flag that describes if the {@link User} exists.
      */
@@ -111,6 +118,7 @@ public final class UserPersistenceService {
     
     /**
      * Updates a {@link User} in the database.
+     * 
      * @param userToUpdate The {@link User} that will be updated.
      */
     public static void updateUser(User userToUpdate){
@@ -121,6 +129,7 @@ public final class UserPersistenceService {
     
     /**
      * Removes a {@link User} from the database.
+     * 
      * @param userToRemove The {@link User} that will be removed.
      */
     public static void removeUser(User userToRemove){

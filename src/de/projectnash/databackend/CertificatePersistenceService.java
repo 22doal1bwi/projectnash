@@ -11,6 +11,7 @@ import de.projectnash.entities.Certificate;
 
 /**
  * This class provides all methods to store, load, remove and update {@link Certificate}s.
+ * 
  * @author Silvio D'Alessandro
  *
  */
@@ -22,6 +23,7 @@ public class CertificatePersistenceService {
 
 	/**
 	 * Stores a new {@link Certificate} in the database.
+	 * 
 	 * @param certificate The {@link Certificate} that will be stored.
 	 */
 	public static void storeCertificate (Certificate certificate) {
@@ -32,6 +34,7 @@ public class CertificatePersistenceService {
 	
 	/**
      * Loads a {@link Certificate} from the database.
+     * 
      * @param certificateId The {@link Certificate}'s id on basis which the {@link Certificate} will be loaded.
      * @return The specific {@link Certificate}.
      */
@@ -43,6 +46,7 @@ public class CertificatePersistenceService {
     
     /**
      * Loads all {@link Certificate}s from the database.
+     * 
      * @return A {@link List} of all {@link Certificate}s in the database.
      */
     public static List<Certificate> loadAllCertificates(){
@@ -52,6 +56,7 @@ public class CertificatePersistenceService {
     
     /**
      * Removes all {@link Certificate}s of {@link User} from the database. 
+     * 
      * @param emailAddress E-Mail address of the {@link User}.
      */
     public static void removeAllCertificatesOfUser(String emailAddress){
@@ -64,6 +69,7 @@ public class CertificatePersistenceService {
     
     /**
      * Updates a {@link Certificate} in the database.
+     * 
      * @param certificateToUpdate The {@link Certificate} that will be updated.
      */
     public static void updateCertificate(Certificate certificateToUpdate){
@@ -74,6 +80,7 @@ public class CertificatePersistenceService {
     
     /**
      * Removes a {@link Certificate} from the database.
+     * 
      * @param certificateToRemove The {@link Certificate} that will be removed.
      */
     public static void removeCertificate (Certificate certificateToRemove){
@@ -82,6 +89,5 @@ public class CertificatePersistenceService {
     	query.setParameter("Certificate", certificateToRemove);
     	query.executeUpdate();
     	em.getTransaction().commit();
-    }
-	
+    }	
 }

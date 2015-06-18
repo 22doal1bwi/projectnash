@@ -18,13 +18,13 @@ import de.projectnash.entities.User;
  */
 public class RequestPersistenceService {
 
-	private static EntityManagerFactory emf = Persistence
-			.createEntityManagerFactory("simpleCertPU");
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("simpleCertPU");
 
 	private static EntityManager em = emf.createEntityManager();
 
 	/**
-	 * Stores the {@link Request} in the database. 
+	 * Stores the {@link Request} in the database.
+	 *  
 	 * @param requestToStore The {@link Request} that will be stored.
 	 */
 	public static void storeRequest(Request requestToStore) {
@@ -35,18 +35,19 @@ public class RequestPersistenceService {
 
 	/**
 	 * Loads a {@link Request} from the database. 
+	 * 
 	 * @param reqId The {@link Request}'s id on basis which the {@link Request} will be loaded.
 	 * @return The specific {@link Request}.
 	 */
 	public static Request loadRequest(User user) {
-		TypedQuery<Request> query = em.createNamedQuery(
-				"QUERY_FIND_REQUEST_BY_USER", Request.class);
+		TypedQuery<Request> query = em.createNamedQuery("QUERY_FIND_REQUEST_BY_USER", Request.class);
 		query.setParameter("User", user);
 		return query.getSingleResult();
 	}
 	
 	 /**
      * Loads all {@link Request}s from the database.
+     * 
      * @return A {@link List} of all {@link Request}s in the database.
      */
     public static List<Request> loadAllRequests(){
@@ -56,13 +57,13 @@ public class RequestPersistenceService {
 
 	/**
 	 * Checks if the {@link Request} exists in the database. 
+	 * 
 	 * @param personalId The {@link Integer} on basis which the {@link User} will be checked.
 	 * @return A flag that describes if the {@link User} exists.
 	 */
 	public static boolean requestExists(User user) {
 		try {
-			TypedQuery<Long> query = em.createNamedQuery(
-					"CHECK_REQUEST_EXISTS_BY_USER", Long.class);
+			TypedQuery<Long> query = em.createNamedQuery("CHECK_REQUEST_EXISTS_BY_USER", Long.class);
 			query.setParameter("User", user);
 			return query.getSingleResult() != 0;
 		} catch (Exception e) {
@@ -73,6 +74,7 @@ public class RequestPersistenceService {
 	
 	 /**
      * Updates a {@link Request} in the database.
+     * 
      * @param requestToUpdate The {@link Request} that will be updated.
      */
     public static void updateRequest(Request requestToUpdate){
@@ -83,15 +85,14 @@ public class RequestPersistenceService {
 
 	/**
 	 * Removes a {@link Request} from the database. 
+	 * 
 	 * @param request The {@link Request} that will be removed.
 	 */
 	public static void removeRequest(Request request) {		
-			em.getTransaction().begin();
-			TypedQuery<Request> query = em.createNamedQuery(
-					"QUERY_REMOVE_REQUEST_BY_REQUEST", Request.class);
-			query.setParameter("Request", request);
-			query.executeUpdate();
-			em.getTransaction().commit();
-			
+		em.getTransaction().begin();
+		TypedQuery<Request> query = em.createNamedQuery("QUERY_REMOVE_REQUEST_BY_REQUEST", Request.class);
+		query.setParameter("Request", request);
+		query.executeUpdate();
+		em.getTransaction().commit();	
 	}
 }

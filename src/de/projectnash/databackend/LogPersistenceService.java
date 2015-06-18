@@ -11,6 +11,7 @@ import de.projectnash.entities.Log;
 
 /**
  * This class provides all methods to store and load {@link Log}s.
+ * 
  * @author Artur Ermisch
  *
  */
@@ -22,6 +23,7 @@ public final class LogPersistenceService {
 	
 	/**
 	 * Stores a new {@link Log} in the database.
+	 * 
 	 * @param logToStore The {@link Log} that will be stored.
 	 */
     public static void storeLog (Log logToStore) {
@@ -32,6 +34,7 @@ public final class LogPersistenceService {
     
     /**
      * Loads a {@link Log} from the database.
+     * 
      * @param logId The {@link Log}'s id on basis which the {@link Log} will be loaded.
      * @return The specific {@link Log}.
      */
@@ -48,13 +51,13 @@ public final class LogPersistenceService {
     
     /**
      * Loads all {@link Log}s from the database.
+     * 
      * @return A {@link List} of all {@link Log}s in the database.
      */
     public static List<Log> loadAllLogs(){
     	TypedQuery<Log> query = em.createNamedQuery("QUERY_FIND_ALL_LOGS", Log.class);
     	return query.getResultList();
     }
-    
     
     public EntityManagerFactory getEmf() {
 		return emf;
