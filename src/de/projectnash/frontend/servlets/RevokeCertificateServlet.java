@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.ServletResponseHandler;
 import de.projectnash.entities.User;
 import de.projectnash.frontend.controllers.SessionController;
 
@@ -22,23 +21,22 @@ import de.projectnash.frontend.controllers.SessionController;
  */
 @WebServlet("/RevokeCertificateServlet")
 public class RevokeCertificateServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-    
-	public RevokeCertificateServlet() {}
 	
 	private static final String REASON = "revokeReason";
+	
+	private static final String REVOKED_CERTIFICATE = "revokedCertificate";
+	
+	private static final String VALID_SESSION = "validSession";
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		String sessionIdStatus = SessionController.checkForSessionId(request,
-				response);
-		
+		String sessionIdStatus = SessionController.checkForSessionId(request, response);
 		String reason = request.getParameter(REASON);
-		
 		User user = UserLogic.loadUserBySession(sessionIdStatus);
 		
 		switch (sessionIdStatus) {
@@ -46,29 +44,22 @@ public class RevokeCertificateServlet extends HttpServlet {
 			boolean revokedCertificate = CertificateLogic.revokeCertificate(user, reason);
 			
 				if (revokedCertificate) {
-					map.put("revokedCertificate", true);
+					map.put(REVOKED_CERTIFICATE, true);
 
 				} else {
-					map.put("revokedCertificate", false);
+					map.put(REVOKED_CERTIFICATE, false);
 				}
-					map.put("validSession", true);
+					map.put(VALID_SESSION, true);
 		break;
 
 		case "0":
-			map.put("validSession", false);
+			map.put(VALID_SESSION, false);
 			break;
 
 		case "-1":
-			map.put("validSession", false);
+			map.put(VALID_SESSION, false);
 			break;
 		}
-		write(response, map);
-	}
-
-	private void write(HttpServletResponse resp, Map<String, Object> map)
-			throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(map));
+		ServletResponseHandler.write(response, map);
 	}
 }
