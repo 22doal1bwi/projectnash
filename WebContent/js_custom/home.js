@@ -11,7 +11,7 @@ $(document).ready(function() {
 	});
 });
 
-// only needed for mozilla firefox (tile heigth bug)
+// only needed for mozilla firefox (tile height bug)
 $(window).load(function() {
 	setSameHeight()	
 })

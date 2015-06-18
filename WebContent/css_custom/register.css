@@ -58,6 +58,7 @@
 	background-color: #C03A2A;	
 	transition: background-color .4s ease;
 }
+
 .simplecert_btn:hover, .simplecert_btn:focus {
 	background-color: #DC483C;	
 	transition: background-color .4s ease;

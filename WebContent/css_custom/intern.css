@@ -45,6 +45,7 @@ html, body {
 	50%{left:-10px;}
 	100%{left:0;}
 }
+
 .panelicon {
 	background-color: #fff !important;
 	border-color: #333;
@@ -220,11 +221,13 @@ html, body {
 	color: #607D8B;
 	cursor: pointer;
 }
+
 .table_icon_accepted {
 	font-size: 23px;
 	color: #5cb85c;
 	cursor: pointer;
 }
+
 .table_icon_denied {
 	font-size: 23px;
 	color: #C03A2A;
@@ -255,9 +258,11 @@ html, body {
 .status_column {
 	text-align: center;
 }
+
 .loading_gif_table {
 	height: 23px;
 }
+
 .table_edit_icon_confirm {
 	font-size: 15px;
   	padding: 0 5px 0 5px;
@@ -265,6 +270,7 @@ html, body {
   	cursor: pointer;
   	color: #5cb85c; 
 }
+
 .table_edit_icon_deny {
 	font-size: 15px;
   	padding: 0 5px 0 5px;
@@ -272,6 +278,7 @@ html, body {
   	cursor: pointer;
   	color: #C03A2A; 
 }
+
 .table_head {
 	background-color: #607D8B;
   	color: #fff;

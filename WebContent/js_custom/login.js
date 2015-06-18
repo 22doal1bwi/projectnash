@@ -29,8 +29,7 @@ $(document).ready(function() {
 });
 
 // ====================================================================================//
-// ================================== AJAX FUNCTION
-// ===================================//
+// ================================== AJAX FUNCTION ===================================//
 // ====================================================================================//
 // Method which submits the 'emailAddress' and 'password' from the input fields
 function submitLoginForm() {
@@ -57,9 +56,11 @@ function submitLoginForm() {
 }
 
 function requestNewPassword() {
+	// if both fields are NOT empty
 	if ($("#emailAddressForNewPassword").val() !== "" && $("#emailAddressForNewPasswordConfirm").val() !== "") {
 		cleanInputFieldWarnings("emailAddressForNewPassword")
 		cleanInputFieldWarnings("emailAddressForNewPasswordConfirm")
+		// if the values of both fields are valid
 		if (validateInput("emailAddressForNewPassword") && validateInput("emailAddressForNewPasswordConfirm")) {
 			setLoading("password")
 			$.ajax({
@@ -95,8 +96,7 @@ function requestNewPassword() {
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS
-// ==================================//
+// ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
 
 // Function to determine the container style based on the window height
@@ -114,7 +114,7 @@ function determineContainerStyle() {
 			$("#modalDialog").removeClass("modal_dialog_free")
 		}		
 		$("#modalDialog").addClass("modal_dialog_fitting")
-	} else {
+	} else if ($(window).height() >= "546") {
 		if ($("#login_container").hasClass("container_fitting")) {
 			$("#login_container").removeClass("container_fitting")
 		}
@@ -142,6 +142,7 @@ function checkFormBeforeSubmit() {
 	}
 }
 
+// Method which checks the input value of a field
 function validateInput(type) {
 	var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -166,7 +167,6 @@ function validateInput(type) {
 					cleanInputFieldErrors(type)
 					cleanInputFieldErrors("emailAddressForNewPasswordConfirm")
 					return true
-					// if the other field IS empty
 				}
 				// if the other field IS NOT empty and value of this field
 				// EQUALS NOT the value of the current field

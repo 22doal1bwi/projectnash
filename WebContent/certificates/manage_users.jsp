@@ -1,10 +1,5 @@
 <%@page import="de.projectnash.frontend.controllers.SessionController"%>
-<%@page import="de.projectnash.application.SessionLogic"%>
-<%@page
-	import="de.projectnash.frontend.controllers.CertificateController"%>
 <%@page import="de.projectnash.frontend.controllers.UserController"%>
-<%@page import="de.projectnash.entities.User"%>
-<%@page import="de.projectnash.application.UserLogic"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

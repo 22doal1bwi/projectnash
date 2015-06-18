@@ -25,8 +25,7 @@ $(document).ready(function() {
 });
 
 // ====================================================================================//
-// ================================= MESSAGE REGISTRY
-// =================================//
+// ================================= MESSAGE REGISTRY =================================//
 // ====================================================================================//
 
 messageRegistry = [];
@@ -73,12 +72,10 @@ function isMessageRegistryEmpty() {
 }
 
 // ====================================================================================//
-// ================================== AJAX FUNCTIONS
-// ==================================//
+// ================================== AJAX FUNCTIONS ==================================//
 // ====================================================================================//
 
-// Method which checks whether the entered value for 'personalId' or
-// 'emailAddress' already exists
+// Method which checks whether the entered value for 'personalId' or 'emailAddress' already exists
 function inputDbCheck(type) {
 	var notExists
 
@@ -158,8 +155,7 @@ function submitRegisterForm() {
 }
 
 // ====================================================================================//
-// ================================== MAIN FUNCTIONS
-// ==================================//
+// ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
 
 // Function to determine the container style based on the window height
@@ -364,7 +360,7 @@ function unsetLoading() {
 	$("#registerButton").attr("onclick", "checkFormBeforeSubmit()")
 }
 
-// Method which removes any style classes from an inputfield
+// Method which removes any style classes from an input field
 function cleanInputField(type) {
 	if ($("#" + type).hasClass("has-warning")) {
 		$("#" + type).removeClass("has-warning")

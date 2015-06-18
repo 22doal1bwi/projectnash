@@ -160,6 +160,7 @@
 .modal-footer {
 	border-top: none;
 }
+
 .modal-footer .btn+.btn {
   margin-left: 0;
 }

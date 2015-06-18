@@ -8,6 +8,7 @@ $(document).ready(
 						if (e.keyCode == 13)
 							$('#button_confirm_password').click();
 					});
+			
 			jQuery.i18n.properties({
 				name : 'messages',
 				path : '../i18n/',
