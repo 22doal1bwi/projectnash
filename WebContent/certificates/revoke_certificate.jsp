@@ -149,7 +149,7 @@
 										<textarea id="textfield_revoke" name="textfield_revoke" maxlength="150"
 											class="form-control"
 											placeholder="Bitte geben Sie hier den Grund Ihres Widerrufs an. Nach dem Klick auf 'Widerrufen' müssen Sie den Widerruf noch bestätigen."
-											rows="4"></textarea>
+											rows="3"></textarea>
 									</div>
 								</div>
 								<div id="footer_revoke" class="panel-footer">
