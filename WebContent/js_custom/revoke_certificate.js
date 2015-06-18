@@ -2,6 +2,12 @@
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
 $(document).ready(function() {
+	$("#textfield_revoke").on("keyup",function(){
+		var remainingChars = 150 - $("#textfield_revoke").val().length
+		$("#remainingChars").fadeIn()
+		$("#remainingChars").html(remainingChars + " Zeichen übrig")
+	  });
+	
 	jQuery.i18n.properties({
 		name : 'messages',
 		path : '../i18n/',
@@ -10,6 +16,7 @@ $(document).ready(function() {
 		encoding : 'UTF-8'
 	});
 });
+
 // ====================================================================================//
 // ================================== AJAX FUNCTION ===================================//
 // ====================================================================================//
