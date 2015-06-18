@@ -20,41 +20,39 @@ import de.projectnash.frontend.controllers.SessionController;
 /**
  * Servlet which response with a file download
  * 
- * @author alexander
+ * @author Alexander Dobler
  *
  */
 @WebServlet("/CrtDownload")
 public class DownloadServlet extends HttpServlet{
 	
-
 	private static final long serialVersionUID = -2151569481809641648L;
 
-	public void doGet(HttpServletRequest request, 
-			   HttpServletResponse response) throws IOException, ServletException{
-				String sessionIdStatus = SessionController.checkForSessionId(request, response);
+	/**
+	 * @see HttpServlet#doGet (HttpServletRequest request, HttpServletResponse response)
+	 */
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		String sessionIdStatus = SessionController.checkForSessionId(request, response);
 				
-				switch (sessionIdStatus) {
-				default:
-					User user = SessionLogic.loadSession(sessionIdStatus).getUser();
-					String filename = user.getFirstName()+"_"+user.getLastName()+"_"+user.getPersonalId()+".p12";
-					response.setContentType("text/plain");
-					response.setHeader("Content-Disposition",
-				                     "attachment;filename="+filename.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae").replace("ß", "ss"));		 
-					
-					Certificate cert = user.getCertificate();
-					byte[] crtBytes = cert.getCertificateFile();
+		switch (sessionIdStatus) {
+		default:
+			User user = SessionLogic.loadSession(sessionIdStatus).getUser();
+			Certificate certificate = user.getCertificate();
+			byte[] crtData = certificate.getCertificateFile();
+			String filename = user.getFirstName() + "_" + user.getLastName() + "_" + user.getPersonalId() + ".p12";
+			
+			response.setContentType("text/plain");
+			response.setHeader("Content-Disposition", "attachment;filename=" + filename.replace("ö", "oe").replace("ü", "ue").replace("ä", "ae").replace("ß", "ss"));		 
 
-					OutputStream os = response.getOutputStream();
-					os.write(crtBytes);
-					os.flush();
-					os.close();	
-					break;
-				case "0":
-				case "-1":
-					response.sendError(501);
-					break;
-				}
+			OutputStream os = response.getOutputStream();
+			os.write(crtData);
+			os.flush();
+			os.close();	
+		break;
+		case "0":
+		case "-1":
+			response.sendError(501);
+		break;
+		}
 	}
-	
-	
 }
