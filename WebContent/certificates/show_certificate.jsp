@@ -121,38 +121,14 @@
 							style="margin-top: 10px; margin-bottom: 15px" /></li>
 						<li><a href="home.jsp"><i
 								class="fa fa-home fa-fw navbaricon"></i>Home</a></li>
-						<%
-							if (!uc.hasValidCertificate()) {
-						%>
-						<li><a href="request_certificate.jsp"><i
-								class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat
-								beantragen</a></li>
-						<%
-							} else {
-						%>
 						<li><a class="active"><i
 								class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
-						<%
-							}
-						%>
-						<%
-							if (uc.hasValidCertificate()) {
-						%>
 						<li><a href="extend_certificate.jsp"><i
 								class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
 						<li><a href="revoke_certificate.jsp"><i
 								class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
 						<%
-							} else {
-						%>
-
-						<li class="disabled"><a class="navitem_disabled"><i
-								class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
-						<li class="disabled"><a class="navitem_disabled"><i
-								class="fa fa-ban fa-fw navbaricon"></i>Zertifikat widerrufen</a></li>
-						<%
-							}
-									if (uc.isAdmin()) {
+							if (uc.isAdmin()) {
 						%>
 						<li style="height: 25px;"></li>
 						<li><a href="manage_requests.jsp"><i

@@ -143,6 +143,10 @@ function successful(stepNumber, message) {
 			$("#step" + stepNumberNextStep + "_content_request").slideDown()
 			$("#step" + stepNumberNextStep + "_header_request").addClass(
 					"panelheader_set_current_step")
+			$("li").removeClass("disabled")
+			$("a").removeClass("navitem_disabled")
+			$("#a_extend").attr("href", "extend_certificate.jsp")
+			$("#a_revoke").attr("href", "revoke_certificate.jsp")			
 		}, 1500);
 	} else {
 		window.setTimeout(function() {

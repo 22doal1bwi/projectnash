@@ -92,7 +92,8 @@
 				}
 			%>
 			<li><div class="name"><%=uc.getFullName()%></div></li>
-			<li><a class="active" href="settings.jsp"><i class="fa fa-gear fa-2x"></i></a></li>
+			<li><a class="active" href="settings.jsp"><i
+					class="fa fa-gear fa-2x"></i></a></li>
 			<li>
 				<form name="form_logout" action="../LogoutServlet" method="post">
 					<a role="button" class="fa fa-sign-out fa-2x logout"
@@ -127,9 +128,7 @@
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
 					<%
 						}
-					%>
-					<%
-						if (uc.hasValidCertificate()) {
+							if (uc.hasValidCertificate()) {
 					%>
 					<li><a href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
@@ -186,12 +185,12 @@
 							<p class="form-control-static"><%=uc.getEmailAddress()%></p>
 							<label>Passwort</label><br> <input type="password"
 								class="form-control password_field_hidden" id="password_current"
-								name="password_current" placeholder="Aktuelles Passwort"
+								name="password_current" placeholder="Aktuelles Passwort">
+							<input type="password" class="form-control password_field_hidden"
+								id="password_new" name="password_new"
+								onchange="validatePassword()" placeholder="Neues Passwort"
 								onpaste="return false;"> <input type="password"
-								class="form-control password_field_hidden" id="password_new"
-								name="password_new" onchange="validatePassword()"
-								placeholder="Neues Passwort" onpaste="return false;"> <input
-								type="password" class="form-control password_field_hidden"
+								class="form-control password_field_hidden"
 								id="password_new_confirm"
 								placeholder="Neues Passwort wiederholen" onpaste="return false;"><br>
 							<button id="button_cancel_password" onclick="cleanPage()"

@@ -130,9 +130,7 @@
 							class="fa fa-file-text fa-fw navbaricon"></i>Zertifikat anzeigen</a></li>
 					<%
 						}
-					%>
-					<%
-						if (uc.hasValidCertificate()) {
+								if (uc.hasValidCertificate()) {
 					%>
 					<li><a href="extend_certificate.jsp"><i
 							class="fa fa-history fa-fw navbaricon"></i>Zertifikat verlängern</a></li>
