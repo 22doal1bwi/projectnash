@@ -99,13 +99,26 @@ public class Certificate implements Serializable {
 	 */
 	protected Certificate(){}
 	
-	public Certificate(byte[] certificateFileP12, byte[] certificateFileCRT,
-			String countryName, String state, String localityName,
-			String organizationName, String organizationalUnit,
-			String commonName, String emailAddress, Date initializationDate,
-			Date expirationDate, CertificateStatus certificateStatus,
+	/**
+	 * Constructor in order to create a {@link Certificate} with all its attributes.
+	 * 
+	 * @param certificateFileP12 The .p12 data.
+	 * @param certificateFileCRT The .crt data.
+	 * @param countryName The {@link String} that represents the country name of the {@link Certificate}.
+	 * @param state The {@link String} that represents the state of the {@link Certificate}.
+	 * @param localityName The {@link String} that represents the locality name of the {@link Certificate}.
+	 * @param organizationName The {@link String} that represents the organization name of the {@link Certificate}.
+	 * @param organizationalUnit The {@link String} that represents the organization unit of the {@link Certificate}.
+	 * @param commonName The {@link String} that represents the common name of the {@link Certificate}.
+	 * @param emailAddress The {@link String} that represents the e-mail address of the {@link Certificate}.
+	 * @param initializationDate The {@link Date} that represents the initialization date of the {@link Certificate}.
+	 * @param expirationDate The {@link Date} that represents the expiration date of the {@link Certificate}.
+	 * @param certificateStatus The {@link CertificateStatus} that represents the status of the {@link Certificate}.
+	 * @param isReminded The {@link Boolean} that describes if the {@link User} was reminded to extend his {@link Certificate}.
+	 */
+	public Certificate(byte[] certificateFileP12, byte[] certificateFileCRT, String countryName, String state, String localityName, String organizationName, 
+			String organizationalUnit, String commonName, String emailAddress, Date initializationDate, Date expirationDate, CertificateStatus certificateStatus,
 			boolean isReminded) {
-		super();
 		this.certificateFileCRT = certificateFileCRT;
 		this.certificateFileP12 = certificateFileP12;
 		this.countryName = countryName;
@@ -126,15 +139,19 @@ public class Certificate implements Serializable {
 		return "Certificate [certificateId=" + certificateId
 				+ ", certificateFileP12=" + Arrays.toString(certificateFileP12)
 				+ ", certificateFileCRT=" + Arrays.toString(certificateFileCRT)
-				+ ", countryName=" + countryName + ", state=" + state
-				+ ", localityName=" + localityName + ", organizationName="
-				+ organizationName + ", organizationalUnit="
-				+ organizationalUnit + ", commonName=" + commonName
-				+ ", emailAddress=" + emailAddress + ", initializationDate="
-				+ initializationDate + ", expirationDate=" + expirationDate
+				+ ", countryName=" + countryName 
+				+ ", state=" + state
+				+ ", localityName=" + localityName 
+				+ ", organizationName=" + organizationName
+				+ ", organizationalUnit=" + organizationalUnit 
+				+ ", commonName=" + commonName
+				+ ", emailAddress=" + emailAddress 
+				+ ", initializationDate=" + initializationDate 
+				+ ", expirationDate=" + expirationDate
 				+ ", certificateStatus=" + certificateStatus
-				+ ", revokeReason=" + revokeReason + ", isReminded="
-				+ isReminded + ", creationDate=" + creationDate
+				+ ", revokeReason=" + revokeReason 
+				+ ", isReminded=" + isReminded 
+				+ ", creationDate=" + creationDate
 				+ ", modificationDate=" + modificationDate + "]";
 	}
 
@@ -265,5 +282,4 @@ public class Certificate implements Serializable {
 	public void setReminded(boolean isReminded) {
 		this.isReminded = isReminded;
 	}
-
 }
