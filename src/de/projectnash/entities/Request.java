@@ -19,8 +19,7 @@ import javax.persistence.TemporalType;
 import de.projectnash.application.util.RequestStatus;
 
 /**
- * This class provides a realistic {@link Request} for a {@link Certificate} with all
- * its attributes.
+ * This class provides a realistic {@link Request} for a {@link Certificate} with all its attributes.
  * 
  * @author Marius Boepple, Silvio D'Alessandro
  *
@@ -33,6 +32,7 @@ import de.projectnash.application.util.RequestStatus;
 		@NamedQuery(name = "QUERY_REMOVE_REQUEST_BY_REQUEST", query = "DELETE FROM Request r WHERE r = :Request"),
 		@NamedQuery(name = "QUERY_FIND_ALL_REQUESTS", query = "SELECT r FROM Request r"),
 		@NamedQuery(name = "CHECK_REQUEST_EXISTS_BY_USER", query = "SELECT COUNT(r.user) FROM Request r WHERE r.user = :User") })
+
 public class Request {
 
 	@Id
@@ -53,14 +53,13 @@ public class Request {
 	/**
 	 * This constructor is only needed for JPA.
 	 */
-	protected Request() {
-	}
+	protected Request() {}
 
 	/**
 	 * This constructor represents a {@link Request} with all its necessary attributes.
 	 * 
-	 * @param user
-	 * @param creationDate
+	 * @param user The {@link User} that has started the {@link Request}.
+	 * @param creationDate The {@link Date} that represents the creation date of the {@link Request}. 
 	 */
 	public Request(User user, Date creationDate) {
 		this.requestId = user.getPersonalId();
@@ -69,9 +68,6 @@ public class Request {
 		this.requestStatus = RequestStatus.WAITING;
 	}
 	
-	/**
-	 * @return The {@link User} linked to this {@link Request}.
-	 */
 	public User getUser() {
 		return user;
 	}
@@ -100,5 +96,4 @@ public class Request {
 	public String toString(){
 		return this.user.getFirstName() + ", " + this.user.getLastName() + " has created a request on: " + this.creationDate; 
 	}
-
 }
