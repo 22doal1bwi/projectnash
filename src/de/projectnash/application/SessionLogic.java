@@ -25,7 +25,6 @@ public class SessionLogic {
 			SessionPersistenceService.storeSession(session);
 			LogLogic.createLog("Die Session wurde erfolgreich in der Datenbank gespeichert", user.getEmailAddress());
 			return true;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogLogic.createLog("Die Session konnte nicht in der Datenbank gespeichert werden", user.getEmailAddress());
@@ -71,5 +70,4 @@ public class SessionLogic {
 	public static boolean hasSession(User user) {
 		return SessionPersistenceService.sessionExists(user);
 	}
-
 }

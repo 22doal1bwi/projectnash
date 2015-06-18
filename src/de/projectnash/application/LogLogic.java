@@ -19,9 +19,7 @@ public class LogLogic {
 	 * @param userEmailAddress The {@link String} that represents the email address of the {@link User}.
 	 */
 	public static void createLog(String message, String userEmailAddress) {
-		
 		Log tempLog = new Log(message, userEmailAddress);
-
 		LogPersistenceService.storeLog(tempLog);
 	}
 	
@@ -34,5 +32,4 @@ public class LogLogic {
 	public static Log loadLog(int logId){
 		return LogPersistenceService.loadLog(logId);	
 	}
-	
 }
