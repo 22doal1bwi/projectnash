@@ -18,25 +18,24 @@ import de.projectnash.entities.Request;
  */
 @WebServlet("/AdminUpdateRequestsServlet")
 public class AdminUpdateRequestsServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
+	private static final String STATUS = "value";
+	
+	private static final String E_MAIL_ADDRESS = "emailAddress";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AdminUpdateRequestsServlet() {
-
-	}
+	public AdminUpdateRequestsServlet() {}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-	
-		String status = request.getParameter("value");
-		String emailAddress = request.getParameter("emailAddress");
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String status = request.getParameter(STATUS);
+		String emailAddress = request.getParameter(E_MAIL_ADDRESS);
 		User user = UserLogic.loadUser(emailAddress);
 		Request requestObject = RequestLogic.loadRequest(user);
 
