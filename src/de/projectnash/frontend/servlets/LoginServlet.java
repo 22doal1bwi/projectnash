@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.ServletResponseHandler;
 import de.projectnash.entities.User;
 
 /**
@@ -26,51 +25,38 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4192643567772796818L;
 
-	private static final String MAIL_ADDRESS = "emailAddress";
+	private static final String E_MAIL_ADDRESS = "emailAddress";
+	
 	private static final String PASSWORD = "password";
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
+	private static final String LOGIN_FAILED = "loginFailed";
+	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
-
-		/** get request parameters for userID and password */
-		String emailAddress = request.getParameter(MAIL_ADDRESS);
+		String emailAddress = request.getParameter(E_MAIL_ADDRESS);
 		String password = request.getParameter(PASSWORD);
-
-		/** try to load user from database */
 		User loadedUser = UserLogic.loadUser(emailAddress);
 
 		/** check if a user was received and password is correct */
 		if (loadedUser != null && loadedUser.getPassword().equals(password)) {
-
 			HttpSession session = request.getSession();
-			session.setAttribute(MAIL_ADDRESS, loadedUser.getEmailAddress());
-
-			/** setting session to expire in 30 minutes */
+			session.setAttribute(E_MAIL_ADDRESS, loadedUser.getEmailAddress());
 			session.setMaxInactiveInterval(30 * 60);
 			
 			SessionLogic.createSession(loadedUser, session.getId());
 
-			Cookie userName = new Cookie(MAIL_ADDRESS, emailAddress);
+			Cookie userName = new Cookie(E_MAIL_ADDRESS, emailAddress);
 			userName.setMaxAge(30 * 60);
 			response.addCookie(userName);
-			map.put("loginFailed", false);
-			write(response, map);
-
+			
+			map.put(LOGIN_FAILED, false);
+			ServletResponseHandler.write(response, map);
 		} else {
-			/** user not present or password wrong */
-			map.put("loginFailed", true);
-			write(response, map);
+			map.put(LOGIN_FAILED, true);
+			ServletResponseHandler.write(response, map);
 		}
-
 	}
-
-	private void write(HttpServletResponse resp, Map<String, Object> map)
-			throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(map));
-	}
-
 }
