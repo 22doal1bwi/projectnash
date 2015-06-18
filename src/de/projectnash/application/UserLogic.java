@@ -125,7 +125,7 @@ public class UserLogic {
 	 * @param user The {@link User} whose password will be reseted.
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static void resetPasswort(User user) throws MessagingException, UnsupportedEncodingException {
+	public static void resetPassword(User user) throws MessagingException, UnsupportedEncodingException {
 		SecureRandom random = new SecureRandom();
 		String newPassword = new BigInteger(130, random).toString(32).substring(0, 10);
 

@@ -26,11 +26,6 @@ public class AdminUpdateRequestsServlet extends HttpServlet {
 	private static final String E_MAIL_ADDRESS = "emailAddress";
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public AdminUpdateRequestsServlet() {}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

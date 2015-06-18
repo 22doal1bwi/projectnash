@@ -30,11 +30,6 @@ public class AdminUpdateUsersServlet extends HttpServlet {
 	private static final String DELETED_USER = "deletedUser";
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public AdminUpdateUsersServlet() {}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -22,11 +22,6 @@ import de.projectnash.frontend.controllers.SessionController;
 public class ActivateCertificateServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ActivateCertificateServlet() {}
     
 	private static final String PASSWORD = "password";
 	

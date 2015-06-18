@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import de.projectnash.application.LogLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.ServletResponseHandler;
 import de.projectnash.entities.User;
 
 /**
@@ -22,46 +21,34 @@ import de.projectnash.entities.User;
  */
 @WebServlet("/ResetPasswordServlet")
 public class ResetPasswordServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 	
-	 boolean passwordResettet = false;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ResetPasswordServlet() {}
+	private static final String E_MAIL_ADDRESS_FOR_NEW_PASSWORD = "emailAddressForNewPassword";
+	
+	private static final String RESET_SUCCESSFUL = "resetSuccessful";
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		Map<String, Object> map = new HashMap<String, Object>();
+		String emailAddress = request.getParameter(E_MAIL_ADDRESS_FOR_NEW_PASSWORD);
+		boolean passwordReset = false;
 		
-		String emailAddress = request.getParameter("emailAddressForNewPassword");
 	try{
 		if(UserLogic.emailAlreadyExists(emailAddress)){
 			 User user = UserLogic.loadUser(emailAddress);
-			 UserLogic.resetPasswort(user);
-			 passwordResettet = true;
-			 map.put("resetSuccessful", passwordResettet);
+			 UserLogic.resetPassword(user);
+			 passwordReset = true;
+			 map.put(RESET_SUCCESSFUL, passwordReset);
 			 LogLogic.createLog("Das Passwort wurde erfolgreich zurückgesetzt", user.getEmailAddress());
 		} else {
-			map.put("resetSuccessful", passwordResettet);
+			map.put(RESET_SUCCESSFUL, passwordReset);
 		}
-		write(response, map);
-		
+		ServletResponseHandler.write(response, map);
 	} catch (MessagingException me){
 		me.printStackTrace();
 	}
-		
 	}
-
-	private void write(HttpServletResponse resp, Map<String, Object> map)
-			throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(map));
-	}
-	
 }
