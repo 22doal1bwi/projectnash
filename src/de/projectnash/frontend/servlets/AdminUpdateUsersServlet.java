@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.ServletResponseHandler;
 import de.projectnash.entities.User;
 
 /**
@@ -21,48 +20,39 @@ import de.projectnash.entities.User;
  */
 @WebServlet("/AdminUpdateUsersServlet")
 public class AdminUpdateUsersServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
+	private static final String E_MAIL_ADDRESS = "emailAddress";
+	
+	private static final String ACTION = "action";
+	
+	private static final String DELETED_USER = "deletedUser";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AdminUpdateUsersServlet() {
-
-	}
+	public AdminUpdateUsersServlet() {}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
-		String action = request.getParameter("action");
-		String emailAddress = request.getParameter("emailAddress");
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String action = request.getParameter(ACTION);
+		String emailAddress = request.getParameter(E_MAIL_ADDRESS);
 		User user = UserLogic.loadUser(emailAddress);
 
 		switch (action) {
 		case "deleteUser":
-			Map<String, Object> map = new HashMap<String, Object>();
 			boolean deletedUser = UserLogic.removeUser(user);
-			map.put("deletedUser", deletedUser);
-			write(response, map);
+			map.put(DELETED_USER, deletedUser);
+			ServletResponseHandler.write(response, map);
 			break;
 		case "revokeCertificate":
-			boolean revokedCertificate = CertificateLogic
-					.revokeCertificate(user,
-							"Administrator - Zertifikat wurde von Administrator widerrufen");
+			boolean revokedCertificate = CertificateLogic.revokeCertificate(user, "Administrator - Zertifikat wurde von Administrator widerrufen");
 			response.getWriter().print(revokedCertificate);
 			break;
 		}
-
-	}
-
-	private void write(HttpServletResponse resp, Map<String, Object> map)
-			throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(map));
 	}
 }
