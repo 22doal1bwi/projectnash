@@ -22,58 +22,59 @@ import de.projectnash.entities.User;
  */
 @WebServlet("/AdminUsersServlet")
 public class AdminUsersServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AdminUsersServlet() {
-	}
+	public AdminUsersServlet() {}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		JsonArray userObjects = new JsonArray();		
-		List<User> userList = UserLogic.getAllUsers();	
-		JsonObject JsonResponse = new JsonObject();		
+		JsonArray allUsersInJson = new JsonArray();		
+		List<User> allUsers = UserLogic.getAllUsers();	
+		JsonObject jsonResponse = new JsonObject();		
 		
-		userList.forEach(userObject -> {
-			if (!userObject.isAdmin()) {
-				if(userObject.getCertificate() != null) {
-					UserObjectTable uot = new UserObjectTable(
-					userObject.getCertificate().getExpirationDate(),
-					userObject.getFirstName(), 
-					userObject.getLastName(), 
-					userObject.getDepartment(), 
-					userObject.getPersonalId(), 
-					userObject.getEmailAddress(),					
-					userObject.getCertificate().getCertificateStatus(),
-					UserLogic.hasSession(userObject));
-					JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
-					userObjects.add(jsonUot);
+		allUsers.forEach(user -> {
+			if (!user.isAdmin()) {
+				if(user.getCertificate() != null) {
+					UserObjectTable distinctUserData = new UserObjectTable(
+					user.getCertificate().getExpirationDate(),
+					user.getFirstName(), 
+					user.getLastName(), 
+					user.getDepartment(), 
+					user.getPersonalId(), 
+					user.getEmailAddress(),					
+					user.getCertificate().getCertificateStatus(),
+					UserLogic.hasSession(user));
+					
+					JsonObject distinctUserDataInJson = (JsonObject) new Gson().toJsonTree(distinctUserData);
+					allUsersInJson.add(distinctUserDataInJson);
 				} else {
-					UserObjectTable uot = new UserObjectTable(
-					userObject.getFirstName(), 
-					userObject.getLastName(), 
-					userObject.getDepartment(), 
-					userObject.getPersonalId(), 
-					userObject.getEmailAddress(),
-					UserLogic.hasSession(userObject));
-					JsonObject jsonUot = (JsonObject) new Gson().toJsonTree(uot);
-					userObjects.add(jsonUot);
+					UserObjectTable distinctUserData = new UserObjectTable(
+					user.getFirstName(), 
+					user.getLastName(), 
+					user.getDepartment(), 
+					user.getPersonalId(), 
+					user.getEmailAddress(),
+					UserLogic.hasSession(user));
+					
+					JsonObject distinctUserDataInJson = (JsonObject) new Gson().toJsonTree(distinctUserData);
+					allUsersInJson.add(distinctUserDataInJson);
 				}
 			}
 		});
 		
-		JsonResponse.add("data", userObjects);
-		JsonResponse.addProperty("sEcho", 1);
-		JsonResponse.addProperty("iTotalRecords", userList.size());
-		JsonResponse.addProperty("iTotalDisplayRecords", userList.size());
+		jsonResponse.add("data", allUsersInJson);
+		jsonResponse.addProperty("sEcho", 1);
+		jsonResponse.addProperty("iTotalRecords", allUsers.size());
+		jsonResponse.addProperty("iTotalDisplayRecords", allUsers.size());
+		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
-		response.getWriter().print(JsonResponse.toString());
+		response.getWriter().print(jsonResponse.toString());
 	}
 }
