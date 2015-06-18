@@ -16,7 +16,7 @@ import de.projectnash.application.UserLogic;
 
 /*
  * 
- * gson Jar File https://code.google.com/p/google-gson/
+ * Servlet for register.jsp
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -24,20 +24,16 @@ public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1705632952270495401L;
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean userCreated = false;
 		if(!hasMutatedVowels(req.getParameter("emailAddress"))){
 		
-		
 		boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(req.getParameter("personalId"));
 		boolean emailAddressAlreadyExists = UserLogic.emailAlreadyExists(req.getParameter("emailAddress"));
 		
-		
 			if (!personalIdAlreadyExists && !emailAddressAlreadyExists) {
-			
 			/* Creates a user and saves the result of the operation into a variable. */
 			userCreated = UserLogic.createUser(req.getParameter("personalId"),
 					req.getParameter("firstName"),
@@ -76,5 +72,4 @@ public class RegisterServlet extends HttpServlet {
 		}
 		return false;
 	}
-
 }
