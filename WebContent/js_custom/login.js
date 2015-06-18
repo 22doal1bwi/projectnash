@@ -43,7 +43,7 @@ function submitLoginForm() {
 			if (data.loginFailed) {
 				unsetLoading("redirect")
 				buildAndShowMessageBar("ERR_CREDENTIALS", "messagebar_login")
-				hideMessageBar()			
+				hideMessageBar()
 			} else {
 				location.href = 'home.jsp';
 			}
@@ -57,30 +57,40 @@ function submitLoginForm() {
 }
 
 function requestNewPassword() {
-	if ($('#emailAddressForNewPassword').val() !== "") {
-		setLoading("password")
-		$.ajax({
-			url : '../ResetPasswordServlet',
-			type : 'POST',
-			dataType : 'json',
-			data : $('#emailAddressForNewPassword').serialize(),
-			success : function(data) {
-				$("#resetModal").modal("hide")
-				unsetLoading("password")
-				window.setTimeout(function() {
-					buildAndShowMessageBar("SCS_PASSWORD_REQUEST", "messagebar_login")
-				}, 500);
-				hideMessageBar()
-			},
-			error : function() {
-				$("#resetModal").modal("hide")
-				unsetLoading("password")
-				window.setTimeout(function() {
-					buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
-				}, 500);
-				hideMessageBar()
-			}
-		})
+	if ($("#emailAddressForNewPassword").val() !== "" && $("#emailAddressForNewPasswordConfirm").val() !== "") {
+		$("#emailAddressForNewPassword").removeClass("has-warning")
+		$("#emailAddressForNewPasswordConfirm").removeClass("has-warning")
+		if (validateInput("emailAddressForNewPassword") && validateInput("emailAddressForNewPasswordConfirm")) {
+			setLoading("password")
+			$.ajax({
+				url : '../ResetPasswordServlet',
+				type : 'POST',
+				dataType : 'json',
+				data : $('#emailAddressForNewPassword').serialize(),
+				success : function(data) {
+					$("#resetModal").modal("hide")
+					unsetLoading("password")
+					window.setTimeout(function() {
+						buildAndShowMessageBar("SCS_PASSWORD_REQUEST", "messagebar_login")
+					}, 500);
+					hideMessageBar()
+				},
+				error : function() {
+					$("#resetModal").modal("hide")
+					unsetLoading("password")
+					window.setTimeout(function() {
+						buildAndShowMessageBar("ERR_CONNECTION", "messagebar_login")
+					}, 500);
+					hideMessageBar()
+				}
+			})
+		}
+	} else {
+		if ($("#emailAddressForNewPassword").val() === "") {
+			$("#emailAddressForNewPassword").addClass("has-warning")
+		} else if ($("#emailAddressForNewPasswordConfirm").val() === "") {
+			$("#emailAddressForNewPasswordConfirm").addClass("has-warning")
+		}
 	}
 }
 
@@ -128,14 +138,61 @@ function checkFormBeforeSubmit() {
 	}
 }
 
+function validateInput(type) {
+	var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+	// if field IS NOT empty
+	if ($("#" + type).val() !== "") {
+		// if entered value IS NOT a valid email address
+		if (!regEx.test($("#" + type).val())) {
+			$("#" + type).addClass("has-error")
+			// if entered value IS a valid email address
+		} else {
+			cleanInputField(type)
+
+			if (type === "emailAddressForNewPassword") {
+				// if the other field IS NOT empty and value of this field
+				// EQUALS NOT the value of the current field
+				if ($("#emailAddressForNewPasswordConfirm").val() !== "" && $("#" + type).val() !== $("#emailAddressForNewPasswordConfirm").val()) {
+					$("#" + type).addClass("has-error")
+					// if the other field IS NOT empty and value of this field
+					// EQUALS the value of the current field
+				} else if ($("#emailAddressForNewPasswordConfirm").val() !== "" && $("#" + type).val() === $("#emailAddressForNewPasswordConfirm").val()) {
+					cleanInputField(type)
+					cleanInputField("emailAddressForNewPasswordConfirm")
+					return true
+					// if the other field IS empty
+				}
+				// if the other field IS NOT empty and value of this field
+				// EQUALS NOT the value of the current field
+			} else if (type === "emailAddressForNewPasswordConfirm") {
+				if ($("#emailAddressForNewPassword").val() !== "" && $("#" + type).val() !== $("#emailAddressForNewPassword").val()) {
+					$("#" + type).addClass("has-error")
+					// if the other field IS NOT empty and value of this field
+					// EQUALS the value of the current field
+				} else if ($("#emailAddressForNewPassword").val() !== "" && $("#" + type).val() === $("#emailAddressForNewPassword").val()) {
+					cleanInputField(type)
+					cleanInputField("emailAddressForNewPassword")
+					return true
+				}
+			}
+		}
+		// if field IS empty
+	} else {
+		cleanInputField(type)
+	}
+	return false
+}
+
 function hideMessageBar() {
 	window.setTimeout(function() {
 		$("#messagebar_login").addClass("messagebar_hidden")
 	}, 3000);
 }
 
-function clearField() {
+function clearFields() {
 	$("#emailAddressForNewPassword").val("")
+	$("#emailAddressForNewPasswordConfirm").val("")
 }
 function setLoading(type) {
 	$("#loading_gif_login_" + type).fadeIn()
@@ -154,10 +211,18 @@ function unsetLoading(type) {
 		$("#cancelButton, #resetButton").removeAttr("disabled");
 		$("#resetButton").attr("onclick", "requestNewPassword()")
 		$("#cancelButton").attr("onclick", "clearField()")
-		clearField()
+		clearFields()
+		cleanInputField("emailAddressForNewPassword")
+		cleanInputField("emailAddressForNewPasswordConfirm")
 	} else if (type === "redirect") {
 		$("#loginButton").removeAttr("disabled");
 		$("#loginButton").attr("onclick", "checkFormBeforeSubmit()")
 	}
-	
+}
+
+// Method which removes any style classes from an inputfield
+function cleanInputField(type) {
+	if ($("#" + type).hasClass("has-error")) {
+		$("#" + type).removeClass("has-error")
+	}
 }

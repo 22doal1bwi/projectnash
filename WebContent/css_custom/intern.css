@@ -106,6 +106,11 @@ html, body {
 	display: none;
 }
 
+.loading_gif_revoke {
+	margin-left: 5px;
+	display: none;
+}
+
 .navitem_disabled {
 	cursor: default !important;
 }

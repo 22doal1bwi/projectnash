@@ -68,12 +68,10 @@
 		<div class="login_area">
 			<form class="form-signin">
 				<img src="../img/simplecert/simplecert_logo_text_128x128.png"
-					style="margin-bottom: 20px; margin-top: 20px;" /><br /> <label
-					for="inputEmail" class="sr-only">E-Mail-Address</label> <input
+					style="margin-bottom: 20px; margin-top: 20px;" /><br /><input
 					type="email" id="emailAddress" name="emailAddress"
 					class="form-control" placeholder="E-Mail-Adresse" required
-					autofocus> <br /> <label for="inputPassword"
-					class="sr-only">Passwort</label> <input type="password"
+					autofocus> <br /><input type="password"
 					id="password" name="password" class="form-control"
 					placeholder="Passwort" required>
 				<button id="loginButton" class="btn btn-lg simplecert_btn btn-block"
@@ -84,13 +82,15 @@
 			<hr class="horizontal_divider">
 			<form class="form-signin">
 				<a class="btn btn-lg simplecert_inv_btn btn-block btn-small"
-					href="register.jsp" role="button">Neu anmelden</a><img id="loading_gif_login_redirect" src="../img/general/loading.gif" class="loading_gif_redirect">  
+					href="register.jsp" role="button">Neu anmelden</a><img
+					id="loading_gif_login_redirect" src="../img/general/loading.gif"
+					class="loading_gif_redirect">
 			</form>
 			<br />
 		</div>
 	</div>
-	<div class="modal fade" id="resetModal" tabindex="-1"
-		role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true"
+	<div class="modal fade" id="resetModal" tabindex="-1" role="dialog"
+		aria-labelledby="resetModalLabel" aria-hidden="true"
 		style="display: none;">
 		<div id="modalDialog" class="modal-dialog">
 			<div class="modal-content">
@@ -103,8 +103,11 @@
 					<p class="modal-text">Geben Sie Ihre E-Mail-Adresse ein und wir
 						helfen Ihnen, Ihr Passwort zurückzusetzen.</p>
 					<input type="email" id="emailAddressForNewPassword"
-						name="emailAddressForNewPassword" class="form-control"
-						placeholder="E-Mail-Adresse" onchange="" required>
+						name="emailAddressForNewPassword" class="form-control email_address_login_modal"
+						placeholder="E-Mail-Adresse" onchange="validateInput('emailAddressForNewPassword')" required> <input
+						type="email" id="emailAddressForNewPasswordConfirm"
+						name="emailAddressForNewPasswordConfirm" class="form-control"
+						placeholder="E-Mail-Adresse wiederholen" onchange="validateInput('emailAddressForNewPasswordConfirm')" required>
 				</div>
 				<div class="modal-footer">
 					<div id="loading_gif_login_password" class="loading_gif_password">

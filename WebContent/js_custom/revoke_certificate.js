@@ -61,7 +61,7 @@ function onRevokeClick() {
 				.html(
 						'<button id="button_cancel_revoke" onclick="cancelRevoke()" type="button"'
 								+ 'class="btn simplecert_inv_btn" style="display: inline">Abbrechen</button><button id="button_confirm_revoke" onclick="revokeCertificate()"'
-								+ 'type="button" class="btn simplecert_btn" style="display: inline">Bestätigen</button><img id="loading_gif_revoke" src="../img/general/loading.gif" class="loading_gif">')
+								+ 'type="button" class="btn simplecert_btn" style="display: inline">Bestätigen</button><img id="loading_gif_revoke" src="../img/general/loading.gif" class="loading_gif_revoke">')
 	} else {
 		buildAndShowMessageBar("WRN_EMPTY_FIELD_REASON", "messagebar_revoke")
 		$("#page_content_revoke").addClass("page_content_move_down")
