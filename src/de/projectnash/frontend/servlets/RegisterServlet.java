@@ -10,59 +10,72 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.ServletResponseHandler;
 
-/*
- * 
- * Servlet for register.jsp
+/**
+ * Servlet implementation class RegisterServlet
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1705632952270495401L;
+	
+	private static final String E_MAIL_ADDRESS = "emailAddress";
+	
+	private static final String PERSONAL_ID = "personalId";
+	
+	private static final String FIRST_NAME = "firstName";
+	
+	private static final String LAST_NAME = "lastName";
+	
+	private static final String ORGANIZATION_UNIT = "organizationalUnit";
+	
+	private static final String PASSWORD = "password";
+	
+	private static final String PERSONAL_ID_ALREADY_EXISTS = "personalIdAlreadyExists";
+	
+	private static final String E_MAIL_ADDRESS_ALREADY_EXISTS = "emailAddressAlreadyExists";
+	
+	private static final String CREATED = "created";
 
-	@Override
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean userCreated = false;
-		if(!hasMutatedVowels(req.getParameter("emailAddress"))){
 		
-		boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(req.getParameter("personalId"));
-		boolean emailAddressAlreadyExists = UserLogic.emailAlreadyExists(req.getParameter("emailAddress"));
+		if(!hasMutatedVowels(req.getParameter(E_MAIL_ADDRESS))){
+		
+		boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(req.getParameter(PERSONAL_ID));
+		boolean emailAddressAlreadyExists = UserLogic.emailAlreadyExists(req.getParameter(E_MAIL_ADDRESS));
 		
 			if (!personalIdAlreadyExists && !emailAddressAlreadyExists) {
-			/* Creates a user and saves the result of the operation into a variable. */
-			userCreated = UserLogic.createUser(req.getParameter("personalId"),
-					req.getParameter("firstName"),
-					req.getParameter("lastName"),
-					req.getParameter("emailAddress"),
-					req.getParameter("organizationalUnit"),
-					req.getParameter("password"));
+
+			userCreated = UserLogic.createUser(req.getParameter(PERSONAL_ID),
+					req.getParameter(FIRST_NAME),
+					req.getParameter(LAST_NAME),
+					req.getParameter(E_MAIL_ADDRESS),
+					req.getParameter(ORGANIZATION_UNIT),
+					req.getParameter(PASSWORD));
 
 			} else if (personalIdAlreadyExists) {
-				map.put("personalIdAlreadyExists", true);						
+				map.put(PERSONAL_ID_ALREADY_EXISTS, true);						
 			} else if (emailAddressAlreadyExists){
-				map.put("emailAddressAlreadyExists", true);	
+				map.put(E_MAIL_ADDRESS_ALREADY_EXISTS, true);	
 			}
-			map.put("created", userCreated);
-			write(resp, map);
+			map.put(CREATED, userCreated);
+			ServletResponseHandler.write(resp, map);
 	   } else {
-		   map.put("created", userCreated);
-		   write(resp, map);
+		   map.put(CREATED, userCreated);
+		   ServletResponseHandler.write(resp, map);
 	   }
-	}
-
-	private void write(HttpServletResponse resp, Map<String, Object> map) throws IOException {
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(new Gson().toJson(map));
 	}
 	
 	/**
 	 * Checks if the e-mail address contains any mutated vowels.
+	 * 
 	 * @param emailAddress The {@link String} that represents the entered e-mail address of the {@link User}.
 	 * @return The {@link Boolean} that describes if the {@link String} contains any mutated vowels.
 	 */
