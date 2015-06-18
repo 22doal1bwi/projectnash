@@ -145,11 +145,11 @@
 							<div id="content_revoke">
 								<div id="panel_body_revoke" class="panel-body panel_revoke">
 									<div class="form-group">
-										<label>Grund des Widerrufs</label><p id="remainingChars" style="display:none;"></p>
+										<label>Grund des Widerrufs</label>
 										<textarea id="textfield_revoke" name="textfield_revoke" maxlength="150"
 											class="form-control"
 											placeholder="Bitte geben Sie hier den Grund Ihres Widerrufs an. Nach dem Klick auf 'Widerrufen' müssen Sie den Widerruf noch bestätigen."
-											rows="3"></textarea>
+											rows="3"></textarea><div id="remainingChars" class="remaining_chars"></div>
 									</div>
 								</div>
 								<div id="footer_revoke" class="panel-footer">

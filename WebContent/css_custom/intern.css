@@ -287,3 +287,10 @@ html, body {
 .page_with_table {
 	overflow-x: scroll;
 }
+
+.remaining_chars {
+ display:none;
+ color:#9E9E9E;
+ margin-bottom: -25px;
+ margin-top:5px;
+}
