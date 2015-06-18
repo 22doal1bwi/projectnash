@@ -29,8 +29,7 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name = "QUERY_FIND_ALL_USERS", query = "SELECT u FROM User u"),
 	@NamedQuery(name = "CHECK_USER_EXISTS_BY_PERSONAL_ID", query = "SELECT COUNT(u.personalId) FROM User u WHERE u.personalId= :" + "personalId"),
 	@NamedQuery(name = "CHECK_USER_EXISTS_BY_MAIL_ADDRESS", query = "SELECT COUNT(u.emailAddress) FROM User u WHERE u.emailAddress= :" + "emailAddress"),
-	@NamedQuery(name = "QUERY_REMOVE_USER_BY_USER", query = "DELETE FROM User u WHERE u = :User")
-})
+	@NamedQuery(name = "QUERY_REMOVE_USER_BY_USER", query = "DELETE FROM User u WHERE u = :User")})
 
 public class User implements Serializable {
 	
@@ -77,9 +76,15 @@ public class User implements Serializable {
 	
 	/**
 	 * The constructor for a {@link User} with all necessary attributes.
+	 * 
+	 * @param personalId The {@link String} that represents the personalId of the {@link User}.
+	 * @param firstName The {@link String} that represents the first name of the {@link User}.
+	 * @param lastName The {@link String} that represents the last name of the {@link User}.
+	 * @param department The {@link String} that represents the department of the {@link User}.
+	 * @param emailAddress The {@link String} that represents the email address of the {@link User}.
+	 * @param password The {@link String} that represents the password of the {@link User}.
 	 */
-	public User(int personalId, String firstName, String lastName, String department, 
-			String emailAddress, String password) {
+	public User(int personalId, String firstName, String lastName, String department, String emailAddress, String password) {
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -92,14 +97,13 @@ public class User implements Serializable {
 	/**
 	 * This constructor is only needed for JSON notation from the 'AdminRequestServlet' to the frontend 
 	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param department
-	 * @param personalId
-	 * @param emailAddress
+	 * @param firstName The {@link String} that represents the first name of the {@link User}.
+	 * @param lastName The {@link String} that represents the last name of the {@link User}.
+	 * @param department The {@link String} that represents the department of the {@link User}.
+	 * @param personalId The {@link String} that represents the personalId of the {@link User}.
+	 * @param emailAddress The {@link String} that represents the email address of the {@link User}.
 	 */
-	public User(String firstName, String lastName, String department, int personalId, 
-			String emailAddress) {
+	public User(String firstName, String lastName, String department, int personalId, String emailAddress) {
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -170,7 +174,6 @@ public class User implements Serializable {
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
-
 	@Override
 	public String toString(){
 		return this.lastName + ", " + this.firstName + " (Personal-ID: " + this.personalId + ") from " + this.department + " (E-Mail: " + this.emailAddress + ")"; 
