@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 
 import de.projectnash.application.util.EmailSubject;
 import de.projectnash.application.util.EmailUtility;
+import de.projectnash.application.util.PossibleDepartment;
 import de.projectnash.databackend.UserPersistenceService;
 import de.projectnash.entities.Certificate;
 import de.projectnash.entities.Request;
@@ -34,7 +35,7 @@ public class UserLogic {
 	 * @param password The {@link String} that represents the password of the {@link User}.
 	 * @return The {@link Boolean} that describes if the process was successful.
 	 */
-	public static boolean createUser(String personalId, String firstName, String lastName, String emailAddress, String organizationunit,String password) {
+	public static boolean createUser(String personalId, String firstName, String lastName, String emailAddress, PossibleDepartment organizationunit,String password) {
 		try {
 			User user = new User(Integer.parseInt(personalId), firstName, lastName, organizationunit, emailAddress, password);
 			UserPersistenceService.storeUser(user);
@@ -282,7 +283,7 @@ public class UserLogic {
 		return user.getEmailAddress();
 	}
 
-	public static String getDepartment(User user) {
+	public static PossibleDepartment getDepartment(User user) {
 		return user.getDepartment();
 	}
 

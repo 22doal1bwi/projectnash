@@ -40,7 +40,7 @@ public class AdminUsersServlet extends HttpServlet {
 					user.getCertificate().getExpirationDate(),
 					user.getFirstName(), 
 					user.getLastName(), 
-					user.getDepartment(), 
+					user.getDepartment().toString(), 
 					user.getPersonalId(), 
 					user.getEmailAddress(),					
 					user.getCertificate().getCertificateStatus(),
@@ -52,7 +52,7 @@ public class AdminUsersServlet extends HttpServlet {
 					UserObjectTable distinctUserData = new UserObjectTable(
 					user.getFirstName(), 
 					user.getLastName(), 
-					user.getDepartment(), 
+					user.getDepartment().toString(), 
 					user.getPersonalId(), 
 					user.getEmailAddress(),
 					UserLogic.hasSession(user));

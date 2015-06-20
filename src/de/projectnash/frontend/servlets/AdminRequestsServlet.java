@@ -39,7 +39,7 @@ public class AdminRequestsServlet extends HttpServlet {
 					certificateRequest.getCreationDate(),
 					certificateRequest.getUser().getFirstName(), 
 					certificateRequest.getUser().getLastName(), 
-					certificateRequest.getUser().getDepartment(), 
+					certificateRequest.getUser().getDepartment().toString(), 
 					certificateRequest.getUser().getPersonalId(), 
 					certificateRequest.getUser().getEmailAddress(),					
 					certificateRequest.getRequestStatus());

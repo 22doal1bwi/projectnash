@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.PossibleDepartment;
 import de.projectnash.application.util.ServletResponseHandler;
 
 /**
@@ -57,7 +58,7 @@ public class RegisterServlet extends HttpServlet {
 					req.getParameter(FIRST_NAME),
 					req.getParameter(LAST_NAME),
 					req.getParameter(E_MAIL_ADDRESS),
-					req.getParameter(ORGANIZATION_UNIT),
+					PossibleDepartment.valueOf(req.getParameter(ORGANIZATION_UNIT)),
 					req.getParameter(PASSWORD));
 
 			} else if (personalIdAlreadyExists) {

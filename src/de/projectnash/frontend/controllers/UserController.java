@@ -7,6 +7,7 @@ import de.projectnash.application.CertificateLogic;
 import de.projectnash.application.RequestLogic;
 import de.projectnash.application.SessionLogic;
 import de.projectnash.application.UserLogic;
+import de.projectnash.application.util.PossibleDepartment;
 import de.projectnash.application.util.RequestStatus;
 import de.projectnash.entities.User;
 
@@ -122,7 +123,7 @@ public class UserController {
 		return UserLogic.getEmailAddress(user);
 	}
 
-	public String getDepartment() {
+	public PossibleDepartment getDepartment() {
 		return UserLogic.getDepartment(user);
 	}
 

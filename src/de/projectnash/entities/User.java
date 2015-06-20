@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -14,6 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import de.projectnash.application.util.PossibleDepartment;
 
 /**
  * This class provides a realistic {@link User} with all its attributes.
@@ -49,7 +53,8 @@ public class User implements Serializable {
 	private String emailAddress;
 	
 	@Column(name="usr_department", nullable = false)
-	private String department;
+	@Enumerated(EnumType.STRING)
+	private PossibleDepartment department;
 	
 	@Column(name="usr_password", nullable = false)
 	private String password;
@@ -84,7 +89,7 @@ public class User implements Serializable {
 	 * @param emailAddress The {@link String} that represents the email address of the {@link User}.
 	 * @param password The {@link String} that represents the password of the {@link User}.
 	 */
-	public User(int personalId, String firstName, String lastName, String department, String emailAddress, String password) {
+	public User(int personalId, String firstName, String lastName, PossibleDepartment department, String emailAddress, String password) {
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -103,7 +108,7 @@ public class User implements Serializable {
 	 * @param personalId The {@link String} that represents the personalId of the {@link User}.
 	 * @param emailAddress The {@link String} that represents the email address of the {@link User}.
 	 */
-	public User(String firstName, String lastName, String department, int personalId, String emailAddress) {
+	public User(String firstName, String lastName, PossibleDepartment department, int personalId, String emailAddress) {
 		this.personalId = personalId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -143,11 +148,11 @@ public class User implements Serializable {
 		this.emailAddress = emailAddress.toLowerCase();
 	}
 
-	public String getDepartment() {
+	public PossibleDepartment getDepartment() {
 		return department;
 	}
 
-	public void setDepartment(String department) {
+	public void setDepartment(PossibleDepartment department) {
 		this.department = department;
 	}
 

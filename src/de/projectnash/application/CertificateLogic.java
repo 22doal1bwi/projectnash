@@ -47,7 +47,7 @@ public class CertificateLogic {
 					replaceMutatedVowels(organization.getState()),
 					replaceMutatedVowels(organization.getLocality()), 
 					replaceMutatedVowels(organization.getOrganization()),
-					replaceMutatedVowels(user.getDepartment()),
+					replaceMutatedVowels(user.getDepartment().toString()),
 					replaceMutatedVowels(UserLogic.getCommonName(user)),
 					user.getEmailAddress(), keyData);
 			byte[] crtData = CertificateUtility.generateCRT(csrData);
