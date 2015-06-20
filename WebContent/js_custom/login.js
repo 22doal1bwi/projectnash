@@ -61,6 +61,10 @@ function submitLoginForm() {
 	})
 }
 
+/**
+ * Sends an ajax request to the backend to request a new password.
+ * 
+ */
 function requestNewPassword() {
 	// if both fields are NOT empty
 	if ($("#emailAddressForNewPassword").val() !== "" && $("#emailAddressForNewPasswordConfirm").val() !== "") {
@@ -105,7 +109,10 @@ function requestNewPassword() {
 // ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
 
-// Function to determine the container style based on the window height
+/**
+ * Determines the login container style based on the window height.
+ * 
+ */
 function determineContainerStyle() {
 	if ($(window).height() < "546") {
 		if ($("#login_container").hasClass("container_free")) {
@@ -136,7 +143,10 @@ function determineContainerStyle() {
 	}
 }
 
-// Method which checks all field values before submitting them to the backend
+/**
+ * Checks all form data before submitting it to the backend.
+ * 
+ */
 function checkFormBeforeSubmit() {
 	if ($("#emailAddress").val() !== "" && $("#password").val() !== "") {
 		$("#messagebar_login").addClass("messagebar_hidden")
@@ -148,7 +158,12 @@ function checkFormBeforeSubmit() {
 	}
 }
 
-// Method which checks the input value of a field
+/**
+ * Checks the validity of the input values.
+ * 
+ * @return The boolean that describes whether the values of the fields valid.
+ * 
+ */
 function validateInput(type) {
 	var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -195,12 +210,20 @@ function validateInput(type) {
 	return false
 }
 
+/**
+ * Hides the message bar.
+ * 
+ */
 function hideMessageBar() {
 	window.setTimeout(function() {
 		$("#messagebar_login").addClass("messagebar_hidden")
 	}, 3000);
 }
 
+/**
+ * Resets all fields to its initial state.
+ * 
+ */
 function clearFields() {
 	$("#emailAddressForNewPassword").val("")
 	$("#emailAddressForNewPasswordConfirm").val("")
@@ -209,6 +232,11 @@ function clearFields() {
 	cleanInputFieldWarnings("emailAddressForNewPassword")
 	cleanInputFieldWarnings("emailAddressForNewPasswordConfirm")
 }
+
+/**
+ * Sets the ui area to a loading state.
+ * 
+ */
 function setLoading(type) {
 	$("#loading_gif_login_" + type).fadeIn()
 	if (type === "password") {
@@ -220,6 +248,10 @@ function setLoading(type) {
 	}
 }
 
+/**
+ * Unsets the ui area from the loading state.
+ * 
+ */
 function unsetLoading(type) {
 	$("#loading_gif_login_" + type).fadeOut(200)
 	if (type === "password") {
@@ -235,14 +267,20 @@ function unsetLoading(type) {
 	}
 }
 
-// Method which removes the error style classes from an input field
+/**
+ * Removes the error style class from an input field.
+ * 
+ */
 function cleanInputFieldErrors(type) {
 	if ($("#" + type).hasClass("has-error")) {
 		$("#" + type).removeClass("has-error")
 	}
 }
 
-//Method which removes the warning style classes from an input field
+/**
+ * Removes the warning style class from an input field.
+ * 
+ */
 function cleanInputFieldWarnings(type) {
 	if ($("#" + type).hasClass("has-warning")) {
 		$("#" + type).removeClass("has-warning")

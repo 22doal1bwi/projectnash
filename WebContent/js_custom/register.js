@@ -81,6 +81,8 @@ function getMessagesFromRegistry() {
 /**
  * Checks if the message registry is empty.
  *
+ * @return The boolean that describes whether the message bar is empty or not.
+ *
  */
 function isMessageRegistryEmpty() {
 	if ((messageRegistry.length === 1 && messageRegistry[0] === "WRN_INPUT_PASSWORD") || messageRegistry.length === 0) {
@@ -98,6 +100,7 @@ function isMessageRegistryEmpty() {
  * Sends an ajax request to the backend to check if the entered value for the type of field already exists.
  * 
  * @param type The field id.
+ * @return The boolean that describes whether the value of the field exists already in the database or not.
  *
  */
 function inputDbCheck(type) {
@@ -130,7 +133,7 @@ function inputDbCheck(type) {
 }
 
 /**
- * Submits all form data to the backend.
+ * Submits all the form data to the backend.
  *
  */
 function submitRegisterForm() {
@@ -219,7 +222,8 @@ function determineContainerStyle() {
  * Checks the validity of the input values.
  * 
  * @param type The field id.
- * @param kindOfCheck The kind of check: 'ui_only' (syntax check) or 'ui_and_db' (syntax check - then database check, if value aready exists)
+ * @param kindOfCheck The kind of check: 'ui_only' (syntax check) or 'ui_and_db' (syntax check - then database check, if value already exists).
+ * @return The boolean that describes whether the value of the field is valid or not.
  *
  */
 function validateInput(type, kindOfCheck) {
@@ -326,6 +330,7 @@ function validateInput(type, kindOfCheck) {
  * Compares the value of two fields witch each other.
  * 
  * @param type The field id.
+ * @return The boolean that describes whether the value of the fields are identical.
  *
  */
 function compareInputField(type) {
@@ -353,7 +358,7 @@ function compareInputField(type) {
 }
 
 /**
- * Checks all form date before submitting them to the backend.
+ * Checks all form data before submitting it to the backend.
  *
  */
 function checkFormBeforeSubmit() {

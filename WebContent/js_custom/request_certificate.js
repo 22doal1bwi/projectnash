@@ -111,6 +111,8 @@ function validatePassword() {
 /**
  * Compare both password field values witch each other.
  * 
+ * @return The boolean that describes whether the value of the fields are identical.
+ * 
  */
 function comparePassword() {
 	// Both fields have to be filled out
