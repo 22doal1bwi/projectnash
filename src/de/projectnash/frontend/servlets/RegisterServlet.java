@@ -47,6 +47,9 @@ public class RegisterServlet extends HttpServlet {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean userCreated = false;
 		
+		if(checkForFirstAndLastName(req.getParameter(FIRST_NAME)) && checkForFirstAndLastName(req.getParameter(LAST_NAME))){
+			
+		
 		if(!hasMutatedVowels(req.getParameter(E_MAIL_ADDRESS))){
 		
 		boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(req.getParameter(PERSONAL_ID));
@@ -72,6 +75,9 @@ public class RegisterServlet extends HttpServlet {
 		   map.put(CREATED, userCreated);
 		   ServletResponseHandler.write(resp, map);
 	   }
+	}else {
+		System.out.println("FALSE!!!");
+	}
 	}
 	
 	/**
@@ -85,5 +91,15 @@ public class RegisterServlet extends HttpServlet {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Checks for a regular expression for the first and last name
+	 * 
+	 * @param expression The {@link String} that represents the expression that will be checked.
+	 * @return The {@link Boolean} that describes if the match was successful.
+	 */
+	private boolean checkForFirstAndLastName (String expression){
+		return expression.matches("^[a-zA-Z ‰ˆ¸ﬂÈƒ÷‹ \\'\\-]+$");
 	}
 }
