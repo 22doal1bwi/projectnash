@@ -20,7 +20,7 @@ $(document).ready(function() {
 	});
 
 	// Method that triggers the 'Absenden' button of the password reset modal when the 'enter'-key is pressed
-	$('#emailAddressForNewPassword').keypress(function(e) {
+	$('#emailAddressForNewPassword', '#emailAddressForNewPasswordConfirm').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#resetButton').click();
 	});
