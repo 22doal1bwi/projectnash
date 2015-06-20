@@ -21,10 +21,8 @@ $(document).ready(function() {
 /**
  * Sends an ajax request to the backend to delete an user.
  * 
- * @param element
- *            The table cell element which has been clicked.
- * @param id
- *            The id of the element.
+ * @param element The table cell element which has been clicked.
+ * @param id The id of the element.
  * 
  */
 function deleteUser(element, id) {
@@ -165,8 +163,7 @@ function createTable() {
 /**
  * Shows the ui elements to confirm or cancel the delete action.
  * 
- * @param element
- *            The table cell element which has been clicked.
+ * @param element The table cell element which has been clicked.
  * 
  */
 function confirmDelete(element) {
@@ -185,10 +182,8 @@ function confirmDelete(element) {
 /**
  * Resets the row column to its initial state.
  * 
- * @param element
- *            The table cell element which has been clicked.
- * @param id
- *            The id of the element.
+ * @param element The table cell element which has been clicked.
+ * @param id The id of the element.
  * 
  */
 function resetRowColumn(element, id) {
@@ -198,10 +193,8 @@ function resetRowColumn(element, id) {
 /**
  * Sets the row column to a loading state.
  * 
- * @param element
- *            The table cell element which has been clicked.
- * @param id
- *            The id of the element.
+ * @param element The table cell element which has been clicked.
+ * @param id The id of the element.
  * 
  */
 function setLoading(element, id) {
