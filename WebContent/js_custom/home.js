@@ -1,28 +1,32 @@
+/**
+ * 
+ * This file provides all methods for home.jsp.
+ * 
+ * @author Jonathan Schlotz
+ *
+ */
+
 // ====================================================================================//
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
-$(document).ready(function() {	
-	jQuery.i18n.properties({
-		name : 'messages',
-		path : '../i18n/',
-		language : 'de',
-		mode : 'map',
-		encoding : 'UTF-8'
-	});
-});
 
-// only needed for mozilla firefox (tile height bug)
+// document.ready would be to early for mozilla firefox
 $(window).load(function() {
 	setSameHeight()	
 })
 
-//====================================================================================//
-//================================ RESIZE FUNCTION ===================================//
-//====================================================================================//
 $(window).resize(function () {
 	setSameHeight()
 })
 
+//====================================================================================//
+//============================== TILES RESIZE FUNCTION ===============================//
+//====================================================================================//
+
+/**
+ * Determines the highest tile of all tiles and sets this height to the other tiles.
+ * 
+ */
 function setSameHeight() {
 	var height
 	$("#panel1, #panel2, #panel3, #panel4, #panel5").removeAttr("style")

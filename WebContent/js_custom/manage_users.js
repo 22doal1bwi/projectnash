@@ -1,12 +1,62 @@
+/**
+ * 
+ * This file provides all methods for manage_users.jsp.
+ * 
+ * @author Jonathan Schlotz, Sebastian Warth
+ * 
+ */
+
 // ====================================================================================//
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
+
 $(document).ready(function() {
 	createTable()
 });
-//====================================================================================//
-//================================= MAIN FUNCTIONS ===================================//
-//====================================================================================//
+
+// ====================================================================================//
+// ================================== AJAX FUNCTION ===================================//
+// ====================================================================================//
+
+/**
+ * Sends an ajax request to the backend to delete an user.
+ * 
+ * @param element
+ *            The table cell element which has been clicked.
+ * @param id
+ *            The id of the element.
+ * 
+ */
+function deleteUser(element, id) {
+	var loadingElement = setLoading(element, id)
+	$.ajax({
+		url : '../AdminUpdateUsersServlet',
+		type : 'POST',
+		dataType : 'json',
+		data : "emailAddress=" + id + "&action=deleteUser",
+		timeout : 8000,
+		success : function(data) {
+			if (data.deletedUser) {
+				$('#users').dataTable().fnDestroy();
+				createTable()
+			} else {
+				resetRowColumn(loadingElement, id)
+			}
+		},
+		error : function() {
+			resetRowColumn(loadingElement, id)
+		}
+	})
+}
+
+// ====================================================================================//
+// ================================= MAIN FUNCTIONS ===================================//
+// ====================================================================================//
+
+/**
+ * Creates the data table.
+ * 
+ */
 function createTable() {
 	$("#users")
 			.DataTable(
@@ -63,22 +113,20 @@ function createTable() {
 							switch (data.status) {
 							case "ACTIVE":
 								row.cells[6].innerHTML = '<i class="fa fa-check-circle table_icon_accepted" title="Status: aktiv - Zum Ändern klicken">'
-								row.cells[6].classList
-										.add("editable_certificate_status")
+								row.cells[6].classList.add("editable_certificate_status")
 								break
 							case "REVOKED":
 							case "OUTDATED":
 								row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_revoked" title="Status: ungültig - Ändern des Status nicht möglich">'
-								break							
+								break
 							case "NONE":
 								row.cells[6].innerHTML = '<i class="fa fa-question-circle table_icon_none" title="Benutzer besitzt noch kein Zertifikat - Ändern des Status nicht möglich">'
 								break
 							}
 							row.cells[7].classList.add("status_column")
 							if (!data.hasSession) {
-							row.cells[7].innerHTML = '<i class="fa fa-trash-o table_icon_trash" id='
-									+ data.emailAddress
-									+ ' onclick="confirmDelete(this)" title="Benutzer löschen">'
+								row.cells[7].innerHTML = '<i class="fa fa-trash-o table_icon_trash" id=' + data.emailAddress
+										+ ' onclick="confirmDelete(this)" title="Benutzer löschen">'
 							} else {
 								row.cells[7].innerHTML = '<i class="fa fa-laptop table_icon_session" title="Benutzer ist momentan eingeloggt...">'
 							}
@@ -86,45 +134,45 @@ function createTable() {
 						"fnInitComplete" : function() {
 							var oTable = $('#users').dataTable();
 							$("#users").removeAttr("style")
-							$(".editable_certificate_status")
-									.editable(
-											"../AdminUpdateUsersServlet",
-											{
-												indicator : '<img class="loading_gif_table" src="../img/general/loading.gif" title="lädt...">',
-												data : "{'ACTIVE':'aktiv','REVOKED':'ungültig'}",
-												tooltip : "Wählen Sie den Status...",
-												loadtext : "lädt...",
-												type : "select",
-												placeholder : "",
-												onblur : 'ignore',
-												submit : '<i class="fa fa-check table_edit_icon_confirm" title="Auswahl bestätigen">',
-												cancel : '<i class="fa fa-times table_edit_icon_deny" title="Abbrechen">',
-												submitdata : function() {
-													if (this.firstChild.firstChild.value !== "ACTIVE") {
-														var aPos = oTable
-																.fnGetPosition(this);
-														return {
-															emailAddress : oTable
-																	.fnGetData(aPos[0]).emailAddress,
-															action : "revokeCertificate"
-														}
-													} 
-												},
-												callback : function(data) {
-													oTable.fnDestroy();
-													createTable()													
-												}
-											})
+							$(".editable_certificate_status").editable("../AdminUpdateUsersServlet", {
+								indicator : '<img class="loading_gif_table" src="../img/general/loading.gif" title="lädt...">',
+								data : "{'ACTIVE':'aktiv','REVOKED':'ungültig'}",
+								tooltip : "Wählen Sie den Status...",
+								loadtext : "lädt...",
+								type : "select",
+								placeholder : "",
+								onblur : 'ignore',
+								submit : '<i class="fa fa-check table_edit_icon_confirm" title="Auswahl bestätigen">',
+								cancel : '<i class="fa fa-times table_edit_icon_deny" title="Abbrechen">',
+								submitdata : function() {
+									if (this.firstChild.firstChild.value !== "ACTIVE") {
+										var aPos = oTable.fnGetPosition(this);
+										return {
+											emailAddress : oTable.fnGetData(aPos[0]).emailAddress,
+											action : "revokeCertificate"
+										}
+									}
+								},
+								callback : function(data) {
+									oTable.fnDestroy();
+									createTable()
+								}
+							})
 						}
 					});
 }
 
+/**
+ * Shows the ui elements to confirm or cancel the delete action.
+ * 
+ * @param element
+ *            The table cell element which has been clicked.
+ * 
+ */
 function confirmDelete(element) {
 	var elementId = element.id
-	element.parentElement.innerHTML = '<div><i id="'
-			+ elementId
-			+ '_confirm" class="fa fa-check table_edit_icon_confirm" style="display: inline" title="Bestätigen"></i><i id="'
-			+ elementId
+	element.parentElement.innerHTML = '<div><i id="' + elementId
+			+ '_confirm" class="fa fa-check table_edit_icon_confirm" style="display: inline" title="Bestätigen"></i><i id="' + elementId
 			+ '_deny"class="fa fa-times table_edit_icon_deny" style="display: inline" title="Abbrechen"></i>'
 	document.getElementById(elementId + "_confirm").onclick = function() {
 		deleteUser(this, elementId)
@@ -134,36 +182,29 @@ function confirmDelete(element) {
 	}
 }
 
+/**
+ * Resets the row column to its initial state.
+ * 
+ * @param element
+ *            The table cell element which has been clicked.
+ * @param id
+ *            The id of the element.
+ * 
+ */
 function resetRowColumn(element, id) {
-	element.parentElement.innerHTML = '<i class="fa fa-trash-o table_icon_trash" id='
-			+ id + ' onclick="confirmDelete(this)" title="Benutzer löschen">'
+	element.parentElement.innerHTML = '<i class="fa fa-trash-o table_icon_trash" id=' + id + ' onclick="confirmDelete(this)" title="Benutzer löschen">'
 }
 
+/**
+ * Sets the row column to a loading state.
+ * 
+ * @param element
+ *            The table cell element which has been clicked.
+ * @param id
+ *            The id of the element.
+ * 
+ */
 function setLoading(element, id) {
-	element.parentElement.innerHTML = '<img id="'
-			+ id
-			+ '_loading" class="loading_gif_table" src="../img/general/loading.gif" title="lädt...">'
+	element.parentElement.innerHTML = '<img id="' + id + '_loading" class="loading_gif_table" src="../img/general/loading.gif" title="lädt...">'
 	return document.getElementById(id + "_loading")
-}
-
-function deleteUser(element, id) {
-	var loadingElement = setLoading(element, id)
-	$.ajax({
-		url : '../AdminUpdateUsersServlet',
-		type : 'POST',
-		dataType : 'json',
-		data : "emailAddress=" + id + "&action=deleteUser",
-		timeout : 8000,
-		success : function(data) {
-			if (data.deletedUser) {
-				$('#users').dataTable().fnDestroy();
-				createTable()
-			} else {
-				resetRowColumn(loadingElement, id)
-			}
-		},
-		error : function() {
-			resetRowColumn(loadingElement, id)
-		}
-	})
 }

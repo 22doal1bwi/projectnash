@@ -1,3 +1,38 @@
+/**
+ * 
+ * This file provides the methods to build the message bar.
+ * 
+ * @author Jonathan Schlotz
+ *
+ */
+
+// ====================================================================================//
+// ================================= INITIALIZATION ===================================//
+// ====================================================================================//
+
+$(document).ready(function() {
+	
+	// Needed to get the messages for the message bar
+	jQuery.i18n.properties({
+		name : 'messages',
+		path : '../i18n/',
+		language : 'de',
+		mode : 'map',
+		encoding : 'UTF-8'
+	});
+});
+
+//====================================================================================//
+//================================= MAIN FUNCTION ====================================//
+//====================================================================================//
+
+/**
+ * Builds the message bar based on the input parameters and displays it instantly.
+ * 
+ * @param message The message to be displayed.
+ * @param messageBarId The id of the message bar which belongs to the respective page.
+ * 
+ */
 function buildAndShowMessageBar(message, messageBarId) {
 	var messagebarContent, styleMessagebar, iconBorderColor, iconColor, iconType, kindOfMessage = message
 			.split("_")[0]
@@ -12,7 +47,7 @@ function buildAndShowMessageBar(message, messageBarId) {
 		styleMessagebar = "alert-danger"
 		break
 
-		// Warning
+	// Warning
 	case "WRN":
 		iconBorderColor = "messageicon_border_warning"
 		iconType = "fa-exclamation"
@@ -20,7 +55,7 @@ function buildAndShowMessageBar(message, messageBarId) {
 		styleMessagebar = "alert-warning"
 		break
 
-		// Success
+	// Success
 	case "SCS":
 		iconBorderColor = "messageicon_border_success"
 		iconType = "fa-check"

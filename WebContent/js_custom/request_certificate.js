@@ -1,23 +1,32 @@
+/**
+ * 
+ * This file provides all methods for request_certificate.jsp.
+ * 
+ * @author Jonathan Schlotz
+ *
+ */
+
 // ====================================================================================//
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
+
 $(document).ready(function() {	
+	
+	// Method that triggers the 'Aktivieren' button when the 'enter'-key is pressed
 	$('#password, #password_confirm').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#step2_button_request').click();
 	});
-
-	jQuery.i18n.properties({
-		name : 'messages',
-		path : '../i18n/',
-		language : 'de',
-		mode : 'map',
-		encoding : 'UTF-8'
-	});
 });
+
 // ====================================================================================//
 // ================================== AJAX FUNCTIONS ==================================//
 // ====================================================================================//
+
+/**
+ * Sends an ajax request to the backend to request a certificate.
+ * 
+ */
 function requestCertificate() {
 	setLoading(1)
 	$.ajax({
@@ -42,6 +51,10 @@ function requestCertificate() {
 	})
 }
 
+/**
+ * Sends an ajax request to the backend to activate a certificate
+ * 
+ */
 function activateCertificate() {
 	$
 			.ajax({
@@ -71,10 +84,19 @@ function activateCertificate() {
 // ====================================================================================//
 // ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
+
+/**
+ * Logs out the user.
+ * 
+ */
 function logout() {
 	document.form_logout.submit()
 }
 
+/**
+ * Checks the length of the password.
+ * 
+ */
 function validatePassword() {
 	var regEx = /.{6}/;
 
@@ -86,14 +108,11 @@ function validatePassword() {
 	}
 }
 
-function onActivateClick() {
-	if (checkPassword()) {
-		setLoading(2)
-		activateCertificate()
-	}
-}
-
-function checkPassword() {
+/**
+ * Compare both password field values witch each other.
+ * 
+ */
+function comparePassword() {
 	// Both fields have to be filled out
 	if ($("#password").val() !== "" && $("#password_confirm").val() !== "") {
 
@@ -115,6 +134,23 @@ function checkPassword() {
 	return false;
 }
 
+/**
+ * Executed by a click on the 'Aktivieren' button.
+ * 
+ */
+function onActivateClick() {
+	if (comparePassword()) {
+		setLoading(2)
+		activateCertificate()
+	}
+}
+
+/**
+ * Sets the ui area to a loading state.
+ * 
+ * @param stepNumber The step which is currently shown as active.
+ * 
+ */
 function setLoading(stepNumber) {
 	$("#step" + stepNumber + "_panel_body_request").addClass(
 			"panel_next_step_or_loading")
@@ -123,9 +159,16 @@ function setLoading(stepNumber) {
 	$("#step" + stepNumber + "_button_request").removeAttr("onclick")
 }
 
+/**
+ *  Manipulates the ui after successful ajax request.
+ * 
+ * @param stepNumber The step which is currently shown as active.
+ * @param message The message to be displayed in the message bar.
+ * 
+ */
 function successful(stepNumber, message) {
 	var stepNumberNextStep = stepNumber + 1
-	unsetLoadingSuccessful()
+	$("#loading_gif_request").fadeOut()
 	buildAndShowMessageBar(message, "messagebar_request")
 	$("#page_content_request").addClass("page_content_move_down")
 	if (stepNumber > 1) {
@@ -161,12 +204,23 @@ function successful(stepNumber, message) {
 	}
 }
 
-function unsetLoadingSuccessful() {
-	$("#loading_gif_request").fadeOut()
-}
-
+/**
+ * Manipulates the ui after unsuccessful ajax request.
+ * 
+ * @param stepNumber The step which is currently shown as active.
+ * @param message The message which will be displayed in the message bar.
+ * 
+ */
 function unsuccessful(stepNumber, message) {
-	unsetLoadingUnsuccessful(stepNumber)
+	$("#step" + stepNumber + "_panel_body_request").removeClass("panel_next_step_or_loading")
+	$("#loading_gif_request").fadeOut()
+	$("#step" + stepNumber + "_button_request").removeAttr("disabled")
+	
+	if (stepNumber === 1) {
+		$("#step" + stepNumber + "_button_request").attr("onclick", "requestCertificate()")
+	} else if (stepNumber === 2) {
+		$("#step" + stepNumber + "_button_request").attr("onclick", "onActivateClick()")
+	}
 	buildAndShowMessageBar(message, "messagebar_request")
 	$("#page_content_request").addClass("page_content_move_down")
 
@@ -175,20 +229,10 @@ function unsuccessful(stepNumber, message) {
 	}, 1500);
 }
 
-function unsetLoadingUnsuccessful(stepNumber) {
-	$("#step" + stepNumber + "_panel_body_request").removeClass(
-			"panel_next_step_or_loading")
-	$("#loading_gif_request").fadeOut()
-	$("#step" + stepNumber + "_button_request").removeAttr("disabled")
-	if (stepNumber === 1) {
-		$("#step" + stepNumber + "_button_request").attr("onclick",
-				"requestCertificate()")
-	} else if (stepNumber === 2) {
-		$("#step" + stepNumber + "_button_request").attr("onclick",
-				"onActivateClick()")
-	}
-}
-
+/**
+ * Hides the message bar.
+ * 
+ */
 function hideMessageBar() {
 	$("#messagebar_request").addClass("messagebar_hidden")
 	$("#page_content_request").removeClass("page_content_move_down")

@@ -1,26 +1,34 @@
+/**
+ * 
+ * This file provides all methods for settings.jsp.
+ * 
+ * @author Jonathan Schlotz
+ *
+ */
+
 // ====================================================================================//
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
+
 $(document).ready(
+		
+		// Method that triggers the 'OK' button (for password change) when the 'enter'-key is pressed
 		function() {			
 			$('#password_current, #password_new, #password_new_confirm')
 					.keypress(function(e) {
 						if (e.keyCode == 13)
 							$('#button_confirm_password').click();
-					});
-			
-			jQuery.i18n.properties({
-				name : 'messages',
-				path : '../i18n/',
-				language : 'de',
-				mode : 'map',
-				encoding : 'UTF-8'
-			});
+					});		
 		});
 
 // ====================================================================================//
 // ================================== AJAX FUNCTION ===================================//
 // ====================================================================================//
+
+/**
+ * Sends an ajax request to the backend to update the password.
+ *
+ */
 function updatePassword() {
 	 $.ajax({
 	 url : '../UpdateServlet',
@@ -56,27 +64,48 @@ function updatePassword() {
 // ====================================================================================//
 // ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
+/**
+ * Logs out the user.
+ * 
+ */
 function logout() {
 	document.form_logout.submit()
 }
 
+/**
+ * Executed by a click on 'Password aendern'.
+ * 
+ */
 function changePassword() {
 	$("#button_change_password").hide()
 	$(
 			"#password_current, #password_new, #password_new_confirm, #button_cancel_password, #button_confirm_password")
 			.fadeIn()
 }
+
+/**
+ * Hides the message bar with a delay.
+ * 
+ */
 function hideMessageBarDelayed() {
 	window.setTimeout(function() {
 		hideMessageBarInstantly()
 	}, 2000);
 }
 
+/**
+ * Hides the message bar instantly.
+ * 
+ */
 function hideMessageBarInstantly() {
 	$("#messagebar_settings").addClass("messagebar_hidden")
 	$("#page_content_settings").removeClass("page_content_move_down")
 }
 
+/**
+ * Sets the page to its initial state.
+ * 
+ */
 function cleanPage() {
 	$(
 			"#password_current, #password_new, #password_new_confirm, #button_cancel_password, #button_confirm_password")
@@ -87,6 +116,10 @@ function cleanPage() {
 	$("#password_current, #password_new, #password_new_confirm").val("")
 }
 
+/**
+ * Checks the length of the password.
+ * 
+ */
 function validatePassword() {
 	var regEx = /.{6}/;
 
@@ -98,6 +131,10 @@ function validatePassword() {
 	}
 }
 
+/**
+ * Checks the values of both password fields and compares them with each other.
+ * 
+ */
 function confirmPasswordChange() {
 	// All fields have to be filled out
 	if ($("#password_current").val() !== "" && $("#password_new").val() !== ""
@@ -130,6 +167,10 @@ function confirmPasswordChange() {
 	}
 }
 
+/**
+ * Sets the ui area to a loading state.
+ * 
+ */
 function setLoading() {
 	$("#loading_gif_settings").fadeIn()
 	$("#button_confirm_password, #button_cancel_password").attr("disabled", "")
@@ -137,6 +178,10 @@ function setLoading() {
 			.removeAttr("onclick")
 }
 
+/**
+ * Unsets the ui area from the loading state.
+ * 
+ */
 function unsetLoading() {
 	$("#loading_gif_settings").fadeOut()
 	$("#button_confirm_password, #button_cancel_password").removeAttr(

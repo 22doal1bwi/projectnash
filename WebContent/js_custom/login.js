@@ -1,39 +1,45 @@
+/**
+ * 
+ * This file provides all methods for login.jsp.
+ * 
+ * @author Jonathan Schlotz
+ *
+ */
+
 // ====================================================================================//
 // ================================= INITIALIZATION ===================================//
 // ====================================================================================//
+
 $(document).ready(function() {
 	determineContainerStyle()
 
-	$(window).resize(function() {
-		determineContainerStyle()
-	})
-
-	// Method that triggers the login button when the 'enter'-key is pressed
+	// Method that triggers the 'Einloggen' button when the 'enter'-key is pressed
 	$('#password, #emailAddress').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#loginButton').click();
 	});
 
+	// Method that triggers the 'Absenden' button of the password reset modal when the 'enter'-key is pressed
 	$('#emailAddressForNewPassword').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#resetButton').click();
 	});
-
-	jQuery.i18n.properties({
-		name : 'messages',
-		path : '../i18n/',
-		language : 'de',
-		mode : 'map',
-		encoding : 'UTF-8'
-	});
 });
 
+$(window).resize(function() {
+	determineContainerStyle()
+})
+
 // ====================================================================================//
-// ================================== AJAX FUNCTION ===================================//
+// ================================== AJAX FUNCTIONS ==================================//
 // ====================================================================================//
-// Method which submits the 'emailAddress' and 'password' from the input fields
+
+/**
+ * Method which submits the 'emailAddress' and 'password' from the input fields.
+ *
+ */
 function submitLoginForm() {
-	return $.ajax({
+	$.ajax({
 		url : '../LoginServlet',
 		type : 'POST',
 		dataType : 'json',
@@ -229,14 +235,14 @@ function unsetLoading(type) {
 	}
 }
 
-// Method which removes the error style classes from an inputfield
+// Method which removes the error style classes from an input field
 function cleanInputFieldErrors(type) {
 	if ($("#" + type).hasClass("has-error")) {
 		$("#" + type).removeClass("has-error")
 	}
 }
 
-//Method which removes the warning style classes from an inputfield
+//Method which removes the warning style classes from an input field
 function cleanInputFieldWarnings(type) {
 	if ($("#" + type).hasClass("has-warning")) {
 		$("#" + type).removeClass("has-warning")

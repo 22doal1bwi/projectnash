@@ -1,35 +1,42 @@
+/**
+ * 
+ * This file provides all methods for register.jsp.
+ * 
+ * @author Jonathan Schlotz
+ *
+ */
+
 //====================================================================================//
 //================================== INITIALIZATION ==================================//
 //====================================================================================//
 
-// Method that triggers the login button when the 'enter'-key is pressed
 $(document).ready(function() {
 	determineContainerStyle()
 
-	$(window).resize(function() {
-		determineContainerStyle()
-	})
-
+	// Method that triggers the 'Absenden' button when the 'enter'-key is pressed
 	$('#firstName, #lastName, #organizationalUnit, #personalId, #emailAddress, #emailAddress_confirm, #password, #password_confirm').keypress(function(e) {
 		if (e.keyCode == 13)
 			$('#registerButton').click();
 	});
-
-	jQuery.i18n.properties({
-		name : 'messages',
-		path : '../i18n/',
-		language : 'de',
-		mode : 'map',
-		encoding : 'UTF-8'
-	});
 });
+
+$(window).resize(function() {
+	determineContainerStyle()
+})
 
 // ====================================================================================//
 // ================================= MESSAGE REGISTRY =================================//
 // ====================================================================================//
 
+// Define global array to save the messages
 messageRegistry = [];
 
+/**
+ * Adds a message to the message registry.
+ * 
+ * @param messageId The message id.
+ *
+ */
 function addMessageToRegistry(messageId) {
 	var found = false
 	for (var i = 0; i < messageRegistry.length; i++) {
@@ -44,6 +51,12 @@ function addMessageToRegistry(messageId) {
 	}
 }
 
+/**
+ * Removes a message from the message registry.
+ * 
+ * @param messageId The message id.
+ *
+ */
 function removeMessageTypeFromRegistry(messageId) {
 	for (var i = 0; i < messageRegistry.length; i++) {
 		if (messageRegistry[i] === messageId) {
@@ -52,6 +65,10 @@ function removeMessageTypeFromRegistry(messageId) {
 	}
 }
 
+/**
+ * Gets a remaining message from the message registry if there is still one message left.
+ *
+ */
 function getMessagesFromRegistry() {
 	if (messageRegistry.length > 0) {
 		var messageId = messageRegistry[messageRegistry.length - 1]
@@ -61,10 +78,12 @@ function getMessagesFromRegistry() {
 	}
 }
 
+/**
+ * Checks if the message registry is empty.
+ *
+ */
 function isMessageRegistryEmpty() {
-	if (messageRegistry.length === 1 && messageRegistry[0] === "WRN_INPUT_PASSWORD") {
-		return true
-	} else if (messageRegistry.length === 0) {
+	if ((messageRegistry.length === 1 && messageRegistry[0] === "WRN_INPUT_PASSWORD") || messageRegistry.length === 0) {
 		return true
 	} else {
 		return false
@@ -75,7 +94,12 @@ function isMessageRegistryEmpty() {
 // ================================== AJAX FUNCTIONS ==================================//
 // ====================================================================================//
 
-// Method which checks whether the entered value for 'personalId' or 'emailAddress' already exists
+/**
+ * Sends an ajax request to the backend to check if the entered value for the type of field already exists.
+ * 
+ * @param type The field id.
+ *
+ */
 function inputDbCheck(type) {
 	var notExists
 
@@ -105,7 +129,10 @@ function inputDbCheck(type) {
 	})
 }
 
-// Method which submits all data from the input fields
+/**
+ * Submits all form data to the backend.
+ *
+ */
 function submitRegisterForm() {
 	$.ajax({
 		url : '../RegisterServlet',
@@ -158,7 +185,10 @@ function submitRegisterForm() {
 // ================================== MAIN FUNCTIONS ==================================//
 // ====================================================================================//
 
-// Function to determine the container style based on the window height
+/**
+ * Determines the register container style for responsiveness.
+ *
+ */
 function determineContainerStyle() {
 	if ($(window).height() < "555") {
 		if ($("#register_container").hasClass("container_free")) {
@@ -185,7 +215,13 @@ function determineContainerStyle() {
 	}
 }
 
-// Method which checks input value for all fields
+/**
+ * Checks the validity of the input values.
+ * 
+ * @param type The field id.
+ * @param kindOfCheck The kind of check: 'ui_only' (syntax check) or 'ui_and_db' (syntax check - then database check, if value aready exists)
+ *
+ */
 function validateInput(type, kindOfCheck) {
 	var regEx
 
@@ -286,7 +322,12 @@ function validateInput(type, kindOfCheck) {
 
 }
 
-// Method which compares double email and password input
+/**
+ * Compares the value of two fields witch each other.
+ * 
+ * @param type The field id.
+ *
+ */
 function compareInputField(type) {
 	// Compare field values and add style classes according to the result
 	if ($("#" + type).val() !== "" && $("#" + type + "_confirm").val() !== "") {
@@ -311,7 +352,10 @@ function compareInputField(type) {
 	}
 }
 
-// Method which checks all field values before submitting them to the backend
+/**
+ * Checks all form date before submitting them to the backend.
+ *
+ */
 function checkFormBeforeSubmit() {
 	var inputFields = [], invalidField = false, emptyField = false
 	// Get all field values
@@ -348,19 +392,32 @@ function checkFormBeforeSubmit() {
 	}
 }
 
+/**
+ * Sets the ui to a loading state.
+ *
+ */
 function setLoading() {
 	$("#loading_gif_register").fadeIn()
 	$("#registerButton").attr("disabled", "");
 	$("#registerButton").removeAttr("onclick")
 }
 
+/**
+ * Unsets the ui from the loading state.
+ *
+ */
 function unsetLoading() {
 	$("#loading_gif_register").fadeOut(200)
 	$("#registerButton").removeAttr("disabled");
 	$("#registerButton").attr("onclick", "checkFormBeforeSubmit()")
 }
 
-// Method which removes any style classes from an input field
+/**
+ * Resets a field to its initial state.
+ * 
+ * @param type The field id.
+ *
+ */
 function cleanInputField(type) {
 	if ($("#" + type).hasClass("has-warning")) {
 		$("#" + type).removeClass("has-warning")
