@@ -106,7 +106,7 @@ function createTable() {
 						}, {
 							"data" : "hasSession"
 						} ],
-						"createdRow" : function(row, data, index) {
+						"createdRow" : function(row, data, index) {							
 							row.cells[6].classList.add("status_column")
 							switch (data.status) {
 							case "ACTIVE":
@@ -127,7 +127,7 @@ function createTable() {
 										+ ' onclick="confirmDelete(this)" title="Benutzer löschen">'
 							} else {
 								row.cells[7].innerHTML = '<i class="fa fa-laptop table_icon_session" title="Benutzer ist momentan eingeloggt...">'
-							}
+							}							
 						},
 						"fnInitComplete" : function() {
 							var oTable = $('#users').dataTable();

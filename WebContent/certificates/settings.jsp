@@ -173,7 +173,7 @@
 							<label>Nachname</label>
 							<p class="form-control-static"><%=uc.getLastName()%></p>
 							<label>Abteilung</label>
-							<p class="form-control-static"><%=uc.getDepartment()%></p>
+							<p class="form-control-static"><%=uc.getDepartment().toString()%></p>
 							<label>Personalnummer</label>
 							<p class="form-control-static"><%=uc.getPersonalId()%></p>
 							<label>E-Mail-Addresse</label>

@@ -69,7 +69,7 @@ function createTable() {
 		}, {
 			"data" : "status"
 		} ],
-		"createdRow" : function(row, data, index) {
+		"createdRow" : function(row, data, index) {			
 			row.cells[6].classList.add("status_column")
 			switch (data.status) {
 			case "WAITING":
@@ -81,7 +81,7 @@ function createTable() {
 			case "DENIED":
 				row.cells[6].innerHTML = '<i class="fa fa-times-circle table_icon_denied" title="Status: abgelehnt - Zum Ändern klicken">'
 				break
-			}
+			}			
 		},
 		"fnDrawCallback" : function() {
 			var oTable = $('#requests').dataTable();

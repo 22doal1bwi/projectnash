@@ -1,7 +1,7 @@
 package de.projectnash.application.util;
 
 /**
- * This class provides all possibles departmens for an {@link User}.
+ * This class provides all possibles departments for an {@link User}.
  * 
  * @author Silvio D'Alessandro
  *
@@ -9,7 +9,6 @@ package de.projectnash.application.util;
 public enum PossibleDepartment {
 	
 	IT,
-	VERWALTUNG,
-	VERTRIEB
-
+	Verwaltung,
+	Vertrieb
 }
