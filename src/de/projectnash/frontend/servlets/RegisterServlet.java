@@ -48,7 +48,7 @@ public class RegisterServlet extends HttpServlet {
 		boolean userCreated = false;
 		
 		if(checkForFirstAndLastName(req.getParameter(FIRST_NAME)) && checkForFirstAndLastName(req.getParameter(LAST_NAME)) &&
-		   checkForPersonalId(req.getParameter(PERSONAL_ID))){
+		   checkForPersonalId(req.getParameter(PERSONAL_ID)) && checkForEmailAddress(req.getParameter(E_MAIL_ADDRESS))){
 			
 		
 		if(!hasMutatedVowels(req.getParameter(E_MAIL_ADDRESS))){
@@ -95,7 +95,7 @@ public class RegisterServlet extends HttpServlet {
 	}
 	
 	/**
-	 * Checks for a regular expression for the first and last name
+	 * Checks for a regular expression for the first and last name.
 	 * 
 	 * @param expression The {@link String} that represents the expression that will be checked.
 	 * @return The {@link Boolean} that describes if the match was successful.
@@ -105,12 +105,22 @@ public class RegisterServlet extends HttpServlet {
 	}
 	
 	/**
-	 * Checks for a regular expression for the personal id
+	 * Checks for a regular expression for the personal id.
 	 * 
 	 * @param personalId The {@link String} that represents the expression that will be checked.
 	 * @return The {@link Boolean} that describes if the match was successful.
 	 */
 	private boolean checkForPersonalId(String personalId){
 		return personalId.matches("^\\d{1,6}$");
+	}
+	
+	/**
+	 * Checks for a regular expression for the email address.
+	 * 
+	 * @param emailAddress The {@link String} that represents the expression that will be checked.
+	 * @return The {@link Boolean} that describes if the match was successful.
+	 */
+	private boolean checkForEmailAddress (String emailAddress) {
+		return emailAddress.matches("^[\\w!#$%&'*+\\/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+\\/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
 	}
 }
