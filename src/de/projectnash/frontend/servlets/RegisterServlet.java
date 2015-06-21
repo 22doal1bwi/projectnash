@@ -62,7 +62,7 @@ public class RegisterServlet extends HttpServlet {
 							req.getParameter(FIRST_NAME),
 							req.getParameter(LAST_NAME),
 							req.getParameter(E_MAIL_ADDRESS),
-							PossibleDepartment.valueOf(req.getParameter(ORGANIZATION_UNIT)),
+							PossibleDepartment.valueOf(req.getParameter(ORGANIZATION_UNIT).toUpperCase()),
 							req.getParameter(PASSWORD));
 
 				} else if (personalIdAlreadyExists) {
