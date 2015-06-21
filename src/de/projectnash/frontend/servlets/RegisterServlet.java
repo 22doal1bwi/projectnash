@@ -51,34 +51,32 @@ public class RegisterServlet extends HttpServlet {
 		   checkForPersonalId(req.getParameter(PERSONAL_ID)) && checkForEmailAddress(req.getParameter(E_MAIL_ADDRESS))){
 			
 		
-		if(!hasMutatedVowels(req.getParameter(E_MAIL_ADDRESS))){
+			if(!hasMutatedVowels(req.getParameter(E_MAIL_ADDRESS))){
 		
-		boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(req.getParameter(PERSONAL_ID));
-		boolean emailAddressAlreadyExists = UserLogic.emailAlreadyExists(req.getParameter(E_MAIL_ADDRESS));
+				boolean personalIdAlreadyExists = UserLogic.personalIdAlreadyExists(req.getParameter(PERSONAL_ID));
+				boolean emailAddressAlreadyExists = UserLogic.emailAlreadyExists(req.getParameter(E_MAIL_ADDRESS));
 		
-			if (!personalIdAlreadyExists && !emailAddressAlreadyExists) {
+				if (!personalIdAlreadyExists && !emailAddressAlreadyExists) {
 
-			userCreated = UserLogic.createUser(req.getParameter(PERSONAL_ID),
-					req.getParameter(FIRST_NAME),
-					req.getParameter(LAST_NAME),
-					req.getParameter(E_MAIL_ADDRESS),
-					PossibleDepartment.valueOf(req.getParameter(ORGANIZATION_UNIT)),
-					req.getParameter(PASSWORD));
+					userCreated = UserLogic.createUser(req.getParameter(PERSONAL_ID),
+							req.getParameter(FIRST_NAME),
+							req.getParameter(LAST_NAME),
+							req.getParameter(E_MAIL_ADDRESS),
+							PossibleDepartment.valueOf(req.getParameter(ORGANIZATION_UNIT)),
+							req.getParameter(PASSWORD));
 
-			} else if (personalIdAlreadyExists) {
-				map.put(PERSONAL_ID_ALREADY_EXISTS, true);						
-			} else if (emailAddressAlreadyExists){
-				map.put(E_MAIL_ADDRESS_ALREADY_EXISTS, true);	
-			}
-			map.put(CREATED, userCreated);
-			ServletResponseHandler.write(resp, map);
-	   } else {
-		   map.put(CREATED, userCreated);
-		   ServletResponseHandler.write(resp, map);
-	   }
-	}else {
-		System.out.println("FALSE!!!");
-	}
+				} else if (personalIdAlreadyExists) {
+					map.put(PERSONAL_ID_ALREADY_EXISTS, true);						
+				} else if (emailAddressAlreadyExists){
+					map.put(E_MAIL_ADDRESS_ALREADY_EXISTS, true);	
+				}
+				map.put(CREATED, userCreated);
+				ServletResponseHandler.write(resp, map);
+		   } else {
+			   map.put(CREATED, userCreated);
+			   ServletResponseHandler.write(resp, map);
+		   }
+		}
 	}
 	
 	/**
